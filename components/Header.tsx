@@ -1,0 +1,374 @@
+'use client';
+
+import Link from 'next/link';
+import { useState } from 'react';
+
+export default function Header() {
+    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+    return (
+        <header className="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-sm">
+            <nav className="container-custom py-4">
+                <div className="flex items-center justify-between">
+                    {/* Logo */}
+                    <Link href="/" className="flex items-center space-x-2">
+                        <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg"></div>
+                        <span className="text-xl font-bold text-gray-900">WebUtilsPro</span>
+                    </Link>
+
+                    {/* Desktop Navigation */}
+                    <div className="hidden md:flex items-center space-x-8">
+                        <Link
+                            href="/"
+                            className="text-gray-800 hover:text-blue-600 transition-colors font-medium"
+                        >
+                            Home
+                        </Link>
+
+                        {/* Tools Dropdown */}
+                        <div className="relative group">
+                            <button className="text-gray-700 hover:text-blue-600 transition-colors font-medium flex items-center">
+                                Tools
+                                <svg
+                                    className="w-4 h-4 ml-1"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth={2}
+                                        d="M19 9l-7 7-7-7"
+                                    />
+                                </svg>
+                            </button>
+                            <div className="absolute left-1/2 -translate-x-1/2 mt-2 w-[400px] bg-white rounded-lg shadow-lg border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+                                <div className="p-4 grid grid-cols-2 gap-4">
+                                    {/* Column 1 */}
+                                    <div>
+                                        <div className="mb-3">
+                                            <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">AI-Powered</p>
+                                            <Link href="/tools/ai-error-explainer" className="block px-3 py-1.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded transition-colors">
+                                                AI Error Explainer
+                                            </Link>
+                                            <Link href="/tools/prompt-optimizer" className="block px-3 py-1.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded transition-colors">
+                                                Prompt Optimizer
+                                            </Link>
+                                        </div>
+
+                                        <div className="mb-3">
+                                            <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Code & Text</p>
+                                            <Link href="/tools/regex-tester" className="block px-3 py-1.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded transition-colors">
+                                                Regex Tester
+                                            </Link>
+                                            <Link href="/tools/code-formatter" className="block px-3 py-1.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded transition-colors">
+                                                Code Formatter
+                                            </Link>
+                                            <Link href="/tools/text-tools" className="block px-3 py-1.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded transition-colors">
+                                                Text Tools
+                                            </Link>
+                                            <Link href="/tools/diff-checker" className="block px-3 py-1.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded transition-colors">
+                                                Diff Checker
+                                            </Link>
+                                        </div>
+
+                                        <div>
+                                            <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Generators</p>
+                                            <Link href="/tools/qr-code-generator" className="block px-3 py-1.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded transition-colors">
+                                                QR Code Generator
+                                            </Link>
+                                            <Link href="/tools/password-generator" className="block px-3 py-1.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded transition-colors">
+                                                Password Generator
+                                            </Link>
+                                            <Link href="/tools/uuid-generator" className="block px-3 py-1.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded transition-colors">
+                                                UUID Generator
+                                            </Link>
+                                            <Link href="/tools/lorem-ipsum-generator" className="block px-3 py-1.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded transition-colors">
+                                                Lorem Ipsum
+                                            </Link>
+                                        </div>
+                                    </div>
+
+                                    {/* Column 2 */}
+                                    <div>
+                                        <div className="mb-3">
+                                            <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Data & Conversion</p>
+                                            <Link href="/tools/json-to-csv" className="block px-3 py-1.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded transition-colors">
+                                                JSON ↔ CSV
+                                            </Link>
+                                            <Link href="/tools/markdown-to-html" className="block px-3 py-1.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded transition-colors">
+                                                Markdown → HTML
+                                            </Link>
+                                            <Link href="/tools/base64" className="block px-3 py-1.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded transition-colors">
+                                                Base64 Encoder
+                                            </Link>
+                                            <Link href="/tools/url-encoder" className="block px-3 py-1.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded transition-colors">
+                                                URL Encoder
+                                            </Link>
+                                            <Link href="/tools/jwt-decoder" className="block px-3 py-1.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded transition-colors">
+                                                JWT Decoder
+                                            </Link>
+                                        </div>
+
+                                        <div>
+                                            <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Utilities</p>
+                                            <Link href="/tools/color-picker" className="block px-3 py-1.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded transition-colors">
+                                                Color Picker
+                                            </Link>
+                                            <Link href="/tools/yaml-tools" className="block px-3 py-1.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded transition-colors">
+                                                YAML Tools
+                                            </Link>
+                                        </div>
+
+                                        <div>
+                                            <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">MCP Tools</p>
+                                            <Link href="/tools/woocommerce" className="block px-3 py-1.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded transition-colors">
+                                                🛒 WooCommerce Manager
+                                            </Link>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <Link
+                            href="/about"
+                            className="text-gray-800 hover:text-primary-600 transition-colors font-medium"
+                        >
+                            About
+                        </Link>
+                        <Link
+                            href="/contact"
+                            className="text-gray-800 hover:text-blue-600 transition-colors font-medium"
+                        >
+                            Contact
+                        </Link>
+                    </div>
+
+                    {/* Mobile Menu Button */}
+                    <button
+                        onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                        className="md:hidden p-2 text-gray-700"
+                    >
+                        <svg
+                            className="w-6 h-6"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                        >
+                            {mobileMenuOpen ? (
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth={2}
+                                    d="M6 18L18 6M6 6l12 12"
+                                />
+                            ) : (
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth={2}
+                                    d="M4 6h16M4 12h16M4 18h16"
+                                />
+                            )}
+                        </svg>
+                    </button>
+                </div>
+
+                {/* Mobile Menu */}
+                {mobileMenuOpen && (
+                    <div className="md:hidden mt-4 pb-4 border-t border-gray-200 pt-4">
+                        <div className="flex flex-col space-y-4">
+                            <Link
+                                href="/"
+                                className="text-gray-700 hover:text-primary-600 transition-colors font-medium"
+                                onClick={() => setMobileMenuOpen(false)}
+                            >
+                                Home
+                            </Link>
+                            <div className="pl-4 space-y-2">
+                                <p className="text-sm font-semibold text-gray-500 uppercase">Tools</p>
+                                <Link
+                                    href="/tools/regex-tester"
+                                    className="block text-gray-700 hover:text-primary-600 transition-colors"
+                                    onClick={() => setMobileMenuOpen(false)}
+                                >
+                                    Regex Tester
+                                </Link>
+                                <Link
+                                    href="/tools/json-to-csv"
+                                    className="block text-gray-700 hover:text-primary-600 transition-colors"
+                                    onClick={() => setMobileMenuOpen(false)}
+                                >
+                                    JSON ↔ CSV Converter
+                                </Link>
+                                <Link
+                                    href="/tools/markdown-to-html"
+                                    className="block text-gray-700 hover:text-primary-600 transition-colors"
+                                    onClick={() => setMobileMenuOpen(false)}
+                                >
+                                    Markdown → HTML
+                                </Link>
+                                <Link
+                                    href="/tools/ai-error-explainer"
+                                    className="block text-gray-700 hover:text-primary-600 transition-colors"
+                                    onClick={() => setMobileMenuOpen(false)}
+                                >
+                                    AI Error Explainer
+                                </Link>
+                                <Link
+                                    href="/tools/prompt-optimizer"
+                                    className="block text-gray-700 hover:text-primary-600 transition-colors"
+                                    onClick={() => setMobileMenuOpen(false)}
+                                >
+                                    Prompt Optimizer
+                                </Link>
+                                <Link
+                                    href="/tools/code-formatter"
+                                    className="block text-gray-700 hover:text-primary-600 transition-colors"
+                                    onClick={() => setMobileMenuOpen(false)}
+                                >
+                                    Code Formatter
+                                </Link>
+                                <Link
+                                    href="/tools/base64"
+                                    className="block text-gray-700 hover:text-primary-600 transition-colors"
+                                    onClick={() => setMobileMenuOpen(false)}
+                                >
+                                    Base64 Encoder/Decoder
+                                </Link>
+                                <Link
+                                    href="/tools/url-encoder"
+                                    className="block text-gray-700 hover:text-primary-600 transition-colors"
+                                    onClick={() => setMobileMenuOpen(false)}
+                                >
+                                    URL Encoder/Decoder
+                                </Link>
+                                <Link
+                                    href="/tools/color-picker"
+                                    className="block text-gray-700 hover:text-primary-600 transition-colors"
+                                    onClick={() => setMobileMenuOpen(false)}
+                                >
+                                    Color Picker
+                                </Link>
+                                <Link
+                                    href="/tools/jwt-decoder"
+                                    className="block text-gray-700 hover:text-primary-600 transition-colors"
+                                    onClick={() => setMobileMenuOpen(false)}
+                                >
+                                    JWT Decoder
+                                </Link>
+                                <Link
+                                    href="/tools/text-tools"
+                                    className="block text-gray-700 hover:text-primary-600 transition-colors"
+                                    onClick={() => setMobileMenuOpen(false)}
+                                >
+                                    Text Tools
+                                </Link>
+                                <Link
+                                    href="/tools/qr-code-generator"
+                                    className="block text-gray-700 hover:text-primary-600 transition-colors"
+                                    onClick={() => setMobileMenuOpen(false)}
+                                >
+                                    QR Code Generator
+                                </Link>
+                                <Link
+                                    href="/tools/password-generator"
+                                    className="block text-gray-700 hover:text-primary-600 transition-colors"
+                                    onClick={() => setMobileMenuOpen(false)}
+                                >
+                                    Password Generator
+                                </Link>
+                                <Link
+                                    href="/tools/uuid-generator"
+                                    className="block text-gray-700 hover:text-primary-600 transition-colors"
+                                    onClick={() => setMobileMenuOpen(false)}
+                                >
+                                    UUID Generator
+                                </Link>
+                                <Link
+                                    href="/tools/lorem-ipsum-generator"
+                                    className="block text-gray-700 hover:text-primary-600 transition-colors"
+                                    onClick={() => setMobileMenuOpen(false)}
+                                >
+                                    Lorem Ipsum
+                                </Link>
+                                <Link
+                                    href="/tools/timestamp-converter"
+                                    className="block text-gray-700 hover:text-primary-600 transition-colors"
+                                    onClick={() => setMobileMenuOpen(false)}
+                                >
+                                    Timestamp Converter
+                                </Link>
+                                <Link
+                                    href="/tools/diff-checker"
+                                    className="block text-gray-700 hover:text-primary-600 transition-colors"
+                                    onClick={() => setMobileMenuOpen(false)}
+                                >
+                                    Diff Checker
+                                </Link>
+                                <Link
+                                    href="/tools/html-encoder"
+                                    className="block text-gray-700 hover:text-primary-600 transition-colors"
+                                    onClick={() => setMobileMenuOpen(false)}
+                                >
+                                    HTML Encoder
+                                </Link>
+                                <Link
+                                    href="/tools/json-validator"
+                                    className="block text-gray-700 hover:text-primary-600 transition-colors"
+                                    onClick={() => setMobileMenuOpen(false)}
+                                >
+                                    JSON Validator
+                                </Link>
+                                <Link
+                                    href="/tools/image-compressor"
+                                    className="block text-gray-700 hover:text-primary-600 transition-colors"
+                                    onClick={() => setMobileMenuOpen(false)}
+                                >
+                                    Image Compressor
+                                </Link>
+                                <Link
+                                    href="/tools/minifier"
+                                    className="block text-gray-700 hover:text-primary-600 transition-colors"
+                                    onClick={() => setMobileMenuOpen(false)}
+                                >
+                                    Minifier
+                                </Link>
+                                <Link
+                                    href="/tools/xml-formatter"
+                                    className="block text-gray-700 hover:text-primary-600 transition-colors"
+                                    onClick={() => setMobileMenuOpen(false)}
+                                >
+                                    XML Formatter
+                                </Link>
+                                <Link
+                                    href="/tools/yaml-tools"
+                                    className="block text-gray-700 hover:text-primary-600 transition-colors"
+                                    onClick={() => setMobileMenuOpen(false)}
+                                >
+                                    YAML Tools
+                                </Link>
+                            </div>
+                            <Link
+                                href="/about"
+                                className="text-gray-700 hover:text-primary-600 transition-colors font-medium"
+                                onClick={() => setMobileMenuOpen(false)}
+                            >
+                                About
+                            </Link>
+                            <Link
+                                href="/contact"
+                                className="text-gray-700 hover:text-primary-600 transition-colors font-medium"
+                                onClick={() => setMobileMenuOpen(false)}
+                            >
+                                Contact
+                            </Link>
+                        </div>
+                    </div>
+                )}
+            </nav>
+        </header >
+    );
+}
