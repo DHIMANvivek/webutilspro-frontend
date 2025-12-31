@@ -1,5 +1,6 @@
 import Link from 'next/link';
-import { Github, Twitter, Heart, Zap, Shield, Globe } from 'lucide-react';
+import { Github, Heart, Zap, Shield, Globe } from 'lucide-react';
+import ReportIssueLink from './ReportIssueLink';
 
 export default function Footer() {
     const currentYear = new Date().getFullYear();
@@ -28,11 +29,8 @@ export default function Footer() {
                             The ultimate toolkit for modern web developers. <span className="text-slate-300">AI-powered</span> utilities designed for speed, security, and exceptional DX.
                         </p>
                         <div className="flex items-center gap-4">
-                            <a href="https://github.com" className="w-12 h-12 rounded-2xl bg-white/[0.03] border border-white/[0.08] flex items-center justify-center hover:bg-blue-600/10 hover:border-blue-500/50 hover:-translate-y-1.5 transition-all duration-500 group shadow-lg">
+                            <a href="https://github.com/DHIMANvivek" className="w-12 h-12 rounded-2xl bg-white/[0.03] border border-white/[0.08] flex items-center justify-center hover:bg-blue-600/10 hover:border-blue-500/50 hover:-translate-y-1.5 transition-all duration-500 group shadow-lg">
                                 <Github className="w-5 h-5 text-slate-500 group-hover:text-white transition-colors" />
-                            </a>
-                            <a href="https://twitter.com" className="w-12 h-12 rounded-2xl bg-white/[0.03] border border-white/[0.08] flex items-center justify-center hover:bg-sky-600/10 hover:border-sky-500/50 hover:-translate-y-1.5 transition-all duration-500 group shadow-lg">
-                                <Twitter className="w-5 h-5 text-slate-500 group-hover:text-sky-400 transition-colors" />
                             </a>
                         </div>
                     </div>
@@ -85,6 +83,12 @@ export default function Footer() {
                                     </Link>
                                 </li>
                             ))}
+                            <li>
+                                <ReportIssueLink className="text-slate-500 hover:text-red-400 transition-all duration-300 text-sm font-bold flex items-center gap-2 group translate-x-0 hover:translate-x-2 cursor-pointer">
+                                    <div className="w-1 h-1 rounded-full bg-red-500 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                                    Report Issue
+                                </ReportIssueLink>
+                            </li>
                         </ul>
                     </div>
 

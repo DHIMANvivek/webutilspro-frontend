@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback, useRef } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import {
     Search,
     Zap,
@@ -13,8 +13,10 @@ import {
     ChevronRight,
     Sparkles,
     Cpu,
-    Settings
+    Settings,
+    Bug
 } from 'lucide-react';
+import { getIssueUrl } from './ReportIssueLink';
 
 interface Tool {
     id: string;
@@ -225,6 +227,14 @@ const TOOLS: Tool[] = [
         href: '/tools/yaml-tools',
         category: 'Dev',
         keywords: ['yaml', 'json', 'convert', 'config', 'data']
+    },
+    {
+        id: 'report-issue',
+        name: 'Report Runtime Issue',
+        description: 'Encountered a bug? Report it directly to our GitHub issues page.',
+        href: 'https://github.com/DHIMANvivek/webutilspro-issues/issues/new',
+        category: 'Systems',
+        keywords: ['bug', 'report', 'issue', 'error', 'help', 'support']
     }
 ];
 
@@ -236,18 +246,24 @@ export default function CommandPalette() {
     const router = useRouter();
     const inputRef = useRef<HTMLInputElement>(null);
     const scrollRef = useRef<HTMLDivElement>(null);
+    const pathname = usePathname();
 
     useEffect(() => {
         setIsMounted(true);
     }, []);
 
-    const filteredTools = query === ''
+    const filteredTools = (query === ''
         ? TOOLS.slice(0, 5) // Show top 5 on empty query
         : TOOLS.filter(tool =>
             tool.name.toLowerCase().includes(query.toLowerCase()) ||
             tool.description.toLowerCase().includes(query.toLowerCase()) ||
             tool.keywords.some(k => k.includes(query.toLowerCase()))
-        );
+        )).filter(tool => {
+            if (tool.id === 'report-issue') {
+                return pathname?.startsWith('/tools/');
+            }
+            return true;
+        });
 
     const toggle = useCallback(() => {
         setIsOpen(prev => !prev);
@@ -280,7 +296,11 @@ export default function CommandPalette() {
     }, [isOpen]);
 
     const handleSelect = (tool: Tool) => {
-        router.push(tool.href);
+        if (tool.id === 'report-issue') {
+            window.open(getIssueUrl(), '_blank');
+        } else {
+            router.push(tool.href);
+        }
         setIsOpen(false);
     };
 
@@ -366,10 +386,14 @@ export default function CommandPalette() {
                             >
                                 <div className={`w-10 h-10 rounded-xl flex items-center justify-center mr-4 transition-colors ${idx === selectedIndex ? 'bg-white/20' : 'bg-slate-100'
                                     }`}>
+                                    {tool.category === 'Systems' && tool.id === 'report-issue' ? (
+                                        <Bug className={`w-5 h-5 ${idx === selectedIndex ? 'text-white' : 'text-red-500'}`} />
+                                    ) : tool.category === 'Systems' ? (
+                                        <Cpu className={`w-5 h-5 ${idx === selectedIndex ? 'text-white' : 'text-orange-600'}`} />
+                                    ) : null}
                                     {tool.category === 'AI' && <Sparkles className={`w-5 h-5 ${idx === selectedIndex ? 'text-white' : 'text-purple-600'}`} />}
                                     {tool.category === 'Dev' && <Code2 className={`w-5 h-5 ${idx === selectedIndex ? 'text-white' : 'text-blue-600'}`} />}
                                     {tool.category === 'Utilities' && <Wrench className={`w-5 h-5 ${idx === selectedIndex ? 'text-white' : 'text-emerald-600'}`} />}
-                                    {tool.category === 'Systems' && <Cpu className={`w-5 h-5 ${idx === selectedIndex ? 'text-white' : 'text-orange-600'}`} />}
                                 </div>
                                 <div className="flex-1 min-w-0">
                                     <div className="flex items-center gap-2">

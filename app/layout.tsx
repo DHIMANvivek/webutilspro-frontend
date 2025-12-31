@@ -81,8 +81,7 @@ export default function RootLayout({
                             logo: '/logo.png',
                             description: 'Free developer tools for productivity and SEO',
                             sameAs: [
-                                'https://twitter.com/devtoolshub',
-                                'https://github.com/devtoolshub',
+                                'https://github.com/DHIMANvivek',
                             ],
                         }),
                     }}

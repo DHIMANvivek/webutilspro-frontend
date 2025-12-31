@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useState } from 'react';
 import { ChevronDown, Menu, X, Rocket, Code, FileText, Database, Shield, Palette, Layout, Wrench, ShoppingCart, Search } from 'lucide-react';
+import ReportIssueLink from './ReportIssueLink';
 
 export default function Header() {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -142,6 +143,9 @@ export default function Header() {
                         >
                             Contact
                         </Link>
+                        <ReportIssueLink className="text-gray-800 hover:text-red-500 transition-colors font-medium cursor-pointer">
+                            Report Issue
+                        </ReportIssueLink>
 
                         {/* Command Palette Shortcut Hint */}
                         <div className="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-400 hover:text-blue-600 hover:border-blue-300 hover:bg-white transition-all cursor-pointer group/cmd shadow-sm"
@@ -358,6 +362,11 @@ export default function Header() {
                             >
                                 Contact
                             </Link>
+                            <ReportIssueLink
+                                className="text-gray-700 hover:text-red-600 transition-colors font-medium"
+                            >
+                                Report Issue
+                            </ReportIssueLink>
                         </div>
                     </div>
                 )}

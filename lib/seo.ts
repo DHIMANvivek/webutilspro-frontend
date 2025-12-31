@@ -63,7 +63,6 @@ export function generateMetadata(config: SEOConfig): Metadata {
             title: fullTitle,
             description,
             images: [ogImage],
-            creator: '@webutilspro',
         },
     };
 }
