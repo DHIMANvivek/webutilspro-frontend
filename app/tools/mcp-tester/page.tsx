@@ -19,6 +19,7 @@ export default function MCPTesterPage() {
     const [tools, setTools] = useState<any[]>([]);
     const [resources, setResources] = useState<any[]>([]);
     const [prompts, setPrompts] = useState<any[]>([]);
+    const [isLoadingCapabilities, setIsLoadingCapabilities] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
     // Check connection status on mount
@@ -69,7 +70,15 @@ export default function MCPTesterPage() {
             }
 
             setIsConnected(true);
-            await loadCapabilities();
+            // Wait a moment for the server to fully initialize its tools
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            const loadedTools = await loadCapabilities();
+
+            // If no tools found, try one more time after a short delay
+            if (loadedTools.length === 0) {
+                await new Promise(resolve => setTimeout(resolve, 2000));
+                await loadCapabilities();
+            }
         } catch (error: any) {
             setError(error.message);
             console.error('Connection error:', error);
@@ -95,6 +104,7 @@ export default function MCPTesterPage() {
     };
 
     const loadCapabilities = async () => {
+        setIsLoadingCapabilities(true);
         try {
             const response = await fetch('/api/mcp/capabilities', {
                 credentials: 'include'
@@ -106,13 +116,18 @@ export default function MCPTesterPage() {
                     setTools(data.tools || []);
                     setResources(data.resources || []);
                     setPrompts(data.prompts || []);
+                    return data.tools || [];
                 }
             }
+            return [];
         } catch (error) {
             console.error('Error loading capabilities:', error);
             setTools([]);
             setResources([]);
             setPrompts([]);
+            return [];
+        } finally {
+            setIsLoadingCapabilities(false);
         }
     };
 
@@ -169,6 +184,8 @@ export default function MCPTesterPage() {
                                 tools={tools}
                                 resources={resources}
                                 prompts={prompts}
+                                isLoading={isLoadingCapabilities}
+                                onRefresh={loadCapabilities}
                             />
                         </div>
 

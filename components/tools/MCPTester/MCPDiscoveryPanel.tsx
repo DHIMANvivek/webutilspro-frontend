@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { ChevronDown, ChevronRight, Wrench, FileText, MessageSquare, Copy, Check } from 'lucide-react';
+import { ChevronDown, ChevronRight, Wrench, FileText, MessageSquare, Copy, Check, RefreshCw, Loader2 } from 'lucide-react';
 
 interface Tool {
     name: string;
@@ -26,9 +26,11 @@ interface MCPDiscoveryPanelProps {
     tools: Tool[];
     resources: Resource[];
     prompts: Prompt[];
+    isLoading?: boolean;
+    onRefresh?: () => void;
 }
 
-export default function MCPDiscoveryPanel({ tools, resources, prompts }: MCPDiscoveryPanelProps) {
+export default function MCPDiscoveryPanel({ tools, resources, prompts, isLoading, onRefresh }: MCPDiscoveryPanelProps) {
     const [expandedTools, setExpandedTools] = useState<Set<string>>(new Set());
     const [copiedItem, setCopiedItem] = useState<string | null>(null);
 
@@ -50,7 +52,19 @@ export default function MCPDiscoveryPanel({ tools, resources, prompts }: MCPDisc
 
     return (
         <div className="bg-white dark:bg-gray-900 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 p-6">
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Discovered Capabilities</h3>
+            <div className="flex items-center justify-between mb-4">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Discovered Capabilities</h3>
+                {onRefresh && (
+                    <button
+                        onClick={onRefresh}
+                        disabled={isLoading}
+                        className="p-2 text-gray-500 hover:text-purple-600 dark:text-gray-400 dark:hover:text-purple-400 disabled:opacity-50 transition-colors"
+                        title="Refresh Capabilities"
+                    >
+                        <RefreshCw className={`w-5 h-5 ${isLoading ? 'animate-spin' : ''}`} />
+                    </button>
+                )}
+            </div>
 
             {/* Tools Section */}
             <div className="mb-6">
@@ -60,7 +74,12 @@ export default function MCPDiscoveryPanel({ tools, resources, prompts }: MCPDisc
                         Tools ({tools.length})
                     </h4>
                 </div>
-                {tools.length === 0 ? (
+                {isLoading && tools.length === 0 ? (
+                    <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 py-4">
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                        <span>Discovering tools...</span>
+                    </div>
+                ) : tools.length === 0 ? (
                     <p className="text-sm text-gray-500 dark:text-gray-400">No tools available</p>
                 ) : (
                     <div className="space-y-2">
@@ -118,7 +137,12 @@ export default function MCPDiscoveryPanel({ tools, resources, prompts }: MCPDisc
                         Resources ({resources.length})
                     </h4>
                 </div>
-                {resources.length === 0 ? (
+                {isLoading && resources.length === 0 ? (
+                    <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 py-4">
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                        <span>Discovering resources...</span>
+                    </div>
+                ) : resources.length === 0 ? (
                     <p className="text-sm text-gray-500 dark:text-gray-400">No resources available</p>
                 ) : (
                     <div className="space-y-2">
@@ -154,7 +178,12 @@ export default function MCPDiscoveryPanel({ tools, resources, prompts }: MCPDisc
                         Prompts ({prompts.length})
                     </h4>
                 </div>
-                {prompts.length === 0 ? (
+                {isLoading && prompts.length === 0 ? (
+                    <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 py-4">
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                        <span>Discovering prompts...</span>
+                    </div>
+                ) : prompts.length === 0 ? (
                     <p className="text-sm text-gray-500 dark:text-gray-400">No prompts available</p>
                 ) : (
                     <div className="space-y-2">
