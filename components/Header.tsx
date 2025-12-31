@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
-import { ChevronDown, Menu, X, Rocket, Code, FileText, Database, Shield, Palette, Layout, Wrench, ShoppingCart } from 'lucide-react';
+import { ChevronDown, Menu, X, Rocket, Code, FileText, Database, Shield, Palette, Layout, Wrench, ShoppingCart, Search } from 'lucide-react';
 
 export default function Header() {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -142,6 +142,18 @@ export default function Header() {
                         >
                             Contact
                         </Link>
+
+                        {/* Command Palette Shortcut Hint */}
+                        <div className="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-400 hover:text-blue-600 hover:border-blue-300 hover:bg-white transition-all cursor-pointer group/cmd shadow-sm"
+                            onClick={() => window.dispatchEvent(new KeyboardEvent('keydown', { key: 'k', metaKey: true }))}
+                        >
+                            <Search className="w-4 h-4" />
+                            <span className="text-[11px] font-black uppercase tracking-[0.1em]">Find Tool</span>
+                            <div className="flex items-center gap-0.5 ml-1">
+                                <span className="text-[10px] bg-white px-1 py-0.5 rounded border border-slate-200 shadow-sm group-hover/cmd:border-blue-200 transition-colors">⌘</span>
+                                <span className="text-[10px] bg-white px-1 py-0.5 rounded border border-slate-200 shadow-sm group-hover/cmd:border-blue-200 transition-colors">K</span>
+                            </div>
+                        </div>
                     </div>
 
                     {/* Mobile Menu Button */}
