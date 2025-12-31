@@ -16,6 +16,7 @@ interface MCPConfig {
 export default function MCPTesterPage() {
     const [isConnected, setIsConnected] = useState(false);
     const [isConnecting, setIsConnecting] = useState(false);
+    const [activeConfig, setActiveConfig] = useState<MCPConfig | null>(null);
     const [tools, setTools] = useState<any[]>([]);
     const [resources, setResources] = useState<any[]>([]);
     const [prompts, setPrompts] = useState<any[]>([]);
@@ -70,6 +71,7 @@ export default function MCPTesterPage() {
             }
 
             setIsConnected(true);
+            setActiveConfig(config);
             // Wait a moment for the server to fully initialize its tools
             await new Promise(resolve => setTimeout(resolve, 1000));
             const loadedTools = await loadCapabilities();
@@ -94,6 +96,7 @@ export default function MCPTesterPage() {
                 credentials: 'include'
             });
             setIsConnected(false);
+            setActiveConfig(null);
             setTools([]);
             setResources([]);
             setPrompts([]);
@@ -172,6 +175,7 @@ export default function MCPTesterPage() {
                         onDisconnect={handleDisconnect}
                         isConnected={isConnected}
                         isConnecting={isConnecting}
+                        activeConfig={activeConfig}
                     />
                 </div>
 

@@ -14,11 +14,12 @@ interface MCPConfigFormProps {
     onDisconnect: () => Promise<void>;
     isConnected: boolean;
     isConnecting: boolean;
+    activeConfig?: MCPConfig | null;
 }
 
-export default function MCPConfigForm({ onConnect, onDisconnect, isConnected, isConnecting }: MCPConfigFormProps) {
+export default function MCPConfigForm({ onConnect, onDisconnect, isConnected, isConnecting, activeConfig }: MCPConfigFormProps) {
     const [command, setCommand] = useState('npx');
-    const [args, setArgs] = useState('-y @modelcontextprotocol/server-filesystem /tmp');
+    const [args, setArgs] = useState('');
     const [envVars, setEnvVars] = useState<Array<{ key: string; value: string }>>([]);
 
     const handleAddEnvVar = () => {
@@ -165,12 +166,19 @@ export default function MCPConfigForm({ onConnect, onDisconnect, isConnected, is
                 </div>
             ) : (
                 <div className="space-y-4">
-                    <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-4">
-                        <p className="text-sm text-green-800 dark:text-green-300">
+                    <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-4 shadow-sm">
+                        <p className="text-sm text-green-800 dark:text-green-300 font-medium">
                             ✅ Successfully connected to MCP server!
                         </p>
-                        <p className="text-xs text-green-700 dark:text-green-400 mt-1 font-mono">
-                            {command} {args}
+                        <p className="text-xs text-green-700 dark:text-green-400 mt-2 font-mono p-2 bg-white/50 dark:bg-black/20 rounded border border-green-200/50 dark:border-green-800/50">
+                            {activeConfig ? (
+                                <>
+                                    <span className="text-purple-600 dark:text-purple-400 font-bold">{activeConfig.command}</span>{' '}
+                                    {activeConfig.args.join(' ')}
+                                </>
+                            ) : (
+                                <>{command} {args}</>
+                            )}
                         </p>
                     </div>
                     <button
