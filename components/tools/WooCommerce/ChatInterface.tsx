@@ -35,11 +35,13 @@ export default function ChatInterface({ onClose }: ChatInterfaceProps) {
     ]);
     const [input, setInput] = useState('');
     const [isLoading, setIsLoading] = useState(false);
-    const messagesEndRef = useRef<HTMLDivElement>(null);
+    const messagesContainerRef = useRef<HTMLDivElement>(null);
     const inputRef = useRef<HTMLInputElement>(null);
 
     const scrollToBottom = () => {
-        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+        if (messagesContainerRef.current) {
+            messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight;
+        }
     };
 
     useEffect(() => {
@@ -202,7 +204,7 @@ export default function ChatInterface({ onClose }: ChatInterfaceProps) {
             </div>
 
             {/* Messages */}
-            <div className="flex-1 overflow-y-auto p-4 space-y-4">
+            <div ref={messagesContainerRef} className="flex-1 overflow-y-auto p-4 space-y-4">
                 {messages.map((message) => (
                     <div key={message.id}>
                         <div
@@ -270,7 +272,6 @@ export default function ChatInterface({ onClose }: ChatInterfaceProps) {
                     </div>
                 )}
 
-                <div ref={messagesEndRef} />
             </div>
 
             {/* Suggested Prompts (show only when no user messages) */}
