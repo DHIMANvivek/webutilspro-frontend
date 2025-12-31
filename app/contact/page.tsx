@@ -11,16 +11,40 @@ export default function ContactPage() {
         message: '',
     });
     const [submitted, setSubmitted] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        // In production, you would send this to an API endpoint
-        console.log('Form submitted:', formData);
-        setSubmitted(true);
-        setTimeout(() => {
-            setSubmitted(false);
+        setIsLoading(true);
+        setError(null);
+
+        try {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/api/contact`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.message || 'Failed to send message');
+            }
+
+            setSubmitted(true);
             setFormData({ name: '', email: '', subject: '', message: '' });
-        }, 3000);
+
+            setTimeout(() => {
+                setSubmitted(false);
+            }, 5000);
+        } catch (err: any) {
+            setError(err.message || 'Something went wrong. Please try again.');
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     const handleChange = (
@@ -49,6 +73,12 @@ export default function ContactPage() {
                             Have questions, suggestions, or feedback? We'd love to hear from you.
                             Fill out the form below and we'll get back to you as soon as possible.
                         </p>
+
+                        {error && (
+                            <div className="bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-lg mb-6">
+                                {error}
+                            </div>
+                        )}
 
                         {submitted ? (
                             <div className="bg-green-50 border border-green-200 text-green-800 px-4 py-3 rounded-lg">
@@ -120,8 +150,19 @@ export default function ContactPage() {
                                     />
                                 </div>
 
-                                <button type="submit" className="btn-primary w-full">
-                                    Send Message
+                                <button
+                                    type="submit"
+                                    className="btn-primary w-full flex items-center justify-center gap-2"
+                                    disabled={isLoading}
+                                >
+                                    {isLoading ? (
+                                        <>
+                                            <span className="w-4 h-4 border-2 border-white/20 border-t-white rounded-full animate-spin"></span>
+                                            <span>Sending...</span>
+                                        </>
+                                    ) : (
+                                        'Send Message'
+                                    )}
                                 </button>
                             </form>
                         )}

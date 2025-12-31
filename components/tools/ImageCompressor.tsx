@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import imageCompression from 'browser-image-compression';
 import CustomSelect from '@/components/ui/CustomSelect';
 
@@ -15,10 +15,16 @@ interface CompressedImage {
 
 export default function ImageCompressor() {
     const [images, setImages] = useState<CompressedImage[]>([]);
+    const [sourceFiles, setSourceFiles] = useState<File[]>([]);
     const [quality, setQuality] = useState(80);
     const [maxWidth, setMaxWidth] = useState(1920);
     const [isCompressing, setIsCompressing] = useState(false);
     const [progress, setProgress] = useState(0);
+    const [isMounted, setIsMounted] = useState(false);
+
+    useEffect(() => {
+        setIsMounted(true);
+    }, []);
 
     const maxWidthOptions = [
         { value: '640', label: '640px (Mobile)' },
@@ -28,8 +34,7 @@ export default function ImageCompressor() {
         { value: '10000', label: 'Original size' },
     ];
 
-    const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-        const files = Array.from(e.target.files || []);
+    const compress = useCallback(async (files: File[], q: number, w: number) => {
         if (files.length === 0) return;
 
         setIsCompressing(true);
@@ -40,12 +45,18 @@ export default function ImageCompressor() {
         for (let i = 0; i < files.length; i++) {
             const file = files[i];
 
+            // browser-image-compression doesn't support SVG, skip or handle
+            if (file.type === 'image/svg+xml') {
+                console.warn('SVG files are not supported by the compressor. Skipping.', file.name);
+                continue;
+            }
+
             try {
                 const options = {
                     maxSizeMB: 1,
-                    maxWidthOrHeight: maxWidth,
+                    maxWidthOrHeight: w,
                     useWebWorker: true,
-                    quality: quality / 100,
+                    quality: q / 100,
                 };
 
                 const compressedBlob = await imageCompression(file, options);
@@ -53,7 +64,6 @@ export default function ImageCompressor() {
                 const compressedSize = compressedBlob.size;
                 const reduction = ((1 - compressedSize / originalSize) * 100);
 
-                // Create preview
                 const preview = URL.createObjectURL(compressedBlob);
 
                 compressedImages.push({
@@ -71,9 +81,31 @@ export default function ImageCompressor() {
             }
         }
 
-        setImages(compressedImages);
+        setImages(prev => {
+            // Cleanup previous previews only when we actually have new ones
+            prev.forEach(img => URL.revokeObjectURL(img.preview));
+            return compressedImages;
+        });
         setIsCompressing(false);
+    }, []);
+
+    // Handle initial file upload
+    const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const files = Array.from(e.target.files || []);
+        if (files.length === 0) return;
+        setSourceFiles(files);
     };
+
+    // Trigger re-compression when source files or settings change
+    useEffect(() => {
+        if (sourceFiles.length === 0) return;
+
+        const timer = setTimeout(() => {
+            compress(sourceFiles, quality, maxWidth);
+        }, 400);
+
+        return () => clearTimeout(timer);
+    }, [sourceFiles, quality, maxWidth, compress]);
 
     const downloadImage = (image: CompressedImage) => {
         const url = URL.createObjectURL(image.compressed);
@@ -103,6 +135,8 @@ export default function ImageCompressor() {
     const totalReduction = totalOriginalSize > 0
         ? ((1 - totalCompressedSize / totalOriginalSize) * 100)
         : 0;
+
+    if (!isMounted) return null;
 
     return (
         <div className="space-y-4">
