@@ -51,14 +51,14 @@ export default function MCPDiscoveryPanel({ tools, resources, prompts, isLoading
     };
 
     return (
-        <div className="bg-white dark:bg-gray-900 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 p-6">
-            <div className="flex items-center justify-between mb-4">
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Discovered Capabilities</h3>
+        <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-8 transition-all hover:shadow-md">
+            <div className="flex items-center justify-between mb-8">
+                <h3 className="text-xl font-bold text-slate-900">Discovered Capabilities</h3>
                 {onRefresh && (
                     <button
                         onClick={onRefresh}
                         disabled={isLoading}
-                        className="p-2 text-gray-500 hover:text-purple-600 dark:text-gray-400 dark:hover:text-purple-400 disabled:opacity-50 transition-colors"
+                        className="p-2.5 bg-slate-50 text-slate-500 hover:text-indigo-600 disabled:opacity-50 transition-all rounded-lg border border-slate-200 hover:border-indigo-100"
                         title="Refresh Capabilities"
                     >
                         <RefreshCw className={`w-5 h-5 ${isLoading ? 'animate-spin' : ''}`} />
@@ -67,59 +67,71 @@ export default function MCPDiscoveryPanel({ tools, resources, prompts, isLoading
             </div>
 
             {/* Tools Section */}
-            <div className="mb-6">
-                <div className="flex items-center gap-2 mb-3">
-                    <Wrench className="w-5 h-5 text-purple-600 dark:text-purple-400" />
-                    <h4 className="font-semibold text-gray-900 dark:text-white">
-                        Tools ({tools.length})
-                    </h4>
+            <div className="mb-8">
+                <div className="flex items-center justify-between mb-4">
+                    <div className="flex items-center gap-3">
+                        <div className="p-2 bg-indigo-50 rounded-lg">
+                            <Wrench className="w-5 h-5 text-indigo-600" />
+                        </div>
+                        <h4 className="font-bold text-slate-800">
+                            Executable Tools
+                        </h4>
+                    </div>
+                    <span className="px-2.5 py-0.5 bg-indigo-50 text-indigo-600 text-xs font-bold rounded-full border border-indigo-100">
+                        {tools.length}
+                    </span>
                 </div>
                 {isLoading && tools.length === 0 ? (
-                    <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 py-4">
-                        <Loader2 className="w-4 h-4 animate-spin" />
-                        <span>Discovering tools...</span>
+                    <div className="flex items-center gap-3 text-sm text-slate-500 py-6 px-4 bg-slate-50 rounded-lg border border-dashed border-slate-200">
+                        <Loader2 className="w-4 h-4 animate-spin text-indigo-500" />
+                        <span>Discovering available tools...</span>
                     </div>
                 ) : tools.length === 0 ? (
-                    <p className="text-sm text-gray-500 dark:text-gray-400">No tools available</p>
+                    <p className="text-sm text-slate-500 italic py-4">No tools discovered yet</p>
                 ) : (
-                    <div className="space-y-2">
+                    <div className="space-y-3">
                         {tools.map((tool) => (
-                            <div key={tool.name} className="border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
+                            <div key={tool.name} className="border border-slate-100 rounded-xl overflow-hidden shadow-sm transition-all hover:border-indigo-100">
                                 <div
                                     onClick={() => toggleExpand(tool.name)}
-                                    className="flex items-center justify-between p-3 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+                                    className="flex items-center justify-between p-4 cursor-pointer bg-white hover:bg-slate-50 transition-colors"
                                 >
-                                    <div className="flex items-center gap-2 flex-1">
-                                        {expandedTools.has(tool.name) ? (
-                                            <ChevronDown className="w-4 h-4 text-gray-600 dark:text-gray-400" />
-                                        ) : (
-                                            <ChevronRight className="w-4 h-4 text-gray-600 dark:text-gray-400" />
-                                        )}
-                                        <code className="text-sm font-mono text-purple-600 dark:text-purple-400">{tool.name}</code>
+                                    <div className="flex items-center gap-3 flex-1">
+                                        <div className="p-1 bg-slate-50 rounded">
+                                            {expandedTools.has(tool.name) ? (
+                                                <ChevronDown className="w-4 h-4 text-slate-500" />
+                                            ) : (
+                                                <ChevronRight className="w-4 h-4 text-slate-500" />
+                                            )}
+                                        </div>
+                                        <code className="text-sm font-bold font-mono text-indigo-600">{tool.name}</code>
                                     </div>
                                     <button
                                         onClick={(e) => {
                                             e.stopPropagation();
                                             copyToClipboard(tool.name, tool.name);
                                         }}
-                                        className="p-1 hover:bg-gray-200 dark:hover:bg-gray-700 rounded"
+                                        className="p-2 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-all"
                                     >
                                         {copiedItem === tool.name ? (
-                                            <Check className="w-4 h-4 text-green-600" />
+                                            <Check className="w-4 h-4 text-emerald-600" />
                                         ) : (
-                                            <Copy className="w-4 h-4 text-gray-500" />
+                                            <Copy className="w-4 h-4" />
                                         )}
                                     </button>
                                 </div>
                                 {expandedTools.has(tool.name) && (
-                                    <div className="px-3 pb-3 bg-gray-50 dark:bg-gray-800/50 border-t border-gray-200 dark:border-gray-700">
+                                    <div className="px-4 pb-4 pt-1 bg-slate-50 border-t border-slate-100 animate-slide-up">
                                         {tool.description && (
-                                            <p className="text-sm text-gray-700 dark:text-gray-300 mb-2 mt-2">{tool.description}</p>
+                                            <p className="text-sm text-slate-600 mb-3 leading-relaxed">{tool.description}</p>
                                         )}
                                         {tool.inputSchema && (
-                                            <pre className="text-xs bg-gray-900 dark:bg-gray-950 text-gray-100 p-2 rounded overflow-x-auto">
-                                                {JSON.stringify(tool.inputSchema, null, 2)}
-                                            </pre>
+                                            <div className="relative group">
+                                                <div className="absolute top-2 right-2 text-xs font-mono text-slate-400 uppercase tracking-wider">Schema</div>
+                                                <pre className="text-xs bg-slate-900 text-slate-100 p-4 rounded-xl overflow-x-auto shadow-inner border border-slate-800">
+                                                    {JSON.stringify(tool.inputSchema, null, 2)}
+                                                </pre>
+                                            </div>
                                         )}
                                     </div>
                                 )}
@@ -130,39 +142,49 @@ export default function MCPDiscoveryPanel({ tools, resources, prompts, isLoading
             </div>
 
             {/* Resources Section */}
-            <div className="mb-6">
-                <div className="flex items-center gap-2 mb-3">
-                    <FileText className="w-5 h-5 text-blue-600 dark:text-blue-400" />
-                    <h4 className="font-semibold text-gray-900 dark:text-white">
-                        Resources ({resources.length})
-                    </h4>
+            <div className="mb-8">
+                <div className="flex items-center justify-between mb-4">
+                    <div className="flex items-center gap-3">
+                        <div className="p-2 bg-blue-50 rounded-lg">
+                            <FileText className="w-5 h-5 text-blue-600" />
+                        </div>
+                        <h4 className="font-bold text-slate-800">
+                            Available Resources
+                        </h4>
+                    </div>
+                    <span className="px-2.5 py-0.5 bg-blue-50 text-blue-600 text-xs font-bold rounded-full border border-blue-100">
+                        {resources.length}
+                    </span>
                 </div>
                 {isLoading && resources.length === 0 ? (
-                    <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 py-4">
-                        <Loader2 className="w-4 h-4 animate-spin" />
+                    <div className="flex items-center gap-3 text-sm text-slate-500 py-6 px-4 bg-slate-50 rounded-lg border border-dashed border-slate-200">
+                        <Loader2 className="w-4 h-4 animate-spin text-blue-500" />
                         <span>Discovering resources...</span>
                     </div>
                 ) : resources.length === 0 ? (
-                    <p className="text-sm text-gray-500 dark:text-gray-400">No resources available</p>
+                    <p className="text-sm text-slate-500 italic py-4">No resources discovered</p>
                 ) : (
-                    <div className="space-y-2">
+                    <div className="space-y-3">
                         {resources.map((resource, idx) => (
-                            <div key={idx} className="border border-gray-200 dark:border-gray-700 rounded-lg p-3">
-                                <div className="flex items-center justify-between mb-1">
-                                    <code className="text-sm font-mono text-blue-600 dark:text-blue-400">{resource.uri}</code>
+                            <div key={idx} className="bg-white border border-slate-100 rounded-xl p-4 shadow-sm hover:shadow-md transition-all hover:border-blue-100">
+                                <div className="flex items-center justify-between mb-2">
+                                    <div className="flex items-center gap-2">
+                                        <div className="w-1.5 h-1.5 bg-blue-500 rounded-full"></div>
+                                        <code className="text-sm font-bold font-mono text-blue-600 break-all">{resource.uri}</code>
+                                    </div>
                                     <button
                                         onClick={() => copyToClipboard(resource.uri, `resource-${idx}`)}
-                                        className="p-1 hover:bg-gray-200 dark:hover:bg-gray-700 rounded"
+                                        className="p-2 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all"
                                     >
                                         {copiedItem === `resource-${idx}` ? (
-                                            <Check className="w-4 h-4 text-green-600" />
+                                            <Check className="w-4 h-4 text-emerald-600" />
                                         ) : (
-                                            <Copy className="w-4 h-4 text-gray-500" />
+                                            <Copy className="w-4 h-4" />
                                         )}
                                     </button>
                                 </div>
                                 {resource.description && (
-                                    <p className="text-xs text-gray-600 dark:text-gray-400">{resource.description}</p>
+                                    <p className="text-sm text-slate-600 leading-relaxed pl-3.5">{resource.description}</p>
                                 )}
                             </div>
                         ))}
@@ -172,38 +194,48 @@ export default function MCPDiscoveryPanel({ tools, resources, prompts, isLoading
 
             {/* Prompts Section */}
             <div>
-                <div className="flex items-center gap-2 mb-3">
-                    <MessageSquare className="w-5 h-5 text-green-600 dark:text-green-400" />
-                    <h4 className="font-semibold text-gray-900 dark:text-white">
-                        Prompts ({prompts.length})
-                    </h4>
+                <div className="flex items-center justify-between mb-4">
+                    <div className="flex items-center gap-3">
+                        <div className="p-2 bg-emerald-50 rounded-lg">
+                            <MessageSquare className="w-5 h-5 text-emerald-600" />
+                        </div>
+                        <h4 className="font-bold text-slate-800">
+                            Defined Prompts
+                        </h4>
+                    </div>
+                    <span className="px-2.5 py-0.5 bg-emerald-50 text-emerald-600 text-xs font-bold rounded-full border border-emerald-100">
+                        {prompts.length}
+                    </span>
                 </div>
                 {isLoading && prompts.length === 0 ? (
-                    <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 py-4">
-                        <Loader2 className="w-4 h-4 animate-spin" />
+                    <div className="flex items-center gap-3 text-sm text-slate-500 py-6 px-4 bg-slate-50 rounded-lg border border-dashed border-slate-200">
+                        <Loader2 className="w-4 h-4 animate-spin text-emerald-500" />
                         <span>Discovering prompts...</span>
                     </div>
                 ) : prompts.length === 0 ? (
-                    <p className="text-sm text-gray-500 dark:text-gray-400">No prompts available</p>
+                    <p className="text-sm text-slate-500 italic py-4">No prompts discovered</p>
                 ) : (
-                    <div className="space-y-2">
+                    <div className="space-y-3">
                         {prompts.map((prompt) => (
-                            <div key={prompt.name} className="border border-gray-200 dark:border-gray-700 rounded-lg p-3">
-                                <div className="flex items-center justify-between mb-1">
-                                    <code className="text-sm font-mono text-green-600 dark:text-green-400">{prompt.name}</code>
+                            <div key={prompt.name} className="bg-white border border-slate-100 rounded-xl p-4 shadow-sm hover:shadow-md transition-all hover:border-emerald-100">
+                                <div className="flex items-center justify-between mb-2">
+                                    <div className="flex items-center gap-2">
+                                        <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse"></div>
+                                        <code className="text-sm font-bold font-mono text-emerald-600">{prompt.name}</code>
+                                    </div>
                                     <button
                                         onClick={() => copyToClipboard(prompt.name, prompt.name)}
-                                        className="p-1 hover:bg-gray-200 dark:hover:bg-gray-700 rounded"
+                                        className="p-2 text-slate-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-all"
                                     >
                                         {copiedItem === prompt.name ? (
-                                            <Check className="w-4 h-4 text-green-600" />
+                                            <Check className="w-4 h-4 text-emerald-600" />
                                         ) : (
-                                            <Copy className="w-4 h-4 text-gray-500" />
+                                            <Copy className="w-4 h-4" />
                                         )}
                                     </button>
                                 </div>
                                 {prompt.description && (
-                                    <p className="text-xs text-gray-600 dark:text-gray-400">{prompt.description}</p>
+                                    <p className="text-sm text-slate-600 leading-relaxed pl-3.5">{prompt.description}</p>
                                 )}
                             </div>
                         ))}

@@ -11,9 +11,17 @@ export default function Header() {
             <nav className="container-custom py-4">
                 <div className="flex items-center justify-between">
                     {/* Logo */}
-                    <Link href="/" className="flex items-center space-x-2">
-                        <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg"></div>
-                        <span className="text-xl font-bold text-gray-900">WebUtilsPro</span>
+                    <Link href="/" className="flex items-center space-x-3 group">
+                        <div className="relative w-10 h-10 overflow-hidden rounded-xl shadow-inner border border-gray-100 group-hover:scale-105 transition-transform duration-300">
+                            <img
+                                src="/logo.png"
+                                alt="WebUtilsPro Logo"
+                                className="w-full h-full object-cover"
+                            />
+                        </div>
+                        <span className="text-2xl font-black tracking-tight text-gray-900 group-hover:text-blue-600 transition-colors">
+                            WebUtilsPro
+                        </span>
                     </Link>
 
                     {/* Desktop Navigation */}

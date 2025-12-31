@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { ShoppingBag, FlaskConical, Sparkles, Lock, Bot, RefreshCcw, Wrench, Box, Target, ArrowRight } from 'lucide-react';
 
 export default function HomePage() {
     const tools = [
@@ -168,23 +169,36 @@ export default function HomePage() {
     return (
         <div className="min-h-screen">
             {/* Hero Section */}
-            <section className="gradient-bg py-20">
-                <div className="container-custom">
+            <section className="relative py-24 md:py-32 overflow-hidden bg-white">
+                <div className="absolute inset-0 z-0">
+                    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-[radial-gradient(circle_at_50%_0%,rgba(59,130,246,0.08),transparent_50%)]"></div>
+                    <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-slate-200 to-transparent"></div>
+                </div>
+
+                <div className="container-custom relative z-10">
                     <div className="text-center max-w-4xl mx-auto">
-                        <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
-                            Free Developer Tools for{' '}
-                            <span className="text-gradient">Every Task</span>
+                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-100 mb-8 animate-fade-in">
+                            <span className="relative flex h-2 w-2">
+                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                                <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
+                            </span>
+                            <span className="text-[11px] font-bold text-blue-700 uppercase tracking-wider">New Tools Added Weekly</span>
+                        </div>
+
+                        <h1 className="text-6xl md:text-7xl font-black text-slate-900 mb-8 tracking-tight leading-[1.1]">
+                            Free Developer Tools for <br className="hidden md:block" />
+                            <span className="text-gradient">Professional Developers</span>
                         </h1>
-                        <p className="text-xl text-gray-700 mb-8">
-                            Boost your productivity with our collection of powerful, free developer tools.
-                            From regex testing to AI-powered error explanations, we've got you covered.
+                        <p className="text-xl text-slate-600 mb-10 max-w-2xl mx-auto leading-relaxed font-medium">
+                            The all-in-one hub for your daily development needs. Fast, secure, and powered by the latest AI technologies.
                         </p>
-                        <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                            <a href="#tools" className="btn-primary">
-                                Explore Tools
+                        <div className="flex flex-col sm:flex-row gap-5 justify-center items-center">
+                            <a href="#tools" className="btn-primary px-10 py-4 text-lg">
+                                Explore Workflow Tools
                             </a>
-                            <Link href="/about" className="btn-secondary">
-                                Learn More
+                            <Link href="/about" className="group flex items-center gap-2 text-slate-600 font-bold hover:text-blue-600 transition-all">
+                                <span>Learn about WebUtilsPro</span>
+                                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                             </Link>
                         </div>
                     </div>
@@ -192,64 +206,69 @@ export default function HomePage() {
             </section>
 
             {/* MCP Tools Section - Premium Features */}
-            <section className="py-16 bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 relative overflow-hidden">
+            <section className="py-24 bg-[#111827] relative overflow-hidden">
                 {/* Animated background elements */}
-                <div className="absolute inset-0 opacity-10">
-                    <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-500 rounded-full blur-3xl animate-pulse"></div>
-                    <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-blue-500 rounded-full blur-3xl animate-pulse delay-1000"></div>
+                <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                    <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-indigo-600/20 rounded-full blur-[120px] animate-pulse"></div>
+                    <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-purple-600/20 rounded-full blur-[120px] animate-pulse delay-700"></div>
+                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[30%] h-[30%] bg-blue-600/10 rounded-full blur-[100px]"></div>
                 </div>
 
                 <div className="container-custom relative z-10">
-                    <div className="text-center mb-12">
-                        <div className="inline-block mb-4">
-                            <span className="bg-gradient-to-r from-purple-400 to-pink-400 text-white text-sm font-semibold px-4 py-2 rounded-full shadow-lg">
-                                ✨ Premium MCP Integration
+                    <div className="text-center mb-16">
+                        <div className="inline-flex items-center gap-2 mb-6 bg-gradient-to-r from-purple-500/20 to-pink-500/20 backdrop-blur-md px-4 py-2 rounded-full border border-purple-500/30 shadow-[0_0_20px_rgba(168,85,247,0.15)] animate-fade-in">
+                            <Sparkles className="w-4 h-4 text-purple-400" />
+                            <span className="bg-gradient-to-r from-purple-300 to-pink-300 bg-clip-text text-transparent text-xs font-bold uppercase tracking-wider">
+                                Premium MCP Integration
                             </span>
                         </div>
-                        <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
+                        <h2 className="text-5xl md:text-6xl font-extrabold text-white mb-6 tracking-tight">
                             MCP-Powered Tools
                         </h2>
-                        <p className="text-lg text-purple-200 max-w-2xl mx-auto">
+                        <p className="text-lg text-slate-400 max-w-2xl mx-auto font-medium leading-relaxed">
                             Advanced tools powered by Model Context Protocol for seamless integration and automation
                         </p>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-6xl mx-auto">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
                         {/* WooCommerce Manager */}
                         <Link
                             href="/tools/woocommerce"
-                            className="block bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20 hover:bg-white/15 hover:border-white/30 transition-all duration-300 group shadow-2xl hover:shadow-purple-500/20 hover:scale-[1.02]"
+                            className="group relative bg-white/[0.03] backdrop-blur-xl rounded-[2.5rem] p-8 border border-white/10 hover:bg-white/[0.06] hover:border-white/20 transition-all duration-500 shadow-2xl overflow-hidden"
                         >
-                            <div className="flex items-start space-x-4">
-                                <div className="text-5xl group-hover:scale-110 transition-transform duration-300">
-                                    🛍️
+                            <div className="relative z-10 flex flex-col sm:flex-row items-start gap-6">
+                                <div className="p-5 bg-gradient-to-br from-pink-500/10 to-purple-500/10 rounded-3xl border border-white/5 group-hover:scale-110 transition-transform duration-500">
+                                    <ShoppingBag className="w-12 h-12 text-pink-500" />
                                 </div>
                                 <div className="flex-1">
-                                    <div className="flex items-center gap-2 mb-2">
-                                        <h3 className="text-xl font-bold text-white group-hover:text-purple-300 transition-colors">
+                                    <div className="flex items-center gap-3 mb-3">
+                                        <h3 className="text-2xl font-bold text-white tracking-tight">
                                             WooCommerce Manager
                                         </h3>
-                                        <span className="bg-gradient-to-r from-green-400 to-emerald-400 text-white text-xs font-bold px-2 py-1 rounded-full">
+                                        <span className="bg-emerald-500/20 text-emerald-400 text-[10px] font-black px-2.5 py-1 rounded-lg border border-emerald-500/30 uppercase tracking-tighter">
                                             MCP
                                         </span>
                                     </div>
-                                    <p className="text-purple-200 text-sm mb-3 leading-relaxed">
+                                    <p className="text-slate-400 text-sm mb-6 leading-relaxed font-medium">
                                         Secure WooCommerce store management with MCP integration and AI chat.
                                     </p>
-                                    <div className="flex flex-wrap gap-1.5">
-                                        <span className="bg-purple-500/30 text-purple-200 text-xs font-medium px-2 py-0.5 rounded-full border border-purple-400/30">
-                                            🔐 Secure
-                                        </span>
-                                        <span className="bg-blue-500/30 text-blue-200 text-xs font-medium px-2 py-0.5 rounded-full border border-blue-400/30">
-                                            🤖 AI-Powered
-                                        </span>
-                                        <span className="bg-pink-500/30 text-pink-200 text-xs font-medium px-2 py-0.5 rounded-full border border-pink-400/30">
-                                            🔄 Full CRUD
-                                        </span>
+                                    <div className="flex flex-wrap gap-2 mb-6">
+                                        <div className="flex items-center gap-1.5 bg-purple-500/10 text-purple-300 text-[11px] font-bold px-3 py-1 rounded-full border border-purple-500/20">
+                                            <Lock className="w-3.5 h-3.5" />
+                                            <span>Secure</span>
+                                        </div>
+                                        <div className="flex items-center gap-1.5 bg-blue-500/10 text-blue-300 text-[11px] font-bold px-3 py-1 rounded-full border border-blue-500/20">
+                                            <Bot className="w-3.5 h-3.5" />
+                                            <span>AI-Powered</span>
+                                        </div>
+                                        <div className="flex items-center gap-1.5 bg-pink-500/10 text-pink-300 text-[11px] font-bold px-3 py-1 rounded-full border border-pink-500/20">
+                                            <RefreshCcw className="w-3.5 h-3.5" />
+                                            <span>Full CRUD</span>
+                                        </div>
                                     </div>
-                                    <div className="mt-3 text-purple-300 text-sm font-semibold group-hover:text-white transition-colors flex items-center gap-2">
-                                        <span>Explore Tool</span>
-                                        <span className="group-hover:translate-x-1 transition-transform">→</span>
+                                    <div className="flex items-center gap-2 text-white font-bold group-hover:gap-4 transition-all duration-300">
+                                        <span className="text-sm">Explore Tool</span>
+                                        <ArrowRight className="w-4 h-4 text-purple-400 group-hover:text-white" />
                                     </div>
                                 </div>
                             </div>
@@ -258,38 +277,41 @@ export default function HomePage() {
                         {/* MCP Tool Tester */}
                         <Link
                             href="/tools/mcp-tester"
-                            className="block bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20 hover:bg-white/15 hover:border-white/30 transition-all duration-300 group shadow-2xl hover:shadow-blue-500/20 hover:scale-[1.02]"
+                            className="group relative bg-white/[0.03] backdrop-blur-xl rounded-[2.5rem] p-8 border border-white/10 hover:bg-white/[0.06] hover:border-white/20 transition-all duration-500 shadow-2xl overflow-hidden"
                         >
-                            <div className="flex items-start space-x-4">
-                                <div className="text-5xl group-hover:scale-110 transition-transform duration-300">
-                                    🧪
+                            <div className="relative z-10 flex flex-col sm:flex-row items-start gap-6">
+                                <div className="p-5 bg-gradient-to-br from-blue-500/10 to-cyan-500/10 rounded-3xl border border-white/5 group-hover:scale-110 transition-transform duration-500">
+                                    <FlaskConical className="w-12 h-12 text-blue-500" />
                                 </div>
                                 <div className="flex-1">
-                                    <div className="flex items-center gap-2 mb-2">
-                                        <h3 className="text-xl font-bold text-white group-hover:text-blue-300 transition-colors">
+                                    <div className="flex items-center gap-3 mb-3">
+                                        <h3 className="text-2xl font-bold text-white tracking-tight">
                                             MCP Tool Tester
                                         </h3>
-                                        <span className="bg-gradient-to-r from-cyan-400 to-blue-400 text-white text-xs font-bold px-2 py-1 rounded-full">
+                                        <span className="bg-blue-500 text-white text-[10px] font-black px-2.5 py-1 rounded-lg shadow-lg shadow-blue-500/30 uppercase tracking-tighter">
                                             NEW
                                         </span>
                                     </div>
-                                    <p className="text-purple-200 text-sm mb-3 leading-relaxed">
+                                    <p className="text-slate-400 text-sm mb-6 leading-relaxed font-medium">
                                         Test any MCP server dynamically with custom configs and AI chat interface.
                                     </p>
-                                    <div className="flex flex-wrap gap-1.5">
-                                        <span className="bg-cyan-500/30 text-cyan-200 text-xs font-medium px-2 py-0.5 rounded-full border border-cyan-400/30">
-                                            🔧 Dynamic
-                                        </span>
-                                        <span className="bg-blue-500/30 text-blue-200 text-xs font-medium px-2 py-0.5 rounded-full border border-blue-400/30">
-                                            � Interactive
-                                        </span>
-                                        <span className="bg-indigo-500/30 text-indigo-200 text-xs font-medium px-2 py-0.5 rounded-full border border-indigo-400/30">
-                                            🎯 Universal
-                                        </span>
+                                    <div className="flex flex-wrap gap-2 mb-6">
+                                        <div className="flex items-center gap-1.5 bg-cyan-500/10 text-cyan-300 text-[11px] font-bold px-3 py-1 rounded-full border border-cyan-500/20">
+                                            <Wrench className="w-3.5 h-3.5" />
+                                            <span>Dynamic</span>
+                                        </div>
+                                        <div className="flex items-center gap-1.5 bg-blue-500/10 text-blue-300 text-[11px] font-bold px-3 py-1 rounded-full border border-blue-500/20">
+                                            <Box className="w-3.5 h-3.5" />
+                                            <span>Interactive</span>
+                                        </div>
+                                        <div className="flex items-center gap-1.5 bg-indigo-500/10 text-indigo-300 text-[11px] font-bold px-3 py-1 rounded-full border border-indigo-500/20">
+                                            <Target className="w-3.5 h-3.5" />
+                                            <span>Universal</span>
+                                        </div>
                                     </div>
-                                    <div className="mt-3 text-purple-300 text-sm font-semibold group-hover:text-white transition-colors flex items-center gap-2">
-                                        <span>Test MCP Servers</span>
-                                        <span className="group-hover:translate-x-1 transition-transform">→</span>
+                                    <div className="flex items-center gap-2 text-white font-bold group-hover:gap-4 transition-all duration-300">
+                                        <span className="text-sm">Test MCP Servers</span>
+                                        <ArrowRight className="w-4 h-4 text-blue-400 group-hover:text-white" />
                                     </div>
                                 </div>
                             </div>
@@ -299,15 +321,25 @@ export default function HomePage() {
             </section>
 
             {/* Tools Section */}
-            <section id="tools" className="py-16 bg-white">
+            <section id="tools" className="py-24 bg-slate-50 relative">
+                <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-slate-200 to-transparent"></div>
+
                 <div className="container-custom">
-                    <div className="text-center mb-12">
-                        <h2 className="text-4xl font-bold text-gray-900 mb-4">
-                            Developer Tools
-                        </h2>
-                        <p className="text-lg text-gray-700 max-w-2xl mx-auto">
-                            Tools designed to streamline your development workflow.
-                        </p>
+                    <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
+                        <div className="max-w-2xl">
+                            <h2 className="text-4xl md:text-5xl font-black text-slate-900 mb-4 tracking-tight">
+                                Developer Tools
+                            </h2>
+                            <p className="text-lg text-slate-600 font-medium">
+                                Essential utilities designed to streamline your development workflow and boost your daily productivity.
+                            </p>
+                        </div>
+                        <div className="hidden md:block">
+                            <div className="flex items-center gap-3 text-slate-400">
+                                <div className="h-px w-12 bg-slate-200"></div>
+                                <span className="text-[10px] font-bold uppercase tracking-widest leading-none">Scroll to discover</span>
+                            </div>
+                        </div>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -342,17 +374,27 @@ export default function HomePage() {
                 </div>
             </section>
             {/* CTA Section */}
-            <section className="py-16 bg-blue-600 text-white">
-                <div className="container-custom text-center">
-                    <h2 className="text-3xl font-bold mb-4">
-                        Ready to Boost Your Productivity?
-                    </h2>
-                    <p className="text-lg mb-8 text-blue-50">
-                        Start using our free developer tools today. No sign-up required.
-                    </p>
-                    <a href="#tools" className="inline-block bg-white text-blue-600 font-semibold py-3 px-8 rounded-lg hover:bg-gray-100 transition-colors">
-                        Get Started Now
-                    </a>
+            <section className="py-24 bg-[#111827] relative overflow-hidden">
+                <div className="absolute inset-0 z-0">
+                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-[radial-gradient(circle_at_50%_50%,rgba(37,99,235,0.1),transparent_70%)]"></div>
+                </div>
+
+                <div className="container-custom relative z-10 text-center">
+                    <div className="max-w-3xl mx-auto">
+                        <h2 className="text-4xl md:text-5xl font-black text-white mb-6 tracking-tight">
+                            Ready to Elevate Your <br />
+                            <span className="text-gradient">Power Workflow?</span>
+                        </h2>
+                        <p className="text-xl text-slate-400 mb-10 font-medium">
+                            Experience the future of development utilities. No account needed, just pure productivity.
+                        </p>
+                        <div className="flex justify-center">
+                            <a href="#tools" className="btn-primary px-12 py-4 text-lg flex items-center gap-3">
+                                <span>Get Started for Free</span>
+                                <ArrowRight className="w-5 h-5" />
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </section>
         </div>
