@@ -12,56 +12,56 @@ export default function JsonCsvConverter() {
 
     const jsonToCsv = (jsonString: string): string => {
         const data = JSON.parse(jsonString);
+        let items = Array.isArray(data) ? data : [data];
 
-        // Handle array of objects
-        if (Array.isArray(data) && data.length > 0) {
-            const headers = Object.keys(data[0]);
-            const csvRows = [
-                headers.join(','),
-                ...data.map(row =>
-                    headers.map(header => {
-                        const value = row[header];
-                        // Handle values with commas or quotes
-                        if (typeof value === 'string' && (value.includes(',') || value.includes('"') || value.includes('\n'))) {
-                            return `"${value.replace(/"/g, '""')}"`;
-                        }
-                        return value ?? '';
-                    }).join(',')
-                ),
-            ];
-            return csvRows.join('\n');
-        }
+        if (items.length === 0) return '';
 
-        // Handle single object
-        if (typeof data === 'object' && !Array.isArray(data)) {
-            const headers = Object.keys(data);
-            const values = headers.map(header => {
-                const value = data[header];
-                if (typeof value === 'string' && (value.includes(',') || value.includes('"') || value.includes('\n'))) {
-                    return `"${value.replace(/"/g, '""')}"`;
-                }
-                return value ?? '';
-            });
-            return headers.join(',') + '\n' + values.join(',');
-        }
+        // Collect all unique keys from all objects for headers
+        const allKeys = new Set<string>();
+        items.forEach(item => {
+            if (item && typeof item === 'object') {
+                Object.keys(item).forEach(key => allKeys.add(key));
+            }
+        });
+        const headers = Array.from(allKeys);
 
-        throw new Error('JSON must be an object or array of objects');
+        const formatValue = (value: any): string => {
+            if (value === null || value === undefined) return '';
+            
+            let stringValue = '';
+            if (typeof value === 'object') {
+                stringValue = JSON.stringify(value);
+            } else {
+                stringValue = String(value);
+            }
+
+            // Handle values with commas, quotes or newlines
+            if (stringValue.includes(',') || stringValue.includes('"') || stringValue.includes('\n')) {
+                return `"${stringValue.replace(/"/g, '""')}"`;
+            }
+            return stringValue;
+        };
+
+        const csvRows = [
+            headers.join(','),
+            ...items.map(row =>
+                headers.map(header => formatValue(row[header])).join(',')
+            ),
+        ];
+        
+        return csvRows.join('\n');
     };
 
     const csvToJson = (csvString: string): string => {
-        const lines = csvString.trim().split('\n');
-        if (lines.length < 2) {
-            throw new Error('CSV must have at least a header row and one data row');
-        }
-
-        const parseCSVLine = (line: string): string[] => {
-            const result: string[] = [];
+        const parseCSV = (text: string): string[][] => {
+            const result: string[][] = [];
+            let row: string[] = [];
             let current = '';
             let inQuotes = false;
 
-            for (let i = 0; i < line.length; i++) {
-                const char = line[i];
-                const nextChar = line[i + 1];
+            for (let i = 0; i < text.length; i++) {
+                const char = text[i];
+                const nextChar = text[i + 1];
 
                 if (char === '"') {
                     if (inQuotes && nextChar === '"') {
@@ -71,22 +71,67 @@ export default function JsonCsvConverter() {
                         inQuotes = !inQuotes;
                     }
                 } else if (char === ',' && !inQuotes) {
-                    result.push(current);
+                    row.push(current);
                     current = '';
+                } else if (char === '\n' && !inQuotes) {
+                    row.push(current);
+                    result.push(row);
+                    row = [];
+                    current = '';
+                } else if (char === '\r' && !inQuotes) {
+                    // Ignore carriage return
+                    if (nextChar === '\n') {
+                        row.push(current);
+                        result.push(row);
+                        row = [];
+                        current = '';
+                        i++; // Skip newline
+                    }
                 } else {
                     current += char;
                 }
             }
-            result.push(current);
+            if (row.length > 0 || current.length > 0) {
+                row.push(current);
+                result.push(row);
+            }
             return result;
         };
 
-        const headers = parseCSVLine(lines[0]);
-        const data = lines.slice(1).map(line => {
-            const values = parseCSVLine(line);
+        const allRows = parseCSV(csvString.trim());
+        if (allRows.length < 1) {
+            throw new Error('CSV is empty');
+        }
+
+        const headers = allRows[0];
+        const data = allRows.slice(1).map(row => {
             const obj: any = {};
             headers.forEach((header, index) => {
-                obj[header] = values[index] || '';
+                let val = row[index] || '';
+                // Try to parse as Number
+                if (val !== '' && !isNaN(Number(val)) && /^-?\d+(\.\d+)?$/.test(val)) {
+                    obj[header] = Number(val);
+                } 
+                // Try to parse as Boolean
+                else if (val.toLowerCase() === 'true') {
+                    obj[header] = true;
+                } else if (val.toLowerCase() === 'false') {
+                    obj[header] = false;
+                }
+                // Try to parse as null
+                else if (val.toLowerCase() === 'null') {
+                    obj[header] = null;
+                }
+                // Try to parse as JSON (for nested objects/arrays)
+                else if ((val.startsWith('{') && val.endsWith('}')) || (val.startsWith('[') && val.endsWith(']'))) {
+                    try {
+                        obj[header] = JSON.parse(val);
+                    } catch (e) {
+                        obj[header] = val; // Keep as string if parsing fails
+                    }
+                } else {
+                    obj[header] = val;
+                }
             });
             return obj;
         });
