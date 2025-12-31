@@ -149,6 +149,7 @@ export default function Header() {
 
                         {/* Command Palette Shortcut Hint */}
                         <div className="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-400 hover:text-blue-600 hover:border-blue-300 hover:bg-white transition-all cursor-pointer group/cmd shadow-sm"
+                            id="command-palette-trigger"
                             onClick={() => window.dispatchEvent(new KeyboardEvent('keydown', { key: 'k', metaKey: true }))}
                         >
                             <Search className="w-4 h-4" />

@@ -69,7 +69,7 @@ export default function ToolLayout({
                 </div>
 
                 {/* Main Tool Content */}
-                <div className="mb-20 animate-fade-in" style={{ animationDelay: '0.4s', animationFillMode: 'both' }}>
+                <div id="tool-functional-area" className="mb-20 animate-fade-in" style={{ animationDelay: '0.4s', animationFillMode: 'both' }}>
                     <div className="bg-white rounded-[2.5rem] border border-slate-100 shadow-2xl shadow-slate-200/60 p-6 md:p-12">
                         {children}
                     </div>

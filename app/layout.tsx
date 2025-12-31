@@ -7,8 +7,9 @@ import CommandPalette from '@/components/CommandPalette';
 import ToasterProvider from '@/components/ToasterProvider';
 import CustomCursor from '@/components/CustomCursor';
 import SmartErrorBoundary from '@/components/SmartErrorBoundary';
-import ProductTour from '@/components/ProductTour';
+import TourManager from '@/components/TourManager';
 import ToolsShowcase from '@/components/ToolsShowcase';
+import FloatingJumpButton from '@/components/FloatingJumpButton';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -92,12 +93,13 @@ export default function RootLayout({
             <body className={inter.className}>
                 <CustomCursor />
                 <SmartErrorBoundary>
+                    <TourManager />
                     <div className="flex flex-col min-h-screen">
                         <ToasterProvider />
                         <Header />
                         <CommandPalette />
-                        <ProductTour />
                         <ToolsShowcase />
+                        <FloatingJumpButton />
                         <main className="min-h-screen">
                             {children}
                         </main>
