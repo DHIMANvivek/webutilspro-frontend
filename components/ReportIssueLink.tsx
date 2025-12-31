@@ -46,7 +46,13 @@ export default function ReportIssueLink({ children, className, context }: Report
         setUrl(getIssueUrl(context));
     }, [context, pathname]);
 
-    if (!isToolPage) return null;
+    if (!isToolPage) {
+        return (
+            <span className={className} style={{ display: 'none' }}>
+                {children}
+            </span>
+        );
+    }
 
     return (
         <a

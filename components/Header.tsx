@@ -208,17 +208,20 @@ export default function Header() {
                                         { href: '/tools/woocommerce', label: 'WooCommerce', icon: ShoppingCart, color: 'text-orange-500' },
                                         { href: '/tools/image-compressor', label: 'Compressor', icon: Palette, color: 'text-pink-500' },
                                         { href: '/tools/prompt-optimizer', label: 'Prompt AI', icon: Zap, color: 'text-amber-500' },
-                                    ].map((tool) => (
-                                        <Link
-                                            key={tool.href}
-                                            href={tool.href}
-                                            className="flex flex-col gap-2 p-4 border border-slate-100 rounded-2xl hover:bg-slate-50 transition-all group"
-                                            onClick={() => setMobileMenuOpen(false)}
-                                        >
-                                            <tool.icon className={`w-5 h-5 ${tool.color}`} />
-                                            <span className="text-xs font-bold text-gray-800">{tool.label}</span>
-                                        </Link>
-                                    ))}
+                                    ].map((tool) => {
+                                        const IconComponent = tool.icon;
+                                        return (
+                                            <Link
+                                                key={tool.href}
+                                                href={tool.href}
+                                                className="flex flex-col gap-2 p-4 border border-slate-100 rounded-2xl hover:bg-slate-50 transition-all group"
+                                                onClick={() => setMobileMenuOpen(false)}
+                                            >
+                                                <IconComponent className={`w-5 h-5 ${tool.color}`} />
+                                                <span className="text-xs font-bold text-gray-800">{tool.label}</span>
+                                            </Link>
+                                        );
+                                    })}
                                 </div>
                             </div>
 
@@ -243,7 +246,7 @@ export default function Header() {
                         </div>
                     </div>
                 )}
-                基础            </nav>
+            </nav>
         </header >
     );
 }

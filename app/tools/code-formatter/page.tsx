@@ -1,6 +1,11 @@
+import dynamic from 'next/dynamic';
 import { generateMetadata as genMeta } from '@/lib/seo';
 import ToolLayout from '@/components/ToolLayout';
-import CodeFormatter from '@/components/tools/CodeFormatter';
+
+const CodeFormatter = dynamic(() => import('@/components/tools/CodeFormatter'), {
+    ssr: false,
+    loading: () => <div className="text-center py-12">Loading formatter...</div>
+});
 
 export const metadata = genMeta({
     title: 'Free Code Formatter - Format JS, HTML, CSS, JSON, SQL Online',

@@ -13,9 +13,14 @@ export default function CustomCursor() {
 
     useEffect(() => {
         setIsMounted(true);
-        setIsTouch('ontouchstart' in window || navigator.maxTouchPoints > 0);
+        // Only disable cursor on actual mobile/tablet devices, not laptops with trackpads
+        const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        const hasCoarsePointer = window.matchMedia('(pointer: coarse)').matches;
+        const isTouchDevice = isMobileDevice || hasCoarsePointer;
 
-        if ('ontouchstart' in window || navigator.maxTouchPoints > 0) return;
+        setIsTouch(isTouchDevice);
+
+        if (isTouchDevice) return; // Don't set up cursor on touch devices
 
         const onMouseMove = (e: MouseEvent) => {
             setPosition({ x: e.clientX, y: e.clientY });
