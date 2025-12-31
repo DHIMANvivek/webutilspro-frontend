@@ -7,8 +7,10 @@ export default function CustomCursor() {
     const [isPointer, setIsPointer] = useState(false);
     const [isHidden, setIsHidden] = useState(true);
     const [isClicking, setIsClicking] = useState(false);
+    const [isMounted, setIsMounted] = useState(false);
 
     useEffect(() => {
+        setIsMounted(true);
         const onMouseMove = (e: MouseEvent) => {
             setPosition({ x: e.clientX, y: e.clientY });
             setIsHidden(false);
@@ -46,7 +48,7 @@ export default function CustomCursor() {
         };
     }, []);
 
-    if (typeof window === 'undefined') return null;
+    if (!isMounted) return null;
 
     return (
         <div style={{ '--cursor-x': `${position.x}px`, '--cursor-y': `${position.y}px` } as React.CSSProperties}>

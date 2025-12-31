@@ -232,9 +232,14 @@ export default function CommandPalette() {
     const [isOpen, setIsOpen] = useState(false);
     const [query, setQuery] = useState('');
     const [selectedIndex, setSelectedIndex] = useState(0);
+    const [isMounted, setIsMounted] = useState(false);
     const router = useRouter();
     const inputRef = useRef<HTMLInputElement>(null);
     const scrollRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        setIsMounted(true);
+    }, []);
 
     const filteredTools = query === ''
         ? TOOLS.slice(0, 5) // Show top 5 on empty query
@@ -311,7 +316,7 @@ export default function CommandPalette() {
         }
     }, [selectedIndex]);
 
-    if (!isOpen) return null;
+    if (!isMounted || !isOpen) return null;
 
     return (
         <div className="fixed inset-0 z-[100] flex items-start justify-center pt-[15vh] px-4">
