@@ -14,7 +14,8 @@ import {
     Sparkles,
     Cpu,
     Settings,
-    Bug
+    Bug,
+    Clock
 } from 'lucide-react';
 import { getIssueUrl } from './ReportIssueLink';
 
@@ -242,6 +243,7 @@ export default function CommandPalette() {
     const [isOpen, setIsOpen] = useState(false);
     const [query, setQuery] = useState('');
     const [selectedIndex, setSelectedIndex] = useState(0);
+    const [recentTools, setRecentTools] = useState<string[]>([]);
     const [isMounted, setIsMounted] = useState(false);
     const router = useRouter();
     const inputRef = useRef<HTMLInputElement>(null);
@@ -250,10 +252,17 @@ export default function CommandPalette() {
 
     useEffect(() => {
         setIsMounted(true);
+        const saved = localStorage.getItem('recent_tools');
+        if (saved) {
+            setRecentTools(JSON.parse(saved));
+        }
     }, []);
 
     const filteredTools = (query === ''
-        ? TOOLS.slice(0, 5) // Show top 5 on empty query
+        ? [
+            ...TOOLS.filter(t => recentTools.includes(t.id)).slice(0, 3), // Show top 3 recent
+            ...TOOLS.filter(t => !recentTools.includes(t.id)).slice(0, 5) // Then remaining tools
+        ]
         : TOOLS.filter(tool =>
             tool.name.toLowerCase().includes(query.toLowerCase()) ||
             tool.description.toLowerCase().includes(query.toLowerCase()) ||
@@ -296,6 +305,13 @@ export default function CommandPalette() {
     }, [isOpen]);
 
     const handleSelect = (tool: Tool) => {
+        // Save to recents
+        if (tool.id !== 'report-issue') {
+            const updatedRecents = [tool.id, ...recentTools.filter(id => id !== tool.id)].slice(0, 5);
+            setRecentTools(updatedRecents);
+            localStorage.setItem('recent_tools', JSON.stringify(updatedRecents));
+        }
+
         if (tool.id === 'report-issue') {
             window.open(getIssueUrl(), '_blank');
         } else {
@@ -397,10 +413,15 @@ export default function CommandPalette() {
                                 </div>
                                 <div className="flex-1 min-w-0">
                                     <div className="flex items-center gap-2">
-                                        <span className={`font-bold transition-colors ${idx === selectedIndex ? 'text-white' : 'text-slate-900'
+                                        <span className={`font-black tracking-tight transition-colors ${idx === selectedIndex ? 'text-white' : 'text-slate-900'
                                             }`}>
                                             {tool.name}
                                         </span>
+                                        {recentTools.includes(tool.id) && query === '' && (
+                                            <span className={`text-[9px] px-2 py-0.5 rounded-full font-black uppercase tracking-widest ${idx === selectedIndex ? 'bg-white/30 text-white' : 'bg-blue-100 text-blue-600'}`}>
+                                                Recent
+                                            </span>
+                                        )}
                                         <span className={`text-[9px] px-1.5 py-0.5 rounded-full font-black uppercase tracking-wider ${idx === selectedIndex
                                             ? 'bg-white/20 text-white'
                                             : 'bg-slate-100 text-slate-500'
@@ -408,7 +429,7 @@ export default function CommandPalette() {
                                             {tool.category}
                                         </span>
                                     </div>
-                                    <p className={`text-sm truncate transition-colors ${idx === selectedIndex ? 'text-blue-100' : 'text-slate-500'
+                                    <p className={`text-xs truncate transition-colors font-medium ${idx === selectedIndex ? 'text-blue-100' : 'text-slate-500'
                                         }`}>
                                         {tool.description}
                                     </p>
