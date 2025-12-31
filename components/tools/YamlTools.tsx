@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import yaml from 'js-yaml';
+import toast from 'react-hot-toast';
 
 export default function YamlTools() {
     const [mode, setMode] = useState<'toJson' | 'fromJson' | 'validate' | 'format'>('toJson');
@@ -87,7 +88,9 @@ export default function YamlTools() {
                     break;
             }
         } catch (e) {
-            setError(e instanceof Error ? e.message : 'Processing failed');
+            const msg = e instanceof Error ? e.message : 'Processing failed';
+            setError(msg);
+            toast.error(msg);
             setIsValid(false);
             setOutput('');
         }
@@ -95,6 +98,7 @@ export default function YamlTools() {
 
     const copyOutput = () => {
         navigator.clipboard.writeText(output);
+        toast.success('Copied to clipboard!');
     };
 
     const loadExample = () => {
@@ -149,8 +153,8 @@ scripts:
                                 key={option.value}
                                 onClick={() => setMode(option.value as any)}
                                 className={`px-4 py-2 rounded-lg font-medium transition-colors ${mode === option.value
-                                        ? 'bg-primary-600 text-white'
-                                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                                    ? 'bg-primary-600 text-white'
+                                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                                     }`}
                             >
                                 {option.label}
@@ -213,8 +217,8 @@ scripts:
                 {/* Validation Status */}
                 {isValid !== null && mode === 'validate' && (
                     <div className={`mt-4 p-4 rounded-lg border ${isValid
-                            ? 'bg-green-50 border-green-200'
-                            : 'bg-red-50 border-red-200'
+                        ? 'bg-green-50 border-green-200'
+                        : 'bg-red-50 border-red-200'
                         }`}>
                         <div className="flex items-center">
                             <span className="text-2xl mr-2">{isValid ? '✅' : '❌'}</span>

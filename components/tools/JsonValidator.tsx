@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import toast from 'react-hot-toast';
 
 interface JsonError {
     line: number;
@@ -48,6 +49,9 @@ export default function JsonValidator() {
             setFormatted('');
             setMinified('');
 
+            const msg = e instanceof Error ? e.message : 'Unknown error';
+            toast.error(msg);
+
             if (e instanceof SyntaxError) {
                 const errorMatch = e.message.match(/position (\d+)/);
                 const position = errorMatch ? parseInt(errorMatch[1]) : 0;
@@ -55,12 +59,12 @@ export default function JsonValidator() {
 
                 setErrors([{
                     line,
-                    message: e.message
+                    message: msg
                 }]);
             } else {
                 setErrors([{
                     line: 0,
-                    message: e instanceof Error ? e.message : 'Unknown error'
+                    message: msg
                 }]);
             }
 
@@ -83,10 +87,12 @@ export default function JsonValidator() {
 
     const copyFormatted = () => {
         navigator.clipboard.writeText(formatted);
+        toast.success('Copied to clipboard!');
     };
 
     const copyMinified = () => {
         navigator.clipboard.writeText(minified);
+        toast.success('Copied to clipboard!');
     };
 
     const loadExample = () => {
@@ -135,8 +141,8 @@ export default function JsonValidator() {
                 {/* Validation Result */}
                 {isValid !== null && (
                     <div className={`p-4 rounded-lg border mb-6 ${isValid
-                            ? 'bg-green-50 border-green-200'
-                            : 'bg-red-50 border-red-200'
+                        ? 'bg-green-50 border-green-200'
+                        : 'bg-red-50 border-red-200'
                         }`}>
                         <div className="flex items-center mb-2">
                             <span className="text-2xl mr-2">{isValid ? '✅' : '❌'}</span>

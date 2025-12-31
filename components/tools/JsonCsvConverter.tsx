@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import toast from 'react-hot-toast';
 
 type ConversionMode = 'json-to-csv' | 'csv-to-json';
 
@@ -27,7 +28,7 @@ export default function JsonCsvConverter() {
 
         const formatValue = (value: any): string => {
             if (value === null || value === undefined) return '';
-            
+
             let stringValue = '';
             if (typeof value === 'object') {
                 stringValue = JSON.stringify(value);
@@ -48,7 +49,7 @@ export default function JsonCsvConverter() {
                 headers.map(header => formatValue(row[header])).join(',')
             ),
         ];
-        
+
         return csvRows.join('\n');
     };
 
@@ -111,7 +112,7 @@ export default function JsonCsvConverter() {
                 // Try to parse as Number
                 if (val !== '' && !isNaN(Number(val)) && /^-?\d+(\.\d+)?$/.test(val)) {
                     obj[header] = Number(val);
-                } 
+                }
                 // Try to parse as Boolean
                 else if (val.toLowerCase() === 'true') {
                     obj[header] = true;
@@ -156,13 +157,16 @@ export default function JsonCsvConverter() {
             setOutput(result);
             setError('');
         } catch (e) {
-            setError(e instanceof Error ? e.message : 'Conversion failed');
+            const msg = e instanceof Error ? e.message : 'Conversion failed';
+            setError(msg);
+            toast.error(msg);
             setOutput('');
         }
     };
 
     const copyToClipboard = () => {
         navigator.clipboard.writeText(output);
+        toast.success('Copied to clipboard!');
     };
 
     const downloadFile = () => {
@@ -207,8 +211,8 @@ Bob Johnson,bob@example.com,35,Chicago`);
                         <button
                             onClick={() => setMode('json-to-csv')}
                             className={`px-4 py-2 rounded-md font-medium transition-colors ${mode === 'json-to-csv'
-                                    ? 'bg-white text-primary-600 shadow-sm'
-                                    : 'text-gray-600 hover:text-gray-900'
+                                ? 'bg-white text-primary-600 shadow-sm'
+                                : 'text-gray-600 hover:text-gray-900'
                                 }`}
                         >
                             JSON → CSV
@@ -216,8 +220,8 @@ Bob Johnson,bob@example.com,35,Chicago`);
                         <button
                             onClick={() => setMode('csv-to-json')}
                             className={`px-4 py-2 rounded-md font-medium transition-colors ${mode === 'csv-to-json'
-                                    ? 'bg-white text-primary-600 shadow-sm'
-                                    : 'text-gray-600 hover:text-gray-900'
+                                ? 'bg-white text-primary-600 shadow-sm'
+                                : 'text-gray-600 hover:text-gray-900'
                                 }`}
                         >
                             CSV → JSON
