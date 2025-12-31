@@ -87,6 +87,11 @@ export default function RootLayout({
                         }),
                     }}
                 />
+                <script
+                    async
+                    src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5500315527317299"
+                    crossOrigin="anonymous"
+                ></script>
             </head>
             <body className={inter.className}>
                 <CustomCursor />

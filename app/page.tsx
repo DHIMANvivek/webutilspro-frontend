@@ -1,5 +1,12 @@
 import Link from 'next/link';
 import { ShoppingBag, FlaskConical, Sparkles, Lock, Bot, RefreshCcw, Wrench, Box, Target, ArrowRight } from 'lucide-react';
+import { generateMetadata as genMeta } from '@/lib/seo';
+
+export const metadata = genMeta({
+    title: 'Professional Developer Tools & AI Utilities',
+    description: 'A comprehensive collection of free, high-quality developer tools including Regex Tester, JSON Converter, AI Error Explainer, and more. Optimized for productivity and security.',
+    keywords: ['developer tools', 'programming utilities', 'regex tester', 'json converter', 'ai developer tools', 'free coding tools'],
+});
 
 export default function HomePage() {
     const tools = [
