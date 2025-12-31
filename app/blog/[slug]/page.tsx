@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
-import { Calendar, User, ChevronLeft, ArrowRight, ExternalLink } from 'lucide-react';
+import { Calendar, User, ChevronLeft, ArrowRight, ExternalLink, Sparkles } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import toast from 'react-hot-toast';
 
