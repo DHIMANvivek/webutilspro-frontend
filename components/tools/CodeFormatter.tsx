@@ -8,6 +8,7 @@ import * as prettierPluginEstree from 'prettier/plugins/estree';
 import * as prettierPluginHtml from 'prettier/plugins/html';
 import * as prettierPluginCss from 'prettier/plugins/postcss';
 import { format as formatSql } from 'sql-formatter';
+import CustomSelect from '@/components/ui/CustomSelect';
 
 type Language = 'javascript' | 'html' | 'css' | 'json' | 'sql';
 
@@ -25,6 +26,14 @@ export default function CodeFormatter() {
     const [language, setLanguage] = useState<Language>('javascript');
     const [error, setError] = useState('');
     const [isFormatting, setIsFormatting] = useState(false);
+
+    const languageOptions = [
+        { value: 'javascript', label: 'JavaScript' },
+        { value: 'html', label: 'HTML' },
+        { value: 'css', label: 'CSS' },
+        { value: 'json', label: 'JSON' },
+        { value: 'sql', label: 'SQL' },
+    ];
 
     // Prettier options
     const [tabWidth, setTabWidth] = useState(2);
@@ -115,21 +124,14 @@ export default function CodeFormatter() {
 
                     {/* Language Selector */}
                     <div className="flex items-center space-x-3">
-                        <label htmlFor="language" className="text-sm font-medium text-gray-700">
-                            Language:
-                        </label>
-                        <select
+                        <CustomSelect
                             id="language"
+                            label="Language:"
                             value={language}
-                            onChange={(e) => setLanguage(e.target.value as Language)}
-                            className="input-field w-auto"
-                        >
-                            <option value="javascript">JavaScript</option>
-                            <option value="html">HTML</option>
-                            <option value="css">CSS</option>
-                            <option value="json">JSON</option>
-                            <option value="sql">SQL</option>
-                        </select>
+                            onChange={(val) => setLanguage(val as Language)}
+                            options={languageOptions}
+                            className="w-48"
+                        />
                     </div>
                 </div>
 

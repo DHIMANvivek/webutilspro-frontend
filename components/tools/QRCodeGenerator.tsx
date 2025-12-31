@@ -2,6 +2,7 @@
 
 import { useState, useRef } from 'react';
 import { QRCodeSVG } from 'qrcode.react';
+import CustomSelect from '@/components/ui/CustomSelect';
 
 type QRType = 'url' | 'text' | 'email' | 'phone' | 'sms' | 'wifi';
 
@@ -21,6 +22,28 @@ export default function QRCodeGenerator() {
     const [phone, setPhone] = useState('');
     const [sms, setSms] = useState({ number: '', message: '' });
     const [wifi, setWifi] = useState({ ssid: '', password: '', encryption: 'WPA' });
+
+    const qrTypeOptions = [
+        { value: 'url', label: 'URL / Website' },
+        { value: 'text', label: 'Plain Text' },
+        { value: 'email', label: 'Email' },
+        { value: 'phone', label: 'Phone Number' },
+        { value: 'sms', label: 'SMS Message' },
+        { value: 'wifi', label: 'WiFi Network' },
+    ];
+
+    const wifiEncryptionOptions = [
+        { value: 'WPA', label: 'WPA/WPA2' },
+        { value: 'WEP', label: 'WEP' },
+        { value: 'nopass', label: 'None' },
+    ];
+
+    const errorLevelOptions = [
+        { value: 'L', label: 'Low (7%) - Smaller QR code' },
+        { value: 'M', label: 'Medium (15%) - Balanced' },
+        { value: 'Q', label: 'Quartile (25%) - Good for logos' },
+        { value: 'H', label: 'High (30%) - Best for logos' },
+    ];
 
     const getQRValue = () => {
         switch (qrType) {
@@ -151,19 +174,12 @@ export default function QRCodeGenerator() {
                     <div className="space-y-4">
                         {/* QR Type Selector */}
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">QR Code Type</label>
-                            <select
+                            <CustomSelect
+                                label="QR Code Type"
                                 value={qrType}
-                                onChange={(e) => setQrType(e.target.value as QRType)}
-                                className="input-field"
-                            >
-                                <option value="url">URL / Website</option>
-                                <option value="text">Plain Text</option>
-                                <option value="email">Email</option>
-                                <option value="phone">Phone Number</option>
-                                <option value="sms">SMS Message</option>
-                                <option value="wifi">WiFi Network</option>
-                            </select>
+                                onChange={(val) => setQrType(val as QRType)}
+                                options={qrTypeOptions}
+                            />
                         </div>
 
                         {/* Dynamic Input Based on Type */}
@@ -266,16 +282,12 @@ export default function QRCodeGenerator() {
                                     />
                                 </div>
                                 <div>
-                                    <label className="block text-xs font-medium text-gray-700 mb-1">Encryption</label>
-                                    <select
+                                    <CustomSelect
+                                        label="Encryption"
                                         value={wifi.encryption}
-                                        onChange={(e) => setWifi({ ...wifi, encryption: e.target.value })}
-                                        className="input-field"
-                                    >
-                                        <option value="WPA">WPA/WPA2</option>
-                                        <option value="WEP">WEP</option>
-                                        <option value="nopass">None</option>
-                                    </select>
+                                        onChange={(val) => setWifi({ ...wifi, encryption: val })}
+                                        options={wifiEncryptionOptions}
+                                    />
                                 </div>
                             </div>
                         ) : null}
@@ -341,20 +353,13 @@ export default function QRCodeGenerator() {
                         </div>
 
                         <div>
-                            <label htmlFor="errorLevel" className="block text-sm font-medium text-gray-700 mb-2">
-                                Error Correction
-                            </label>
-                            <select
+                            <CustomSelect
                                 id="errorLevel"
+                                label="Error Correction"
                                 value={errorLevel}
-                                onChange={(e) => setErrorLevel(e.target.value as 'L' | 'M' | 'Q' | 'H')}
-                                className="input-field"
-                            >
-                                <option value="L">Low (7%) - Smaller QR code</option>
-                                <option value="M">Medium (15%) - Balanced</option>
-                                <option value="Q">Quartile (25%) - Good for logos</option>
-                                <option value="H">High (30%) - Best for logos</option>
-                            </select>
+                                onChange={(val) => setErrorLevel(val as 'L' | 'M' | 'Q' | 'H')}
+                                options={errorLevelOptions}
+                            />
                         </div>
 
                         {/* Logo Upload */}

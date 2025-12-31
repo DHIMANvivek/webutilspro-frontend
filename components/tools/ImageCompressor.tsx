@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import imageCompression from 'browser-image-compression';
+import CustomSelect from '@/components/ui/CustomSelect';
 
 interface CompressedImage {
     original: File;
@@ -18,6 +19,14 @@ export default function ImageCompressor() {
     const [maxWidth, setMaxWidth] = useState(1920);
     const [isCompressing, setIsCompressing] = useState(false);
     const [progress, setProgress] = useState(0);
+
+    const maxWidthOptions = [
+        { value: '640', label: '640px (Mobile)' },
+        { value: '1280', label: '1280px (HD)' },
+        { value: '1920', label: '1920px (Full HD)' },
+        { value: '3840', label: '3840px (4K)' },
+        { value: '10000', label: 'Original size' },
+    ];
 
     const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const files = Array.from(e.target.files || []);
@@ -122,21 +131,13 @@ export default function ImageCompressor() {
                     </div>
 
                     <div>
-                        <label htmlFor="maxWidth" className="block text-sm font-medium text-gray-700 mb-2">
-                            Max Width: {maxWidth}px
-                        </label>
-                        <select
+                        <CustomSelect
                             id="maxWidth"
-                            value={maxWidth}
-                            onChange={(e) => setMaxWidth(parseInt(e.target.value))}
-                            className="input-field"
-                        >
-                            <option value={640}>640px (Mobile)</option>
-                            <option value={1280}>1280px (HD)</option>
-                            <option value={1920}>1920px (Full HD)</option>
-                            <option value={3840}>3840px (4K)</option>
-                            <option value={10000}>Original size</option>
-                        </select>
+                            label={`Max Width: ${maxWidth === 10000 ? 'Original' : maxWidth + 'px'}`}
+                            value={maxWidth.toString()}
+                            onChange={(val) => setMaxWidth(parseInt(val))}
+                            options={maxWidthOptions}
+                        />
                     </div>
                 </div>
 
@@ -154,8 +155,8 @@ export default function ImageCompressor() {
                     <label
                         htmlFor="imageUpload"
                         className={`block border-2 border-dashed rounded-lg p-12 text-center cursor-pointer transition-colors ${isCompressing
-                                ? 'border-gray-200 bg-gray-50 cursor-not-allowed'
-                                : 'border-primary-300 hover:border-primary-400 bg-primary-50 hover:bg-primary-100'
+                            ? 'border-gray-200 bg-gray-50 cursor-not-allowed'
+                            : 'border-primary-300 hover:border-primary-400 bg-primary-50 hover:bg-primary-100'
                             }`}
                     >
                         {isCompressing ? (

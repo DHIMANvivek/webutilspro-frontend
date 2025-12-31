@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import toast from 'react-hot-toast';
+import CustomSelect from '@/components/ui/CustomSelect';
 
 interface PromptOptimization {
     optimizedPrompt: string;
@@ -96,21 +97,13 @@ export default function PromptOptimizer() {
 
                 {/* Use Case Selector */}
                 <div className="mb-4">
-                    <label htmlFor="useCase" className="block text-sm font-medium text-gray-700 mb-1">
-                        Use Case
-                    </label>
-                    <select
+                    <CustomSelect
                         id="useCase"
+                        label="Use Case"
                         value={useCase}
-                        onChange={(e) => setUseCase(e.target.value)}
-                        className="input-field"
-                    >
-                        {useCases.map((uc) => (
-                            <option key={uc.value} value={uc.value}>
-                                {uc.label}
-                            </option>
-                        ))}
-                    </select>
+                        onChange={(val) => setUseCase(val)}
+                        options={useCases}
+                    />
                 </div>
 
                 {/* Prompt Input */}

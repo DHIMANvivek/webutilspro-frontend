@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { diffLines, diffWords, diffChars, Change } from 'diff';
+import CustomSelect from '@/components/ui/CustomSelect';
 
 type DiffMode = 'lines' | 'words' | 'characters';
 
@@ -13,6 +14,12 @@ export default function DiffChecker() {
     const [ignoreCase, setIgnoreCase] = useState(false);
     const [differences, setDifferences] = useState<Change[]>([]);
     const [stats, setStats] = useState({ additions: 0, deletions: 0, unchanged: 0 });
+
+    const modeOptions = [
+        { value: 'lines', label: 'Line by Line' },
+        { value: 'words', label: 'Word by Word' },
+        { value: 'characters', label: 'Character by Character' },
+    ];
 
     const comparTexts = () => {
         let processedText1 = text1;
@@ -71,10 +78,10 @@ export default function DiffChecker() {
                     <span
                         key={index}
                         className={`${part.added
-                                ? 'bg-green-200 text-green-900'
-                                : part.removed
-                                    ? 'bg-red-200 text-red-900 line-through'
-                                    : 'bg-gray-50 text-gray-700'
+                            ? 'bg-green-200 text-green-900'
+                            : part.removed
+                                ? 'bg-red-200 text-red-900 line-through'
+                                : 'bg-gray-50 text-gray-700'
                             } px-1 rounded`}
                         style={{ whiteSpace: mode === 'lines' ? 'pre-wrap' : 'pre' }}
                     >
@@ -139,18 +146,12 @@ export default function DiffChecker() {
                 <div className="mb-6 p-4 bg-gray-50 rounded-lg">
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
-                                Comparison Mode
-                            </label>
-                            <select
+                            <CustomSelect
+                                label="Comparison Mode"
                                 value={mode}
-                                onChange={(e) => setMode(e.target.value as DiffMode)}
-                                className="input-field"
-                            >
-                                <option value="lines">Line by Line</option>
-                                <option value="words">Word by Word</option>
-                                <option value="characters">Character by Character</option>
-                            </select>
+                                onChange={(val) => setMode(val as DiffMode)}
+                                options={modeOptions}
+                            />
                         </div>
 
                         <div className="flex items-end">

@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import toast from 'react-hot-toast';
 import CryptoJS from 'crypto-js';
+import CustomSelect from '@/components/ui/CustomSelect';
 
 type HashAlgorithm = 'md5' | 'sha1' | 'sha256' | 'sha512';
 
@@ -14,6 +15,13 @@ export default function JwtHashTool() {
     const [hashInput, setHashInput] = useState('');
     const [hashAlgorithm, setHashAlgorithm] = useState<HashAlgorithm>('sha256');
     const [hashOutput, setHashOutput] = useState('');
+
+    const hashAlgorithmOptions = [
+        { value: 'sha1', label: 'SHA-1' },
+        { value: 'sha256', label: 'SHA-256' },
+        { value: 'sha512', label: 'SHA-512' },
+        { value: 'md5', label: 'MD5 (Not recommended)' },
+    ];
 
     // JWT Decoder
     const decodeJwt = () => {
@@ -175,20 +183,14 @@ export default function JwtHashTool() {
                 <h2 className="text-2xl font-bold text-gray-900 mb-4">Hash Generator</h2>
 
                 <div className="mb-4">
-                    <label htmlFor="hashAlgorithm" className="block text-sm font-medium text-gray-700 mb-2">
-                        Hash Algorithm
-                    </label>
-                    <select
+                    <CustomSelect
                         id="hashAlgorithm"
+                        label="Hash Algorithm"
                         value={hashAlgorithm}
-                        onChange={(e) => setHashAlgorithm(e.target.value as HashAlgorithm)}
-                        className="input-field w-full md:w-64"
-                    >
-                        <option value="sha1">SHA-1</option>
-                        <option value="sha256">SHA-256</option>
-                        <option value="sha512">SHA-512</option>
-                        <option value="md5">MD5 (Not recommended)</option>
-                    </select>
+                        onChange={(val) => setHashAlgorithm(val as HashAlgorithm)}
+                        options={hashAlgorithmOptions}
+                        className="w-full md:w-64"
+                    />
                 </div>
 
                 <div className="mb-4">

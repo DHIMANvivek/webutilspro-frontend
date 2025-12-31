@@ -108,7 +108,7 @@ export default function RegexTester() {
     };
 
     return (
-        <div className="space-y-4">
+        <div className="space-y-4 mb-12">
             {/* Main Card */}
             <div className="card">
                 <div className="flex items-center justify-between mb-4">

@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import toast from 'react-hot-toast';
+import CustomSelect from '@/components/ui/CustomSelect';
 
 const LOREM_WORDS = [
     'lorem', 'ipsum', 'dolor', 'sit', 'amet', 'consectetur', 'adipiscing', 'elit', 'sed', 'do',
@@ -20,6 +21,12 @@ export default function LoremIpsumGenerator() {
     const [count, setCount] = useState(3);
     const [generated, setGenerated] = useState('');
     const [startWith, setStartWith] = useState(true);
+
+    const typeOptions = [
+        { value: 'paragraphs', label: 'Paragraphs' },
+        { value: 'sentences', label: 'Sentences' },
+        { value: 'words', label: 'Words' },
+    ];
 
     const getRandomWord = () => {
         return LOREM_WORDS[Math.floor(Math.random() * LOREM_WORDS.length)];
@@ -78,21 +85,13 @@ export default function LoremIpsumGenerator() {
 
                 {/* Settings */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                    <div>
-                        <label htmlFor="type" className="block text-sm font-medium text-gray-700 mb-2">
-                            Generate
-                        </label>
-                        <select
-                            id="type"
-                            value={type}
-                            onChange={(e) => setType(e.target.value as GenerateType)}
-                            className="input-field"
-                        >
-                            <option value="paragraphs">Paragraphs</option>
-                            <option value="sentences">Sentences</option>
-                            <option value="words">Words</option>
-                        </select>
-                    </div>
+                    <CustomSelect
+                        id="type"
+                        label="Generate"
+                        value={type}
+                        onChange={(val) => setType(val as GenerateType)}
+                        options={typeOptions}
+                    />
 
                     <div>
                         <label htmlFor="count" className="block text-sm font-medium text-gray-700 mb-2">

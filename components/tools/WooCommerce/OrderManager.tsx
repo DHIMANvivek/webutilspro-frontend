@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import CustomSelect from '@/components/ui/CustomSelect';
 
 export default function OrderManager() {
     const [orders, setOrders] = useState<any[]>([]);
@@ -10,6 +11,13 @@ export default function OrderManager() {
     const [totalPages, setTotalPages] = useState(1);
     const [totalOrders, setTotalOrders] = useState(0);
     const [perPage, setPerPage] = useState(10);
+
+    const perPageOptions = [
+        { value: '10', label: '10' },
+        { value: '20', label: '20' },
+        { value: '50', label: '50' },
+        { value: '100', label: '100' },
+    ];
 
     const fetchOrders = async (page = currentPage, itemsPerPage = perPage) => {
         setLoading(true);
@@ -88,20 +96,16 @@ export default function OrderManager() {
                 <div className="flex items-center gap-3">
                     {/* Items per page selector */}
                     <div className="flex items-center gap-2">
-                        <label className="text-sm text-gray-600">Show:</label>
-                        <select
-                            value={perPage}
-                            onChange={(e) => {
-                                setPerPage(Number(e.target.value));
+                        <CustomSelect
+                            label="Show:"
+                            value={perPage.toString()}
+                            onChange={(val) => {
+                                setPerPage(Number(val));
                                 setCurrentPage(1);
                             }}
-                            className="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        >
-                            <option value={10}>10</option>
-                            <option value={20}>20</option>
-                            <option value={50}>50</option>
-                            <option value={100}>100</option>
-                        </select>
+                            options={perPageOptions}
+                            className="w-24"
+                        />
                     </div>
                     <button
                         onClick={() => fetchOrders(currentPage, perPage)}

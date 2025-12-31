@@ -56,7 +56,7 @@ export default function RegexTesterPage() {
             schema={[toolSchema, faqSchema]}
         >
             {/* What is This Tool Section */}
-            <section className="card mb-8">
+            <section className="card mb-12">
                 <h2 className="text-2xl font-bold text-gray-900 mb-4">
                     What is the Regex Tester?
                 </h2>
@@ -87,7 +87,7 @@ export default function RegexTesterPage() {
             <RegexTester />
 
             {/* How to Use Section */}
-            <section className="card mt-8">
+            <section className="card mb-12">
                 <h2 className="text-2xl font-bold text-gray-900 mb-4">
                     How to Use the Regex Tester
                 </h2>
@@ -127,7 +127,7 @@ export default function RegexTesterPage() {
             <AdPlacement />
 
             {/* Examples Section */}
-            <section className="card mt-8">
+            <section className="card mb-12">
                 <h2 className="text-2xl font-bold text-gray-900 mb-4">Common Use Cases & Examples</h2>
                 <div className="prose prose-lg max-w-none text-gray-600">
                     <h3 className="text-xl font-semibold text-gray-900 mt-4 mb-2">Email Validation</h3>
@@ -176,7 +176,7 @@ export default function RegexTesterPage() {
             </section>
 
             {/* FAQ Section */}
-            <section className="card mt-8">
+            <section className="card mb-12">
                 <h2 className="text-2xl font-bold text-gray-900 mb-6">
                     Frequently Asked Questions
                 </h2>
@@ -193,36 +193,47 @@ export default function RegexTesterPage() {
             </section>
 
             {/* Tips Section */}
-            <section className="card mt-8 bg-primary-50 border-primary-200">
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">Pro Tips for Regex Success</h2>
-                <ul className="space-y-3 text-gray-700">
-                    <li className="flex items-start">
-                        <svg className="w-6 h-6 text-primary-600 mr-3 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            <section className="relative rounded-[2rem] p-8 md:p-12 bg-gradient-to-br from-primary-50/50 to-white border-2 border-primary-100/80 shadow-xl shadow-primary-500/10 mb-12">
+                <div className="flex items-center gap-4 mb-8">
+                    <div className="w-12 h-12 rounded-2xl bg-primary-100 flex items-center justify-center text-primary-600 shadow-inner">
+                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                         </svg>
-                        <span><strong>Start simple:</strong> Begin with basic patterns and gradually add complexity.
-                            Test each addition to ensure it works as expected.</span>
+                    </div>
+                    <h2 className="text-3xl font-bold text-gray-900 tracking-tight">Pro Tips for Regex Success</h2>
+                </div>
+                <ul className="grid grid-cols-1 md:grid-cols-2 gap-6 text-gray-700">
+                    <li className="flex items-start p-4 rounded-2xl hover:bg-white/50 transition-colors">
+                        <div className="w-6 h-6 text-primary-600 mr-4 flex-shrink-0 mt-0.5 bg-primary-100/50 rounded-full flex items-center justify-center p-1">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" className="w-4 h-4">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                            </svg>
+                        </div>
+                        <span><strong className="text-gray-900 block mb-1">Start simple</strong> Begin with basic patterns and gradually add complexity. Test each addition to ensure it works as expected.</span>
                     </li>
-                    <li className="flex items-start">
-                        <svg className="w-6 h-6 text-primary-600 mr-3 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                        <span><strong>Use capture groups wisely:</strong> Parentheses create capture groups that
-                            extract matched portions. Use non-capturing groups (?:...) when you don't need extraction.</span>
+                    <li className="flex items-start p-4 rounded-2xl hover:bg-white/50 transition-colors">
+                        <div className="w-6 h-6 text-primary-600 mr-4 flex-shrink-0 mt-0.5 bg-primary-100/50 rounded-full flex items-center justify-center p-1">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" className="w-4 h-4">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                            </svg>
+                        </div>
+                        <span><strong className="text-gray-900 block mb-1">Use capture groups wisely</strong> Parentheses create capture groups that extract matched portions. Use non-capturing groups (?:...) when you don't need extraction.</span>
                     </li>
-                    <li className="flex items-start">
-                        <svg className="w-6 h-6 text-primary-600 mr-3 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                        <span><strong>Escape special characters:</strong> Characters like ., *, +, ?, etc. have
-                            special meanings. Use backslash (\) to match them literally.</span>
+                    <li className="flex items-start p-4 rounded-2xl hover:bg-white/50 transition-colors">
+                        <div className="w-6 h-6 text-primary-600 mr-4 flex-shrink-0 mt-0.5 bg-primary-100/50 rounded-full flex items-center justify-center p-1">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" className="w-4 h-4">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                            </svg>
+                        </div>
+                        <span><strong className="text-gray-900 block mb-1">Escape special characters</strong> Characters like ., *, +, ?, etc. have special meanings. Use backslash (\) to match them literally.</span>
                     </li>
-                    <li className="flex items-start">
-                        <svg className="w-6 h-6 text-primary-600 mr-3 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                        <span><strong>Test with edge cases:</strong> Try your pattern with unusual inputs, empty
-                            strings, and boundary conditions to ensure robustness.</span>
+                    <li className="flex items-start p-4 rounded-2xl hover:bg-white/50 transition-colors">
+                        <div className="w-6 h-6 text-primary-600 mr-4 flex-shrink-0 mt-0.5 bg-primary-100/50 rounded-full flex items-center justify-center p-1">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" className="w-4 h-4">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                            </svg>
+                        </div>
+                        <span><strong className="text-gray-900 block mb-1">Test with edge cases</strong> Try your pattern with unusual inputs, empty strings, and boundary conditions to ensure robustness.</span>
                     </li>
                 </ul>
             </section>
