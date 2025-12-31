@@ -142,12 +142,6 @@ export default function Header() {
                         >
                             Contact
                         </Link>
-                        <Link
-                            href="/blog"
-                            className="text-gray-800 hover:text-blue-600 transition-colors font-medium"
-                        >
-                            Blog
-                        </Link>
 
                         {/* Command Palette Shortcut Hint */}
                         <div className="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-400 hover:text-blue-600 hover:border-blue-300 hover:bg-white transition-all cursor-pointer group/cmd shadow-sm"
