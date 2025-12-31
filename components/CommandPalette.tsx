@@ -185,6 +185,46 @@ const TOOLS: Tool[] = [
         href: '/tools/url-encoder',
         category: 'Utilities',
         keywords: ['url', 'encode', 'decode', 'uri', 'safe']
+    },
+    {
+        id: 'html-encoder',
+        name: 'HTML Encoder',
+        description: 'Encode and decode HTML entities safely.',
+        href: '/tools/html-encoder',
+        category: 'Utilities',
+        keywords: ['html', 'encode', 'decode', 'entities', 'safe']
+    },
+    {
+        id: 'lorem-ipsum-generator',
+        name: 'Lorem Ipsum Generator',
+        description: 'Generate placeholder text for your designs.',
+        href: '/tools/lorem-ipsum-generator',
+        category: 'Utilities',
+        keywords: ['lorem', 'ipsum', 'placeholder', 'text', 'dummy']
+    },
+    {
+        id: 'minifier',
+        name: 'Code Minifier',
+        description: 'Compress JS, CSS, and HTML for production.',
+        href: '/tools/minifier',
+        category: 'Dev',
+        keywords: ['minify', 'compress', 'js', 'css', 'html']
+    },
+    {
+        id: 'xml-formatter',
+        name: 'XML Formatter',
+        description: 'Format and validate XML documents.',
+        href: '/tools/xml-formatter',
+        category: 'Dev',
+        keywords: ['xml', 'format', 'validate', 'pretty', 'data']
+    },
+    {
+        id: 'yaml-tools',
+        name: 'YAML Tools',
+        description: 'Convert between YAML and JSON formats.',
+        href: '/tools/yaml-tools',
+        category: 'Dev',
+        keywords: ['yaml', 'json', 'convert', 'config', 'data']
     }
 ];
 
@@ -313,8 +353,8 @@ export default function CommandPalette() {
                             <button
                                 key={tool.id}
                                 className={`w-full flex items-center px-4 py-3 text-left transition-all duration-150 group ${idx === selectedIndex
-                                        ? 'bg-blue-600'
-                                        : 'hover:bg-slate-50'
+                                    ? 'bg-blue-600'
+                                    : 'hover:bg-slate-50'
                                     }`}
                                 onClick={() => handleSelect(tool)}
                                 onMouseEnter={() => setSelectedIndex(idx)}
@@ -333,8 +373,8 @@ export default function CommandPalette() {
                                             {tool.name}
                                         </span>
                                         <span className={`text-[9px] px-1.5 py-0.5 rounded-full font-black uppercase tracking-wider ${idx === selectedIndex
-                                                ? 'bg-white/20 text-white'
-                                                : 'bg-slate-100 text-slate-500'
+                                            ? 'bg-white/20 text-white'
+                                            : 'bg-slate-100 text-slate-500'
                                             }`}>
                                             {tool.category}
                                         </span>

@@ -124,7 +124,7 @@ export default function Header() {
                                 </div>
                                 <div className="p-4 bg-slate-50 border-t border-slate-100 rounded-b-2xl">
                                     <Link href="/#tools" className="block text-center text-xs font-bold text-slate-500 hover:text-blue-600 transition-colors uppercase tracking-widest">
-                                        View All 40+ Tools →
+                                        View All 25+ Tools →
                                     </Link>
                                 </div>
                             </div>
