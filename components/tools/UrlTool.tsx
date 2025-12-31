@@ -33,11 +33,10 @@ export default function UrlTool() {
     };
 
     const loadExample = () => {
-        if (mode === 'encode') {
-            setInput('https://example.com/search?q=hello world&category=tech');
-        } else {
-            setInput('https%3A%2F%2Fexample.com%2Fsearch%3Fq%3Dhello%20world%26category%3Dtech');
-        }
+        const example = mode === 'encode'
+            ? 'https://example.com/search?q=hello world&category=tech'
+            : 'https%3A%2F%2Fexample.com%2Fsearch%3Fq%3Dhello%20world%26category%3Dtech';
+        handleInputChange(example);
     };
 
     // Auto-convert on input change
