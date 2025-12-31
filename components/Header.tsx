@@ -8,12 +8,12 @@ export default function Header() {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
     return (
-        <header className="bg-white/80 backdrop-blur-md border-b border-gray-100 sticky top-0 z-50 shadow-sm">
+        <header className="bg-white/80 backdrop-blur-md border-b border-slate-200/60 sticky top-0 z-50 shadow-sm">
             <nav className="container-custom py-4">
                 <div className="flex items-center justify-between">
                     {/* Logo */}
                     <Link href="/" className="flex items-center space-x-3 group">
-                        <div className="relative w-10 h-10 overflow-hidden rounded-xl shadow-md border border-gray-100 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500">
+                        <div className="relative w-10 h-10 overflow-hidden rounded-xl shadow-md border border-slate-200/60 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500">
                             <img
                                 src="/logo.png"
                                 alt="WebUtilsPro Logo"

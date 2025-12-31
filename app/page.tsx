@@ -172,7 +172,7 @@ export default function HomePage() {
             <section className="relative py-24 md:py-32 overflow-hidden bg-white">
                 <div className="absolute inset-0 z-0">
                     <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-[radial-gradient(circle_at_50%_0%,rgba(59,130,246,0.08),transparent_50%)]"></div>
-                    <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-slate-200 to-transparent"></div>
+                    <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-slate-200/60 to-transparent"></div>
                 </div>
 
                 <div className="container-custom relative z-10">
@@ -234,7 +234,7 @@ export default function HomePage() {
                         {/* WooCommerce Manager */}
                         <Link
                             href="/tools/woocommerce"
-                            className="group relative bg-white/[0.03] backdrop-blur-xl rounded-[2.5rem] p-8 border border-white/10 hover:bg-white/[0.06] hover:border-white/20 transition-all duration-500 shadow-2xl overflow-hidden"
+                            className="group relative bg-white/[0.03] backdrop-blur-xl rounded-[2.5rem] p-8 border border-white/[0.08] hover:bg-white/[0.06] hover:border-white/[0.15] transition-all duration-500 shadow-2xl overflow-hidden"
                         >
                             <div className="relative z-10 flex flex-col sm:flex-row items-start gap-6">
                                 <div className="p-5 bg-gradient-to-br from-pink-500/10 to-purple-500/10 rounded-3xl border border-white/5 group-hover:scale-110 transition-transform duration-500">
@@ -277,7 +277,7 @@ export default function HomePage() {
                         {/* MCP Tool Tester */}
                         <Link
                             href="/tools/mcp-tester"
-                            className="group relative bg-white/[0.03] backdrop-blur-xl rounded-[2.5rem] p-8 border border-white/10 hover:bg-white/[0.06] hover:border-white/20 transition-all duration-500 shadow-2xl overflow-hidden"
+                            className="group relative bg-white/[0.03] backdrop-blur-xl rounded-[2.5rem] p-8 border border-white/[0.08] hover:bg-white/[0.06] hover:border-white/[0.15] transition-all duration-500 shadow-2xl overflow-hidden"
                         >
                             <div className="relative z-10 flex flex-col sm:flex-row items-start gap-6">
                                 <div className="p-5 bg-gradient-to-br from-blue-500/10 to-cyan-500/10 rounded-3xl border border-white/5 group-hover:scale-110 transition-transform duration-500">

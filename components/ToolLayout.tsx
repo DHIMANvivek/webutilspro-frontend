@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import AdPlacement from './AdPlacement';
 import { ChevronRight, Home, LayoutGrid } from 'lucide-react';
+import { generateBreadcrumb } from '@/lib/seo';
 
 interface ToolLayoutProps {
     title: string;
@@ -17,6 +18,18 @@ export default function ToolLayout({
     relatedTools = [],
     schema,
 }: ToolLayoutProps) {
+    const breadcrumbSchema = generateBreadcrumb([
+        { name: 'Home', url: '/' },
+        { name: 'Tools', url: '/#tools' },
+        { name: title, url: '#' },
+    ]);
+
+    const combinedSchema = Array.isArray(schema)
+        ? [breadcrumbSchema, ...schema]
+        : schema
+            ? [breadcrumbSchema, schema]
+            : breadcrumbSchema;
+
     return (
         <div className="min-h-screen gradient-bg selection:bg-blue-500/30">
             <div className="container-custom py-12 md:py-16">
@@ -57,7 +70,7 @@ export default function ToolLayout({
 
                 {/* Main Tool Content */}
                 <div className="mb-20 animate-fade-in" style={{ animationDelay: '0.4s', animationFillMode: 'both' }}>
-                    <div className="bg-white rounded-3xl border border-slate-200 shadow-xl shadow-slate-200/50 overflow-hidden">
+                    <div className="bg-white rounded-3xl border border-slate-200/80 shadow-xl shadow-slate-200/50 overflow-hidden">
                         {children}
                     </div>
                 </div>
@@ -69,7 +82,7 @@ export default function ToolLayout({
 
                 {/* Related Tools */}
                 {relatedTools.length > 0 && (
-                    <div className="mt-20 pt-12 border-t border-slate-200 animate-fade-in" style={{ animationDelay: '0.6s', animationFillMode: 'both' }}>
+                    <div className="mt-20 pt-12 border-t border-slate-200/60 animate-fade-in" style={{ animationDelay: '0.6s', animationFillMode: 'both' }}>
                         <h2 className="text-3xl font-black text-gray-900 mb-8 tracking-tight italic">
                             Keep Exploring
                         </h2>
@@ -91,10 +104,10 @@ export default function ToolLayout({
                 )}
 
                 {/* Schema Markup */}
-                {schema && (
+                {combinedSchema && (
                     <script
                         type="application/ld+json"
-                        dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+                        dangerouslySetInnerHTML={{ __html: JSON.stringify(combinedSchema) }}
                     />
                 )}
             </div>

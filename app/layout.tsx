@@ -32,18 +32,30 @@ export const metadata: Metadata = {
         index: true,
         follow: true,
     },
+    alternates: {
+        canonical: '/',
+    },
     openGraph: {
         type: 'website',
         locale: 'en_US',
         url: '/',
-        title: 'DevTools Hub - Free Developer Tools',
-        description: 'Access free developer tools to boost your productivity.',
-        siteName: 'DevTools Hub',
+        title: 'WebUtilsPro - Free Online Developer Tools',
+        description: 'Boost your productivity with professional-grade developer tools. Powered by AI, designed for speed.',
+        siteName: 'WebUtilsPro',
+        images: [
+            {
+                url: '/og-image.png',
+                width: 1200,
+                height: 630,
+                alt: 'WebUtilsPro Developer Tools',
+            },
+        ],
     },
     twitter: {
         card: 'summary_large_image',
-        title: 'WebUtilsPro - Free Developer Tools',
-        description: 'Access free developer tools to boost your productivity.',
+        title: 'WebUtilsPro - Free Online Developer Tools',
+        description: 'Professional utilities for modern developers. AI-powered and free to use.',
+        images: ['/og-image.png'],
     },
 };
 

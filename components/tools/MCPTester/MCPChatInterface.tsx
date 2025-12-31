@@ -124,7 +124,7 @@ export default function MCPChatInterface() {
     };
 
     return (
-        <div className="flex flex-col h-[650px] bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden transition-all hover:shadow-md">
+        <div className="flex flex-col h-[650px] bg-white rounded-xl shadow-sm border border-slate-200/60 overflow-hidden transition-all hover:shadow-md">
             {/* Header */}
             <div className="flex items-center justify-between p-5 border-b border-white/10 bg-gradient-to-r from-indigo-600 via-indigo-500 to-purple-600">
                 <div className="flex items-center gap-4">
@@ -225,7 +225,7 @@ export default function MCPChatInterface() {
 
             {/* Input */}
             <div className="p-5 bg-white border-t border-slate-100">
-                <div className="flex gap-3 bg-slate-50 p-1.5 rounded-2xl border border-slate-200 focus-within:ring-2 focus-within:ring-indigo-500 transition-all shadow-inner">
+                <div className="flex gap-3 bg-slate-50 p-1.5 rounded-2xl border border-slate-200/80 focus-within:ring-2 focus-within:ring-indigo-500 transition-all shadow-inner">
                     <input
                         ref={inputRef}
                         type="text"

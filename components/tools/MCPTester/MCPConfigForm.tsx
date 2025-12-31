@@ -52,7 +52,7 @@ export default function MCPConfigForm({ onConnect, onDisconnect, isConnected, is
     };
 
     return (
-        <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-8 transition-all hover:shadow-md">
+        <div className="bg-white rounded-xl shadow-sm border border-slate-200/60 p-8 transition-all hover:shadow-md">
             <div className="flex items-center justify-between mb-8">
                 <div className="flex items-center gap-4">
                     <div className="p-3 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl shadow-inner">
