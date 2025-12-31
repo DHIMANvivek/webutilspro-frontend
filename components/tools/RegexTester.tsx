@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import toast from 'react-hot-toast';
 
 interface Match {
     match: string;
@@ -250,7 +251,10 @@ export default function RegexTester() {
                             {replaced}
                         </div>
                         <button
-                            onClick={() => navigator.clipboard.writeText(replaced)}
+                            onClick={() => {
+                                navigator.clipboard.writeText(replaced);
+                                toast.success('Replaced text copied!');
+                            }}
                             className="btn-secondary text-sm mt-3"
                         >
                             📋 Copy Result

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import toast from 'react-hot-toast';
 import { XMLParser, XMLBuilder, XMLValidator } from 'fast-xml-parser';
 
 export default function XmlTools() {
@@ -14,7 +15,6 @@ export default function XmlTools() {
         try {
             const parser = new XMLParser({
                 ignoreAttributes: false,
-                format: true,
             });
             const parsed = parser.parse(xml);
 
@@ -80,6 +80,7 @@ export default function XmlTools() {
 
     const handleProcess = () => {
         if (!input.trim()) {
+            toast.error('Please enter XML to process');
             setError('Please enter XML to process');
             setOutput('');
             setIsValid(null);
@@ -93,6 +94,7 @@ export default function XmlTools() {
                 case 'format':
                     setOutput(formatXml(input));
                     setIsValid(true);
+                    toast.success('XML formatted successfully!');
                     break;
                 case 'validate':
                     const validation = validateXml(input);
@@ -102,14 +104,18 @@ export default function XmlTools() {
                 case 'minify':
                     setOutput(minifyXml(input));
                     setIsValid(true);
+                    toast.success('XML minified successfully!');
                     break;
                 case 'toJson':
                     setOutput(xmlToJson(input));
                     setIsValid(true);
+                    toast.success('Converted to JSON successfully!');
                     break;
             }
         } catch (e) {
-            setError(e instanceof Error ? e.message : 'Processing failed');
+            const msg = e instanceof Error ? e.message : 'Processing failed';
+            setError(msg);
+            toast.error(msg);
             setIsValid(false);
             setOutput('');
         }
@@ -117,6 +123,7 @@ export default function XmlTools() {
 
     const copyOutput = () => {
         navigator.clipboard.writeText(output);
+        toast.success('Copied to clipboard!');
     };
 
     const loadExample = () => {
@@ -163,8 +170,8 @@ export default function XmlTools() {
                                 key={option.value}
                                 onClick={() => setMode(option.value as any)}
                                 className={`px-4 py-2 rounded-lg font-medium transition-colors ${mode === option.value
-                                        ? 'bg-primary-600 text-white'
-                                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                                    ? 'bg-primary-600 text-white'
+                                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                                     }`}
                             >
                                 {option.label}
@@ -225,8 +232,8 @@ export default function XmlTools() {
                 {/* Validation Status */}
                 {isValid !== null && mode === 'validate' && (
                     <div className={`mt-4 p-4 rounded-lg border ${isValid
-                            ? 'bg-green-50 border-green-200'
-                            : 'bg-red-50 border-red-200'
+                        ? 'bg-green-50 border-green-200'
+                        : 'bg-red-50 border-red-200'
                         }`}>
                         <div className="flex items-center">
                             <span className="text-2xl mr-2">{isValid ? '✅' : '❌'}</span>

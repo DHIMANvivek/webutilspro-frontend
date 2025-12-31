@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import toast from 'react-hot-toast';
 
 const LOREM_WORDS = [
     'lorem', 'ipsum', 'dolor', 'sit', 'amet', 'consectetur', 'adipiscing', 'elit', 'sed', 'do',
@@ -62,10 +63,12 @@ export default function LoremIpsumGenerator() {
         }
 
         setGenerated(result);
+        toast.success(`Generated ${count} ${type}!`);
     };
 
     const copyText = () => {
         navigator.clipboard.writeText(generated);
+        toast.success('Lorem ipsum copied!');
     };
 
     return (

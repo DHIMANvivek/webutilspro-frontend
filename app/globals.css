@@ -33,28 +33,21 @@
 
   /* Clean Tool Card Design */
   .card {
-    @apply relative rounded-2xl p-6 transition-all duration-300;
-    background: white;
-    border: 1px solid rgba(226, 232, 240, 0.6);
-    /* border-slate-200/60 */
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    @apply relative rounded-2xl p-6 transition-all duration-300 bg-white border border-slate-200/60 shadow-sm;
+    background-clip: padding-box;
   }
 
   .dark .card {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    /* border-white/[0.08] */
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    @apply bg-white/[0.05] border-white/[0.08] shadow-lg;
+    background-clip: padding-box;
   }
 
   .card:hover {
-    border-color: rgb(59, 130, 246);
-    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
+    @apply border-blue-500 shadow-xl shadow-blue-500/10;
   }
 
   .dark .card:hover {
-    border-color: rgba(59, 130, 246, 0.5);
-    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
+    @apply border-blue-500/50 shadow-blue-500/20;
   }
 
   /* Clean Icon Container */
@@ -262,16 +255,13 @@
 
   /* Clean Panel Design */
   .glass-panel {
-    @apply rounded-xl;
-    background: white;
-    border: 1px solid rgb(226, 232, 240);
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    @apply rounded-xl bg-white border border-slate-200 shadow-sm;
+    background-clip: padding-box;
   }
 
   .dark .glass-panel {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    @apply bg-white/[0.05] border-white/[0.1] shadow-lg;
+    background-clip: padding-box;
   }
 }
 

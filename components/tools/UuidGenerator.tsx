@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
+import toast from 'react-hot-toast';
 
 export default function UuidGenerator() {
     const [uuids, setUuids] = useState<string[]>([]);
@@ -17,14 +18,17 @@ export default function UuidGenerator() {
             return uuid;
         });
         setUuids(newUuids);
+        toast.success(`Generated ${count} UUID${count > 1 ? 's' : ''}`);
     };
 
     const copyAll = () => {
         navigator.clipboard.writeText(uuids.join('\n'));
+        toast.success('All UUIDs copied to clipboard!');
     };
 
     const copyOne = (uuid: string) => {
         navigator.clipboard.writeText(uuid);
+        toast.success('UUID copied!');
     };
 
     return (

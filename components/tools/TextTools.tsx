@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import toast from 'react-hot-toast';
 
 export default function TextTools() {
     const [text, setText] = useState('');
@@ -22,19 +23,42 @@ export default function TextTools() {
         setStats({ characters, charactersNoSpaces, words, lines, sentences });
     }, [text]);
 
-    const convertToUpperCase = () => setText(text.toUpperCase());
-    const convertToLowerCase = () => setText(text.toLowerCase());
+    const convertToUpperCase = () => {
+        setText(text.toUpperCase());
+        toast.success('Converted to uppercase');
+    };
+    const convertToLowerCase = () => {
+        setText(text.toLowerCase());
+        toast.success('Converted to lowercase');
+    };
     const convertToTitleCase = () => {
         setText(text.replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()));
+        toast.success('Converted to title case');
     };
     const convertToSentenceCase = () => {
         setText(text.toLowerCase().replace(/(^\s*\w|[.!?]\s*\w)/g, (c) => c.toUpperCase()));
+        toast.success('Converted to sentence case');
     };
-    const removeExtraSpaces = () => setText(text.replace(/\s+/g, ' ').trim());
-    const removeAllSpaces = () => setText(text.replace(/\s/g, ''));
-    const removeLineBreaks = () => setText(text.replace(/\n/g, ' ').replace(/\s+/g, ' '));
-    const copyText = () => navigator.clipboard.writeText(text);
-    const clearText = () => setText('');
+    const removeExtraSpaces = () => {
+        setText(text.replace(/\s+/g, ' ').trim());
+        toast.success('Extra spaces removed');
+    };
+    const removeAllSpaces = () => {
+        setText(text.replace(/\s/g, ''));
+        toast.success('All spaces removed');
+    };
+    const removeLineBreaks = () => {
+        setText(text.replace(/\n/g, ' ').replace(/\s+/g, ' '));
+        toast.success('Line breaks removed');
+    };
+    const copyText = () => {
+        navigator.clipboard.writeText(text);
+        toast.success('Text copied!');
+    };
+    const clearText = () => {
+        setText('');
+        toast.success('Text cleared');
+    };
 
     return (
         <div className="space-y-4">

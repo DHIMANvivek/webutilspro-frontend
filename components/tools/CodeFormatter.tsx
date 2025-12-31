@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import toast from 'react-hot-toast';
 import * as prettier from 'prettier/standalone';
 import * as prettierPluginBabel from 'prettier/plugins/babel';
 import * as prettierPluginEstree from 'prettier/plugins/estree';
@@ -34,6 +35,7 @@ export default function CodeFormatter() {
 
     const formatCode = async () => {
         if (!code.trim()) {
+            toast.error('Please enter code to format');
             setError('Please enter code to format');
             setFormatted('');
             return;
@@ -64,7 +66,7 @@ export default function CodeFormatter() {
 
                 result = await prettier.format(code, {
                     parser: parserMap[language],
-                    plugins: [prettierPluginBabel, prettierPluginEstree, prettierPluginHtml, prettierPluginCss],
+                    plugins: [prettierPluginBabel, (prettierPluginEstree as any), prettierPluginHtml, prettierPluginCss],
                     tabWidth,
                     useTabs,
                     printWidth,
@@ -74,6 +76,7 @@ export default function CodeFormatter() {
             }
 
             setFormatted(result);
+            toast.success('Code formatted successfully!');
         } catch (e) {
             setError(e instanceof Error ? e.message : 'Failed to format code');
             setFormatted('');
@@ -84,6 +87,7 @@ export default function CodeFormatter() {
 
     const copyFormatted = () => {
         navigator.clipboard.writeText(formatted);
+        toast.success('Copied to clipboard!');
     };
 
     const downloadFormatted = () => {

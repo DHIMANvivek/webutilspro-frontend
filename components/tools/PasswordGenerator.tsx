@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import toast from 'react-hot-toast';
 
 export default function PasswordGenerator() {
     const [length, setLength] = useState(16);
@@ -28,6 +29,7 @@ export default function PasswordGenerator() {
             newPassword += charset.charAt(Math.floor(Math.random() * charset.length));
         }
         setPassword(newPassword);
+        toast.success('New password generated!');
     };
 
     const calculateStrength = (pwd: string) => {
@@ -57,6 +59,7 @@ export default function PasswordGenerator() {
 
     const copyPassword = () => {
         navigator.clipboard.writeText(password);
+        toast.success('Password copied to clipboard!');
     };
 
     return (

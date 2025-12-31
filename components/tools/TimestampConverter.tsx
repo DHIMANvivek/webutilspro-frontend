@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import toast from 'react-hot-toast';
 
 type ConversionMode = 'toTimestamp' | 'toDate';
 
@@ -16,12 +17,14 @@ export default function TimestampConverter() {
             const date = new Date(dateInput);
             if (isNaN(date.getTime())) {
                 setResult('Invalid date format');
+                toast.error('Invalid date format');
                 return;
             }
             const timestamp = Math.floor(date.getTime() / 1000);
             setResult(timestamp.toString());
         } catch (e) {
             setResult('Error converting date');
+            toast.error('Error converting date');
         }
     };
 
@@ -30,12 +33,14 @@ export default function TimestampConverter() {
             const timestamp = parseInt(timestampInput);
             if (isNaN(timestamp)) {
                 setResult('Invalid timestamp');
+                toast.error('Invalid timestamp');
                 return;
             }
             const date = new Date(timestamp * 1000);
             setResult(date.toISOString());
         } catch (e) {
             setResult('Error converting timestamp');
+            toast.error('Error converting timestamp');
         }
     };
 
@@ -58,6 +63,7 @@ export default function TimestampConverter() {
 
     const copyResult = () => {
         navigator.clipboard.writeText(result);
+        toast.success(`${mode === 'toTimestamp' ? 'Timestamp' : 'Date'} copied!`);
     };
 
     // Update current timestamp every second
@@ -88,8 +94,8 @@ export default function TimestampConverter() {
                         <button
                             onClick={() => setMode('toTimestamp')}
                             className={`px-4 py-2 rounded-md font-medium transition-colors ${mode === 'toTimestamp'
-                                    ? 'bg-white text-primary-600 shadow-sm'
-                                    : 'text-gray-600 hover:text-gray-900'
+                                ? 'bg-white text-primary-600 shadow-sm'
+                                : 'text-gray-600 hover:text-gray-900'
                                 }`}
                         >
                             Date → Timestamp
@@ -97,8 +103,8 @@ export default function TimestampConverter() {
                         <button
                             onClick={() => setMode('toDate')}
                             className={`px-4 py-2 rounded-md font-medium transition-colors ${mode === 'toDate'
-                                    ? 'bg-white text-primary-600 shadow-sm'
-                                    : 'text-gray-600 hover:text-gray-900'
+                                ? 'bg-white text-primary-600 shadow-sm'
+                                : 'text-gray-600 hover:text-gray-900'
                                 }`}
                         >
                             Timestamp → Date

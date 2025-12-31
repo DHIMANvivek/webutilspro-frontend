@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import toast from 'react-hot-toast';
 import CryptoJS from 'crypto-js';
 
 type HashAlgorithm = 'md5' | 'sha1' | 'sha256' | 'sha512';
@@ -17,6 +18,7 @@ export default function JwtHashTool() {
     // JWT Decoder
     const decodeJwt = () => {
         if (!jwtInput.trim()) {
+            toast.error('Please enter a JWT token');
             setJwtError('Please enter a JWT token');
             setDecodedJwt(null);
             return;
@@ -33,8 +35,10 @@ export default function JwtHashTool() {
 
             setDecodedJwt({ header, payload, signature: parts[2] });
             setJwtError('');
+            toast.success('JWT decoded successfully!');
         } catch (e) {
             setJwtError(e instanceof Error ? e.message : 'Failed to decode JWT');
+            toast.error(e instanceof Error ? e.message : 'Failed to decode JWT');
             setDecodedJwt(null);
         }
     };
@@ -72,11 +76,13 @@ export default function JwtHashTool() {
             setHashOutput(hashHex);
         } catch (e) {
             setHashOutput('Error generating hash');
+            toast.error('Error generating hash');
         }
     };
 
     const copyText = (text: string) => {
         navigator.clipboard.writeText(text);
+        toast.success('Copied to clipboard!');
     };
 
     const loadJwtExample = () => {

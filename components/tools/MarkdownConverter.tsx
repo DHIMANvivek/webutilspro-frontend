@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import toast from 'react-hot-toast';
 import { marked } from 'marked';
 
 export default function MarkdownConverter() {
@@ -41,6 +42,7 @@ export default function MarkdownConverter() {
 
     const copyToClipboard = () => {
         navigator.clipboard.writeText(html);
+        toast.success('HTML copied!');
     };
 
     const downloadHtml = () => {
@@ -200,8 +202,8 @@ That's it! Start writing your Markdown above.`);
                                 <button
                                     onClick={() => setShowPreview(true)}
                                     className={`px-3 py-1 text-sm rounded-md font-medium transition-colors ${showPreview
-                                            ? 'bg-white text-primary-600 shadow-sm'
-                                            : 'text-gray-600 hover:text-gray-900'
+                                        ? 'bg-white text-primary-600 shadow-sm'
+                                        : 'text-gray-600 hover:text-gray-900'
                                         }`}
                                 >
                                     Preview
@@ -209,8 +211,8 @@ That's it! Start writing your Markdown above.`);
                                 <button
                                     onClick={() => setShowPreview(false)}
                                     className={`px-3 py-1 text-sm rounded-md font-medium transition-colors ${!showPreview
-                                            ? 'bg-white text-primary-600 shadow-sm'
-                                            : 'text-gray-600 hover:text-gray-900'
+                                        ? 'bg-white text-primary-600 shadow-sm'
+                                        : 'text-gray-600 hover:text-gray-900'
                                         }`}
                                 >
                                     HTML Code

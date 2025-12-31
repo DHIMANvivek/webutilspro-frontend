@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import toast from 'react-hot-toast';
 
 export default function HtmlEncoder() {
     const [mode, setMode] = useState<'encode' | 'decode'>('encode');
@@ -55,8 +56,10 @@ export default function HtmlEncoder() {
 
         if (mode === 'encode') {
             setOutput(encodeHtml(input));
+            toast.success('Encoded successfully!');
         } else {
             setOutput(decodeHtml(input));
+            toast.success('Decoded successfully!');
         }
     };
 
@@ -66,10 +69,12 @@ export default function HtmlEncoder() {
             return;
         }
         setOutput(stripHtmlTags(input));
+        toast.success('HTML tags stripped!');
     };
 
     const copyOutput = () => {
         navigator.clipboard.writeText(output);
+        toast.success('Copied to clipboard!');
     };
 
     const loadExample = () => {
@@ -95,8 +100,8 @@ export default function HtmlEncoder() {
                                 setOutput('');
                             }}
                             className={`px-4 py-2 rounded-md font-medium transition-colors ${mode === 'encode'
-                                    ? 'bg-white text-primary-600 shadow-sm'
-                                    : 'text-gray-600 hover:text-gray-900'
+                                ? 'bg-white text-primary-600 shadow-sm'
+                                : 'text-gray-600 hover:text-gray-900'
                                 }`}
                         >
                             Encode
@@ -108,8 +113,8 @@ export default function HtmlEncoder() {
                                 setOutput('');
                             }}
                             className={`px-4 py-2 rounded-md font-medium transition-colors ${mode === 'decode'
-                                    ? 'bg-white text-primary-600 shadow-sm'
-                                    : 'text-gray-600 hover:text-gray-900'
+                                ? 'bg-white text-primary-600 shadow-sm'
+                                : 'text-gray-600 hover:text-gray-900'
                                 }`}
                         >
                             Decode

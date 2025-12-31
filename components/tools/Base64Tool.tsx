@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import toast from 'react-hot-toast';
 
 type Mode = 'encode' | 'decode';
 type InputType = 'text' | 'file';
@@ -20,7 +21,9 @@ export default function Base64Tool() {
             setOutput(encoded);
             setError('');
         } catch (e) {
-            setError('Failed to encode. Make sure your text contains only valid characters.');
+            const msg = 'Failed to encode. Make sure your text contains only valid characters.';
+            setError(msg);
+            toast.error(msg);
             setOutput('');
         }
     };
@@ -31,7 +34,9 @@ export default function Base64Tool() {
             setOutput(decoded);
             setError('');
         } catch (e) {
-            setError('Invalid Base64 string. Please check your input.');
+            const msg = 'Invalid Base64 string. Please check your input.';
+            setError(msg);
+            toast.error(msg);
             setOutput('');
         }
     };
@@ -57,6 +62,7 @@ export default function Base64Tool() {
             reader.readAsDataURL(file);
         } catch (e) {
             setError('Failed to read file');
+            toast.error('Failed to read file');
         }
     };
 
@@ -76,6 +82,7 @@ export default function Base64Tool() {
 
     const copyOutput = () => {
         navigator.clipboard.writeText(output);
+        toast.success('Copied to clipboard!');
     };
 
     const downloadOutput = () => {
@@ -96,6 +103,7 @@ export default function Base64Tool() {
                 URL.revokeObjectURL(url);
             } catch (e) {
                 setError('Failed to download file');
+                toast.error('Failed to download file');
             }
         } else {
             // Download as text
@@ -147,8 +155,8 @@ export default function Base64Tool() {
                                 setError('');
                             }}
                             className={`px-4 py-2 rounded-md font-medium transition-colors ${mode === 'encode'
-                                    ? 'bg-white text-primary-600 shadow-sm'
-                                    : 'text-gray-600 hover:text-gray-900'
+                                ? 'bg-white text-primary-600 shadow-sm'
+                                : 'text-gray-600 hover:text-gray-900'
                                 }`}
                         >
                             Encode
@@ -161,8 +169,8 @@ export default function Base64Tool() {
                                 setError('');
                             }}
                             className={`px-4 py-2 rounded-md font-medium transition-colors ${mode === 'decode'
-                                    ? 'bg-white text-primary-600 shadow-sm'
-                                    : 'text-gray-600 hover:text-gray-900'
+                                ? 'bg-white text-primary-600 shadow-sm'
+                                : 'text-gray-600 hover:text-gray-900'
                                 }`}
                         >
                             Decode
@@ -308,7 +316,10 @@ export default function Base64Tool() {
                                 className="input-field font-mono text-xs flex-1"
                             />
                             <button
-                                onClick={() => navigator.clipboard.writeText(dataURI)}
+                                onClick={() => {
+                                    navigator.clipboard.writeText(dataURI);
+                                    toast.success('Data URI copied!');
+                                }}
                                 className="btn-secondary text-sm"
                             >
                                 Copy

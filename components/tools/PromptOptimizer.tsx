@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import toast from 'react-hot-toast';
 
 interface PromptOptimization {
     optimizedPrompt: string;
@@ -32,6 +33,7 @@ export default function PromptOptimizer() {
 
     const handleSubmit = async () => {
         if (!prompt.trim()) {
+            toast.error('Please enter a prompt');
             setError('Please enter a prompt');
             return;
         }
@@ -55,15 +57,19 @@ export default function PromptOptimizer() {
             const data = await response.json();
 
             if (!response.ok) {
-                setError(data.error || data.message || 'Failed to optimize prompt');
+                const msg = data.error || data.message || 'Failed to optimize prompt';
+                setError(msg);
+                toast.error(msg);
                 return;
             }
 
             setResult(data.data);
             setRemaining(data.remaining);
             setIsPlaceholder(data.isPlaceholder || false);
+            toast.success('Prompt optimized successfully!');
         } catch (err) {
             setError('Failed to connect to the server');
+            toast.error('Failed to connect to the server');
         } finally {
             setLoading(false);
         }
@@ -72,6 +78,7 @@ export default function PromptOptimizer() {
     const copyOptimized = () => {
         if (result) {
             navigator.clipboard.writeText(result.optimizedPrompt);
+            toast.success('Optimized prompt copied!');
         }
     };
 

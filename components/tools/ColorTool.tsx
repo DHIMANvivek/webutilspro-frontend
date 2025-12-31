@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import toast from 'react-hot-toast';
 
 export default function ColorTool() {
     const [color, setColor] = useState('#3b82f6');
@@ -59,6 +60,7 @@ export default function ColorTool() {
 
     const copyToClipboard = (text: string) => {
         navigator.clipboard.writeText(text);
+        toast.success('Color value copied!');
     };
 
     return (

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import toast from 'react-hot-toast';
 
 type MinifyType = 'javascript' | 'css' | 'html';
 
@@ -80,6 +81,7 @@ export default function Minifier() {
                     minified = minifyHTML(input);
                     break;
             }
+            toast.success(`${type.charAt(0).toUpperCase() + type.slice(1)} minified!`);
 
             setOutput(minified);
 
@@ -93,7 +95,9 @@ export default function Minifier() {
                 reduction: reduction,
             });
         } catch (e) {
-            setError(e instanceof Error ? e.message : 'Minification failed');
+            const msg = e instanceof Error ? e.message : 'Minification failed';
+            setError(msg);
+            toast.error(msg);
             setOutput('');
         }
     };
@@ -130,10 +134,12 @@ export default function Minifier() {
         }
 
         setOutput(beautified);
+        toast.success('Beautified successfully!');
     };
 
     const copyOutput = () => {
         navigator.clipboard.writeText(output);
+        toast.success('Copied to clipboard!');
     };
 
     const downloadOutput = () => {
@@ -214,8 +220,8 @@ body {
                                 key={t}
                                 onClick={() => setType(t)}
                                 className={`flex-1 px-4 py-2 rounded-md font-medium transition-colors capitalize ${type === t
-                                        ? 'bg-white text-primary-600 shadow-sm'
-                                        : 'text-gray-600 hover:text-gray-900'
+                                    ? 'bg-white text-primary-600 shadow-sm'
+                                    : 'text-gray-600 hover:text-gray-900'
                                     }`}
                             >
                                 {t}

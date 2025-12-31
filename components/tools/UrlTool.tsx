@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import toast from 'react-hot-toast';
 
 type Mode = 'encode' | 'decode';
 
@@ -28,6 +29,7 @@ export default function UrlTool() {
 
     const copyOutput = () => {
         navigator.clipboard.writeText(output);
+        toast.success('Copied to clipboard!');
     };
 
     const loadExample = () => {
@@ -73,8 +75,8 @@ export default function UrlTool() {
                                 setOutput('');
                             }}
                             className={`px-4 py-2 rounded-md font-medium transition-colors ${mode === 'encode'
-                                    ? 'bg-white text-primary-600 shadow-sm'
-                                    : 'text-gray-600 hover:text-gray-900'
+                                ? 'bg-white text-primary-600 shadow-sm'
+                                : 'text-gray-600 hover:text-gray-900'
                                 }`}
                         >
                             Encode
@@ -86,8 +88,8 @@ export default function UrlTool() {
                                 setOutput('');
                             }}
                             className={`px-4 py-2 rounded-md font-medium transition-colors ${mode === 'decode'
-                                    ? 'bg-white text-primary-600 shadow-sm'
-                                    : 'text-gray-600 hover:text-gray-900'
+                                ? 'bg-white text-primary-600 shadow-sm'
+                                : 'text-gray-600 hover:text-gray-900'
                                 }`}
                         >
                             Decode
