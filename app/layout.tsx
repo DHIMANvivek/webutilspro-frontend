@@ -7,6 +7,8 @@ import CommandPalette from '@/components/CommandPalette';
 import ToasterProvider from '@/components/ToasterProvider';
 import CustomCursor from '@/components/CustomCursor';
 import SmartErrorBoundary from '@/components/SmartErrorBoundary';
+import ProductTour from '@/components/ProductTour';
+import ToolsShowcase from '@/components/ToolsShowcase';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -94,6 +96,8 @@ export default function RootLayout({
                         <ToasterProvider />
                         <Header />
                         <CommandPalette />
+                        <ProductTour />
+                        <ToolsShowcase />
                         <main className="min-h-screen">
                             {children}
                         </main>
