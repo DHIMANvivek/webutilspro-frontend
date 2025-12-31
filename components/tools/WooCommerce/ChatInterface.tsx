@@ -1,7 +1,8 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { Send, Bot, User, Loader2, Sparkles } from 'lucide-react';
+import { Send, Bot, User, Loader2, Sparkles, CheckCircle2 } from 'lucide-react';
+import MarkdownViewer from '../../MarkdownViewer';
 
 interface Message {
     id: string;
@@ -25,6 +26,7 @@ interface ChatInterfaceProps {
 }
 
 export default function ChatInterface({ onClose }: ChatInterfaceProps) {
+    // ... rest of the state ...
     const [messages, setMessages] = useState<Message[]>([
         {
             id: '1',
@@ -33,6 +35,31 @@ export default function ChatInterface({ onClose }: ChatInterfaceProps) {
             timestamp: new Date()
         }
     ]);
+
+    // Helper to format data for display
+    const formatDataForDisplay = (data: any) => {
+        if (!data) return null;
+        if (typeof data === 'string') return data;
+
+        // Handle MCP content array
+        if (data.content && Array.isArray(data.content)) {
+            return data.content
+                .filter((item: any) => item.type === 'text')
+                .map((item: any) => item.text)
+                .join('\n\n');
+        }
+
+        // Handle WooCommerce arrays (products/orders)
+        if (Array.isArray(data)) {
+            if (data.length === 0) return '_No results found._';
+
+            // Just show a cleaner JSON or a simple list
+            return '```json\n' + JSON.stringify(data.slice(0, 5), null, 2) + (data.length > 5 ? '\n... and more' : '') + '\n```';
+        }
+
+        return JSON.stringify(data, null, 2);
+    };
+
     const [input, setInput] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const messagesContainerRef = useRef<HTMLDivElement>(null);
@@ -219,12 +246,30 @@ export default function ChatInterface({ onClose }: ChatInterfaceProps) {
                             <div
                                 className={`max-w-[80%] rounded-lg px-4 py-2 ${message.role === 'user'
                                     ? 'bg-blue-500 text-white'
-                                    : 'bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100'
+                                    : 'bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100 shadow-sm'
                                     }`}
                             >
-                                <p className="whitespace-pre-wrap text-sm">{message.content}</p>
+                                <div className="text-sm">
+                                    {message.role === 'assistant' ? (
+                                        <MarkdownViewer content={message.content} />
+                                    ) : (
+                                        <p className="whitespace-pre-wrap">{message.content}</p>
+                                    )}
+                                </div>
+
                                 {message.intent && (
-                                    <p className="text-xs opacity-60 mt-1">Intent: {message.intent}</p>
+                                    <div className="mt-2 pt-2 border-t border-gray-200 dark:border-gray-700">
+                                        <div className="flex items-center gap-2 mb-1 text-green-600 dark:text-green-400 font-medium text-[10px]">
+                                            <CheckCircle2 className="w-3 h-3" />
+                                            <span>Intent: {message.intent}</span>
+                                        </div>
+
+                                        {message.data && (
+                                            <div className="mt-2 bg-white dark:bg-gray-950 rounded-md p-2 border border-gray-200 dark:border-gray-800">
+                                                <MarkdownViewer content={formatDataForDisplay(message.data) || ''} />
+                                            </div>
+                                        )}
+                                    </div>
                                 )}
                             </div>
 

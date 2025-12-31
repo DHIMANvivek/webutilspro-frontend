@@ -1,7 +1,8 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { Send, Bot, User, Loader2, Code2 } from 'lucide-react';
+import { Send, Bot, User, Loader2, Code2, CheckCircle2 } from 'lucide-react';
+import MarkdownViewer from '../../MarkdownViewer';
 
 interface Message {
     id: string;
@@ -14,6 +15,7 @@ interface Message {
 }
 
 export default function MCPChatInterface() {
+    // ... rest of the state ...
     const [messages, setMessages] = useState<Message[]>([
         {
             id: '1',
@@ -22,7 +24,26 @@ export default function MCPChatInterface() {
             timestamp: new Date()
         }
     ]);
+
+    // Helpers to extract text from MCP data
+    const extractMcpText = (data: any) => {
+        if (!data) return null;
+        if (typeof data === 'string') return data;
+
+        // Handle MCP content array
+        if (data.content && Array.isArray(data.content)) {
+            return data.content
+                .filter((item: any) => item.type === 'text')
+                .map((item: any) => item.text)
+                .join('\n\n');
+        }
+
+        // Fallback to JSON if it's not a standard text-based result
+        return JSON.stringify(data, null, 2);
+    };
+
     const [input, setInput] = useState('');
+    // ... rest of the component until return ...
     const [isLoading, setIsLoading] = useState(false);
     const messagesContainerRef = useRef<HTMLDivElement>(null);
     const inputRef = useRef<HTMLInputElement>(null);
@@ -133,17 +154,42 @@ export default function MCPChatInterface() {
                             <div
                                 className={`max-w-[80%] rounded-lg px-4 py-2 ${message.role === 'user'
                                     ? 'bg-purple-500 text-white'
-                                    : 'bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100'
+                                    : 'bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100 shadow-sm'
                                     }`}
                             >
-                                <p className="whitespace-pre-wrap text-sm">{message.content}</p>
+                                <div className="text-sm">
+                                    {message.role === 'assistant' ? (
+                                        <MarkdownViewer content={message.content} />
+                                    ) : (
+                                        <p className="whitespace-pre-wrap">{message.content}</p>
+                                    )}
+                                </div>
+
+                                {/* Tool Execution Header */}
                                 {message.toolName && (
-                                    <div className="mt-2 pt-2 border-t border-gray-300 dark:border-gray-600">
-                                        <p className="text-xs opacity-70">Tool: <code>{message.toolName}</code></p>
+                                    <div className="mt-3 pt-3 border-t border-gray-200 dark:border-gray-700">
+                                        <div className="flex items-center gap-2 mb-2 text-green-600 dark:text-green-400 font-medium text-xs">
+                                            <CheckCircle2 className="w-4 h-4" />
+                                            <span>Executed "{message.toolName}"</span>
+                                        </div>
+
+                                        {/* Arguments (if any) */}
                                         {message.arguments && Object.keys(message.arguments).length > 0 && (
-                                            <pre className="text-xs mt-1 opacity-70 overflow-x-auto">
-                                                {JSON.stringify(message.arguments, null, 2)}
-                                            </pre>
+                                            <details className="mb-2">
+                                                <summary className="text-[10px] opacity-60 cursor-pointer hover:opacity-100 transition-opacity">
+                                                    Show arguments
+                                                </summary>
+                                                <pre className="text-[10px] mt-1 p-2 bg-gray-200 dark:bg-gray-900 rounded-md overflow-x-auto opacity-70">
+                                                    {JSON.stringify(message.arguments, null, 2)}
+                                                </pre>
+                                            </details>
+                                        )}
+
+                                        {/* Tool Result Data */}
+                                        {message.data && (
+                                            <div className="mt-2 bg-white dark:bg-gray-950 rounded-md p-3 border border-gray-200 dark:border-gray-800">
+                                                <MarkdownViewer content={extractMcpText(message.data) || ''} />
+                                            </div>
                                         )}
                                     </div>
                                 )}
