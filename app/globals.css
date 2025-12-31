@@ -311,9 +311,9 @@
   border-radius: 50%;
   pointer-events: none;
   z-index: 9999;
-  transition: transform 0.1s ease-out, background-color 0.3s ease, width 0.3s ease, height 0.3s ease;
-  margin-left: -4px;
-  margin-top: -4px;
+  transition: background-color 0.3s ease, width 0.3s ease, height 0.3s ease;
+  transform: translate3d(calc(var(--cursor-x, 0px) - 4px), calc(var(--cursor-y, 0px) - 4px), 0);
+  will-change: transform;
 }
 
 .custom-cursor-ring {
@@ -326,9 +326,9 @@
   border-radius: 50%;
   pointer-events: none;
   z-index: 9998;
-  transition: transform 0.15s ease-out, border 0.3s ease, width 0.3s ease, height 0.3s ease, background-color 0.3s ease;
-  margin-left: -20px;
-  margin-top: -20px;
+  transition: border 0.3s ease, width 0.3s ease, height 0.3s ease, background-color 0.3s ease, transform 0.15s ease-out;
+  transform: translate3d(calc(var(--cursor-x, 0px) - 20px), calc(var(--cursor-y, 0px) - 20px), 0);
+  will-change: transform;
 }
 
 /* Pointer State */
@@ -337,8 +337,7 @@
   height: 12px;
   background-color: #9333ea;
   /* Purple dot on hover */
-  margin-left: -6px;
-  margin-top: -6px;
+  transform: translate3d(calc(var(--cursor-x, 0px) - 6px), calc(var(--cursor-y, 0px) - 6px), 0);
 }
 
 .custom-cursor-ring.pointer {
@@ -347,14 +346,17 @@
   border: 2px solid rgba(147, 51, 234, 0.4);
   background-color: rgba(147, 51, 234, 0.05);
   /* Subtle purple glow */
-  margin-left: -30px;
-  margin-top: -30px;
+  transform: translate3d(calc(var(--cursor-x, 0px) - 30px), calc(var(--cursor-y, 0px) - 30px), 0);
 }
 
 /* Clicking State */
 .custom-cursor-ring.clicking {
-  transform: scale(0.8) !important;
+  transform: translate3d(calc(var(--cursor-x, 0px) - 20px), calc(var(--cursor-y, 0px) - 20px), 0) scale(0.8);
   background-color: rgba(59, 130, 246, 0.2);
+}
+
+.custom-cursor-ring.clicking.pointer {
+  transform: translate3d(calc(var(--cursor-x, 0px) - 30px), calc(var(--cursor-y, 0px) - 30px), 0) scale(0.8);
 }
 
 /* Hidden State */

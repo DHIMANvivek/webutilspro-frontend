@@ -49,21 +49,15 @@ export default function CustomCursor() {
     if (typeof window === 'undefined') return null;
 
     return (
-        <>
+        <div style={{ '--cursor-x': `${position.x}px`, '--cursor-y': `${position.y}px` } as React.CSSProperties}>
             {/* The Outer Ring */}
             <div
                 className={`custom-cursor-ring ${isPointer ? 'pointer' : ''} ${isClicking ? 'clicking' : ''} ${isHidden ? 'hidden' : ''}`}
-                style={{
-                    transform: `translate3d(${position.x}px, ${position.y}px, 0)`,
-                }}
             />
             {/* The Inner Dot */}
             <div
                 className={`custom-cursor-dot ${isPointer ? 'pointer' : ''} ${isHidden ? 'hidden' : ''}`}
-                style={{
-                    transform: `translate3d(${position.x}px, ${position.y}px, 0)`,
-                }}
             />
-        </>
+        </div>
     );
 }
