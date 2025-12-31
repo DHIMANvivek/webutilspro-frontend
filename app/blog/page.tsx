@@ -18,11 +18,10 @@ interface BlogPost {
 export default function BlogIndex() {
     const [posts, setPosts] = useState<BlogPost[]>([]);
     const [isLoading, setIsLoading] = useState(true);
-    const [isGenerating, setIsGenerating] = useState(false);
 
     const fetchPosts = async () => {
         try {
-            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/api/blog`);
+            const response = await fetch('/api/blog');
             const data = await response.json();
             setPosts(data);
         } catch (error) {
@@ -37,25 +36,6 @@ export default function BlogIndex() {
         fetchPosts();
     }, []);
 
-    const generatePost = async () => {
-        setIsGenerating(true);
-        try {
-            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/api/blog/generate`, {
-                method: 'POST'
-            });
-            if (response.ok) {
-                toast.success('AI generated a new post!');
-                fetchPosts();
-            } else {
-                throw new Error('Generation failed');
-            }
-        } catch (error) {
-            toast.error('AI generation failed. Please try again.');
-        } finally {
-            setIsGenerating(false);
-        }
-    };
-
     return (
         <div className="min-h-screen gradient-bg pt-20 pb-12">
             <div className="container-custom">
@@ -69,18 +49,6 @@ export default function BlogIndex() {
                             Deep dives into modern development, tool optimizations, and productivity hacks.
                         </p>
                     </div>
-                    <button
-                        onClick={generatePost}
-                        disabled={isGenerating}
-                        className="btn-primary flex items-center gap-2 group whitespace-nowrap"
-                    >
-                        {isGenerating ? (
-                            <RefreshCw className="w-5 h-5 animate-spin" />
-                        ) : (
-                            <Sparkles className="w-5 h-5 group-hover:animate-pulse" />
-                        )}
-                        {isGenerating ? 'AI Writing...' : 'Generate AI Post'}
-                    </button>
                 </div>
 
                 {isLoading ? (
@@ -128,7 +96,7 @@ export default function BlogIndex() {
                             <Sparkles className="w-10 h-10 text-blue-600" />
                         </div>
                         <h2 className="text-2xl font-bold text-gray-900 mb-2">No articles yet</h2>
-                        <p className="text-gray-500 mb-8">Click the button above to let AI write your first article!</p>
+                        <p className="text-gray-500 mb-8">Our AI is currently drafting new insights for you. Check back soon!</p>
                     </div>
                 )}
             </div>

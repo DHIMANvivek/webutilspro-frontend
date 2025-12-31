@@ -25,7 +25,7 @@ export default function BlogPostPage() {
     useEffect(() => {
         const fetchPost = async () => {
             try {
-                const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/api/blog/${slug}`);
+                const response = await fetch(`/api/blog/${slug}`);
                 if (!response.ok) throw new Error('Post not found');
                 const data = await response.json();
                 setPost(data);

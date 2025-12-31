@@ -158,8 +158,8 @@ export default function PrivacyPage() {
                             <h2 className="text-2xl font-bold text-gray-900 mb-3">11. Contact Us</h2>
                             <p className="text-gray-600">
                                 If you have any questions about this Privacy Policy, please contact us at{' '}
-                                <a href="mailto:privacy@webutilspro.com" className="text-primary-600 hover:text-primary-700">
-                                    privacy@webutilspro.com
+                                <a href="mailto:support@webutilspro.com" className="text-primary-600 hover:text-primary-700">
+                                    support@webutilspro.com
                                 </a>{' '}
                                 or visit our <a href="/contact" className="text-primary-600 hover:text-primary-700">contact page</a>.
                             </p>
