@@ -110,7 +110,7 @@ export default function DiffChecker() {
         });
 
         return (
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="bg-red-50 border border-red-200 rounded-lg p-4">
                     <h4 className="text-sm font-semibold text-red-900 mb-2">Original</h4>
                     <div className="text-sm text-red-800 whitespace-pre-wrap font-mono">

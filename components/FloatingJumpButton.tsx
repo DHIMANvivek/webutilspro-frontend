@@ -82,22 +82,22 @@ export default function FloatingJumpButton() {
 
     return (
         <div
-            className={`fixed bottom-8 left-1/2 -translate-x-1/2 z-40 transition-all duration-700 ${shouldShow ? 'translate-y-0 opacity-100' : 'translate-y-20 opacity-0 pointer-events-none'
+            className={`fixed bottom-6 md:bottom-8 left-1/2 -translate-x-1/2 z-40 transition-all duration-700 ${shouldShow ? 'translate-y-0 opacity-100' : 'translate-y-20 opacity-0 pointer-events-none'
                 }`}
         >
             <button
                 onClick={scrollToTarget}
-                className="group relative flex items-center gap-3 px-6 py-4 bg-slate-900/90 hover:bg-blue-600 border border-white/10 hover:border-blue-400 rounded-full shadow-[0_20px_50px_rgba(0,0,0,0.3)] backdrop-blur-xl transition-all duration-500 hover:scale-110 active:scale-95"
+                className="group relative flex items-center gap-2 md:gap-3 px-4 py-3 md:px-6 md:py-4 bg-slate-900/90 hover:bg-blue-600 border border-white/10 hover:border-blue-400 rounded-full shadow-[0_20px_50px_rgba(0,0,0,0.3)] backdrop-blur-xl transition-all duration-500 hover:scale-110 active:scale-95"
             >
                 {/* Background Glow */}
                 <div className="absolute inset-0 rounded-full bg-blue-500/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity" />
 
-                <div className="relative flex items-center gap-3">
-                    <span className="text-[10px] font-black uppercase tracking-[0.2em] text-blue-400 group-hover:text-white transition-colors whitespace-nowrap">
+                <div className="relative flex items-center gap-2 md:gap-3">
+                    <span className="text-[9px] md:text-[10px] font-black uppercase tracking-[0.2em] text-blue-400 group-hover:text-white transition-colors whitespace-nowrap">
                         {isHomepage ? 'Explore All Tools' : `Use ${toolName}`}
                     </span>
                     <div className="p-1 bg-white/5 group-hover:bg-white/20 rounded-full transition-colors animate-bounce">
-                        <ArrowDown className="w-4 h-4 text-white" />
+                        <ArrowDown className="w-3.5 h-3.5 md:w-4 md:h-4 text-white" />
                     </div>
                 </div>
 

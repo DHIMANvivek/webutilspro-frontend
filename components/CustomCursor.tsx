@@ -9,8 +9,14 @@ export default function CustomCursor() {
     const [isClicking, setIsClicking] = useState(false);
     const [isMounted, setIsMounted] = useState(false);
 
+    const [isTouch, setIsTouch] = useState(false);
+
     useEffect(() => {
         setIsMounted(true);
+        setIsTouch('ontouchstart' in window || navigator.maxTouchPoints > 0);
+
+        if ('ontouchstart' in window || navigator.maxTouchPoints > 0) return;
+
         const onMouseMove = (e: MouseEvent) => {
             setPosition({ x: e.clientX, y: e.clientY });
             setIsHidden(false);
@@ -48,7 +54,7 @@ export default function CustomCursor() {
         };
     }, []);
 
-    if (!isMounted) return null;
+    if (!isMounted || isTouch) return null;
 
     return (
         <div style={{ '--cursor-x': `${position.x}px`, '--cursor-y': `${position.y}px` } as React.CSSProperties}>

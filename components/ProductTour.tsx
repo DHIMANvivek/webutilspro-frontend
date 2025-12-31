@@ -58,10 +58,15 @@ export default function ProductTour({ isOpen, onClose }: ProductTourProps) {
     const [step, setStep] = useState(0);
     const [spotlight, setSpotlight] = useState<{ top: number; left: number; width: number; height: number } | null>(null);
     const [isMounted, setIsMounted] = useState(false);
+    const [isMobile, setIsMobile] = useState(false);
     const tourRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         setIsMounted(true);
+        const checkMobile = () => setIsMobile(window.innerWidth < 768);
+        checkMobile();
+        window.addEventListener('resize', checkMobile);
+        return () => window.removeEventListener('resize', checkMobile);
     }, []);
 
     useEffect(() => {
@@ -142,13 +147,19 @@ export default function ProductTour({ isOpen, onClose }: ProductTourProps) {
 
             {/* Tooltip Card */}
             <div
-                className={`absolute pointer-events-auto transition-all duration-500 ease-out z-[101] w-full max-w-sm`}
-                style={spotlight ? {
-                    top: currentStep.position === 'bottom' ? spotlight.top + spotlight.height + 20 :
-                        currentStep.position === 'top' ? spotlight.top - 320 : '50%',
-                    left: spotlight.left + (spotlight.width / 2),
-                    transform: `translateX(-50%) ${!spotlight ? 'translateY(-50%)' : ''}`,
-                } : {
+                className={`absolute pointer-events-auto transition-all duration-500 ease-out z-[101] w-[calc(100%-2rem)] md:w-full max-w-sm`}
+                style={spotlight ? (
+                    isMobile ? {
+                        bottom: '2rem',
+                        left: '50%',
+                        transform: 'translateX(-50%)'
+                    } : {
+                        top: currentStep.position === 'bottom' ? spotlight.top + spotlight.height + 20 :
+                            currentStep.position === 'top' ? spotlight.top - 320 : '50%',
+                        left: spotlight.left + (spotlight.width / 2),
+                        transform: `translateX(-50%) ${!spotlight ? 'translateY(-50%)' : ''}`,
+                    }
+                ) : {
                     top: '50%',
                     left: '50%',
                     transform: 'translate(-50%, -50%)'

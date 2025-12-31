@@ -263,7 +263,7 @@ export default function ToolsShowcase() {
         return (
             <button
                 onClick={() => setIsMinimized(false)}
-                className="fixed bottom-6 left-6 z-40 p-3 bg-slate-900/90 border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl hover:scale-110 transition-all group"
+                className="fixed bottom-6 left-6 z-40 p-3 bg-slate-900/90 border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl hover:scale-110 transition-all group hidden md:block"
             >
                 <Maximize2 className="w-5 h-5 text-blue-400 group-hover:text-white transition-colors" />
             </button>
@@ -273,7 +273,7 @@ export default function ToolsShowcase() {
     if (!shouldDisplay) return null;
 
     return (
-        <div className="fixed bottom-6 left-6 z-40 w-72 animate-in slide-in-from-left fade-in duration-700">
+        <div className="fixed bottom-6 left-6 z-40 w-72 animate-in slide-in-from-left fade-in duration-700 hidden md:block">
             <div className="relative group bg-slate-900/90 border border-white/10 rounded-2xl shadow-2xl overflow-hidden backdrop-blur-xl">
                 {/* Header */}
                 <div className="flex items-center justify-between p-3 border-b border-white/5 bg-white/5">

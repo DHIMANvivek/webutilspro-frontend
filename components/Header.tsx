@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
-import { ChevronDown, Menu, X, Rocket, Code, FileText, Database, Shield, Palette, Layout, Wrench, ShoppingCart, Search } from 'lucide-react';
+import { ChevronDown, Menu, X, Rocket, Code, FileText, Database, Shield, Palette, Layout, Wrench, ShoppingCart, Search, Sparkles, Zap } from 'lucide-react';
 import ReportIssueLink from './ReportIssueLink';
 
 export default function Header() {
@@ -161,217 +161,89 @@ export default function Header() {
                         </div>
                     </div>
 
-                    {/* Mobile Menu Button */}
-                    <button
-                        onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                        className="md:hidden p-2 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
-                    >
-                        {mobileMenuOpen ? (
-                            <X className="w-6 h-6" />
-                        ) : (
-                            <Menu className="w-6 h-6" />
-                        )}
-                    </button>
+                    {/* Mobile Buttons */}
+                    <div className="flex items-center gap-2 md:hidden">
+                        <button
+                            onClick={() => window.dispatchEvent(new KeyboardEvent('keydown', { key: 'k', metaKey: true }))}
+                            className="p-2 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
+                            aria-label="Search Tools"
+                        >
+                            <Search className="w-5 h-5" />
+                        </button>
+                        <button
+                            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                            className="p-2 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
+                        >
+                            {mobileMenuOpen ? (
+                                <X className="w-6 h-6" />
+                            ) : (
+                                <Menu className="w-6 h-6" />
+                            )}
+                        </button>
+                    </div>
                 </div>
 
                 {/* Mobile Menu */}
                 {mobileMenuOpen && (
-                    <div className="md:hidden mt-4 pb-4 border-t border-gray-200 pt-4">
-                        <div className="flex flex-col space-y-4">
-                            <Link
-                                href="/"
-                                className="text-gray-700 hover:text-primary-600 transition-colors font-medium"
-                                onClick={() => setMobileMenuOpen(false)}
-                            >
-                                Home
-                            </Link>
-                            <div className="pl-4 space-y-2">
-                                <p className="text-sm font-semibold text-gray-500 uppercase">Tools</p>
-                                <Link
-                                    href="/tools/regex-tester"
-                                    className="block text-gray-700 hover:text-primary-600 transition-colors"
-                                    onClick={() => setMobileMenuOpen(false)}
-                                >
-                                    Regex Tester
+                    <div className="md:hidden fixed inset-0 top-[73px] bg-white z-50 overflow-y-auto px-6 py-8 animate-in slide-in-from-right duration-300">
+                        <div className="space-y-8">
+                            {/* Main Links */}
+                            <div className="grid grid-cols-2 gap-4">
+                                <Link href="/" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-3 p-4 bg-slate-50 rounded-2xl text-gray-900 font-bold hover:bg-blue-50 hover:text-blue-600 transition-all">
+                                    <Rocket className="w-5 h-5 text-blue-500" /> Home
                                 </Link>
-                                <Link
-                                    href="/tools/json-to-csv"
-                                    className="block text-gray-700 hover:text-primary-600 transition-colors"
-                                    onClick={() => setMobileMenuOpen(false)}
-                                >
-                                    JSON ↔ CSV Converter
-                                </Link>
-                                <Link
-                                    href="/tools/markdown-to-html"
-                                    className="block text-gray-700 hover:text-primary-600 transition-colors"
-                                    onClick={() => setMobileMenuOpen(false)}
-                                >
-                                    Markdown → HTML
-                                </Link>
-                                <Link
-                                    href="/tools/ai-error-explainer"
-                                    className="block text-gray-700 hover:text-primary-600 transition-colors"
-                                    onClick={() => setMobileMenuOpen(false)}
-                                >
-                                    AI Error Explainer
-                                </Link>
-                                <Link
-                                    href="/tools/prompt-optimizer"
-                                    className="block text-gray-700 hover:text-primary-600 transition-colors"
-                                    onClick={() => setMobileMenuOpen(false)}
-                                >
-                                    Prompt Optimizer
-                                </Link>
-                                <Link
-                                    href="/tools/code-formatter"
-                                    className="block text-gray-700 hover:text-primary-600 transition-colors"
-                                    onClick={() => setMobileMenuOpen(false)}
-                                >
-                                    Code Formatter
-                                </Link>
-                                <Link
-                                    href="/tools/base64"
-                                    className="block text-gray-700 hover:text-primary-600 transition-colors"
-                                    onClick={() => setMobileMenuOpen(false)}
-                                >
-                                    Base64 Encoder/Decoder
-                                </Link>
-                                <Link
-                                    href="/tools/url-encoder"
-                                    className="block text-gray-700 hover:text-primary-600 transition-colors"
-                                    onClick={() => setMobileMenuOpen(false)}
-                                >
-                                    URL Encoder/Decoder
-                                </Link>
-                                <Link
-                                    href="/tools/color-picker"
-                                    className="block text-gray-700 hover:text-primary-600 transition-colors"
-                                    onClick={() => setMobileMenuOpen(false)}
-                                >
-                                    Color Picker
-                                </Link>
-                                <Link
-                                    href="/tools/jwt-decoder"
-                                    className="block text-gray-700 hover:text-primary-600 transition-colors"
-                                    onClick={() => setMobileMenuOpen(false)}
-                                >
-                                    JWT Decoder
-                                </Link>
-                                <Link
-                                    href="/tools/text-tools"
-                                    className="block text-gray-700 hover:text-primary-600 transition-colors"
-                                    onClick={() => setMobileMenuOpen(false)}
-                                >
-                                    Text Tools
-                                </Link>
-                                <Link
-                                    href="/tools/qr-code-generator"
-                                    className="block text-gray-700 hover:text-primary-600 transition-colors"
-                                    onClick={() => setMobileMenuOpen(false)}
-                                >
-                                    QR Code Generator
-                                </Link>
-                                <Link
-                                    href="/tools/password-generator"
-                                    className="block text-gray-700 hover:text-primary-600 transition-colors"
-                                    onClick={() => setMobileMenuOpen(false)}
-                                >
-                                    Password Generator
-                                </Link>
-                                <Link
-                                    href="/tools/uuid-generator"
-                                    className="block text-gray-700 hover:text-primary-600 transition-colors"
-                                    onClick={() => setMobileMenuOpen(false)}
-                                >
-                                    UUID Generator
-                                </Link>
-                                <Link
-                                    href="/tools/lorem-ipsum-generator"
-                                    className="block text-gray-700 hover:text-primary-600 transition-colors"
-                                    onClick={() => setMobileMenuOpen(false)}
-                                >
-                                    Lorem Ipsum
-                                </Link>
-                                <Link
-                                    href="/tools/timestamp-converter"
-                                    className="block text-gray-700 hover:text-primary-600 transition-colors"
-                                    onClick={() => setMobileMenuOpen(false)}
-                                >
-                                    Timestamp Converter
-                                </Link>
-                                <Link
-                                    href="/tools/diff-checker"
-                                    className="block text-gray-700 hover:text-primary-600 transition-colors"
-                                    onClick={() => setMobileMenuOpen(false)}
-                                >
-                                    Diff Checker
-                                </Link>
-                                <Link
-                                    href="/tools/html-encoder"
-                                    className="block text-gray-700 hover:text-primary-600 transition-colors"
-                                    onClick={() => setMobileMenuOpen(false)}
-                                >
-                                    HTML Encoder
-                                </Link>
-                                <Link
-                                    href="/tools/json-validator"
-                                    className="block text-gray-700 hover:text-primary-600 transition-colors"
-                                    onClick={() => setMobileMenuOpen(false)}
-                                >
-                                    JSON Validator
-                                </Link>
-                                <Link
-                                    href="/tools/image-compressor"
-                                    className="block text-gray-700 hover:text-primary-600 transition-colors"
-                                    onClick={() => setMobileMenuOpen(false)}
-                                >
-                                    Image Compressor
-                                </Link>
-                                <Link
-                                    href="/tools/minifier"
-                                    className="block text-gray-700 hover:text-primary-600 transition-colors"
-                                    onClick={() => setMobileMenuOpen(false)}
-                                >
-                                    Minifier
-                                </Link>
-                                <Link
-                                    href="/tools/xml-formatter"
-                                    className="block text-gray-700 hover:text-primary-600 transition-colors"
-                                    onClick={() => setMobileMenuOpen(false)}
-                                >
-                                    XML Formatter
-                                </Link>
-                                <Link
-                                    href="/tools/yaml-tools"
-                                    className="block text-gray-700 hover:text-primary-600 transition-colors"
-                                    onClick={() => setMobileMenuOpen(false)}
-                                >
-                                    YAML Tools
+                                <Link href="/about" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-3 p-4 bg-slate-50 rounded-2xl text-gray-900 font-bold hover:bg-blue-50 hover:text-blue-600 transition-all">
+                                    <Layout className="w-5 h-5 text-purple-500" /> About
                                 </Link>
                             </div>
+
+                            {/* Tools Grid */}
+                            <div>
+                                <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-4">Popular Tools</h3>
+                                <div className="grid grid-cols-2 gap-3">
+                                    {[
+                                        { href: '/tools/ai-error-explainer', label: 'AI Explainer', icon: Sparkles, color: 'text-blue-500' },
+                                        { href: '/tools/regex-tester', label: 'Regex Tester', icon: Code, color: 'text-purple-500' },
+                                        { href: '/tools/json-to-csv', label: 'JSON ↔ CSV', icon: Database, color: 'text-emerald-500' },
+                                        { href: '/tools/woocommerce', label: 'WooCommerce', icon: ShoppingCart, color: 'text-orange-500' },
+                                        { href: '/tools/image-compressor', label: 'Compressor', icon: Palette, color: 'text-pink-500' },
+                                        { href: '/tools/prompt-optimizer', label: 'Prompt AI', icon: Zap, color: 'text-amber-500' },
+                                    ].map((tool) => (
+                                        <Link
+                                            key={tool.href}
+                                            href={tool.href}
+                                            className="flex flex-col gap-2 p-4 border border-slate-100 rounded-2xl hover:bg-slate-50 transition-all group"
+                                            onClick={() => setMobileMenuOpen(false)}
+                                        >
+                                            <tool.icon className={`w-5 h-5 ${tool.color}`} />
+                                            <span className="text-xs font-bold text-gray-800">{tool.label}</span>
+                                        </Link>
+                                    ))}
+                                </div>
+                            </div>
+
+                            {/* All Tools Link */}
                             <Link
-                                href="/about"
-                                className="text-gray-700 hover:text-primary-600 transition-colors font-medium"
+                                href="/#tools"
                                 onClick={() => setMobileMenuOpen(false)}
+                                className="block w-full p-4 bg-blue-600 rounded-2xl text-white text-center font-black uppercase tracking-widest text-xs shadow-lg shadow-blue-600/20"
                             >
-                                About
+                                Browse All 25+ Tools
                             </Link>
-                            <Link
-                                href="/contact"
-                                className="text-gray-700 hover:text-primary-600 transition-colors font-medium"
-                                onClick={() => setMobileMenuOpen(false)}
-                            >
-                                Contact
-                            </Link>
-                            <ReportIssueLink
-                                className="text-gray-700 hover:text-red-600 transition-colors font-medium"
-                            >
-                                Report Issue
-                            </ReportIssueLink>
+
+                            {/* secondary Links */}
+                            <div className="pt-4 border-t border-slate-100 flex flex-col gap-4">
+                                <Link href="/contact" onClick={() => setMobileMenuOpen(false)} className="text-sm font-bold text-slate-500 hover:text-blue-600 transition-colors px-1">
+                                    Contact Support
+                                </Link>
+                                <ReportIssueLink className="text-sm font-bold text-red-400 hover:text-red-600 transition-colors px-1 cursor-pointer">
+                                    Report a Bug
+                                </ReportIssueLink>
+                            </div>
                         </div>
                     </div>
                 )}
-            </nav>
+                基础            </nav>
         </header >
     );
 }
