@@ -204,10 +204,7 @@ export default function ContactPage() {
                                     <div>
                                         <h3 className="font-semibold text-gray-900">Follow Us</h3>
                                         <div className="flex space-x-3 mt-2">
-                                            <a href="https://twitter.com/devtoolshub" className="text-gray-400 hover:text-primary-600">
-                                                Twitter
-                                            </a>
-                                            <a href="https://github.com/devtoolshub" className="text-gray-400 hover:text-primary-600">
+                                            <a href="https://github.com/DHIMANvivek" className="text-gray-400 hover:text-primary-600">
                                                 GitHub
                                             </a>
                                         </div>

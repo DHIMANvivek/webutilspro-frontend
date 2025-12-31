@@ -54,12 +54,6 @@ export const metadata: Metadata = {
             },
         ],
     },
-    twitter: {
-        card: 'summary_large_image',
-        title: 'WebUtilsPro - Free Online Developer Tools',
-        description: 'Professional utilities for modern developers. AI-powered and free to use.',
-        images: ['/og-image.png'],
-    },
 };
 
 export default function RootLayout({

@@ -151,7 +151,7 @@ export default function TextTools() {
             <div className="card bg-green-50 border-green-200">
                 <h3 className="text-lg font-semibold text-gray-900 mb-3">💡 Use Cases</h3>
                 <ul className="text-sm text-gray-600 space-y-2">
-                    <li>• Check character limits for social media posts (Twitter: 280, SMS: 160)</li>
+                    <li>• Check character limits for social media posts (X: 280, SMS: 160)</li>
                     <li>• Count words for essays, articles, or blog posts</li>
                     <li>• Clean up messy text copied from PDFs or websites</li>
                     <li>• Convert text case for consistent formatting</li>

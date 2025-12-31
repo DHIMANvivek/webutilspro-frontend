@@ -30,7 +30,7 @@ export default function TextToolsPage() {
                     Text Tools is a comprehensive suite of text manipulation utilities designed for writers, developers, and content creators. Whether you need to check character limits for social media, convert text to different cases, or clean up messy formatting, our tools make it effortless.
                 </p>
                 <p className="text-gray-600">
-                    All processing happens instantly in your browser - your text never leaves your device, ensuring complete privacy. Perfect for checking Twitter character limits (280), SMS message lengths (160), essay word counts, or cleaning up text copied from PDFs and websites.
+                    All processing happens instantly in your browser - your text never leaves your device, ensuring complete privacy. Perfect for checking X character limits (280), SMS message lengths (160), essay word counts, or cleaning up text copied from PDFs and websites.
                 </p>
             </section>
 
