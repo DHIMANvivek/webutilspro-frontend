@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-const BACKEND_URL = process.env.BACKEND_URL || 'http://72.62.163.53:4000';
+const BACKEND_URL = process.env.BACKEND_URL || 'https://api.webutilspro.com';
 
 export async function POST(request: NextRequest) {
     try {

@@ -7,7 +7,7 @@ const nextConfig = {
         return [
             {
                 source: '/api/:path*',
-                destination: 'http://72.62.163.53:4000/api/:path*',
+                destination: 'https://api.webutilspro.com/api/:path*',
             },
         ];
     },
