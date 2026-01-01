@@ -323,15 +323,15 @@ export default function ChatInterface({ onClose }: ChatInterfaceProps) {
             {messages.length === 1 && (
                 <div className="px-4 pb-2">
                     <p className="text-xs text-gray-500 dark:text-gray-400 mb-2">Try these:</p>
-                    <div className="flex flex-wrap gap-2">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                         {suggestedPrompts.map((prompt, index) => (
                             <button
                                 key={index}
                                 onClick={() => handleSuggestedPrompt(prompt.label)}
-                                className="px-4 py-2 text-sm bg-gradient-to-r from-blue-500/10 to-purple-500/10 hover:from-blue-500/20 hover:to-purple-500/20 dark:bg-gray-800 dark:hover:bg-gray-700 rounded-lg transition-all border border-blue-500/20 hover:border-blue-500/40 flex items-center gap-2"
+                                className="px-4 py-3 text-sm sm:text-base bg-gradient-to-r from-blue-500/10 to-purple-500/10 hover:from-blue-500/20 hover:to-purple-500/20 dark:bg-gray-800 dark:hover:bg-gray-700 rounded-lg transition-all border border-blue-500/20 hover:border-blue-500/40 flex items-center gap-2 justify-center sm:justify-start font-medium"
                             >
-                                <span>{prompt.icon}</span>
-                                <span>{prompt.label}</span>
+                                <span className="text-lg">{prompt.icon}</span>
+                                <span className="text-left">{prompt.label}</span>
                             </button>
                         ))}
                     </div>
