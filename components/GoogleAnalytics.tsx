@@ -1,7 +1,3 @@
-'use client';
-
-import Script from 'next/script';
-
 export default function GoogleAnalytics() {
     const GA_ID = process.env.NEXT_PUBLIC_GA_ID;
 
@@ -12,13 +8,12 @@ export default function GoogleAnalytics() {
 
     return (
         <>
-            <Script
-                strategy="afterInteractive"
+            <script
+                async
                 src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
             />
-            <Script
+            <script
                 id="google-analytics"
-                strategy="afterInteractive"
                 dangerouslySetInnerHTML={{
                     __html: `
                         window.dataLayer = window.dataLayer || [];
