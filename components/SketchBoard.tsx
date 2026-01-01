@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import { io, Socket } from 'socket.io-client';
-import { Loader2, Trash2, Eraser, Pen, Download, Share2, Copy, Image as ImageIcon, Type } from 'lucide-react';
+import { Loader2, Trash2, Eraser, Pen, Download, Share2, Copy, Image as ImageIcon, Type, Plus } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { v4 as uuidv4 } from 'uuid';
@@ -424,104 +424,165 @@ export default function SketchBoard() {
     return (
         <div className="flex flex-col gap-4">
             {/* Toolbar */}
-            <div className="bg-gray-800 p-4 rounded-lg flex flex-wrap items-center justify-between gap-4 border border-gray-700">
-                <div className="flex items-center gap-2">
-                    <div className="flex bg-gray-900 p-1 rounded-md border border-gray-700">
-                        <button
-                            onClick={() => setTool('pen')}
-                            className={`p-2 rounded ${tool === 'pen' ? 'bg-blue-600 text-white' : 'text-gray-400 hover:text-white'}`}
-                            title="Pen"
-                        >
-                            <Pen size={20} />
-                        </button>
-                        <button
-                            onClick={() => setTool('eraser')}
-                            className={`p-2 rounded ${tool === 'eraser' ? 'bg-blue-600 text-white' : 'text-gray-400 hover:text-white'}`}
-                            title="Eraser"
-                        >
-                            <Eraser size={20} />
-                        </button>
-                        <button
-                            onClick={() => setTool('text')}
-                            className={`p-2 rounded ${tool === 'text' ? 'bg-blue-600 text-white' : 'text-gray-400 hover:text-white'}`}
-                            title="Text Tool"
-                        >
-                            <Type size={20} />
-                        </button>
-                        <button
-                            onClick={() => fileInputRef.current?.click()}
-                            className="p-2 rounded text-gray-400 hover:text-white"
-                            title="Upload Image"
-                        >
-                            <ImageIcon size={20} />
-                        </button>
-                        <input
-                            type="file"
-                            ref={fileInputRef}
-                            className="hidden"
-                            accept="image/*"
-                            onChange={handleImageUpload}
-                        />
-                    </div>
-
-                    <div className="h-8 w-px bg-gray-700 mx-2 hidden sm:block"></div>
-
-                    <div className="flex items-center gap-2 flex-wrap">
-                        {COLORS.map((c) => (
+            <div className="bg-gray-800 p-4 rounded-lg flex flex-col gap-4 border border-gray-700">
+                {/* Session Controls - New Row */}
+                <div className="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-gray-700 w-full">
+                    <div className="flex items-center gap-2">
+                        <div className="px-3 py-1.5 bg-gray-900 rounded-md border border-gray-700 flex items-center gap-2">
+                            <span className="text-xs text-gray-400 font-bold uppercase tracking-wider">Room:</span>
+                            <code className="text-sm font-mono text-blue-400">{roomId.slice(0, 8)}...</code>
                             <button
-                                key={c}
                                 onClick={() => {
-                                    setColor(c);
-                                    if (tool === 'eraser') setTool('pen');
+                                    navigator.clipboard.writeText(roomId);
+                                    toast.success('Room ID copied!');
                                 }}
-                                className={`w-6 h-6 rounded-full border-2 ${color === c && tool !== 'eraser' ? 'border-white scale-110' : 'border-transparent hover:scale-110'
-                                    }`}
-                                style={{ backgroundColor: c }}
-                                title={c}
-                            />
-                        ))}
+                                className="p-1 hover:bg-gray-700 rounded text-gray-400 hover:text-white transition-colors"
+                                title="Copy Room ID"
+                            >
+                                <Copy size={14} />
+                            </button>
+                        </div>
+                    </div>
+                    <div className="flex items-center gap-3">
+                        <button
+                            onClick={() => {
+                                const newId = uuidv4();
+                                router.push(`?room=${newId}`);
+                            }}
+                            className="px-3 py-1.5 bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold rounded-md transition-colors flex items-center gap-2"
+                        >
+                            <Plus size={14} /> New Session
+                        </button>
+
+                        <div className="relative">
+                            {/* Simple Join Input Group */}
+                            <div className="flex items-center">
+                                <input
+                                    type="text"
+                                    placeholder="Enter Room ID"
+                                    className="w-32 px-2 py-1.5 bg-gray-900 border border-gray-700 border-r-0 rounded-l-md text-xs text-white focus:outline-none focus:border-blue-500"
+                                    onKeyDown={(e) => {
+                                        if (e.key === 'Enter') {
+                                            const val = e.currentTarget.value.trim();
+                                            if (val) router.push(`?room=${val}`);
+                                        }
+                                    }}
+                                />
+                                <button
+                                    onClick={(e) => {
+                                        const input = e.currentTarget.previousElementSibling as HTMLInputElement;
+                                        const val = input.value.trim();
+                                        if (val) router.push(`?room=${val}`);
+                                    }}
+                                    className="px-2 py-1.5 bg-gray-700 hover:bg-gray-600 border border-gray-700 text-white text-xs font-bold rounded-r-md transition-colors"
+                                >
+                                    Join
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <div className="flex items-center gap-2">
-                    <input
-                        type="range"
-                        min="1"
-                        max="20"
-                        value={width}
-                        onChange={(e) => setWidth(parseInt(e.target.value))}
-                        className="w-24 h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer"
-                        title="Line Width"
-                    />
+                {/* Drawing Controls (Existing) */}
+                <div className="flex flex-wrap items-center justify-between gap-4 w-full">
+                    <div className="flex items-center gap-2">
+                        <div className="flex bg-gray-900 p-1 rounded-md border border-gray-700">
+                            <button
+                                onClick={() => setTool('pen')}
+                                className={`p-2 rounded ${tool === 'pen' ? 'bg-blue-600 text-white' : 'text-gray-400 hover:text-white'}`}
+                                title="Pen"
+                            >
+                                <Pen size={20} />
+                            </button>
+                            <button
+                                onClick={() => setTool('eraser')}
+                                className={`p-2 rounded ${tool === 'eraser' ? 'bg-blue-600 text-white' : 'text-gray-400 hover:text-white'}`}
+                                title="Eraser"
+                            >
+                                <Eraser size={20} />
+                            </button>
+                            <button
+                                onClick={() => setTool('text')}
+                                className={`p-2 rounded ${tool === 'text' ? 'bg-blue-600 text-white' : 'text-gray-400 hover:text-white'}`}
+                                title="Text Tool"
+                            >
+                                <Type size={20} />
+                            </button>
+                            <button
+                                onClick={() => fileInputRef.current?.click()}
+                                className="p-2 rounded text-gray-400 hover:text-white"
+                                title="Upload Image"
+                            >
+                                <ImageIcon size={20} />
+                            </button>
+                            <input
+                                type="file"
+                                ref={fileInputRef}
+                                className="hidden"
+                                accept="image/*"
+                                onChange={handleImageUpload}
+                            />
+                        </div>
 
-                    <div className="h-8 w-px bg-gray-700 mx-2 hidden sm:block"></div>
+                        <div className="h-8 w-px bg-gray-700 mx-2 hidden sm:block"></div>
 
-                    <button
-                        onClick={() => clearCanvas(true)}
-                        className="p-2 text-red-400 hover:bg-gray-700 rounded transition-colors"
-                        title="Clear Canvas"
-                    >
-                        <Trash2 size={20} />
-                    </button>
-                    <button
-                        onClick={downloadCanvas}
-                        className="p-2 text-green-400 hover:bg-gray-700 rounded transition-colors"
-                        title="Download"
-                    >
-                        <Download size={20} />
-                    </button>
-                    <button
-                        onClick={() => {
-                            navigator.clipboard.writeText(window.location.href);
-                            toast.success('Link copied! Share it to collaborate.');
-                        }}
-                        className="p-2 text-blue-400 hover:bg-gray-700 rounded transition-colors flex items-center gap-2"
-                        title="Share Link"
-                    >
-                        <Share2 size={20} />
-                        <span className="hidden sm:inline text-sm font-bold">Share</span>
-                    </button>
-                    <div className={`w-3 h-3 rounded-full ${isConnected ? 'bg-green-500' : 'bg-red-500'}`} title={isConnected ? 'Connected' : 'Disconnected'}></div>
+                        <div className="flex items-center gap-2 flex-wrap">
+                            {COLORS.map((c) => (
+                                <button
+                                    key={c}
+                                    onClick={() => {
+                                        setColor(c);
+                                        if (tool === 'eraser') setTool('pen');
+                                    }}
+                                    className={`w-6 h-6 rounded-full border-2 ${color === c && tool !== 'eraser' ? 'border-white scale-110' : 'border-transparent hover:scale-110'
+                                        }`}
+                                    style={{ backgroundColor: c }}
+                                    title={c}
+                                />
+                            ))}
+                        </div>
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                        <input
+                            type="range"
+                            min="1"
+                            max="20"
+                            value={width}
+                            onChange={(e) => setWidth(parseInt(e.target.value))}
+                            className="w-24 h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer"
+                            title="Line Width"
+                        />
+
+                        <div className="h-8 w-px bg-gray-700 mx-2 hidden sm:block"></div>
+
+                        <button
+                            onClick={() => clearCanvas(true)}
+                            className="p-2 text-red-400 hover:bg-gray-700 rounded transition-colors"
+                            title="Clear Canvas"
+                        >
+                            <Trash2 size={20} />
+                        </button>
+                        <button
+                            onClick={downloadCanvas}
+                            className="p-2 text-green-400 hover:bg-gray-700 rounded transition-colors"
+                            title="Download"
+                        >
+                            <Download size={20} />
+                        </button>
+                        <button
+                            onClick={() => {
+                                navigator.clipboard.writeText(window.location.href);
+                                toast.success('Link copied! Share it to collaborate.');
+                            }}
+                            className="p-2 text-blue-400 hover:bg-gray-700 rounded transition-colors flex items-center gap-2"
+                            title="Share Link"
+                        >
+                            <Share2 size={20} />
+                            <span className="hidden sm:inline text-sm font-bold">Share</span>
+                        </button>
+                        <div className={`w-3 h-3 rounded-full ${isConnected ? 'bg-green-500' : 'bg-red-500'}`} title={isConnected ? 'Connected' : 'Disconnected'}></div>
+                    </div>
                 </div>
             </div>
 
