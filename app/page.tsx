@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { ShoppingBag, FlaskConical, Sparkles, Lock, Bot, RefreshCcw, Wrench, Box, Target, ArrowRight } from 'lucide-react';
 import { generateMetadata as genMeta } from '@/lib/seo';
+import LatestInsights from '@/components/LatestInsights';
 
 export const metadata = genMeta({
     title: 'Professional Developer Tools & AI Utilities',
@@ -423,6 +424,10 @@ export default function HomePage() {
                     </div>
                 </div>
             </section>
+
+            {/* Latest Insights Section */}
+            <LatestInsights />
+
             {/* CTA Section */}
             <section className="py-24 bg-[#111827] relative overflow-hidden">
                 <div className="absolute inset-0 z-0">
