@@ -72,7 +72,9 @@ export default function RootLayout({
             <head>
                 <GoogleTagManager />
                 <meta name="google-adsense-account" content="ca-pub-5500315527317299" />
-                <link rel="icon" href="/logo.png" />
+                <link rel="icon" type="image/png" href="/logo.png" />
+                <link rel="apple-touch-icon" href="/logo.png" />
+                <link rel="shortcut icon" href="/logo.png" />
 
                 <script
                     type="application/ld+json"
