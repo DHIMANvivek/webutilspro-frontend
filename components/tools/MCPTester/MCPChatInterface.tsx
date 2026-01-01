@@ -73,7 +73,7 @@ export default function MCPChatInterface() {
         setIsLoading(true);
 
         try {
-            const response = await fetch('/api/mcp/chat', {
+            const response = await fetch('https://api.webutilspro.com/api/mcp/chat', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
