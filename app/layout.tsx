@@ -10,6 +10,8 @@ import SmartErrorBoundary from '@/components/SmartErrorBoundary';
 import TourManager from '@/components/TourManager';
 import ToolsShowcase from '@/components/ToolsShowcase';
 import FloatingJumpButton from '@/components/FloatingJumpButton';
+import GoogleAnalytics from '@/components/GoogleAnalytics';
+import GoogleTagManager, { GoogleTagManagerNoScript } from '@/components/GoogleTagManager';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -67,6 +69,7 @@ export default function RootLayout({
     return (
         <html lang="en">
             <head>
+                <GoogleTagManager />
                 <link rel="icon" href="/logo.png" />
                 <script
                     type="application/ld+json"
@@ -89,8 +92,10 @@ export default function RootLayout({
                     src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5500315527317299"
                     crossOrigin="anonymous"
                 ></script>
+                <GoogleAnalytics />
             </head>
             <body className={inter.className}>
+                <GoogleTagManagerNoScript />
                 <CustomCursor />
                 <SmartErrorBoundary>
                     <TourManager />
