@@ -189,6 +189,23 @@ export default function HomePage() {
 
     return (
         <div className="min-h-screen">
+            {/* Announcement Banner */}
+            <div className="flex justify-center pt-6 px-4 bg-white">
+                <Link href="/tools/sketch-board" className="relative group inline-flex items-center gap-3 bg-indigo-900 hover:bg-indigo-800 text-white px-4 py-2 rounded-full border border-indigo-500/30 transition-all shadow-lg hover:shadow-indigo-500/25 hover:-translate-y-0.5 overflow-hidden ring-1 ring-indigo-900/5">
+                    <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 brightness-100 contrast-150 pointer-events-none"></div>
+                    <div className="relative z-10 flex items-center gap-3 text-sm font-medium">
+                        <span className="bg-indigo-500 text-white px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider shadow-sm">New</span>
+                        <span className="hidden sm:inline text-indigo-100">The Ultimate Collaborative Sketch Board is Live</span>
+                        <span className="sm:hidden text-indigo-100">Sketch Board Live</span>
+                        <div className="w-px h-4 bg-indigo-700 hidden sm:block"></div>
+                        <span className="text-white flex items-center gap-1 group-hover:gap-2 transition-all">
+                            Try Now
+                            <ArrowRight className="w-3.5 h-3.5" />
+                        </span>
+                    </div>
+                </Link>
+            </div>
+
             {/* Hero Section */}
             <section className="relative py-24 md:py-32 overflow-hidden bg-white">
                 <div className="absolute inset-0 z-0">
