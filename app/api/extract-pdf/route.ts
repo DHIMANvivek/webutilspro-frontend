@@ -143,8 +143,7 @@ export async function POST(request: NextRequest) {
     }
 }
 
-export const config = {
-    api: {
-        bodyParser: false,
-    },
-};
+// Route segment config for App Router
+export const runtime = 'nodejs';
+// File upload size limit (10MB)
+export const maxDuration = 60; // Maximum duration in seconds
