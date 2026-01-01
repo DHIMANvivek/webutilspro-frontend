@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 // IMPORTANT: This API key is server-side only and never exposed to the browser
 const LLAMAINDEX_API_KEY = process.env.LLAMAINDEX_API_KEY;
 const LLAMAINDEX_API_URL = 'https://api.cloud.llamaindex.ai/api/v1/parsing/upload';
-
+// cool
 export async function POST(request: NextRequest) {
     try {
         // Validate API key exists
