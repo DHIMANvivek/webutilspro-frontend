@@ -11,6 +11,7 @@ interface BlogPost {
     publishedAt: string;
     sourceDomain: string;
     tags: string[];
+    mainImage?: string;
 }
 
 export default function BlogPage() {
@@ -62,6 +63,16 @@ export default function BlogPage() {
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                         {posts.map((post) => (
                             <Link href={`/blog/${post.slug}`} key={post._id} className="group flex flex-col bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden hover:shadow-xl hover:border-blue-500/30 transition-all duration-300">
+                                {post.mainImage && (
+                                    <div className="relative h-48 w-full overflow-hidden">
+                                        <img
+                                            src={post.mainImage}
+                                            alt={post.title}
+                                            className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500"
+                                        />
+                                        <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                                    </div>
+                                )}
                                 <div className="p-6 flex-1 flex flex-col">
                                     <div className="flex items-center justify-between mb-4">
                                         <span className="text-xs font-bold uppercase tracking-wider text-blue-600 bg-blue-50 dark:bg-blue-900/20 px-2 py-1 rounded">
