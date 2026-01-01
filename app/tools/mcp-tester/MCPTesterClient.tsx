@@ -123,8 +123,14 @@ export default function MCPTesterClient() {
                 }
             }
             return [];
-        } catch (error) {
+        } catch (error: any) {
             console.error('Error loading capabilities:', error);
+            // If the server says we're not connected (e.g. after a server restart), update UI state
+            if (error.message?.includes('No active MCP connection') || error.message?.includes('Please connect first')) {
+                setIsConnected(false);
+                setError('Connection lost. Please reconnect.');
+                setActiveConfig(null);
+            }
             setTools([]);
             setResources([]);
             setPrompts([]);
