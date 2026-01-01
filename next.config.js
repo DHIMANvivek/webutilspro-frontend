@@ -2,7 +2,17 @@
 const nextConfig = {
     reactStrictMode: true,
     poweredByHeader: false,
-    compress: true
+    compress: true,
+    async rewrites() {
+        return [
+            {
+                source: '/api/:path*',
+                destination: process.env.NODE_ENV === 'development'
+                    ? 'http://localhost:4000/api/:path*'
+                    : 'https://api.webutilspro.com/api/:path*',
+            },
+        ];
+    }
 };
 
 module.exports = nextConfig;

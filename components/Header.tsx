@@ -19,7 +19,8 @@ import {
     Sparkles,
     Zap,
     Clock,
-    Image as ImageIcon
+    Image as ImageIcon,
+    BookOpen
 } from 'lucide-react';
 import ReportIssueLink from './ReportIssueLink';
 
@@ -51,6 +52,14 @@ export default function Header() {
                             className="text-gray-600 hover:text-blue-600 transition-colors font-semibold text-sm uppercase tracking-wider"
                         >
                             Home
+                        </Link>
+
+                        <Link
+                            href="/blog"
+                            className="text-gray-600 hover:text-blue-600 transition-colors font-semibold text-sm uppercase tracking-wider flex items-center gap-1.5"
+                        >
+                            <BookOpen className="w-4 h-4" />
+                            Insights
                         </Link>
 
                         {/* Tools Dropdown */}
@@ -263,11 +272,17 @@ export default function Header() {
                     <div className="md:hidden fixed inset-0 top-[73px] bottom-0 bg-white z-50 overflow-y-auto px-4 py-6 animate-in slide-in-from-right duration-300">
                         <div className="space-y-6 pb-20">
                             {/* Primary Navigation - Compact Grid */}
-                            <div className="grid grid-cols-3 gap-3">
+                            <div className="grid grid-cols-2 gap-3 mb-2">
                                 <Link href="/" onClick={() => setMobileMenuOpen(false)} className="flex flex-col items-center justify-center gap-2 p-3 bg-slate-50 rounded-xl text-gray-900 font-bold hover:bg-blue-50 hover:text-blue-600 transition-all border border-slate-100">
                                     <Rocket className="w-5 h-5 text-blue-500" />
                                     <span className="text-[11px] uppercase tracking-wide">Home</span>
                                 </Link>
+                                <Link href="/blog" onClick={() => setMobileMenuOpen(false)} className="flex flex-col items-center justify-center gap-2 p-3 bg-slate-50 rounded-xl text-gray-900 font-bold hover:bg-blue-50 hover:text-blue-600 transition-all border border-slate-100">
+                                    <BookOpen className="w-5 h-5 text-indigo-500" />
+                                    <span className="text-[11px] uppercase tracking-wide">Insights</span>
+                                </Link>
+                            </div>
+                            <div className="grid grid-cols-2 gap-3">
                                 <Link href="/about" onClick={() => setMobileMenuOpen(false)} className="flex flex-col items-center justify-center gap-2 p-3 bg-slate-50 rounded-xl text-gray-900 font-bold hover:bg-blue-50 hover:text-blue-600 transition-all border border-slate-100">
                                     <Layout className="w-5 h-5 text-purple-500" />
                                     <span className="text-[11px] uppercase tracking-wide">About</span>
