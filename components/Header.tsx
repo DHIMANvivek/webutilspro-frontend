@@ -197,61 +197,67 @@ export default function Header() {
 
                 {/* Mobile Menu */}
                 {mobileMenuOpen && (
-                    <div className="md:hidden fixed inset-0 top-[73px] bg-white z-50 overflow-y-auto px-6 py-8 animate-in slide-in-from-right duration-300">
-                        <div className="space-y-8">
-                            {/* Main Links */}
-                            <div className="grid grid-cols-2 gap-4">
-                                <Link href="/" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-3 p-4 bg-slate-50 rounded-2xl text-gray-900 font-bold hover:bg-blue-50 hover:text-blue-600 transition-all">
-                                    <Rocket className="w-5 h-5 text-blue-500" /> Home
+                    <div className="md:hidden fixed inset-0 top-[73px] bottom-0 bg-white z-50 overflow-y-auto px-4 py-6 animate-in slide-in-from-right duration-300">
+                        <div className="space-y-6 pb-20">
+                            {/* Primary Navigation - Compact Grid */}
+                            <div className="grid grid-cols-3 gap-3">
+                                <Link href="/" onClick={() => setMobileMenuOpen(false)} className="flex flex-col items-center justify-center gap-2 p-3 bg-slate-50 rounded-xl text-gray-900 font-bold hover:bg-blue-50 hover:text-blue-600 transition-all border border-slate-100">
+                                    <Rocket className="w-5 h-5 text-blue-500" />
+                                    <span className="text-[11px] uppercase tracking-wide">Home</span>
                                 </Link>
-                                <Link href="/about" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-3 p-4 bg-slate-50 rounded-2xl text-gray-900 font-bold hover:bg-blue-50 hover:text-blue-600 transition-all">
-                                    <Layout className="w-5 h-5 text-purple-500" /> About
+                                <Link href="/about" onClick={() => setMobileMenuOpen(false)} className="flex flex-col items-center justify-center gap-2 p-3 bg-slate-50 rounded-xl text-gray-900 font-bold hover:bg-blue-50 hover:text-blue-600 transition-all border border-slate-100">
+                                    <Layout className="w-5 h-5 text-purple-500" />
+                                    <span className="text-[11px] uppercase tracking-wide">About</span>
+                                </Link>
+                                <Link href="/contact" onClick={() => setMobileMenuOpen(false)} className="flex flex-col items-center justify-center gap-2 p-3 bg-slate-50 rounded-xl text-gray-900 font-bold hover:bg-blue-50 hover:text-blue-600 transition-all border border-slate-100">
+                                    <Shield className="w-5 h-5 text-emerald-500" />
+                                    <span className="text-[11px] uppercase tracking-wide">Contact</span>
                                 </Link>
                             </div>
 
-                            {/* Tools Grid */}
+                            {/* Tools Grid - Compact 3 columns */}
                             <div>
-                                <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-4">Popular Tools</h3>
-                                <div className="grid grid-cols-2 gap-3">
+                                <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3 flex items-center gap-2">
+                                    <Sparkles className="w-3 h-3 text-blue-500" /> Popular Tools
+                                </h3>
+                                <div className="grid grid-cols-3 gap-2">
                                     {[
-                                        { href: '/tools/ai-error-explainer', label: 'AI Explainer', icon: Sparkles, color: 'text-blue-500' },
-                                        { href: '/tools/regex-tester', label: 'Regex Tester', icon: Code, color: 'text-purple-500' },
-                                        { href: '/tools/json-to-csv', label: 'JSON ↔ CSV', icon: Database, color: 'text-emerald-500' },
-                                        { href: '/tools/woocommerce', label: 'WooCommerce', icon: ShoppingCart, color: 'text-orange-500' },
-                                        { href: '/tools/image-compressor', label: 'Compressor', icon: Palette, color: 'text-pink-500' },
-                                        { href: '/tools/prompt-optimizer', label: 'Prompt AI', icon: Zap, color: 'text-amber-500' },
+                                        { href: '/tools/ai-error-explainer', label: 'AI Error', icon: Sparkles, color: 'text-blue-500' },
+                                        { href: '/tools/regex-tester', label: 'Regex', icon: Code, color: 'text-purple-500' },
+                                        { href: '/tools/json-to-csv', label: 'JSON/CSV', icon: Database, color: 'text-emerald-500' },
+                                        { href: '/tools/woocommerce', label: 'WooCom', icon: ShoppingCart, color: 'text-orange-500' },
+                                        { href: '/tools/image-compressor', label: 'Compress', icon: Palette, color: 'text-pink-500' },
+                                        { href: '/tools/prompt-optimizer', label: 'Prompt', icon: Zap, color: 'text-amber-500' },
                                     ].map((tool) => {
                                         const IconComponent = tool.icon;
                                         return (
                                             <Link
                                                 key={tool.href}
                                                 href={tool.href}
-                                                className="flex flex-col gap-2 p-4 border border-slate-100 rounded-2xl hover:bg-slate-50 transition-all group"
+                                                className="flex flex-col items-center gap-2 p-2.5 border border-slate-100 rounded-xl hover:bg-slate-50 transition-all bg-white shadow-sm"
                                                 onClick={() => setMobileMenuOpen(false)}
                                             >
-                                                <IconComponent className={`w-5 h-5 ${tool.color}`} />
-                                                <span className="text-xs font-bold text-gray-800">{tool.label}</span>
+                                                <IconComponent className={`w-4 h-4 ${tool.color}`} />
+                                                <span className="text-[10px] font-bold text-gray-700 text-center leading-tight">{tool.label}</span>
                                             </Link>
                                         );
                                     })}
                                 </div>
                             </div>
 
-                            {/* All Tools Link */}
+                            {/* All Tools Link - High Visibility */}
                             <Link
                                 href="/#tools"
                                 onClick={() => setMobileMenuOpen(false)}
-                                className="block w-full p-4 bg-blue-600 rounded-2xl text-white text-center font-black uppercase tracking-widest text-xs shadow-lg shadow-blue-600/20"
+                                className="flex items-center justify-center w-full p-3 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl text-white font-bold text-xs uppercase tracking-widest shadow-lg shadow-blue-500/20 active:scale-[0.98] transition-transform"
                             >
                                 Browse All 25+ Tools
                             </Link>
 
-                            {/* secondary Links */}
-                            <div className="pt-4 border-t border-slate-100 flex flex-col gap-4">
-                                <Link href="/contact" onClick={() => setMobileMenuOpen(false)} className="text-sm font-bold text-slate-500 hover:text-blue-600 transition-colors px-1">
-                                    Contact Support
-                                </Link>
-                                <ReportIssueLink className="text-sm font-bold text-red-400 hover:text-red-600 transition-colors px-1 cursor-pointer">
+                            {/* Reporting */}
+                            <div className="pt-2 text-center">
+                                <ReportIssueLink className="inline-flex items-center gap-2 text-xs font-bold text-slate-400 hover:text-red-500 transition-colors cursor-pointer px-4 py-2 rounded-full hover:bg-red-50">
+                                    <span className="w-1.5 h-1.5 rounded-full bg-red-400 animate-pulse"></span>
                                     Report a Bug
                                 </ReportIssueLink>
                             </div>
