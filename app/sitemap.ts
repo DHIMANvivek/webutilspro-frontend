@@ -20,6 +20,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
         'mcp-tester',
         'minifier',
         'password-generator',
+        'pdf-extractor',
         'prompt-optimizer',
         'qr-code-generator',
         'regex-tester',
