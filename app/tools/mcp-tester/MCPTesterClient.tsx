@@ -28,6 +28,8 @@ export default function MCPTesterClient() {
         checkConnectionStatus();
     }, []);
 
+    // Use relative path to leverage Next.js Rewrites (Proxy).
+    // This allows SameSite:Lax cookies to work on Localhost (HTTP) by making it a same-origin request.
     const checkConnectionStatus = async () => {
         try {
             const response = await fetch('/api/mcp/status', {
@@ -108,20 +110,26 @@ export default function MCPTesterClient() {
 
     const loadCapabilities = async () => {
         setIsLoadingCapabilities(true);
+        console.log('[MCP Client] Loading capabilities from:', '/api/mcp/capabilities');
+
         try {
             const response = await fetch('/api/mcp/capabilities', {
                 credentials: 'include'
             });
 
-            if (response.ok) {
-                const data = await response.json();
-                if (data.success) {
-                    setTools(data.tools || []);
-                    setResources(data.resources || []);
-                    setPrompts(data.prompts || []);
-                    return data.tools || [];
-                }
+            if (!response.ok) {
+                const errorData = await response.json().catch(() => ({}));
+                throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
             }
+
+            const data = await response.json();
+            if (data.success) {
+                setTools(data.tools || []);
+                setResources(data.resources || []);
+                setPrompts(data.prompts || []);
+                return data.tools || [];
+            }
+
             return [];
         } catch (error: any) {
             console.error('Error loading capabilities:', error);
