@@ -185,6 +185,27 @@ export default function HomePage() {
             href: '/tools/sketch-board',
             category: 'Design',
         },
+        {
+            name: 'Cron Job Generator',
+            description: 'Visual schedule builder for cron expressions with natural language.',
+            icon: '⏰',
+            href: '/tools/cron-job-generator',
+            category: 'Utilities',
+        },
+        {
+            name: 'OG Image Generator',
+            description: 'Design and preview Open Graph social sharing cards.',
+            icon: '🖼️',
+            href: '/tools/og-image-generator',
+            category: 'Design',
+        },
+        {
+            name: 'HTTP Headers Analyzer',
+            description: 'Analyze website security headers and get a security grade.',
+            icon: '🛡️',
+            href: '/tools/http-headers-analyzer',
+            category: 'Security',
+        },
     ];
 
     return (

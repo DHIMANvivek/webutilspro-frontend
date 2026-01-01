@@ -214,6 +214,21 @@ const TOOL_INSIGHTS: Record<string, { title: string; features: string[]; icon: a
         title: 'Collaboration Hub',
         features: ['Real-time syncing', 'Multi-user drawing support', 'Instant canvas sharing'],
         icon: Palette, color: 'text-pink-500', bg: 'bg-pink-500/10'
+    },
+    'cron-job-generator': {
+        title: 'Scheduler Logic',
+        features: ['Visual schedule builder', 'Natural language parsing', 'Next.js Cron syntax'],
+        icon: Clock, color: 'text-blue-600', bg: 'bg-blue-600/10'
+    },
+    'og-image-generator': {
+        title: 'Social Preview',
+        features: ['Live Twitter/LinkedIn preview', 'Edge runtime code export', 'Dynamic gradients'],
+        icon: Image, color: 'text-purple-600', bg: 'bg-purple-600/10'
+    },
+    'http-headers-analyzer': {
+        title: 'Security Audit',
+        features: ['CSP & HSTS detection', 'Security grade scoring', 'OWASP recommendations'],
+        icon: Shield, color: 'text-emerald-600', bg: 'bg-emerald-600/10'
     }
 };
 

@@ -2,7 +2,25 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
-import { ChevronDown, Menu, X, Rocket, Code, FileText, Database, Shield, Palette, Layout, Wrench, ShoppingCart, Search, Sparkles, Zap } from 'lucide-react';
+import {
+    ChevronDown,
+    Menu,
+    X,
+    Rocket,
+    Code,
+    FileText,
+    Database,
+    Shield,
+    Palette,
+    Layout,
+    Wrench,
+    ShoppingCart,
+    Search,
+    Sparkles,
+    Zap,
+    Clock,
+    Image as ImageIcon
+} from 'lucide-react';
 import ReportIssueLink from './ReportIssueLink';
 
 export default function Header() {
@@ -99,6 +117,18 @@ export default function Header() {
                                                 <Database className="w-3 h-3" /> Data & Utilities
                                             </p>
                                             <div className="space-y-1">
+                                                <Link href="/tools/cron-job-generator" className="flex items-center gap-3 px-3 py-2 text-sm text-gray-700 hover:bg-emerald-50 hover:text-emerald-600 rounded-xl transition-all group/item">
+                                                    <span className="p-1.5 rounded-lg bg-emerald-50 text-emerald-600 group-hover/item:bg-emerald-600 group-hover/item:text-white transition-colors">
+                                                        <Clock className="w-3.5 h-3.5" />
+                                                    </span>
+                                                    Cron Generator
+                                                </Link>
+                                                <Link href="/tools/http-headers-analyzer" className="flex items-center gap-3 px-3 py-2 text-sm text-gray-700 hover:bg-emerald-50 hover:text-emerald-600 rounded-xl transition-all group/item">
+                                                    <span className="p-1.5 rounded-lg bg-emerald-50 text-emerald-600 group-hover/item:bg-emerald-600 group-hover/item:text-white transition-colors">
+                                                        <Shield className="w-3.5 h-3.5" />
+                                                    </span>
+                                                    Header Analyzer
+                                                </Link>
                                                 <Link href="/tools/json-to-csv" className="flex items-center gap-3 px-3 py-2 text-sm text-gray-700 hover:bg-emerald-50 hover:text-emerald-600 rounded-xl transition-all group/item">
                                                     <span className="p-1.5 rounded-lg bg-emerald-50 text-emerald-600 group-hover/item:bg-emerald-600 group-hover/item:text-white transition-colors">
                                                         <Database className="w-3.5 h-3.5" />
@@ -119,11 +149,44 @@ export default function Header() {
                                                 <Palette className="w-3 h-3" /> Design
                                             </p>
                                             <div className="space-y-1">
+                                                <Link href="/tools/og-image-generator" className="flex items-center gap-3 px-3 py-2 text-sm text-gray-700 hover:bg-pink-50 hover:text-pink-600 rounded-xl transition-all group/item">
+                                                    <span className="p-1.5 rounded-lg bg-pink-50 text-pink-600 group-hover/item:bg-pink-600 group-hover/item:text-white transition-colors">
+                                                        <ImageIcon className="w-3.5 h-3.5" />
+                                                    </span>
+                                                    OG Image Gen
+                                                </Link>
                                                 <Link href="/tools/color-picker" className="flex items-center gap-3 px-3 py-2 text-sm text-gray-700 hover:bg-pink-50 hover:text-pink-600 rounded-xl transition-all group/item">
                                                     <span className="p-1.5 rounded-lg bg-pink-50 text-pink-600 group-hover/item:bg-pink-600 group-hover/item:text-white transition-colors">
                                                         <Palette className="w-3.5 h-3.5" />
                                                     </span>
                                                     Color Picker
+                                                </Link>
+                                                <Link href="/tools/cron-job-generator" className="flex items-center gap-3 px-3 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-xl transition-all group/item">
+                                                    <div className="p-1.5 bg-blue-100 text-blue-600 rounded-lg group-hover/item:bg-blue-200 transition-colors">
+                                                        <Clock size={16} />
+                                                    </div>
+                                                    <div>
+                                                        <div className="font-semibold">Cron Generator</div>
+                                                        <div className="text-[10px] text-gray-400 font-normal">Visual Schedule Builder</div>
+                                                    </div>
+                                                </Link>
+                                                <Link href="/tools/og-image-generator" className="flex items-center gap-3 px-3 py-2 text-sm text-gray-700 hover:bg-purple-50 hover:text-purple-600 rounded-xl transition-all group/item">
+                                                    <div className="p-1.5 bg-purple-100 text-purple-600 rounded-lg group-hover/item:bg-purple-200 transition-colors">
+                                                        <ImageIcon size={16} />
+                                                    </div>
+                                                    <div>
+                                                        <div className="font-semibold">OG Image Gen</div>
+                                                        <div className="text-[10px] text-gray-400 font-normal">Social Card Maker</div>
+                                                    </div>
+                                                </Link>
+                                                <Link href="/tools/http-headers-analyzer" className="flex items-center gap-3 px-3 py-2 text-sm text-gray-700 hover:bg-emerald-50 hover:text-emerald-600 rounded-xl transition-all group/item">
+                                                    <div className="p-1.5 bg-emerald-100 text-emerald-600 rounded-lg group-hover/item:bg-emerald-200 transition-colors">
+                                                        <Shield size={16} />
+                                                    </div>
+                                                    <div>
+                                                        <div className="font-semibold">Header Analyzer</div>
+                                                        <div className="text-[10px] text-gray-400 font-normal">Security Scanner</div>
+                                                    </div>
                                                 </Link>
                                                 <Link href="/tools/sketch-board" className="flex items-center gap-3 px-3 py-2 text-sm text-gray-700 hover:bg-pink-50 hover:text-pink-600 rounded-xl transition-all group/item">
                                                     <span className="p-1.5 rounded-lg bg-pink-50 text-pink-600 group-hover/item:bg-pink-600 group-hover/item:text-white transition-colors">

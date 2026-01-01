@@ -246,6 +246,30 @@ const TOOLS: Tool[] = [
         keywords: ['bug', 'report', 'issue', 'error', 'help', 'support']
     },
     {
+        id: 'cron-job-generator',
+        name: 'Cron Job Generator',
+        description: 'Visual builder for Cron schedules.',
+        href: '/tools/cron-job-generator',
+        category: 'Utilities',
+        keywords: ['cron', 'schedule', 'time', 'generator']
+    },
+    {
+        id: 'og-image-generator',
+        name: 'OG Image Playground',
+        description: 'Design Social Media Cards & Get Code.',
+        href: '/tools/og-image-generator',
+        category: 'Utilities',
+        keywords: ['og', 'image', 'social', 'meta', 'maker']
+    },
+    {
+        id: 'http-headers-analyzer',
+        name: 'HTTP Headers Analyzer',
+        description: 'Scan Security Headers and get a grade.',
+        href: '/tools/http-headers-analyzer',
+        category: 'Dev',
+        keywords: ['http', 'headers', 'security', 'scan']
+    },
+    {
         id: 'sketch-board',
         name: 'Sketch Board',
         description: 'Collaborative real-time whiteboard for drawing and diagramming.',
