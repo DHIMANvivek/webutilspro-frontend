@@ -29,6 +29,7 @@
     "react-dom": "^18.3.0",
     "react-hot-toast": "^2.6.0",
     "react-markdown": "^10.1.0",
+    "remark-gfm": "^4.0.1",
     "sql-formatter": "^15.6.12",
     "terser": "^5.44.1",
     "uuid": "^13.0.0"

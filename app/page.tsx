@@ -46,6 +46,13 @@ export default function HomePage() {
             category: 'AI-Powered',
         },
         {
+            name: 'PDF Text Extractor',
+            description: 'Extract text from complex PDFs containing images with AI.',
+            icon: '📄',
+            href: '/tools/pdf-extractor',
+            category: 'AI-Powered',
+        },
+        {
             name: 'Code Formatter',
             description: 'Beautify JavaScript, HTML, CSS, JSON, and SQL code instantly.',
             icon: '💫',

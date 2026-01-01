@@ -67,6 +67,15 @@ const FEATURED_TOOLS = [
         icon: Target,
         color: 'text-amber-500',
         bg: 'bg-amber-500/10'
+    },
+    {
+        id: 'pdf-extractor',
+        name: 'PDF Text Extractor',
+        description: 'Extract text from complex PDFs.',
+        href: '/tools/pdf-extractor',
+        icon: FileType,
+        color: 'text-rose-500',
+        bg: 'bg-rose-500/10'
     }
 ];
 
@@ -195,6 +204,11 @@ const TOOL_INSIGHTS: Record<string, { title: string; features: string[]; icon: a
         title: 'Config Strategy',
         features: ['YAML-to-JSON swap', 'Indentation validation', 'Cloud-ready parsing'],
         icon: FileCode, color: 'text-yellow-600', bg: 'bg-yellow-600/10'
+    },
+    'pdf-extractor': {
+        title: 'AI Extraction Power',
+        features: ['LlamaIndex AI OCR', 'Complex layout handling', 'Markdown formatting'],
+        icon: FileType, color: 'text-rose-500', bg: 'bg-rose-500/10'
     }
 };
 

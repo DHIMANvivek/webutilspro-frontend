@@ -54,6 +54,14 @@ const TOOLS: Tool[] = [
         keywords: ['prompt', 'llm', 'gpt', 'claude', 'optimize']
     },
     {
+        id: 'pdf-extractor',
+        name: 'PDF Text Extractor',
+        description: 'Extract text from complex PDFs with images using AI.',
+        href: '/tools/pdf-extractor',
+        category: 'AI',
+        keywords: ['pdf', 'extract', 'text', 'ocr', 'document', 'llamaindex', 'ai']
+    },
+    {
         id: 'woocommerce',
         name: 'WooCommerce Manager',
         description: 'Securely manage products and orders with AI assistance.',
