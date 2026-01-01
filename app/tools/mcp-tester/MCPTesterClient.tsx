@@ -1,10 +1,10 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import MCPConfigForm from '../../../components/tools/MCPTester/MCPConfigForm';
-import MCPDiscoveryPanel from '../../../components/tools/MCPTester/MCPDiscoveryPanel';
-import MCPChatInterface from '../../../components/tools/MCPTester/MCPChatInterface';
-import MCPPresetServers from '../../../components/tools/MCPTester/MCPPresetServers';
+import MCPConfigForm from '@/components/tools/MCPTester/MCPConfigForm';
+import MCPDiscoveryPanel from '@/components/tools/MCPTester/MCPDiscoveryPanel';
+import MCPChatInterface from '@/components/tools/MCPTester/MCPChatInterface';
+import MCPPresetServers from '@/components/tools/MCPTester/MCPPresetServers';
 import { AlertCircle, BookOpen } from 'lucide-react';
 
 interface MCPConfig {

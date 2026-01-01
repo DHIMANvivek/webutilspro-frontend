@@ -1,10 +1,10 @@
 'use client';
 
 import { useState } from 'react';
-import WooAuth from '../../../components/tools/WooCommerce/WooAuth';
-import ProductManager from '../../../components/tools/WooCommerce/ProductManager';
-import OrderManager from '../../../components/tools/WooCommerce/OrderManager';
-import ChatInterface from '../../../components/tools/WooCommerce/ChatInterface';
+import WooAuth from '@/components/tools/WooCommerce/WooAuth';
+import ProductManager from '@/components/tools/WooCommerce/ProductManager';
+import OrderManager from '@/components/tools/WooCommerce/OrderManager';
+import ChatInterface from '@/components/tools/WooCommerce/ChatInterface';
 
 export default function WooCommerceClient() {
     const [isConnected, setIsConnected] = useState(false);
