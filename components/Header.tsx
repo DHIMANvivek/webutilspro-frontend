@@ -26,6 +26,7 @@ import ReportIssueLink from './ReportIssueLink';
 
 export default function Header() {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+    const [isToolsOpen, setIsToolsOpen] = useState(false);
 
     return (
         <header className="bg-white/80 backdrop-blur-md border-b border-slate-200/60 sticky top-0 z-50 shadow-sm">
@@ -63,12 +64,19 @@ export default function Header() {
                         </Link>
 
                         {/* Tools Dropdown */}
-                        <div className="relative group">
+                        <div
+                            className="relative group"
+                            onMouseEnter={() => setIsToolsOpen(true)}
+                            onMouseLeave={() => setIsToolsOpen(false)}
+                        >
                             <button className="text-gray-600 hover:text-blue-600 transition-colors font-semibold text-sm uppercase tracking-wider flex items-center gap-1">
                                 Tools
-                                <ChevronDown className="w-4 h-4 group-hover:rotate-180 transition-transform duration-300" />
+                                <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${isToolsOpen ? 'rotate-180' : ''}`} />
                             </button>
-                            <div className="absolute left-1/2 -translate-x-1/2 mt-4 w-[500px] bg-white rounded-2xl shadow-2xl border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform group-hover:translate-y-0 translate-y-2">
+                            <div
+                                className={`absolute left-1/2 -translate-x-1/2 mt-4 w-[500px] bg-white rounded-2xl shadow-2xl border border-gray-100 transition-all duration-300 transform 
+                                    ${isToolsOpen ? 'opacity-100 visible translate-y-0' : 'opacity-0 invisible translate-y-2'}`}
+                            >
                                 <div className="p-6 grid grid-cols-2 gap-8">
                                     {/* Column 1 */}
                                     <div className="space-y-6">
@@ -77,19 +85,19 @@ export default function Header() {
                                                 <Rocket className="w-3 h-3" /> AI-Powered
                                             </p>
                                             <div className="space-y-1">
-                                                <Link href="/tools/ai-error-explainer" className="flex items-center gap-3 px-3 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-xl transition-all group/item">
+                                                <Link onClick={() => setIsToolsOpen(false)} href="/tools/ai-error-explainer" className="flex items-center gap-3 px-3 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-xl transition-all group/item">
                                                     <span className="p-1.5 rounded-lg bg-blue-50 text-blue-600 group-hover/item:bg-blue-600 group-hover/item:text-white transition-colors">
                                                         <Code className="w-3.5 h-3.5" />
                                                     </span>
                                                     AI Error Explainer
                                                 </Link>
-                                                <Link href="/tools/prompt-optimizer" className="flex items-center gap-3 px-3 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-xl transition-all group/item">
+                                                <Link onClick={() => setIsToolsOpen(false)} href="/tools/prompt-optimizer" className="flex items-center gap-3 px-3 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-xl transition-all group/item">
                                                     <span className="p-1.5 rounded-lg bg-blue-50 text-blue-600 group-hover/item:bg-blue-600 group-hover/item:text-white transition-colors">
                                                         <FileText className="w-3.5 h-3.5" />
                                                     </span>
                                                     Prompt Optimizer
                                                 </Link>
-                                                <Link href="/tools/pdf-extractor" className="flex items-center gap-3 px-3 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-xl transition-all group/item">
+                                                <Link onClick={() => setIsToolsOpen(false)} href="/tools/pdf-extractor" className="flex items-center gap-3 px-3 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-xl transition-all group/item">
                                                     <span className="p-1.5 rounded-lg bg-blue-50 text-blue-600 group-hover/item:bg-blue-600 group-hover/item:text-white transition-colors">
                                                         <FileText className="w-3.5 h-3.5" />
                                                     </span>
@@ -103,13 +111,13 @@ export default function Header() {
                                                 <Code className="w-3 h-3" /> Code & Text
                                             </p>
                                             <div className="space-y-1">
-                                                <Link href="/tools/regex-tester" className="flex items-center gap-3 px-3 py-2 text-sm text-gray-700 hover:bg-purple-50 hover:text-purple-600 rounded-xl transition-all group/item">
+                                                <Link onClick={() => setIsToolsOpen(false)} href="/tools/regex-tester" className="flex items-center gap-3 px-3 py-2 text-sm text-gray-700 hover:bg-purple-50 hover:text-purple-600 rounded-xl transition-all group/item">
                                                     <span className="p-1.5 rounded-lg bg-purple-50 text-purple-600 group-hover/item:bg-purple-600 group-hover/item:text-white transition-colors">
                                                         <Layout className="w-3.5 h-3.5" />
                                                     </span>
                                                     Regex Tester
                                                 </Link>
-                                                <Link href="/tools/code-formatter" className="flex items-center gap-3 px-3 py-2 text-sm text-gray-700 hover:bg-purple-50 hover:text-purple-600 rounded-xl transition-all group/item">
+                                                <Link onClick={() => setIsToolsOpen(false)} href="/tools/code-formatter" className="flex items-center gap-3 px-3 py-2 text-sm text-gray-700 hover:bg-purple-50 hover:text-purple-600 rounded-xl transition-all group/item">
                                                     <span className="p-1.5 rounded-lg bg-purple-50 text-purple-600 group-hover/item:bg-purple-600 group-hover/item:text-white transition-colors">
                                                         <Wrench className="w-3.5 h-3.5" />
                                                     </span>
@@ -126,25 +134,25 @@ export default function Header() {
                                                 <Database className="w-3 h-3" /> Data & Utilities
                                             </p>
                                             <div className="space-y-1">
-                                                <Link href="/tools/cron-job-generator" className="flex items-center gap-3 px-3 py-2 text-sm text-gray-700 hover:bg-emerald-50 hover:text-emerald-600 rounded-xl transition-all group/item">
+                                                <Link onClick={() => setIsToolsOpen(false)} href="/tools/cron-job-generator" className="flex items-center gap-3 px-3 py-2 text-sm text-gray-700 hover:bg-emerald-50 hover:text-emerald-600 rounded-xl transition-all group/item">
                                                     <span className="p-1.5 rounded-lg bg-emerald-50 text-emerald-600 group-hover/item:bg-emerald-600 group-hover/item:text-white transition-colors">
                                                         <Clock className="w-3.5 h-3.5" />
                                                     </span>
                                                     Cron Generator
                                                 </Link>
-                                                <Link href="/tools/http-headers-analyzer" className="flex items-center gap-3 px-3 py-2 text-sm text-gray-700 hover:bg-emerald-50 hover:text-emerald-600 rounded-xl transition-all group/item">
+                                                <Link onClick={() => setIsToolsOpen(false)} href="/tools/http-headers-analyzer" className="flex items-center gap-3 px-3 py-2 text-sm text-gray-700 hover:bg-emerald-50 hover:text-emerald-600 rounded-xl transition-all group/item">
                                                     <span className="p-1.5 rounded-lg bg-emerald-50 text-emerald-600 group-hover/item:bg-emerald-600 group-hover/item:text-white transition-colors">
                                                         <Shield className="w-3.5 h-3.5" />
                                                     </span>
                                                     Header Analyzer
                                                 </Link>
-                                                <Link href="/tools/json-to-csv" className="flex items-center gap-3 px-3 py-2 text-sm text-gray-700 hover:bg-emerald-50 hover:text-emerald-600 rounded-xl transition-all group/item">
+                                                <Link onClick={() => setIsToolsOpen(false)} href="/tools/json-to-csv" className="flex items-center gap-3 px-3 py-2 text-sm text-gray-700 hover:bg-emerald-50 hover:text-emerald-600 rounded-xl transition-all group/item">
                                                     <span className="p-1.5 rounded-lg bg-emerald-50 text-emerald-600 group-hover/item:bg-emerald-600 group-hover/item:text-white transition-colors">
                                                         <Database className="w-3.5 h-3.5" />
                                                     </span>
                                                     JSON ↔ CSV
                                                 </Link>
-                                                <Link href="/tools/woocommerce" className="flex items-center gap-3 px-3 py-2 text-sm text-gray-700 hover:bg-emerald-50 hover:text-emerald-600 rounded-xl transition-all group/item">
+                                                <Link onClick={() => setIsToolsOpen(false)} href="/tools/woocommerce" className="flex items-center gap-3 px-3 py-2 text-sm text-gray-700 hover:bg-emerald-50 hover:text-emerald-600 rounded-xl transition-all group/item">
                                                     <span className="p-1.5 rounded-lg bg-emerald-50 text-emerald-600 group-hover/item:bg-emerald-600 group-hover/item:text-white transition-colors">
                                                         <ShoppingCart className="w-3.5 h-3.5" />
                                                     </span>
@@ -158,46 +166,19 @@ export default function Header() {
                                                 <Palette className="w-3 h-3" /> Design
                                             </p>
                                             <div className="space-y-1">
-                                                <Link href="/tools/og-image-generator" className="flex items-center gap-3 px-3 py-2 text-sm text-gray-700 hover:bg-pink-50 hover:text-pink-600 rounded-xl transition-all group/item">
+                                                <Link onClick={() => setIsToolsOpen(false)} href="/tools/og-image-generator" className="flex items-center gap-3 px-3 py-2 text-sm text-gray-700 hover:bg-pink-50 hover:text-pink-600 rounded-xl transition-all group/item">
                                                     <span className="p-1.5 rounded-lg bg-pink-50 text-pink-600 group-hover/item:bg-pink-600 group-hover/item:text-white transition-colors">
                                                         <ImageIcon className="w-3.5 h-3.5" />
                                                     </span>
                                                     OG Image Gen
                                                 </Link>
-                                                <Link href="/tools/color-picker" className="flex items-center gap-3 px-3 py-2 text-sm text-gray-700 hover:bg-pink-50 hover:text-pink-600 rounded-xl transition-all group/item">
+                                                <Link onClick={() => setIsToolsOpen(false)} href="/tools/color-picker" className="flex items-center gap-3 px-3 py-2 text-sm text-gray-700 hover:bg-pink-50 hover:text-pink-600 rounded-xl transition-all group/item">
                                                     <span className="p-1.5 rounded-lg bg-pink-50 text-pink-600 group-hover/item:bg-pink-600 group-hover/item:text-white transition-colors">
                                                         <Palette className="w-3.5 h-3.5" />
                                                     </span>
                                                     Color Picker
                                                 </Link>
-                                                <Link href="/tools/cron-job-generator" className="flex items-center gap-3 px-3 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-xl transition-all group/item">
-                                                    <div className="p-1.5 bg-blue-100 text-blue-600 rounded-lg group-hover/item:bg-blue-200 transition-colors">
-                                                        <Clock size={16} />
-                                                    </div>
-                                                    <div>
-                                                        <div className="font-semibold">Cron Generator</div>
-                                                        <div className="text-[10px] text-gray-400 font-normal">Visual Schedule Builder</div>
-                                                    </div>
-                                                </Link>
-                                                <Link href="/tools/og-image-generator" className="flex items-center gap-3 px-3 py-2 text-sm text-gray-700 hover:bg-purple-50 hover:text-purple-600 rounded-xl transition-all group/item">
-                                                    <div className="p-1.5 bg-purple-100 text-purple-600 rounded-lg group-hover/item:bg-purple-200 transition-colors">
-                                                        <ImageIcon size={16} />
-                                                    </div>
-                                                    <div>
-                                                        <div className="font-semibold">OG Image Gen</div>
-                                                        <div className="text-[10px] text-gray-400 font-normal">Social Card Maker</div>
-                                                    </div>
-                                                </Link>
-                                                <Link href="/tools/http-headers-analyzer" className="flex items-center gap-3 px-3 py-2 text-sm text-gray-700 hover:bg-emerald-50 hover:text-emerald-600 rounded-xl transition-all group/item">
-                                                    <div className="p-1.5 bg-emerald-100 text-emerald-600 rounded-lg group-hover/item:bg-emerald-200 transition-colors">
-                                                        <Shield size={16} />
-                                                    </div>
-                                                    <div>
-                                                        <div className="font-semibold">Header Analyzer</div>
-                                                        <div className="text-[10px] text-gray-400 font-normal">Security Scanner</div>
-                                                    </div>
-                                                </Link>
-                                                <Link href="/tools/sketch-board" className="flex items-center gap-3 px-3 py-2 text-sm text-gray-700 hover:bg-pink-50 hover:text-pink-600 rounded-xl transition-all group/item">
+                                                <Link onClick={() => setIsToolsOpen(false)} href="/tools/sketch-board" className="flex items-center gap-3 px-3 py-2 text-sm text-gray-700 hover:bg-pink-50 hover:text-pink-600 rounded-xl transition-all group/item">
                                                     <span className="p-1.5 rounded-lg bg-pink-50 text-pink-600 group-hover/item:bg-pink-600 group-hover/item:text-white transition-colors">
                                                         <Palette className="w-3.5 h-3.5" />
                                                     </span>
@@ -208,7 +189,7 @@ export default function Header() {
                                     </div>
                                 </div>
                                 <div className="p-4 bg-slate-50 border-t border-slate-100 rounded-b-2xl">
-                                    <Link href="/#tools" className="block text-center text-xs font-bold text-slate-500 hover:text-blue-600 transition-colors uppercase tracking-widest">
+                                    <Link onClick={() => setIsToolsOpen(false)} href="/#tools" className="block text-center text-xs font-bold text-slate-500 hover:text-blue-600 transition-colors uppercase tracking-widest">
                                         View All 25+ Tools →
                                     </Link>
                                 </div>
