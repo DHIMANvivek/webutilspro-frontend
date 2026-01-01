@@ -178,6 +178,13 @@ export default function HomePage() {
             href: '/tools/yaml-tools',
             category: 'Data',
         },
+        {
+            name: 'Sketch Board',
+            description: 'Real-time collaborative whiteboard for diagrams and ideas.',
+            icon: '🎨',
+            href: '/tools/sketch-board',
+            category: 'Design',
+        },
     ];
 
     return (

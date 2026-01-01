@@ -209,6 +209,11 @@ const TOOL_INSIGHTS: Record<string, { title: string; features: string[]; icon: a
         title: 'AI Extraction Power',
         features: ['LlamaIndex AI OCR', 'Complex layout handling', 'Markdown formatting'],
         icon: FileType, color: 'text-rose-500', bg: 'bg-rose-500/10'
+    },
+    'sketch-board': {
+        title: 'Collaboration Hub',
+        features: ['Real-time syncing', 'Multi-user drawing support', 'Instant canvas sharing'],
+        icon: Palette, color: 'text-pink-500', bg: 'bg-pink-500/10'
     }
 };
 

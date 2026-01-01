@@ -125,6 +125,12 @@ export default function Header() {
                                                     </span>
                                                     Color Picker
                                                 </Link>
+                                                <Link href="/tools/sketch-board" className="flex items-center gap-3 px-3 py-2 text-sm text-gray-700 hover:bg-pink-50 hover:text-pink-600 rounded-xl transition-all group/item">
+                                                    <span className="p-1.5 rounded-lg bg-pink-50 text-pink-600 group-hover/item:bg-pink-600 group-hover/item:text-white transition-colors">
+                                                        <Palette className="w-3.5 h-3.5" />
+                                                    </span>
+                                                    Sketch Board
+                                                </Link>
                                             </div>
                                         </div>
                                     </div>

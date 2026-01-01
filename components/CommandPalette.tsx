@@ -244,6 +244,14 @@ const TOOLS: Tool[] = [
         href: 'https://github.com/DHIMANvivek/webutilspro-issues/issues/new',
         category: 'Systems',
         keywords: ['bug', 'report', 'issue', 'error', 'help', 'support']
+    },
+    {
+        id: 'sketch-board',
+        name: 'Sketch Board',
+        description: 'Collaborative real-time whiteboard for drawing and diagramming.',
+        href: '/tools/sketch-board',
+        category: 'Utilities',
+        keywords: ['sketch', 'draw', 'whiteboard', 'collaborate', 'diagram', 'canvas']
     }
 ];
 
