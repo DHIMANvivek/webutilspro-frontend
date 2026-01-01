@@ -101,7 +101,13 @@ export default function SketchBoard() {
         if (!roomId) return;
 
         // Initialize socket connection
-        const newSocket = io(process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000');
+        const isProduction = process.env.NODE_ENV === 'production';
+        const socketUrl = process.env.NEXT_PUBLIC_API_URL || (isProduction ? undefined : 'http://localhost:4000');
+
+        const newSocket = io(socketUrl || undefined, {
+            autoConnect: true,
+            reconnection: true,
+        });
 
         newSocket.on('connect', () => {
             setIsConnected(true);
