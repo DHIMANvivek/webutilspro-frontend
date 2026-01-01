@@ -189,23 +189,6 @@ export default function HomePage() {
 
     return (
         <div className="min-h-screen">
-            {/* Announcement Banner */}
-            <div className="flex justify-center pt-6 px-4 bg-white">
-                <Link href="/tools/sketch-board" className="relative group inline-flex items-center gap-3 bg-indigo-900 hover:bg-indigo-800 text-white px-4 py-2 rounded-full border border-indigo-500/30 transition-all shadow-lg hover:shadow-indigo-500/25 hover:-translate-y-0.5 overflow-hidden ring-1 ring-indigo-900/5">
-                    <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 brightness-100 contrast-150 pointer-events-none"></div>
-                    <div className="relative z-10 flex items-center gap-3 text-sm font-medium">
-                        <span className="bg-indigo-500 text-white px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider shadow-sm">New</span>
-                        <span className="hidden sm:inline text-indigo-100">The Ultimate Collaborative Sketch Board is Live</span>
-                        <span className="sm:hidden text-indigo-100">Sketch Board Live</span>
-                        <div className="w-px h-4 bg-indigo-700 hidden sm:block"></div>
-                        <span className="text-white flex items-center gap-1 group-hover:gap-2 transition-all">
-                            Try Now
-                            <ArrowRight className="w-3.5 h-3.5" />
-                        </span>
-                    </div>
-                </Link>
-            </div>
-
             {/* Hero Section */}
             <section className="relative py-24 md:py-32 overflow-hidden bg-white">
                 <div className="absolute inset-0 z-0">
@@ -215,13 +198,13 @@ export default function HomePage() {
 
                 <div className="container-custom relative z-10">
                     <div className="text-center max-w-4xl mx-auto">
-                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-100 mb-8 animate-fade-in">
-                            <span className="relative flex h-2 w-2">
-                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
-                                <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
+                        <Link href="/tools/sketch-board" className="inline-flex items-center gap-3 px-1 py-1 pr-4 rounded-full bg-slate-900 border border-indigo-500/30 mb-8 animate-fade-in hover:scale-105 transition-transform cursor-pointer group shadow-lg shadow-indigo-500/20">
+                            <span className="bg-indigo-500 text-white px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider shadow-sm">NEW</span>
+                            <span className="text-sm font-medium text-indigo-100 group-hover:text-white transition-colors">
+                                The Ultimate Collaborative Sketch Board is Live
                             </span>
-                            <span className="text-[11px] font-bold text-blue-700 uppercase tracking-wider">New Tools Added Weekly</span>
-                        </div>
+                            <ArrowRight className="w-4 h-4 text-indigo-400 group-hover:text-white group-hover:translate-x-1 transition-all" />
+                        </Link>
 
                         <h1 className="text-6xl md:text-7xl font-black text-slate-900 mb-8 tracking-tight leading-[1.1]">
                             Free Developer Tools for <br className="hidden md:block" />
@@ -230,7 +213,7 @@ export default function HomePage() {
                         <p className="text-xl text-slate-600 mb-10 max-w-2xl mx-auto leading-relaxed font-medium">
                             The all-in-one hub for your daily development needs. Fast, secure, and powered by the latest AI technologies.
                         </p>
-                        <div className="flex flex-col sm:flex-row gap-5 justify-center items-center">
+                        <div className="flex flex-col sm:flex-row gap-5 justify-center items-center mb-12">
                             <a href="#tools" className="btn-primary px-10 py-4 text-lg">
                                 Explore Workflow Tools
                             </a>
@@ -238,6 +221,14 @@ export default function HomePage() {
                                 <span>Learn about WebUtilsPro</span>
                                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                             </Link>
+                        </div>
+
+                        <div className="flex items-center justify-center gap-2 text-sm text-slate-500 font-medium animate-fade-in">
+                            <span className="relative flex h-2 w-2">
+                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                                <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                            </span>
+                            <span>Fresh tools added every week</span>
                         </div>
                     </div>
                 </div>
