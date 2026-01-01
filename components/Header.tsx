@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
+import { usePathname } from 'next/navigation';
 import {
     ChevronDown,
     Menu,
@@ -27,6 +28,7 @@ import ReportIssueLink from './ReportIssueLink';
 export default function Header() {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [isToolsOpen, setIsToolsOpen] = useState(false);
+    const pathname = usePathname();
 
     return (
         <header className="bg-white/80 backdrop-blur-md border-b border-slate-200/60 sticky top-0 z-50 shadow-sm">
@@ -55,13 +57,15 @@ export default function Header() {
                             Home
                         </Link>
 
-                        <Link
-                            href="/blog"
-                            className="text-gray-600 hover:text-blue-600 transition-colors font-semibold text-sm uppercase tracking-wider flex items-center gap-1.5"
-                        >
-                            <BookOpen className="w-4 h-4" />
-                            Insights
-                        </Link>
+                        {!pathname?.startsWith('/blog') && (
+                            <Link
+                                href="/blog"
+                                className="text-gray-600 hover:text-blue-600 transition-colors font-semibold text-sm uppercase tracking-wider flex items-center gap-1.5"
+                            >
+                                <BookOpen className="w-4 h-4" />
+                                Insights
+                            </Link>
+                        )}
 
                         {/* Tools Dropdown */}
                         <div
