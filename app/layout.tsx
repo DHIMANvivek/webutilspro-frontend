@@ -71,6 +71,7 @@ export default function RootLayout({
         <html lang="en">
             <head>
                 <GoogleTagManager />
+                <meta name="google-adsense-account" content="ca-pub-5500315527317299" />
                 <link rel="icon" href="/logo.png" />
 
                 <script
