@@ -71,6 +71,17 @@ export default function RootLayout({
             <head>
                 <GoogleTagManager />
                 <link rel="icon" href="/logo.png" />
+                <script async src="https://www.googletagmanager.com/gtag/js?id=G-GFNMJ2CBG3"></script>
+                <script
+                    dangerouslySetInnerHTML={{
+                        __html: `
+                            window.dataLayer = window.dataLayer || [];
+                            function gtag(){dataLayer.push(arguments);}
+                            gtag('js', new Date());
+                            gtag('config', ${process.env.NEXT_PUBLIC_GA_ID});
+                        `,
+                    }}
+                />
                 <script
                     type="application/ld+json"
                     dangerouslySetInnerHTML={{
