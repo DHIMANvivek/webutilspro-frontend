@@ -1,7 +1,7 @@
 'use client';
 
-import { useState } from 'react';
-import { Send, Save, History, Code, Download, Copy, Check, Loader2, Plus, X, Trash2 } from 'lucide-react';
+import { useState, useRef, useEffect } from 'react';
+import { Send, Save, History, Code, Download, Copy, Check, Loader2, Plus, X, Trash2, ChevronDown, FileText } from 'lucide-react';
 
 type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH' | 'HEAD' | 'OPTIONS';
 
@@ -44,6 +44,8 @@ export default function APIPlaygroundClient() {
     const [copied, setCopied] = useState(false);
     const [savedRequests, setSavedRequests] = useState<SavedRequest[]>([]);
     const [requestHistory, setRequestHistory] = useState<SavedRequest[]>([]);
+    const [showCurlImport, setShowCurlImport] = useState(false);
+    const [curlCommand, setCurlCommand] = useState('');
 
     const sendRequest = async () => {
         setLoading(true);
@@ -136,6 +138,92 @@ export default function APIPlaygroundClient() {
         setSavedRequests(prev => [saved, ...prev]);
     };
 
+    const parseCurl = (curlCmd: string) => {
+        try {
+            // Clean up the command
+            const cleaned = curlCmd.trim().replace(/\\\n/g, ' ').replace(/\s+/g, ' ');
+
+            // Extract URL - look for http(s):// pattern
+            const urlMatch = cleaned.match(/https?:\/\/[^\s'"]+/i);
+            if (urlMatch) {
+                setUrl(urlMatch[0]);
+            }
+
+            // Extract method (default to GET if not specified)
+            const methodMatch = cleaned.match(/-X\s+(\w+)/i) || cleaned.match(/--request\s+(\w+)/i);
+            if (methodMatch) {
+                setMethod(methodMatch[1].toUpperCase() as HttpMethod);
+            } else {
+                // Check if there's data - if so, default to POST
+                if (cleaned.includes('-d ') || cleaned.includes('--data')) {
+                    setMethod('POST');
+                } else {
+                    setMethod('GET');
+                }
+            }
+
+            // Extract headers
+            const headerMatches = Array.from(cleaned.matchAll(/-H\s+['"]([^'"]+)['"]/gi));
+            const parsedHeaders: Header[] = [];
+            for (const match of headerMatches) {
+                const colonIndex = match[1].indexOf(':');
+                if (colonIndex > 0) {
+                    const key = match[1].substring(0, colonIndex).trim();
+                    const value = match[1].substring(colonIndex + 1).trim();
+                    parsedHeaders.push({
+                        key,
+                        value,
+                        enabled: true
+                    });
+                }
+            }
+            if (parsedHeaders.length > 0) {
+                setHeaders(parsedHeaders);
+            }
+
+            // Extract body data - handle various formats
+            let bodyData = null;
+
+            // Try different data flag patterns
+            const dataPatterns = [
+                /(?:--data-raw|--data|-d)\s+['"](.+)['"]/s,
+                /(?:--data-raw|--data|-d)\s+(.+?)(?:\s+-[A-Z]|$)/s,
+            ];
+
+            for (const pattern of dataPatterns) {
+                const match = cleaned.match(pattern);
+                if (match) {
+                    bodyData = match[1].trim();
+                    // Remove surrounding quotes if present
+                    if ((bodyData.startsWith("'") && bodyData.endsWith("'")) ||
+                        (bodyData.startsWith('"') && bodyData.endsWith('"'))) {
+                        bodyData = bodyData.slice(1, -1);
+                    }
+                    break;
+                }
+            }
+
+            if (bodyData) {
+                // Try to parse as JSON to pretty print it
+                try {
+                    const parsed = JSON.parse(bodyData);
+                    setBody(JSON.stringify(parsed, null, 2));
+                    setBodyType('json');
+                } catch {
+                    // If not valid JSON, just use the raw data
+                    setBody(bodyData);
+                    setBodyType('raw');
+                }
+            }
+
+            setShowCurlImport(false);
+            setCurlCommand('');
+        } catch (err) {
+            console.error('cURL parse error:', err);
+            alert('Failed to parse cURL command. Please check the format.');
+        }
+    };
+
     const loadRequest = (req: SavedRequest) => {
         setMethod(req.method);
         setUrl(req.url);
@@ -187,6 +275,15 @@ export default function APIPlaygroundClient() {
                     />
 
                     <button
+                        onClick={() => setShowCurlImport(true)}
+                        className="flex items-center gap-2 px-4 py-2.5 bg-white hover:bg-gray-50 border border-gray-300 text-gray-700 font-semibold rounded-lg transition-all"
+                        title="Import cURL"
+                    >
+                        <FileText className="w-4 h-4" />
+                        Import cURL
+                    </button>
+
+                    <button
                         onClick={sendRequest}
                         disabled={loading || !url}
                         className="flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 disabled:from-gray-400 disabled:to-gray-400 text-white font-bold rounded-lg transition-all shadow-md hover:shadow-lg disabled:shadow-none"
@@ -196,6 +293,47 @@ export default function APIPlaygroundClient() {
                     </button>
                 </div>
             </div>
+
+            {/* cURL Import Modal */}
+            {showCurlImport && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+                    <div className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl mx-4 p-6">
+                        <div className="flex items-center justify-between mb-4">
+                            <h3 className="text-xl font-black text-gray-900">Import cURL Command</h3>
+                            <button
+                                onClick={() => setShowCurlImport(false)}
+                                className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                            >
+                                <X className="w-5 h-5" />
+                            </button>
+                        </div>
+                        <p className="text-sm text-gray-600 mb-4">
+                            Paste your cURL command below and we'll automatically parse it into the request builder.
+                        </p>
+                        <textarea
+                            value={curlCommand}
+                            onChange={(e) => setCurlCommand(e.target.value)}
+                            placeholder="curl -X POST https://api.example.com/data \&#10;  -H 'Content-Type: application/json' \&#10;  -d '{&quot;key&quot;: &quot;value&quot;}'"
+                            className="w-full h-48 px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 font-mono text-sm resize-none"
+                        />
+                        <div className="flex justify-end gap-3 mt-4">
+                            <button
+                                onClick={() => setShowCurlImport(false)}
+                                className="px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors font-medium"
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                onClick={() => parseCurl(curlCommand)}
+                                disabled={!curlCommand.trim()}
+                                className="px-6 py-2 bg-indigo-600 hover:bg-indigo-500 disabled:bg-gray-300 text-white font-bold rounded-lg transition-all"
+                            >
+                                Import
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
 
             <div className="grid grid-cols-12 gap-4">
                 {/* Left: Request Config */}
@@ -207,8 +345,8 @@ export default function APIPlaygroundClient() {
                                 key={tab}
                                 onClick={() => setActiveTab(tab as any)}
                                 className={`flex-1 px-3 py-2 rounded-md font-semibold text-sm transition-all ${activeTab === tab
-                                        ? 'bg-indigo-600 text-white shadow-sm'
-                                        : 'text-gray-600 hover:bg-gray-50'
+                                    ? 'bg-indigo-600 text-white shadow-sm'
+                                    : 'text-gray-600 hover:bg-gray-50'
                                     }`}
                             >
                                 {tab.charAt(0).toUpperCase() + tab.slice(1)}
@@ -226,8 +364,8 @@ export default function APIPlaygroundClient() {
                                             key={type}
                                             onClick={() => setBodyType(type as any)}
                                             className={`px-3 py-1 rounded-md text-xs font-bold transition-all ${bodyType === type
-                                                    ? 'bg-indigo-100 text-indigo-700'
-                                                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                                                ? 'bg-indigo-100 text-indigo-700'
+                                                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                                                 }`}
                                         >
                                             {type.toUpperCase()}
@@ -327,8 +465,8 @@ export default function APIPlaygroundClient() {
                                             key={tab}
                                             onClick={() => setResponseTab(tab as any)}
                                             className={`px-4 py-2 rounded-md font-semibold text-sm transition-all ${responseTab === tab
-                                                    ? 'bg-indigo-100 text-indigo-700'
-                                                    : 'text-gray-600 hover:bg-gray-50'
+                                                ? 'bg-indigo-100 text-indigo-700'
+                                                : 'text-gray-600 hover:bg-gray-50'
                                                 }`}
                                         >
                                             {tab.charAt(0).toUpperCase() + tab.slice(1)}
@@ -395,9 +533,9 @@ export default function APIPlaygroundClient() {
                                     >
                                         <div className="flex items-center gap-2 mb-1">
                                             <span className={`text-xs font-bold px-2 py-0.5 rounded ${req.method === 'GET' ? 'bg-green-100 text-green-700' :
-                                                    req.method === 'POST' ? 'bg-blue-100 text-blue-700' :
-                                                        req.method === 'DELETE' ? 'bg-red-100 text-red-700' :
-                                                            'bg-amber-100 text-amber-700'
+                                                req.method === 'POST' ? 'bg-blue-100 text-blue-700' :
+                                                    req.method === 'DELETE' ? 'bg-red-100 text-red-700' :
+                                                        'bg-amber-100 text-amber-700'
                                                 }`}>
                                                 {req.method}
                                             </span>
