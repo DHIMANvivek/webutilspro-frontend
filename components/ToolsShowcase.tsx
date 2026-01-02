@@ -80,6 +80,11 @@ const FEATURED_TOOLS = [
 ];
 
 const TOOL_INSIGHTS: Record<string, { title: string; features: string[]; icon: any; color: string; bg: string }> = {
+    'api-playground': {
+        title: 'API Testing Pro',
+        features: ['Test REST, GraphQL & WebSocket APIs', 'Generate code in 5+ languages', 'Save collections & history'],
+        icon: Zap, color: 'text-indigo-500', bg: 'bg-indigo-500/10'
+    },
     'mcp-tester': {
         title: 'MCP Power Features',
         features: ['Secure sandbox environment', 'Custom server support', 'Real-time tool inspection'],

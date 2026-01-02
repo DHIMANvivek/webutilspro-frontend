@@ -187,6 +187,13 @@ export default function HomePage() {
             category: 'Design',
         },
         {
+            name: 'API Playground',
+            description: 'Professional REST API testing tool. Test APIs with code generation.',
+            icon: '⚡',
+            href: '/tools/api-playground',
+            category: 'Developer',
+        },
+        {
             name: 'Cron Job Generator',
             description: 'Visual schedule builder for cron expressions with natural language.',
             icon: '⏰',

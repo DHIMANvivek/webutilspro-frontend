@@ -62,6 +62,14 @@ const TOOLS: Tool[] = [
         keywords: ['pdf', 'extract', 'text', 'ocr', 'document', 'llamaindex', 'ai']
     },
     {
+        id: 'api-playground',
+        name: 'API Playground',
+        description: 'Professional REST API testing tool with code generation.',
+        href: '/tools/api-playground',
+        category: 'Dev',
+        keywords: ['api', 'rest', 'postman', 'http', 'test', 'request', 'graphql', 'playground', 'curl']
+    },
+    {
         id: 'woocommerce',
         name: 'WooCommerce Manager',
         description: 'Securely manage products and orders with AI assistance.',

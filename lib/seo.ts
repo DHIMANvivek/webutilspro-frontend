@@ -90,7 +90,10 @@ export function generateBreadcrumb(items: { name: string; url: string }[]) {
             '@type': 'ListItem',
             position: index + 1,
             name: item.name,
-            item: item.url,
+            item: {
+                '@id': item.url,
+                '@type': 'WebPage'
+            }
         })),
     };
 }

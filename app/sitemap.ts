@@ -6,6 +6,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
     const tools = [
         'ai-error-explainer',
+        'api-playground',
         'base64',
         'code-formatter',
         'color-picker',
