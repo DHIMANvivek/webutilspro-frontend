@@ -185,7 +185,7 @@ export default function PushNotificationDashboard() {
     const copyEmbedCode = () => {
         if (selectedProject) {
             const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://webutilspro.com';
-            const embedCode = `<script src="${siteUrl}/push-widget.js" data-api-key="${selectedProject.apiKey}"></script>`;
+            const embedCode = `<script src="${siteUrl}/push-widget.js" data-api-key="${selectedProject.apiKey}" async></script>`;
             navigator.clipboard.writeText(embedCode);
             toast.success('Embed code copied to clipboard!');
         }
@@ -492,7 +492,7 @@ export default function PushNotificationDashboard() {
                                         Add this code to your website's HTML to enable push notifications:
                                     </p>
                                     <div className="bg-gray-900 text-green-400 p-4 rounded-lg font-mono text-sm overflow-x-auto">
-                                        <code>{`<script src="${process.env.NEXT_PUBLIC_SITE_URL || (typeof window !== 'undefined' ? window.location.origin : 'https://webutilspro.com')}/push-widget.js" data-api-key="${selectedProject.apiKey}"></script>`}</code>
+                                        <code>{`<script src="${process.env.NEXT_PUBLIC_SITE_URL || (typeof window !== 'undefined' ? window.location.origin : 'https://webutilspro.com')}/push-widget.js" data-api-key="${selectedProject.apiKey}" async></script>`}</code>
                                     </div>
                                     <button
                                         onClick={copyEmbedCode}
