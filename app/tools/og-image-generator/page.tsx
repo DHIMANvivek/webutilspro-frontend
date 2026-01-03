@@ -1,5 +1,7 @@
 import { generateMetadata as genMeta, generateToolSchema } from '@/lib/seo';
 import OgImageGeneratorClient from '@/components/tools/OgImageGenerator/OgImageGeneratorClient';
+import Breadcrumbs from '@/components/Breadcrumbs';
+import { LayoutGrid } from 'lucide-react';
 
 export const metadata = genMeta({
     title: 'Open Graph (OG) Image Playground | Social Card Maker',
@@ -23,8 +25,14 @@ const jsonLd = generateToolSchema({
 
 export default function OgImageGeneratorPage() {
     return (
-        <div className="min-h-screen bg-slate-50 dark:bg-[#0B1120]">
+        <div className="min-h-screen bg-slate-50 dark:bg-[#0B1120] dark">
             <div className="container mx-auto px-4 py-12">
+                <Breadcrumbs
+                    items={[
+                        { name: 'Tools', href: '/#tools', icon: <LayoutGrid className="w-3.5 h-3.5" /> },
+                        { name: 'OG Image Generator', href: '/tools/og-image-generator' },
+                    ]}
+                />
                 <script
                     type="application/ld+json"
                     dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

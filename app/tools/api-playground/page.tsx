@@ -1,6 +1,8 @@
 import { Metadata } from 'next';
 import { generateMetadata as genMeta } from '@/lib/seo';
 import APIPlaygroundClient from '@/components/tools/APIPlayground/APIPlaygroundClient';
+import Breadcrumbs from '@/components/Breadcrumbs';
+import { LayoutGrid } from 'lucide-react';
 
 export const metadata: Metadata = genMeta({
     title: 'API Testing Playground - Free Online REST API Tester | Postman Alternative',
@@ -21,10 +23,16 @@ export const metadata: Metadata = genMeta({
 
 export default function APIPlaygroundPage() {
     return (
-        <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+        <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 dark">
             {/* Hero Section */}
             <div className="relative border-b border-slate-700/50 bg-gradient-to-r from-indigo-950/30 to-purple-950/30 backdrop-blur-xl">
                 <div className="container-custom py-12">
+                    <Breadcrumbs
+                        items={[
+                            { name: 'Tools', href: '/#tools', icon: <LayoutGrid className="w-3.5 h-3.5" /> },
+                            { name: 'API Playground', href: '/tools/api-playground' },
+                        ]}
+                    />
                     <div className="max-w-4xl">
                         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 mb-6">
                             <span className="relative flex h-2 w-2">

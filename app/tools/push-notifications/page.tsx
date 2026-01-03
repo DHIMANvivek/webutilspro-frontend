@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { Bell, Rocket, Code2, Users, BarChart3, Globe, Zap, Shield, ArrowRight } from 'lucide-react';
+import { Bell, Rocket, Code2, Users, BarChart3, Globe, Zap, Shield, ArrowRight, LayoutGrid } from 'lucide-react';
+import Breadcrumbs from '@/components/Breadcrumbs';
 
 export const metadata: Metadata = {
     title: 'Push Notification Manager - WebUtilsPro',
@@ -13,6 +14,12 @@ export default function PushNotificationsPage() {
         <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
             {/* Hero Section */}
             <section className="container-custom py-20">
+                <Breadcrumbs
+                    items={[
+                        { name: 'Tools', href: '/#tools', icon: <LayoutGrid className="w-3.5 h-3.5" /> },
+                        { name: 'Push Notifications', href: '/tools/push-notifications' },
+                    ]}
+                />
                 <div className="text-center max-w-4xl mx-auto">
                     <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-100 rounded-full text-blue-700 font-bold text-sm mb-6">
                         <Rocket className="w-4 h-4" />

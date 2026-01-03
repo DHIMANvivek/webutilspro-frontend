@@ -4,9 +4,10 @@ import { useState, useEffect } from 'react';
 import {
     Bell, Plus, Send, Users, BarChart3, Settings, Copy, Check,
     ExternalLink, Calendar, Target, Image as ImageIcon, Link as LinkIcon,
-    Trash2, Eye, TrendingUp, ArrowRight
+    Trash2, Eye, TrendingUp, ArrowRight, LayoutGrid
 } from 'lucide-react';
 import toast from 'react-hot-toast';
+import Breadcrumbs from '@/components/Breadcrumbs';
 
 interface Project {
     _id: string;
@@ -381,6 +382,13 @@ export default function PushNotificationDashboard() {
     return (
         <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 py-8">
             <div className="container-custom">
+                <Breadcrumbs
+                    items={[
+                        { name: 'Tools', href: '/#tools', icon: <LayoutGrid className="w-3.5 h-3.5" /> },
+                        { name: 'Push Notifications', href: '/tools/push-notifications' },
+                        { name: 'Dashboard', href: '/tools/push-notifications/dashboard' },
+                    ]}
+                />
                 {/* Header */}
                 <div className="bg-white rounded-2xl shadow-xl p-6 mb-6">
                     <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">

@@ -1,6 +1,8 @@
 import { Metadata } from 'next';
 import TimestampConverterClient from '@/components/tools/TimestampConverter/TimestampConverterClient';
 import { generateMetadata as genMeta, generateToolSchema, generateBreadcrumb } from '@/lib/seo';
+import Breadcrumbs from '@/components/Breadcrumbs';
+import { LayoutGrid } from 'lucide-react';
 
 export const metadata: Metadata = genMeta({
     title: 'Timestamp Converter - Unix, ISO, UTC Time Converter',
@@ -35,6 +37,12 @@ export default function TimestampConverterPage() {
 
             <div className="py-12 bg-gradient-to-b from-slate-900 to-slate-800">
                 <div className="container-custom">
+                    <Breadcrumbs
+                        items={[
+                            { name: 'Tools', href: '/#tools', icon: <LayoutGrid className="w-3.5 h-3.5" /> },
+                            { name: 'Timestamp Converter', href: '/tools/timestamp-converter' },
+                        ]}
+                    />
                     <div className="flex items-center gap-3 mb-4">
                         <div className="w-12 h-12 rounded-xl bg-indigo-500/20 flex items-center justify-center">
                             <span className="text-2xl">⏱️</span>

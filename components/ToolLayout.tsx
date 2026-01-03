@@ -2,6 +2,7 @@ import Link from 'next/link';
 import AdPlacement from './AdPlacement';
 import { ChevronRight, Home, LayoutGrid } from 'lucide-react';
 import { generateBreadcrumb } from '@/lib/seo';
+import Breadcrumbs from './Breadcrumbs';
 
 interface ToolLayoutProps {
     title: string;
@@ -33,30 +34,12 @@ export default function ToolLayout({
     return (
         <div className="min-h-screen gradient-bg selection:bg-blue-500/30">
             <div className="container-custom py-12 md:py-16">
-                {/* Breadcrumb */}
-                <nav className="mb-8 animate-fade-in">
-                    <ol className="flex items-center space-x-2 text-sm text-slate-500">
-                        <li className="flex items-center">
-                            <Link href="/" className="hover:text-blue-600 transition-colors flex items-center gap-1">
-                                <Home className="w-3.5 h-3.5" />
-                                <span>Home</span>
-                            </Link>
-                        </li>
-                        <li>
-                            <ChevronRight className="w-4 h-4 text-slate-300" />
-                        </li>
-                        <li className="flex items-center">
-                            <Link href="/#tools" className="hover:text-blue-600 transition-colors flex items-center gap-1">
-                                <LayoutGrid className="w-3.5 h-3.5" />
-                                <span>Tools</span>
-                            </Link>
-                        </li>
-                        <li>
-                            <ChevronRight className="w-4 h-4 text-slate-300" />
-                        </li>
-                        <li className="text-slate-900 font-semibold">{title}</li>
-                    </ol>
-                </nav>
+                <Breadcrumbs
+                    items={[
+                        { name: 'Tools', href: '/#tools', icon: <LayoutGrid className="w-3.5 h-3.5" /> },
+                        { name: title, href: '#' },
+                    ]}
+                />
 
                 {/* Header */}
                 <div className="mb-12 animate-slide-up">

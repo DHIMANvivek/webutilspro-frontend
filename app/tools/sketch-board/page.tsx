@@ -1,6 +1,8 @@
 import React, { Suspense } from 'react';
 import SketchBoard from '@/components/SketchBoard';
 import { generateMetadata as genMeta, generateToolSchema } from '@/lib/seo';
+import Breadcrumbs from '@/components/Breadcrumbs';
+import { LayoutGrid } from 'lucide-react';
 
 export const metadata = genMeta({
     title: 'Free Online Collaborative Sketch Board | Real-time Whiteboard',
@@ -26,11 +28,17 @@ const jsonLd = generateToolSchema({
 
 export default function SketchBoardPage() {
     return (
-        <div className="min-h-screen bg-[#111827]">
+        <div className="min-h-screen bg-[#111827] dark">
             <div className="container mx-auto px-4 py-8">
                 <script
                     type="application/ld+json"
                     dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+                />
+                <Breadcrumbs
+                    items={[
+                        { name: 'Tools', href: '/#tools', icon: <LayoutGrid className="w-3.5 h-3.5" /> },
+                        { name: 'Sketch Board', href: '/tools/sketch-board' },
+                    ]}
                 />
                 <h1 className="text-3xl font-bold mb-6 text-white">Shareable Sketch Board</h1>
                 <div className="flex flex-col gap-4 mb-8">
