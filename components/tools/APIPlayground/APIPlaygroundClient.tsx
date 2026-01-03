@@ -46,6 +46,7 @@ export default function APIPlaygroundClient() {
     const [requestHistory, setRequestHistory] = useState<SavedRequest[]>([]);
     const [showCurlImport, setShowCurlImport] = useState(false);
     const [curlCommand, setCurlCommand] = useState('');
+    const [isMethodOpen, setIsMethodOpen] = useState(false);
 
     // Auth State
     const [authType, setAuthType] = useState<'none' | 'bearer' | 'basic' | 'apikey'>('none');
@@ -323,17 +324,48 @@ export default function APIPlaygroundClient() {
             {/* Compact Request Bar */}
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 mb-4">
                 <div className="flex gap-3 items-center">
-                    <select
-                        value={method}
-                        onChange={(e) => setMethod(e.target.value as HttpMethod)}
-                        className={`px-4 py-2.5 rounded-lg text-white font-bold focus:outline-none focus:ring-2 focus:ring-offset-2 transition-all text-sm ${getMethodColor(method)}`}
-                    >
-                        <option value="GET">GET</option>
-                        <option value="POST">POST</option>
-                        <option value="PUT">PUT</option>
-                        <option value="DELETE">DELETE</option>
-                        <option value="PATCH">PATCH</option>
-                    </select>
+                    <div className="relative group">
+                        <button
+                            onClick={() => setIsMethodOpen(!isMethodOpen)}
+                            className={`flex items-center gap-2 px-4 py-2.5 rounded-lg text-white font-bold focus:outline-none focus:ring-2 focus:ring-offset-2 transition-all text-sm min-w-[110px] justify-between shadow-md hover:shadow-lg ${getMethodColor(method)}`}
+                        >
+                            <span>{method}</span>
+                            <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${isMethodOpen ? 'rotate-180' : ''}`} />
+                        </button>
+
+                        {isMethodOpen && (
+                            <>
+                                <div
+                                    className="fixed inset-0 z-40"
+                                    onClick={() => setIsMethodOpen(false)}
+                                />
+                                <div className="absolute top-full left-0 mt-2 w-48 bg-white/90 backdrop-blur-md rounded-xl shadow-[0_10px_40px_rgba(0,0,0,0.1)] border border-white/20 py-2 z-50 animate-in fade-in zoom-in slide-in-from-top-2 duration-200">
+                                    {(['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'HEAD', 'OPTIONS'] as HttpMethod[]).map((m) => (
+                                        <button
+                                            key={m}
+                                            onClick={() => {
+                                                setMethod(m);
+                                                setIsMethodOpen(false);
+                                            }}
+                                            className={`w-full flex items-center justify-between px-4 py-2.5 text-sm transition-all hover:bg-gray-50 group/item ${method === m ? 'bg-indigo-50 font-bold' : ''}`}
+                                        >
+                                            <div className="flex items-center gap-3">
+                                                <div className={`w-2 h-2 rounded-full ${m === 'GET' ? 'bg-green-500' :
+                                                    m === 'POST' ? 'bg-blue-500' :
+                                                        m === 'PUT' ? 'bg-amber-500' :
+                                                            m === 'DELETE' ? 'bg-red-500' :
+                                                                m === 'PATCH' ? 'bg-purple-500' :
+                                                                    'bg-gray-500'
+                                                    }`} />
+                                                <span className={method === m ? 'text-indigo-700' : 'text-gray-700'}>{m}</span>
+                                            </div>
+                                            {method === m && <Check className="w-4 h-4 text-indigo-600" />}
+                                        </button>
+                                    ))}
+                                </div>
+                            </>
+                        )}
+                    </div>
 
                     <input
                         type="text"
