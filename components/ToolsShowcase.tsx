@@ -28,7 +28,8 @@ import {
     Type,
     ShoppingBag,
     Key,
-    Files
+    Files,
+    Bell
 } from 'lucide-react';
 
 const FEATURED_TOOLS = [
@@ -76,6 +77,15 @@ const FEATURED_TOOLS = [
         icon: FileType,
         color: 'text-rose-500',
         bg: 'bg-rose-500/10'
+    },
+    {
+        id: 'push-notifications',
+        name: 'Web Push Notifications',
+        description: 'Engage users with real-time push.',
+        href: '/tools/push-notifications',
+        icon: Bell,
+        color: 'text-blue-600',
+        bg: 'bg-blue-600/10'
     }
 ];
 
@@ -234,6 +244,11 @@ const TOOL_INSIGHTS: Record<string, { title: string; features: string[]; icon: a
         title: 'Security Audit',
         features: ['CSP & HSTS detection', 'Security grade scoring', 'OWASP recommendations'],
         icon: Shield, color: 'text-emerald-600', bg: 'bg-emerald-600/10'
+    },
+    'push-notifications': {
+        title: 'Push Insights',
+        features: ['Real-time delivery logic', 'Multi-browser compatibility', 'Advanced click analytics'],
+        icon: Bell, color: 'text-blue-600', bg: 'bg-blue-600/10'
     }
 };
 
