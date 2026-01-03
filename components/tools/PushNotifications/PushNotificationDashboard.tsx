@@ -44,6 +44,14 @@ export default function PushNotificationDashboard() {
     const [loading, setLoading] = useState(false);
     const [copiedApiKey, setCopiedApiKey] = useState(false);
 
+    // Modal state for creating projects
+    const [showCreateModal, setShowCreateModal] = useState(false);
+    const [newProjectName, setNewProjectName] = useState('');
+    const [newProjectEmail, setNewProjectEmail] = useState('');
+
+    // Dropdown state
+    const [dropdownOpen, setDropdownOpen] = useState(false);
+
     // Notification form state
     const [notificationForm, setNotificationForm] = useState({
         title: '',
@@ -74,10 +82,10 @@ export default function PushNotificationDashboard() {
     };
 
     const createNewProject = async () => {
-        const name = prompt('Enter project name:');
-        if (!name) return;
-
-        const email = prompt('Enter your email (optional):') || '';
+        if (!newProjectName.trim()) {
+            toast.error('Project name is required');
+            return;
+        }
 
         setLoading(true);
         try {
@@ -85,10 +93,9 @@ export default function PushNotificationDashboard() {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    name,
-                    ownerEmail: email,
+                    name: newProjectName,
+                    ownerEmail: newProjectEmail || undefined,
                     firebaseConfig: {
-                        // Users will need to provide their own Firebase config
                         apiKey: '',
                         authDomain: '',
                         projectId: '',
@@ -103,6 +110,9 @@ export default function PushNotificationDashboard() {
             const data = await response.json();
             if (data.success) {
                 toast.success('Project created successfully!');
+                setShowCreateModal(false);
+                setNewProjectName('');
+                setNewProjectEmail('');
                 loadProjects();
             } else {
                 toast.error(data.message || 'Failed to create project');
@@ -197,27 +207,41 @@ export default function PushNotificationDashboard() {
                         </div>
 
                         <div className="flex items-center gap-3">
-                            {/* Project Selector */}
-                            <select
-                                value={selectedProject?._id || ''}
-                                onChange={(e) => {
-                                    const project = projects.find(p => p._id === e.target.value);
-                                    setSelectedProject(project || null);
-                                }}
-                                className="px-4 py-2 bg-white border-2 border-gray-200 rounded-xl font-semibold text-gray-700 focus:outline-none focus:border-blue-500"
-                            >
-                                {projects.length === 0 && (
-                                    <option value="">No projects</option>
+                            {/* Custom Project Dropdown */}
+                            <div className="relative">
+                                <button
+                                    onClick={() => setDropdownOpen(!dropdownOpen)}
+                                    className="px-4 py-2 bg-white border-2 border-gray-200 rounded-xl font-semibold text-gray-700 hover:border-blue-500 focus:outline-none focus:border-blue-500 min-w-[200px] flex items-center justify-between gap-2"
+                                >
+                                    <span>{selectedProject?.name || 'No projects'}</span>
+                                    <svg className={`w-4 h-4 transition-transform ${dropdownOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                                    </svg>
+                                </button>
+
+                                {dropdownOpen && projects.length > 0 && (
+                                    <div className="absolute top-full left-0 mt-2 w-full bg-white border-2 border-gray-200 rounded-xl shadow-xl z-50 overflow-hidden">
+                                        {projects.map(project => (
+                                            <button
+                                                key={project._id}
+                                                onClick={() => {
+                                                    setSelectedProject(project);
+                                                    setDropdownOpen(false);
+                                                }}
+                                                className={`w-full px-4 py-3 text-left font-semibold transition-colors ${selectedProject?._id === project._id
+                                                    ? 'bg-blue-50 text-blue-600'
+                                                    : 'text-gray-700 hover:bg-gray-50'
+                                                    }`}
+                                            >
+                                                {project.name}
+                                            </button>
+                                        ))}
+                                    </div>
                                 )}
-                                {projects.map(project => (
-                                    <option key={project._id} value={project._id}>
-                                        {project.name}
-                                    </option>
-                                ))}
-                            </select>
+                            </div>
 
                             <button
-                                onClick={createNewProject}
+                                onClick={() => setShowCreateModal(true)}
                                 className="px-4 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold rounded-xl hover:scale-105 transition-transform flex items-center gap-2"
                             >
                                 <Plus className="w-5 h-5" />
@@ -530,6 +554,66 @@ export default function PushNotificationDashboard() {
                     </div>
                 </div>
             </div>
+
+            {/* Create Project Modal */}
+            {showCreateModal && (
+                <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[9999] flex items-center justify-center p-4" onClick={() => setShowCreateModal(false)}>
+                    <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-6 animate-fade-in" onClick={(e) => e.stopPropagation()}>
+                        <h2 className="text-2xl font-black text-gray-900 mb-2">Create New Project</h2>
+                        <p className="text-gray-600 mb-6">Set up a new push notification project for your website</p>
+
+                        <div className="space-y-4">
+                            <div>
+                                <label className="block text-sm font-bold text-gray-700 mb-2">
+                                    Project Name *
+                                </label>
+                                <input
+                                    type="text"
+                                    value={newProjectName}
+                                    onChange={(e) => setNewProjectName(e.target.value)}
+                                    placeholder="e.g., My Website"
+                                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-blue-500 font-medium"
+                                    autoFocus
+                                />
+                            </div>
+
+                            <div>
+                                <label className="block text-sm font-bold text-gray-700 mb-2">
+                                    Your Email (Optional)
+                                </label>
+                                <input
+                                    type="email"
+                                    value={newProjectEmail}
+                                    onChange={(e) => setNewProjectEmail(e.target.value)}
+                                    placeholder="you@example.com"
+                                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-blue-500 font-medium"
+                                />
+                            </div>
+                        </div>
+
+                        <div className="flex gap-3 mt-6">
+                            <button
+                                onClick={() => {
+                                    setShowCreateModal(false);
+                                    setNewProjectName('');
+                                    setNewProjectEmail('');
+                                }}
+                                disabled={loading}
+                                className="flex-1 px-4 py-3 bg-gray-100 text-gray-700 font-bold rounded-xl hover:bg-gray-200 transition-colors disabled:opacity-50"
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                onClick={createNewProject}
+                                disabled={loading || !newProjectName.trim()}
+                                className="flex-1 px-4 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold rounded-xl hover:scale-105 transition-transform disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+                            >
+                                {loading ? 'Creating...' : 'Create Project'}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

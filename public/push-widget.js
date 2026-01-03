@@ -111,75 +111,88 @@
             <style>
                 #push-notification-prompt {
                     position: fixed;
-                    bottom: 20px;
-                    right: 20px;
+                    bottom: 24px;
+                    right: 24px;
                     background: white;
                     border-radius: 12px;
-                    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-                    padding: 20px;
-                    max-width: 360px;
-                    z-index: 999999;
+                    box-shadow: 0 4px 24px rgba(0,0,0,0.1);
+                    padding: 12px 16px;
+                    max-width: 380px;
+                    z-index: 99999999;
                     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-                    animation: slideIn 0.3s ease-out;
+                    animation: slideIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+                    border: 1px solid rgba(0,0,0,0.06);
+                    display: flex;
+                    align-items: center;
+                    gap: 12px;
+                    cursor: default !important;
+                }
+                
+                #push-notification-prompt * {
+                    cursor: default !important;
+                }
+                
+                #push-notification-prompt button {
+                    cursor: pointer !important;
                 }
                 
                 @keyframes slideIn {
                     from {
-                        transform: translateY(100px);
+                        transform: translateX(400px);
                         opacity: 0;
                     }
                     to {
-                        transform: translateY(0);
+                        transform: translateX(0);
                         opacity: 1;
                     }
                 }
                 
-                .push-prompt-header {
-                    display: flex;
-                    align-items: center;
-                    gap: 12px;
-                    margin-bottom: 12px;
-                }
-                
                 .push-prompt-icon {
-                    width: 40px;
-                    height: 40px;
+                    width: 32px;
+                    height: 32px;
                     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
                     border-radius: 50%;
                     display: flex;
                     align-items: center;
-                    justify-center;
-                    font-size: 20px;
+                    justify-content: center;
+                    font-size: 16px;
+                    flex-shrink: 0;
+                }
+                
+                .push-prompt-content {
+                    flex: 1;
+                    min-width: 0;
                 }
                 
                 .push-prompt-title {
-                    font-size: 16px;
+                    font-size: 13px;
                     font-weight: 700;
                     color: #1a1a1a;
-                    margin: 0;
+                    margin: 0 0 2px 0;
                 }
                 
                 .push-prompt-message {
-                    font-size: 14px;
+                    font-size: 12px;
                     color: #666;
-                    line-height: 1.5;
-                    margin-bottom: 16px;
+                    line-height: 1.3;
+                    margin: 0;
                 }
                 
-                .push-prompt-buttons {
+                .push-prompt-actions {
                     display: flex;
-                    gap: 8px;
+                    gap: 6px;
+                    flex-shrink: 0;
                 }
                 
                 .push-prompt-btn {
-                    flex: 1;
-                    padding: 10px 16px;
+                    padding: 6px 14px;
                     border: none;
                     border-radius: 8px;
-                    font-size: 14px;
+                    font-size: 12px;
                     font-weight: 600;
                     cursor: pointer;
                     transition: all 0.2s;
+                    white-space: nowrap;
                 }
                 
                 .push-prompt-btn-primary {
@@ -189,50 +202,75 @@
                 
                 .push-prompt-btn-primary:hover {
                     transform: translateY(-1px);
-                    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+                    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
                 }
                 
                 .push-prompt-btn-secondary {
-                    background: #f3f4f6;
+                    background: transparent;
                     color: #666;
                 }
                 
                 .push-prompt-btn-secondary:hover {
-                    background: #e5e7eb;
+                    background: #f3f4f6;
                 }
                 
                 .push-prompt-close {
                     position: absolute;
-                    top: 12px;
-                    right: 12px;
+                    top: 8px;
+                    right: 8px;
                     background: none;
                     border: none;
-                    font-size: 20px;
+                    font-size: 16px;
                     color: #999;
                     cursor: pointer;
-                    padding: 4px;
+                    padding: 2px;
                     line-height: 1;
+                    width: 20px;
+                    height: 20px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    border-radius: 4px;
+                    transition: all 0.2s;
+                    opacity: 0.6;
                 }
                 
                 .push-prompt-close:hover {
-                    color: #666;
+                    background: #f3f4f6;
+                    opacity: 1;
+                }
+                
+                @media (max-width: 480px) {
+                    #push-notification-prompt {
+                        left: 16px;
+                        right: 16px;
+                        max-width: none;
+                        flex-direction: column;
+                        align-items: flex-start;
+                    }
+                    
+                    .push-prompt-actions {
+                        width: 100%;
+                    }
+                    
+                    .push-prompt-btn {
+                        flex: 1;
+                    }
                 }
             </style>
             
             <button class="push-prompt-close" onclick="this.parentElement.remove()">×</button>
-            <div class="push-prompt-header">
-                <div class="push-prompt-icon">🔔</div>
-                <h3 class="push-prompt-title">Stay Updated!</h3>
+            <div class="push-prompt-icon">🔔</div>
+            <div class="push-prompt-content">
+                <div class="push-prompt-title">Stay Updated!</div>
+                <div class="push-prompt-message">Get notified about new tools & updates</div>
             </div>
-            <p class="push-prompt-message">
-                Get instant notifications about new tools, features, and important updates.
-            </p>
-            <div class="push-prompt-buttons">
+            <div class="push-prompt-actions">
                 <button class="push-prompt-btn push-prompt-btn-secondary" onclick="this.closest('#push-notification-prompt').remove()">
                     Not Now
                 </button>
                 <button class="push-prompt-btn push-prompt-btn-primary" id="push-subscribe-btn">
-                    Enable Notifications
+                    Enable
                 </button>
             </div>
         `;

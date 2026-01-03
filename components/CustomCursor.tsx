@@ -24,10 +24,19 @@ export default function CustomCursor() {
 
         const onMouseMove = (e: MouseEvent) => {
             setPosition({ x: e.clientX, y: e.clientY });
+
+            // Check if hovering over push notification widget
+            const target = e.target as HTMLElement;
+            const isOverWidget = target.closest('#push-notification-prompt');
+
+            if (isOverWidget) {
+                setIsHidden(true);
+                return;
+            }
+
             setIsHidden(false);
 
             // Check if element under cursor is clickable
-            const target = e.target as HTMLElement;
             const isClickable =
                 target.tagName === 'A' ||
                 target.tagName === 'BUTTON' ||
