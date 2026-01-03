@@ -54,17 +54,26 @@ export default function MediaGenDashboard() {
     const [jobs, setJobs] = useState<ToolJob[]>([]);
     const [isGlobalLoading, setIsGlobalLoading] = useState(false);
     const [isSyncing, setIsSyncing] = useState(false);
+    const [isMigrating, setIsMigrating] = useState(false);
     const [isTouching, setIsTouching] = useState(false);
     const [authStatus, setAuthStatus] = useState<'valid' | 'invalid' | 'unknown'>('unknown');
 
-    const backendUrl = 'http://localhost:4000/api/media';
+    const getBackendUrl = () => {
+        const url = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:4000/api/media';
+        // If it's just the base domain/port, add the media API prefix
+        if (url && !url.includes('/api/media')) {
+            return `${url}/api/media`;
+        }
+        return url;
+    };
+    const backendUrl = getBackendUrl();
 
     // Fetch all recent jobs from backend
     const fetchJobs = useCallback(async () => {
         try {
             const response = await fetch(`${backendUrl}/jobs`);
             const data = await response.json();
-            setJobs(data);
+            setJobs(Array.isArray(data) ? data : []);
         } catch (error) {
             console.error('Failed to fetch jobs:', error);
         }
@@ -104,7 +113,7 @@ export default function MediaGenDashboard() {
 
     useEffect(() => {
         // Clear interval auto-sync if we don't have a token to work with
-        const hasPending = jobs.some(j => j.status === 'PENDING');
+        const hasPending = Array.isArray(jobs) && jobs.some(j => j.status === 'PENDING');
         if (hasPending && token) {
             const timer = setInterval(syncStatus, 15000);
             return () => clearInterval(timer);
@@ -151,6 +160,27 @@ export default function MediaGenDashboard() {
             setTimeout(fetchJobs, 1000);
         } catch (error: any) {
             alert('Generation failed: ' + error.message);
+        } finally {
+            fetchJobs();
+        }
+    };
+
+    const migrateImages = async () => {
+        if (isMigrating) return;
+        setIsMigrating(true);
+        try {
+            const response = await fetch(`${backendUrl}/migrate`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ token, cookies })
+            });
+            const data = await response.json();
+            alert(`Migration complete! Processed ${data.migratedCount} images.`);
+            await fetchJobs();
+        } catch (error: any) {
+            alert('Migration failed: ' + error.message);
+        } finally {
+            setIsMigrating(false);
         }
     };
 
@@ -193,8 +223,17 @@ export default function MediaGenDashboard() {
                     </div>
                     <div className="flex gap-3">
                         <button
+                            onClick={migrateImages}
+                            disabled={isMigrating}
+                            title="Download existing external images to local VPS"
+                            className={`flex items-center gap-2 px-4 py-3 bg-slate-800 hover:bg-slate-700 rounded-xl font-bold transition-all border border-slate-700/50 ${isMigrating ? 'opacity-50 cursor-wait' : ''}`}
+                        >
+                            <ImageIcon className={isMigrating ? 'animate-pulse text-blue-400' : ''} size={18} />
+                            Migrate Legacy
+                        </button>
+                        <button
                             onClick={syncStatus}
-                            className={`flex items-center gap-2 px-4 py-3 bg-slate-800 hover:bg-slate-700 rounded-xl font-bold transition-all ${isSyncing ? 'opacity-50' : ''}`}
+                            className={`flex items-center gap-2 px-4 py-3 bg-slate-800 hover:bg-slate-700 rounded-xl font-bold transition-all border border-slate-700/50 ${isSyncing ? 'opacity-50' : ''}`}
                         >
                             <RefreshCw className={isSyncing ? 'animate-spin' : ''} size={18} />
                             Sync Status
@@ -305,7 +344,7 @@ export default function MediaGenDashboard() {
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                     {TOOLS_LIST.map((tool) => {
                         // Find latest job for this tool
-                        const job = jobs.find(j => j.toolId === tool.id);
+                        const job = Array.isArray(jobs) ? jobs.find(j => j.toolId === tool.id) : null;
 
                         return (
                             <div key={tool.id} className="group bg-slate-900/40 border border-slate-800/50 p-5 rounded-2xl flex items-center justify-between hover:bg-slate-900/60 transition-all border-l-4 border-l-transparent hover:border-l-indigo-500">
