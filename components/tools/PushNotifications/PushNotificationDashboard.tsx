@@ -599,14 +599,14 @@ export default function PushNotificationDashboard() {
                                     setNewProjectEmail('');
                                 }}
                                 disabled={loading}
-                                className="flex-1 px-4 py-3 bg-gray-100 text-gray-700 font-bold rounded-xl hover:bg-gray-200 transition-colors disabled:opacity-50"
+                                className="flex-1 px-4 py-3 bg-gray-100 text-gray-700 font-bold rounded-xl hover:bg-gray-200 transition-colors disabled:opacity-50 cursor-pointer"
                             >
                                 Cancel
                             </button>
                             <button
                                 onClick={createNewProject}
                                 disabled={loading || !newProjectName.trim()}
-                                className="flex-1 px-4 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold rounded-xl hover:scale-105 transition-transform disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+                                className="flex-1 px-4 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold rounded-xl hover:scale-105 transition-transform disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 cursor-pointer"
                             >
                                 {loading ? 'Creating...' : 'Create Project'}
                             </button>
