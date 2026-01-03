@@ -56,7 +56,9 @@ export default function MediaGenDashboard() {
     const [isSyncing, setIsSyncing] = useState(false);
     const [isMigrating, setIsMigrating] = useState(false);
     const [isTouching, setIsTouching] = useState(false);
+    const [isBlogLoading, setIsBlogLoading] = useState<string | null>(null);
     const [authStatus, setAuthStatus] = useState<'valid' | 'invalid' | 'unknown'>('unknown');
+    const [adminSecret, setAdminSecret] = useState('');
 
     const getBackendUrl = () => {
         const url = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:4000/api/media';
@@ -71,13 +73,17 @@ export default function MediaGenDashboard() {
     // Fetch all recent jobs from backend
     const fetchJobs = useCallback(async () => {
         try {
-            const response = await fetch(`${backendUrl}/jobs`);
+            const response = await fetch(`${backendUrl}/jobs`, {
+                headers: {
+                    'x-admin-secret': adminSecret
+                }
+            });
             const data = await response.json();
             setJobs(Array.isArray(data) ? data : []);
         } catch (error) {
             console.error('Failed to fetch jobs:', error);
         }
-    }, [backendUrl]);
+    }, [backendUrl, adminSecret]);
 
     // Sync pending jobs with Higgsfield
     const syncStatus = useCallback(async () => {
@@ -86,7 +92,10 @@ export default function MediaGenDashboard() {
         try {
             const response = await fetch(`${backendUrl}/sync`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-admin-secret': adminSecret
+                },
                 body: JSON.stringify({ token, cookies })
             });
             const data = await response.json();
@@ -111,6 +120,7 @@ export default function MediaGenDashboard() {
         fetchJobs();
     }, [fetchJobs]);
 
+    /* 
     useEffect(() => {
         // Clear interval auto-sync if we don't have a token to work with
         const hasPending = Array.isArray(jobs) && jobs.some(j => j.status === 'PENDING');
@@ -119,6 +129,7 @@ export default function MediaGenDashboard() {
             return () => clearInterval(timer);
         }
     }, [jobs, syncStatus, token]);
+    */
 
     const generateAll = async () => {
         if (!token) {
@@ -130,7 +141,10 @@ export default function MediaGenDashboard() {
         try {
             const response = await fetch(`${backendUrl}/generate-all`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-admin-secret': adminSecret
+                },
                 body: JSON.stringify({ token, cookies })
             });
 
@@ -154,7 +168,10 @@ export default function MediaGenDashboard() {
         try {
             await fetch(`${backendUrl}/generate/${toolId}`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-admin-secret': adminSecret
+                },
                 body: JSON.stringify({ token, cookies })
             });
             setTimeout(fetchJobs, 1000);
@@ -171,7 +188,10 @@ export default function MediaGenDashboard() {
         try {
             const response = await fetch(`${backendUrl}/migrate`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-admin-secret': adminSecret
+                },
                 body: JSON.stringify({ token, cookies })
             });
             const data = await response.json();
@@ -194,7 +214,10 @@ export default function MediaGenDashboard() {
         try {
             const response = await fetch(`${backendUrl}/touch-session`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-admin-secret': adminSecret
+                },
                 body: JSON.stringify({ sessionId, cookies })
             });
 
@@ -207,6 +230,29 @@ export default function MediaGenDashboard() {
             alert('Touch failed: ' + error.message);
         } finally {
             setIsTouching(false);
+        }
+    };
+
+    const regenerateBlog = async (toolId: string) => {
+        setIsBlogLoading(toolId);
+        try {
+            const response = await fetch(`${backendUrl}/regenerate-blog/${toolId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-admin-secret': adminSecret
+                }
+            });
+            if (response.ok) {
+                alert('Blog regeneration started successfully! It may take a few minutes to complete.');
+            } else {
+                const error = await response.json();
+                alert('Failed to regenerate blog: ' + (error.message || 'Unknown error'));
+            }
+        } catch (error: any) {
+            alert('Failed to regenerate blog: ' + error.message);
+        } finally {
+            setIsBlogLoading(null);
         }
     };
 
@@ -251,7 +297,7 @@ export default function MediaGenDashboard() {
 
                 {/* Configuration */}
                 {authStatus === 'invalid' && (
-                    <div className="mb-8 p-4 bg-rose-500/10 border border-rose-500/20 rounded-2xl flex items-center gap-3 text-rose-400">
+                    <div className="mb-4 p-4 bg-rose-500/10 border border-rose-500/20 rounded-2xl flex items-center gap-3 text-rose-400">
                         <AlertCircle className="shrink-0" />
                         <div className="text-left">
                             <p className="font-bold text-sm">Authentication Expired</p>
@@ -259,6 +305,23 @@ export default function MediaGenDashboard() {
                         </div>
                     </div>
                 )}
+
+                <div className="mb-8 p-6 bg-slate-900/50 border border-slate-800 rounded-3xl backdrop-blur-sm shadow-xl">
+                    <div className="flex items-center gap-2 mb-4 text-emerald-400 font-semibold">
+                        <Key size={18} />
+                        <h3>Admin Control Key</h3>
+                    </div>
+                    <div>
+                        <input
+                            type="password"
+                            value={adminSecret}
+                            onChange={(e) => setAdminSecret(e.target.value)}
+                            placeholder="Enter Admin Secret to enable controls..."
+                            className="w-full bg-slate-950 border border-slate-800 rounded-2xl px-6 py-4 text-sm focus:ring-2 focus:ring-emerald-500 focus:outline-none transition-all placeholder:text-slate-700 font-mono"
+                        />
+                        <p className="text-[10px] text-slate-600 mt-2 text-left italic">Internal access only. Controls remain disabled until the correct secret is provided.</p>
+                    </div>
+                </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
                     <div className="bg-slate-900/50 border border-slate-800 p-6 rounded-2xl backdrop-blur-sm shadow-xl">
@@ -370,24 +433,24 @@ export default function MediaGenDashboard() {
                                 </div>
 
                                 <div className="ml-4 flex flex-col items-end gap-2">
-                                    {!job || job.status === 'COMPLETED' || job.status === 'FAILED' ? (
+                                    <div className="flex flex-col gap-2">
                                         <button
                                             onClick={() => generateTool(tool.id)}
-                                            disabled={!token}
-                                            className="flex items-center gap-2 px-4 py-2 bg-slate-800 hover:bg-indigo-600 disabled:opacity-30 disabled:hover:bg-slate-800 rounded-lg text-xs font-bold transition-all active:scale-95"
+                                            disabled={!token || !adminSecret}
+                                            className="flex items-center gap-2 px-4 py-2 bg-slate-800 hover:bg-indigo-600 disabled:opacity-30 disabled:hover:bg-slate-800 rounded-lg text-xs font-bold transition-all active:scale-95 whitespace-nowrap"
                                         >
                                             <Play size={14} fill="currentColor" />
-                                            RE-RUN
+                                            RUN MEDIA
                                         </button>
-                                    ) : (
-                                        <div className="flex flex-col items-end">
-                                            <div className="flex items-center gap-2 px-4 py-2 bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 rounded-lg text-xs font-black animate-pulse">
-                                                <RefreshCw className="animate-spin" size={14} />
-                                                IN PROGRESS
-                                            </div>
-                                            <p className="text-[10px] text-slate-600 mt-1 font-mono">{job.jobId.substring(0, 8)}...</p>
-                                        </div>
-                                    )}
+                                        <button
+                                            onClick={() => regenerateBlog(tool.id)}
+                                            disabled={!adminSecret || isBlogLoading === tool.id}
+                                            className="flex items-center gap-2 px-4 py-2 bg-slate-800 hover:bg-emerald-600 disabled:opacity-30 disabled:hover:bg-slate-800 rounded-lg text-xs font-bold transition-all active:scale-95 whitespace-nowrap"
+                                        >
+                                            {isBlogLoading === tool.id ? <RefreshCw className="animate-spin" size={14} /> : <Sparkles size={14} />}
+                                            GEN BLOG
+                                        </button>
+                                    </div>
 
                                     {job?.status === 'COMPLETED' && (
                                         <div className="flex items-center gap-2 px-4 py-2 bg-green-500/10 text-green-400 border border-green-500/20 rounded-lg text-xs font-black">
