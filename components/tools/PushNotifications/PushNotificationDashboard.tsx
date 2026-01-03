@@ -68,12 +68,24 @@ export default function PushNotificationDashboard() {
 
     const loadProjects = async () => {
         try {
+            // Get user's project IDs from localStorage
+            const userProjectIds = JSON.parse(localStorage.getItem('pn_user_projects') || '[]');
+
+            if (userProjectIds.length === 0) {
+                setProjects([]);
+                return;
+            }
+
             const response = await fetch('/api/notifications/projects');
             const data = await response.json();
             if (data.success) {
-                setProjects(data.projects);
-                if (data.projects.length > 0) {
-                    setSelectedProject(data.projects[0]);
+                // Filter to only show projects created by this user (stored in localStorage)
+                const userProjects = data.projects.filter((p: Project) =>
+                    userProjectIds.includes(p._id)
+                );
+                setProjects(userProjects);
+                if (userProjects.length > 0) {
+                    setSelectedProject(userProjects[0]);
                 }
             }
         } catch (error) {
@@ -109,6 +121,11 @@ export default function PushNotificationDashboard() {
 
             const data = await response.json();
             if (data.success) {
+                // Store this project ID in localStorage for this user
+                const userProjectIds = JSON.parse(localStorage.getItem('pn_user_projects') || '[]');
+                userProjectIds.push(data.project._id);
+                localStorage.setItem('pn_user_projects', JSON.stringify(userProjectIds));
+
                 toast.success('Project created successfully!');
                 setShowCreateModal(false);
                 setNewProjectName('');
