@@ -194,13 +194,15 @@ export default function APIPlaygroundClient() {
             }
 
             // Extract headers
-            const headerMatches = Array.from(cleaned.matchAll(/-H\s+['"]([^'"]+)['"]/gi));
+            const headerRegex = /(?:-H|--header)\s+(['"])(.*?)\1/gi;
             const parsedHeaders: Header[] = [];
-            for (const match of headerMatches) {
-                const colonIndex = match[1].indexOf(':');
+            let headerMatch;
+            while ((headerMatch = headerRegex.exec(cleaned)) !== null) {
+                const content = headerMatch[2];
+                const colonIndex = content.indexOf(':');
                 if (colonIndex > 0) {
-                    const key = match[1].substring(0, colonIndex).trim();
-                    const value = match[1].substring(colonIndex + 1).trim();
+                    const key = content.substring(0, colonIndex).trim();
+                    const value = content.substring(colonIndex + 1).trim();
                     parsedHeaders.push({
                         key,
                         value,
@@ -208,6 +210,7 @@ export default function APIPlaygroundClient() {
                     });
                 }
             }
+
             if (parsedHeaders.length > 0) {
                 setHeaders(parsedHeaders);
             }
@@ -217,19 +220,14 @@ export default function APIPlaygroundClient() {
 
             // Try different data flag patterns
             const dataPatterns = [
-                /(?:--data-raw|--data|-d)\s+['"](.+)['"]/s,
-                /(?:--data-raw|--data|-d)\s+(.+?)(?:\s+-[A-Z]|$)/s,
+                /(?:--data-raw|--data|-d)\s+(['"])(.*?)\1/s,
+                /(?:--data-raw|--data|-d)\s+([^\s'"]+)/s,
             ];
 
             for (const pattern of dataPatterns) {
                 const match = cleaned.match(pattern);
                 if (match) {
-                    bodyData = match[1].trim();
-                    // Remove surrounding quotes if present
-                    if ((bodyData.startsWith("'") && bodyData.endsWith("'")) ||
-                        (bodyData.startsWith('"') && bodyData.endsWith('"'))) {
-                        bodyData = bodyData.slice(1, -1);
-                    }
+                    bodyData = (match[2] || match[1]).trim();
                     break;
                 }
             }
@@ -257,22 +255,33 @@ export default function APIPlaygroundClient() {
                 // Check headers for Authorization
                 const authHeader = parsedHeaders.find(h => h.key.toLowerCase() === 'authorization');
                 if (authHeader) {
-                    if (authHeader.value.toLowerCase().startsWith('bearer ')) {
+                    const authVal = authHeader.value;
+                    const authValLower = authVal.toLowerCase();
+
+                    if (authValLower.startsWith('bearer ')) {
                         setAuthType('bearer');
-                        setAuthData(prev => ({ ...prev, token: authHeader.value.substring(7) }));
-                        // Remove from manual headers list
+                        setAuthData(prev => ({ ...prev, token: authVal.substring(7).trim() }));
                         setHeaders(parsedHeaders.filter(h => h.key.toLowerCase() !== 'authorization'));
-                    } else if (authHeader.value.toLowerCase().startsWith('basic ')) {
+                    } else if (authValLower.startsWith('basic ')) {
                         try {
-                            const decoded = atob(authHeader.value.substring(6));
+                            const decoded = atob(authVal.substring(6).trim());
                             const [username, password] = decoded.split(':');
                             setAuthType('basic');
                             setAuthData(prev => ({ ...prev, username, password: password || '' }));
-                            // Remove from manual headers list
                             setHeaders(parsedHeaders.filter(h => h.key.toLowerCase() !== 'authorization'));
                         } catch (e) {
-                            // Leave as manual header if decoding fails
+                            // Leave as manual header
                         }
+                    } else if (authValLower.startsWith('key ')) {
+                        // Handle "Key" based auth as API Key
+                        setAuthType('apikey');
+                        setAuthData(prev => ({
+                            ...prev,
+                            key: 'Authorization',
+                            value: authVal, // Preserve the "Key " prefix
+                            addTo: 'headers'
+                        }));
+                        setHeaders(parsedHeaders.filter(h => h.key.toLowerCase() !== 'authorization'));
                     }
                 }
             }
