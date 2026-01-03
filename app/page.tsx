@@ -1,227 +1,68 @@
+'use client';
+
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { ShoppingBag, FlaskConical, Sparkles, Lock, Bot, RefreshCcw, Wrench, Box, Target, ArrowRight } from 'lucide-react';
-import { generateMetadata as genMeta } from '@/lib/seo';
+import { ShoppingBag, FlaskConical, Sparkles, Lock, Bot, RefreshCcw, Wrench, Box, Target, ArrowRight, Image as ImageIcon } from 'lucide-react';
 import LatestInsights from '@/components/LatestInsights';
 
-export const metadata = genMeta({
-    title: 'Professional Developer Tools & AI Utilities',
-    description: 'A comprehensive collection of free, high-quality developer tools including Regex Tester, JSON Converter, AI Error Explainer, and more. Optimized for productivity and security.',
-    keywords: ['developer tools', 'programming utilities', 'regex tester', 'json converter', 'ai developer tools', 'free coding tools'],
-});
+const DEFAULT_TOOLS = [
+    { id: 'regex-tester', name: 'Regex Tester', description: 'Test and debug regular expressions with real-time matching and highlighting.', icon: '🔍', href: '/tools/regex-tester', category: 'Text Processing' },
+    { id: 'json-to-csv', name: 'JSON ↔ CSV Converter', description: 'Convert between JSON and CSV formats instantly with validation.', icon: '🔄', href: '/tools/json-to-csv', category: 'Data Conversion' },
+    { id: 'markdown-to-html', name: 'Markdown → HTML', description: 'Convert Markdown to HTML with live preview and syntax highlighting.', icon: '📝', href: '/tools/markdown-to-html', category: 'Content' },
+    { id: 'ai-error-explainer', name: 'AI Error Explainer', description: 'Get AI-powered explanations and fixes for programming errors.', icon: '🤖', href: '/tools/ai-error-explainer', category: 'AI-Powered' },
+    { id: 'prompt-optimizer', name: 'Prompt Optimizer', description: 'Optimize your AI prompts for better results and clarity.', icon: '✨', href: '/tools/prompt-optimizer', category: 'AI-Powered' },
+    { id: 'pdf-extractor', name: 'PDF Text Extractor', description: 'Extract text from complex PDFs containing images with AI.', icon: '📄', href: '/tools/pdf-extractor', category: 'AI-Powered' },
+    { id: 'code-formatter', name: 'Code Formatter', description: 'Beautify JavaScript, HTML, CSS, JSON, and SQL code instantly.', icon: '💫', href: '/tools/code-formatter', category: 'Code Tools' },
+    { id: 'base64', name: 'Base64 Encoder/Decoder', description: 'Encode and decode Base64 strings for data transmission.', icon: '🔐', href: '/tools/base64', category: 'Encoding' },
+    { id: 'url-encoder', name: 'URL Encoder/Decoder', description: 'Convert URLs to safe encoded format and back.', icon: '🔗', href: '/tools/url-encoder', category: 'Encoding' },
+    { id: 'color-picker', name: 'Color Picker & Gradients', description: 'Pick colors, convert formats, and generate CSS gradients.', icon: '🎨', href: '/tools/color-picker', category: 'Design' },
+    { id: 'jwt-decoder', name: 'JWT Decoder & Hash Generator', description: 'Decode JWT tokens and generate cryptographic hashes.', icon: '🔑', href: '/tools/jwt-decoder', category: 'Security' },
+    { id: 'text-tools', name: 'Text Tools', description: 'Count characters/words, convert case, and clean up text.', icon: '📄', href: '/tools/text-tools', category: 'Utilities' },
+    { id: 'qr-code-generator', name: 'QR Code Generator', description: 'Generate custom QR codes for URLs, text, and more.', icon: '📱', href: '/tools/qr-code-generator', category: 'Utilities' },
+    { id: 'password-generator', name: 'Password Generator', description: 'Create secure passwords and check password strength.', icon: '🔒', href: '/tools/password-generator', category: 'Security' },
+    { id: 'uuid-generator', name: 'UUID Generator', description: 'Generate unique identifiers (UUIDs) instantly.', icon: '🔑', href: '/tools/uuid-generator', category: 'Utilities' },
+    { id: 'lorem-ipsum-generator', name: 'Lorem Ipsum Generator', description: 'Generate placeholder text for designs and mockups.', icon: '📝', href: '/tools/lorem-ipsum-generator', category: 'Text' },
+    { id: 'timestamp-converter', name: 'Timestamp Converter', description: 'Convert Unix timestamps to dates and vice versa.', icon: '⏰', href: '/tools/timestamp-converter', category: 'Utilities' },
+    { id: 'diff-checker', name: 'Diff Checker', description: 'Compare text files and highlight differences.', icon: '🔍', href: '/tools/diff-checker', category: 'Utilities' },
+    { id: 'html-encoder', name: 'HTML Encoder/Decoder', description: 'Encode/decode HTML entities for security and display.', icon: '🔐', href: '/tools/html-encoder', category: 'Web' },
+    { id: 'json-validator', name: 'JSON Validator', description: 'Validate, format, and minify JSON data instantly.', icon: '✅', href: '/tools/json-validator', category: 'Data' },
+    { id: 'image-compressor', name: 'Image Compressor', description: 'Compress images to reduce file size and improve performance.', icon: '📷', href: '/tools/image-compressor', category: 'Media' },
+    { id: 'minifier', name: 'Minifier', description: 'Minify JavaScript, CSS, and HTML for production.', icon: '⚡', href: '/tools/minifier', category: 'Web' },
+    { id: 'xml-formatter', name: 'XML Formatter', description: 'Format, validate, and convert XML documents.', icon: '📜', href: '/tools/xml-formatter', category: 'Data' },
+    { id: 'yaml-tools', name: 'YAML Tools', description: 'Convert YAML ↔ JSON and validate YAML files.', icon: '🛠️', href: '/tools/yaml-tools', category: 'Data' },
+    { id: 'sketch-board', name: 'Sketch Board', description: 'Real-time collaborative whiteboard for diagrams and ideas.', icon: '🎨', href: '/tools/sketch-board', category: 'Design' },
+    { id: 'api-playground', name: 'API Playground', description: 'Professional REST API testing tool. Test APIs with code generation.', icon: '⚡', href: '/tools/api-playground', category: 'Developer' },
+    { id: 'cron-job-generator', name: 'Cron Job Generator', description: 'Visual schedule builder for cron expressions with natural language.', icon: '⏰', href: '/tools/cron-job-generator', category: 'Utilities' },
+    { id: 'og-image-generator', name: 'OG Image Generator', description: 'Design and preview Open Graph social sharing cards.', icon: '🖼️', href: '/tools/og-image-generator', category: 'Design' },
+    { id: 'http-headers-analyzer', name: 'HTTP Headers Analyzer', description: 'Analyze website security headers and get a security grade.', icon: '🛡️', href: '/tools/http-headers-analyzer', category: 'Security' },
+    { id: 'push-notifications', name: 'Push Notifications', description: 'Add web push notifications to your site with powerful management dashboard.', icon: '🔔', href: '/tools/push-notifications', category: 'Services' },
+    { id: 'woocommerce', name: 'WooCommerce', description: 'Secure store management with AI chat and full CRUD features.', icon: '🛒', href: '/tools/woocommerce', category: 'Services' },
+    { id: 'mcp-tester', name: 'MCP Tool Tester', description: 'Test and debug Model Context Protocol servers in a live sandbox.', icon: '🧪', href: '/tools/mcp-tester', category: 'AI-Powered' }
+];
 
 export default function HomePage() {
-    const tools = [
-        {
-            name: 'Regex Tester',
-            description: 'Test and debug regular expressions with real-time matching and highlighting.',
-            icon: '🔍',
-            href: '/tools/regex-tester',
-            category: 'Text Processing',
-        },
-        {
-            name: 'JSON ↔ CSV Converter',
-            description: 'Convert between JSON and CSV formats instantly with validation.',
-            icon: '🔄',
-            href: '/tools/json-to-csv',
-            category: 'Data Conversion',
-        },
-        {
-            name: 'Markdown → HTML',
-            description: 'Convert Markdown to HTML with live preview and syntax highlighting.',
-            icon: '📝',
-            href: '/tools/markdown-to-html',
-            category: 'Content',
-        },
-        {
-            name: 'AI Error Explainer',
-            description: 'Get AI-powered explanations and fixes for programming errors.',
-            icon: '🤖',
-            href: '/tools/ai-error-explainer',
-            category: 'AI-Powered',
-        },
-        {
-            name: 'Prompt Optimizer',
-            description: 'Optimize your AI prompts for better results and clarity.',
-            icon: '✨',
-            href: '/tools/prompt-optimizer',
-            category: 'AI-Powered',
-        },
-        {
-            name: 'PDF Text Extractor',
-            description: 'Extract text from complex PDFs containing images with AI.',
-            icon: '📄',
-            href: '/tools/pdf-extractor',
-            category: 'AI-Powered',
-        },
-        {
-            name: 'Code Formatter',
-            description: 'Beautify JavaScript, HTML, CSS, JSON, and SQL code instantly.',
-            icon: '💫',
-            href: '/tools/code-formatter',
-            category: 'Code Tools',
-        },
-        {
-            name: 'Base64 Encoder/Decoder',
-            description: 'Encode and decode Base64 strings for data transmission.',
-            icon: '🔐',
-            href: '/tools/base64',
-            category: 'Encoding',
-        },
-        {
-            name: 'URL Encoder/Decoder',
-            description: 'Convert URLs to safe encoded format and back.',
-            icon: '🔗',
-            href: '/tools/url-encoder',
-            category: 'Encoding',
-        },
-        {
-            name: 'Color Picker & Gradients',
-            description: 'Pick colors, convert formats, and generate CSS gradients.',
-            icon: '🎨',
-            href: '/tools/color-picker',
-            category: 'Design',
-        },
-        {
-            name: 'JWT Decoder & Hash Generator',
-            description: 'Decode JWT tokens and generate cryptographic hashes.',
-            icon: '🔑',
-            href: '/tools/jwt-decoder',
-            category: 'Security',
-        },
-        {
-            name: 'Text Tools',
-            description: 'Count characters/words, convert case, and clean up text.',
-            icon: '📄',
-            href: '/tools/text-tools',
-            category: 'Utilities',
-        },
-        {
-            name: 'QR Code Generator',
-            description: 'Generate custom QR codes for URLs, text, and more.',
-            icon: '📱',
-            href: '/tools/qr-code-generator',
-            category: 'Utilities',
-        },
-        {
-            name: 'Password Generator',
-            description: 'Create secure passwords and check password strength.',
-            icon: '🔒',
-            href: '/tools/password-generator',
-            category: 'Security',
-        },
-        {
-            name: 'UUID Generator',
-            description: 'Generate unique identifiers (UUIDs) instantly.',
-            icon: '🔑',
-            href: '/tools/uuid-generator',
-            category: 'Utilities',
-        },
-        {
-            name: 'Lorem Ipsum Generator',
-            description: 'Generate placeholder text for designs and mockups.',
-            icon: '📝',
-            href: '/tools/lorem-ipsum-generator',
-            category: 'Text',
-        },
-        {
-            name: 'Timestamp Converter',
-            description: 'Convert Unix timestamps to dates and vice versa.',
-            icon: '⏰',
-            href: '/tools/timestamp-converter',
-            category: 'Utilities',
-        },
-        {
-            name: 'Diff Checker',
-            description: 'Compare text files and highlight differences.',
-            icon: '🔍',
-            href: '/tools/diff-checker',
-            category: 'Utilities',
-        },
-        {
-            name: 'HTML Encoder/Decoder',
-            description: 'Encode/decode HTML entities for security and display.',
-            icon: '🔐',
-            href: '/tools/html-encoder',
-            category: 'Web',
-        },
-        {
-            name: 'JSON Validator',
-            description: 'Validate, format, and minify JSON data instantly.',
-            icon: '✅',
-            href: '/tools/json-validator',
-            category: 'Data',
-        },
-        {
-            name: 'Image Compressor',
-            description: 'Compress images to reduce file size and improve performance.',
-            icon: '📷',
-            href: '/tools/image-compressor',
-            category: 'Media',
-        },
-        {
-            name: 'Minifier',
-            description: 'Minify JavaScript, CSS, and HTML for production.',
-            icon: '⚡',
-            href: '/tools/minifier',
-            category: 'Web',
-        },
-        {
-            name: 'XML Formatter',
-            description: 'Format, validate, and convert XML documents.',
-            icon: '📜',
-            href: '/tools/xml-formatter',
-            category: 'Data',
-        },
-        {
-            name: 'YAML Tools',
-            description: 'Convert YAML ↔ JSON and validate YAML files.',
-            icon: '🛠️',
-            href: '/tools/yaml-tools',
-            category: 'Data',
-        },
-        {
-            name: 'Sketch Board',
-            description: 'Real-time collaborative whiteboard for diagrams and ideas.',
-            icon: '🎨',
-            href: '/tools/sketch-board',
-            category: 'Design',
-        },
-        {
-            name: 'API Playground',
-            description: 'Professional REST API testing tool. Test APIs with code generation.',
-            icon: '⚡',
-            href: '/tools/api-playground',
-            category: 'Developer',
-        },
-        {
-            name: 'Cron Job Generator',
-            description: 'Visual schedule builder for cron expressions with natural language.',
-            icon: '⏰',
-            href: '/tools/cron-job-generator',
-            category: 'Utilities',
-        },
-        {
-            name: 'OG Image Generator',
-            description: 'Design and preview Open Graph social sharing cards.',
-            icon: '🖼️',
-            href: '/tools/og-image-generator',
-            category: 'Design',
-        },
-        {
-            name: 'HTTP Headers Analyzer',
-            description: 'Analyze website security headers and get a security grade.',
-            icon: '🛡️',
-            href: '/tools/http-headers-analyzer',
-            category: 'Security',
-        },
-        {
-            name: 'Push Notifications',
-            description: 'Add web push notifications to your site with powerful management dashboard.',
-            icon: '🔔',
-            href: '/tools/push-notifications',
-            category: 'Services',
-        },
-    ];
+    const [tools, setTools] = useState(DEFAULT_TOOLS);
+
+    useEffect(() => {
+        async function fetchTools() {
+            try {
+                const response = await fetch('http://localhost:4000/api/media/public-tools');
+                if (response.ok) {
+                    const dynamicTools = await response.json();
+
+                    const merged = DEFAULT_TOOLS.map(t => {
+                        const dynamic = dynamicTools.find((dt: any) => dt.id === t.id);
+                        return dynamic ? { ...t, ...dynamic } : t;
+                    });
+
+                    setTools(merged);
+                }
+            } catch (error) {
+                console.warn('Failed to fetch dynamic tools, using defaults');
+            }
+        }
+        fetchTools();
+    }, []);
 
     return (
         <div className="min-h-screen">
@@ -234,7 +75,7 @@ export default function HomePage() {
 
                 <div className="container-custom relative z-10">
                     <div className="text-center max-w-4xl mx-auto">
-                        <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-8 animate-fade-in">
+                        <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-8">
                             <Link href="/tools/sketch-board" className="inline-flex items-center gap-3 px-1 py-1 pr-4 rounded-full bg-slate-900 border border-indigo-500/30 hover:scale-105 transition-transform cursor-pointer group shadow-lg shadow-indigo-500/20">
                                 <span className="bg-indigo-500 text-white px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider shadow-sm">NEW</span>
                                 <span className="text-sm font-medium text-indigo-100 group-hover:text-white transition-colors">
@@ -270,178 +111,121 @@ export default function HomePage() {
                                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                             </Link>
                         </div>
-
-                        <div className="flex items-center justify-center gap-2 text-sm text-slate-500 font-medium animate-fade-in">
-                            <span className="relative flex h-2 w-2">
-                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                                <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
-                            </span>
-                            <span>Fresh tools added every week</span>
-                        </div>
                     </div>
                 </div>
             </section>
 
-            {/* MCP Tools Section - Premium Features */}
+            {/* MCP Tools Section */}
             <section className="py-24 bg-[#111827] relative overflow-hidden">
-                {/* Animated background elements */}
-                <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                    <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-indigo-600/20 rounded-full blur-[120px] animate-pulse"></div>
-                    <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-purple-600/20 rounded-full blur-[120px] animate-pulse delay-700"></div>
-                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[30%] h-[30%] bg-blue-600/10 rounded-full blur-[100px]"></div>
+                <div className="container-custom relative z-10 text-center">
+                    <div className="inline-flex items-center gap-2 mb-6 bg-gradient-to-r from-purple-500/20 to-pink-500/20 backdrop-blur-md px-4 py-2 rounded-full border border-purple-500/30 animate-fade-in shadow-xl">
+                        <Sparkles className="w-4 h-4 text-purple-400" />
+                        <span className="bg-gradient-to-r from-purple-300 to-pink-300 bg-clip-text text-transparent text-xs font-bold uppercase tracking-wider">
+                            Premium MCP Integration
+                        </span>
+                    </div>
+                    <h2 className="text-5xl md:text-6xl font-extrabold text-white mb-6 tracking-tight">
+                        MCP-Powered Tools
+                    </h2>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto mt-16">
+                        <Link href="/tools/woocommerce" className="group bg-white/[0.03] backdrop-blur-xl rounded-[2.5rem] p-8 border border-white/[0.08] hover:bg-white/[0.06] transition-all overflow-hidden text-left">
+                            <div className="flex flex-col sm:flex-row items-start gap-6">
+                                <div className="p-5 bg-gradient-to-br from-pink-500/10 to-purple-500/10 rounded-3xl border border-white/5 group-hover:scale-110 transition-transform">
+                                    <ShoppingBag className="w-12 h-12 text-pink-500" />
+                                </div>
+                                <div>
+                                    <h3 className="text-2xl font-bold text-white mb-2">WooCommerce Manager</h3>
+                                    <p className="text-slate-400 text-sm mb-4">Secure store management with AI chat and full CRUD.</p>
+                                    <div className="flex items-center gap-2 text-white font-bold group-hover:gap-4 transition-all">
+                                        <span className="text-sm">Explore Tool</span>
+                                        <ArrowRight className="w-4 h-4 text-purple-400" />
+                                    </div>
+                                </div>
+                            </div>
+                        </Link>
+                        <Link href="/tools/mcp-tester" className="group bg-white/[0.03] backdrop-blur-xl rounded-[2.5rem] p-8 border border-white/[0.08] hover:bg-white/[0.06] transition-all overflow-hidden text-left">
+                            <div className="flex flex-col sm:flex-row items-start gap-6">
+                                <div className="p-5 bg-gradient-to-br from-blue-500/10 to-cyan-500/10 rounded-3xl border border-white/5 group-hover:scale-110 transition-transform">
+                                    <FlaskConical className="w-12 h-12 text-blue-500" />
+                                </div>
+                                <div>
+                                    <h3 className="text-2xl font-bold text-white mb-2">MCP Tool Tester</h3>
+                                    <p className="text-slate-400 text-sm mb-4">Live sandbox for testing custom MCP servers.</p>
+                                    <div className="flex items-center gap-2 text-white font-bold group-hover:gap-4 transition-all">
+                                        <span className="text-sm">Test MCP Servers</span>
+                                        <ArrowRight className="w-4 h-4 text-blue-400" />
+                                    </div>
+                                </div>
+                            </div>
+                        </Link>
+                    </div>
                 </div>
+            </section>
 
-                <div className="container-custom relative z-10">
-                    <div className="text-center mb-16">
-                        <div className="inline-flex items-center gap-2 mb-6 bg-gradient-to-r from-purple-500/20 to-pink-500/20 backdrop-blur-md px-4 py-2 rounded-full border border-purple-500/30 shadow-[0_0_20px_rgba(168,85,247,0.15)] animate-fade-in">
-                            <Sparkles className="w-4 h-4 text-purple-400" />
-                            <span className="bg-gradient-to-r from-purple-300 to-pink-300 bg-clip-text text-transparent text-xs font-bold uppercase tracking-wider">
-                                Premium MCP Integration
-                            </span>
-                        </div>
-                        <h2 className="text-5xl md:text-6xl font-extrabold text-white mb-6 tracking-tight">
-                            MCP-Powered Tools
+            {/* Tools Grid Section */}
+            <section id="tools" className="py-24 bg-slate-50 relative">
+                <div className="container-custom">
+                    <div className="mb-16">
+                        <h2 className="text-4xl md:text-5xl font-black text-slate-900 mb-4 tracking-tight">
+                            Developer Tools Hive
                         </h2>
-                        <p className="text-lg text-slate-400 max-w-2xl mx-auto font-medium leading-relaxed">
-                            Advanced tools powered by Model Context Protocol for seamless integration and automation
+                        <p className="text-lg text-slate-600 font-medium text-left">
+                            Experience unique, AI-enhanced utilities for your workflow.
                         </p>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
-                        {/* WooCommerce Manager */}
-                        <Link
-                            href="/tools/woocommerce"
-                            className="group relative bg-white/[0.03] backdrop-blur-xl rounded-[2.5rem] p-8 border border-white/[0.08] hover:bg-white/[0.06] hover:border-white/[0.15] transition-all duration-500 shadow-2xl overflow-hidden"
-                        >
-                            <div className="relative z-10 flex flex-col sm:flex-row items-start gap-6">
-                                <div className="p-5 bg-gradient-to-br from-pink-500/10 to-purple-500/10 rounded-3xl border border-white/5 group-hover:scale-110 transition-transform duration-500">
-                                    <ShoppingBag className="w-12 h-12 text-pink-500" />
-                                </div>
-                                <div className="flex-1">
-                                    <div className="flex items-center gap-3 mb-3">
-                                        <h3 className="text-2xl font-bold text-white tracking-tight">
-                                            WooCommerce Manager
-                                        </h3>
-                                        <span className="bg-emerald-500/20 text-emerald-400 text-[10px] font-black px-2.5 py-1 rounded-lg border border-emerald-500/30 uppercase tracking-tighter">
-                                            MCP
-                                        </span>
-                                    </div>
-                                    <p className="text-slate-400 text-sm mb-6 leading-relaxed font-medium">
-                                        Secure WooCommerce store management with MCP integration and AI chat.
-                                    </p>
-                                    <div className="flex flex-wrap gap-2 mb-6">
-                                        <div className="flex items-center gap-1.5 bg-purple-500/10 text-purple-300 text-[11px] font-bold px-3 py-1 rounded-full border border-purple-500/20">
-                                            <Lock className="w-3.5 h-3.5" />
-                                            <span>Secure</span>
-                                        </div>
-                                        <div className="flex items-center gap-1.5 bg-blue-500/10 text-blue-300 text-[11px] font-bold px-3 py-1 rounded-full border border-blue-500/20">
-                                            <Bot className="w-3.5 h-3.5" />
-                                            <span>AI-Powered</span>
-                                        </div>
-                                        <div className="flex items-center gap-1.5 bg-pink-500/10 text-pink-300 text-[11px] font-bold px-3 py-1 rounded-full border border-pink-500/20">
-                                            <RefreshCcw className="w-3.5 h-3.5" />
-                                            <span>Full CRUD</span>
-                                        </div>
-                                    </div>
-                                    <div className="flex items-center gap-2 text-white font-bold group-hover:gap-4 transition-all duration-300">
-                                        <span className="text-sm">Explore Tool</span>
-                                        <ArrowRight className="w-4 h-4 text-purple-400 group-hover:text-white" />
-                                    </div>
-                                </div>
-                            </div>
-                        </Link>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        {tools.map((tool: any) => {
+                            const categoryClass = `category-${tool.category?.toLowerCase().replace(/\s+/g, '-').replace(/&/g, '') || 'utilities'}`;
 
-                        {/* MCP Tool Tester */}
-                        <Link
-                            href="/tools/mcp-tester"
-                            className="group relative bg-white/[0.03] backdrop-blur-xl rounded-[2.5rem] p-8 border border-white/[0.08] hover:bg-white/[0.06] hover:border-white/[0.15] transition-all duration-500 shadow-2xl overflow-hidden"
-                        >
-                            <div className="relative z-10 flex flex-col sm:flex-row items-start gap-6">
-                                <div className="p-5 bg-gradient-to-br from-blue-500/10 to-cyan-500/10 rounded-3xl border border-white/5 group-hover:scale-110 transition-transform duration-500">
-                                    <FlaskConical className="w-12 h-12 text-blue-500" />
-                                </div>
-                                <div className="flex-1">
-                                    <div className="flex items-center gap-3 mb-3">
-                                        <h3 className="text-2xl font-bold text-white tracking-tight">
-                                            MCP Tool Tester
-                                        </h3>
-                                        <span className="bg-blue-500 text-white text-[10px] font-black px-2.5 py-1 rounded-lg shadow-lg shadow-blue-500/30 uppercase tracking-tighter">
-                                            NEW
-                                        </span>
-                                    </div>
-                                    <p className="text-slate-400 text-sm mb-6 leading-relaxed font-medium">
-                                        Test any MCP server dynamically with custom configs and AI chat interface.
-                                    </p>
-                                    <div className="flex flex-wrap gap-2 mb-6">
-                                        <div className="flex items-center gap-1.5 bg-cyan-500/10 text-cyan-300 text-[11px] font-bold px-3 py-1 rounded-full border border-cyan-500/20">
-                                            <Wrench className="w-3.5 h-3.5" />
-                                            <span>Dynamic</span>
-                                        </div>
-                                        <div className="flex items-center gap-1.5 bg-blue-500/10 text-blue-300 text-[11px] font-bold px-3 py-1 rounded-full border border-blue-500/20">
-                                            <Box className="w-3.5 h-3.5" />
-                                            <span>Interactive</span>
-                                        </div>
-                                        <div className="flex items-center gap-1.5 bg-indigo-500/10 text-indigo-300 text-[11px] font-bold px-3 py-1 rounded-full border border-indigo-500/20">
-                                            <Target className="w-3.5 h-3.5" />
-                                            <span>Universal</span>
-                                        </div>
-                                    </div>
-                                    <div className="flex items-center gap-2 text-white font-bold group-hover:gap-4 transition-all duration-300">
-                                        <span className="text-sm">Test MCP Servers</span>
-                                        <ArrowRight className="w-4 h-4 text-blue-400 group-hover:text-white" />
-                                    </div>
-                                </div>
-                            </div>
-                        </Link>
-                    </div>
-                </div>
-            </section>
+                            // Map categories to premium gradient styles for placeholders
+                            const categoryGradients: Record<string, string> = {
+                                'AI-Powered': 'from-purple-500/10 to-pink-500/10 border-purple-500/20 text-purple-600',
+                                'Security': 'from-blue-600/10 to-indigo-600/10 border-blue-500/20 text-blue-600',
+                                'Code Tools': 'from-emerald-500/10 to-teal-500/10 border-emerald-500/20 text-emerald-600',
+                                'Design': 'from-amber-500/10 to-orange-500/10 border-amber-500/20 text-amber-600',
+                                'Data Conversion': 'from-cyan-500/10 to-blue-500/10 border-cyan-500/20 text-cyan-600',
+                                'Developer': 'from-slate-700/10 to-slate-900/10 border-slate-500/20 text-slate-700',
+                                'Web': 'from-blue-400/10 to-cyan-400/10 border-blue-400/20 text-blue-500',
+                                'Utilities': 'from-slate-400/10 to-slate-600/10 border-slate-400/20 text-slate-600',
+                                'Content': 'from-rose-500/10 to-red-500/10 border-rose-500/20 text-rose-600',
+                                'Media': 'from-indigo-500/10 to-purple-500/10 border-indigo-500/20 text-indigo-600'
+                            };
 
-            {/* Tools Section */}
-            <section id="tools" className="py-24 bg-slate-50 relative">
-                <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-slate-200 to-transparent"></div>
-
-                <div className="container-custom">
-                    <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
-                        <div className="max-w-2xl">
-                            <h2 className="text-4xl md:text-5xl font-black text-slate-900 mb-4 tracking-tight">
-                                Developer Tools
-                            </h2>
-                            <p className="text-lg text-slate-600 font-medium">
-                                Essential utilities designed to streamline your development workflow and boost your daily productivity.
-                            </p>
-                        </div>
-                        <div className="hidden md:block">
-                            <div className="flex items-center gap-3 text-slate-400">
-                                <div className="h-px w-12 bg-slate-200"></div>
-                                <span className="text-[10px] font-bold uppercase tracking-widest leading-none">Scroll to discover</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {tools.map((tool) => {
-                            // Map category to CSS class
-                            const categoryClass = `category-${tool.category.toLowerCase().replace(/\s+/g, '-').replace(/&/g, '')}`;
+                            const gradientStyle = categoryGradients[tool.category] || categoryGradients['Utilities'];
 
                             return (
-                                <Link
-                                    key={tool.href}
-                                    href={tool.href}
-                                    className="card group"
-                                >
-                                    <div className="flex items-start space-x-4 relative z-10">
-                                        <div className="tool-icon">
-                                            {tool.icon}
+                                <Link key={tool.id} href={tool.href} className="flex flex-col h-full group bg-white rounded-[2rem] border border-slate-200/80 hover:border-blue-500/30 hover:shadow-[0_20px_50px_rgba(59,130,246,0.12)] transition-all duration-500 hover:-translate-y-2 overflow-hidden shadow-sm">
+                                    {tool.imageUrl ? (
+                                        <div className="h-56 overflow-hidden relative">
+                                            <img src={tool.imageUrl} alt={tool.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" />
+                                            <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/20 to-transparent p-8 flex flex-col justify-end">
+                                                <div className="flex items-center gap-2">
+                                                    <span className={`category-badge ${categoryClass} backdrop-blur-md bg-white/10 text-white border-white/20 mb-0 shadow-lg`}>{tool.category}</span>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div className="flex-1">
-                                            <h3 className="text-xl font-semibold text-gray-900 mb-2 group-hover:text-gradient transition-all">
-                                                {tool.name}
-                                            </h3>
-                                            <p className="text-sm text-gray-700 mb-3 leading-relaxed">{tool.description}</p>
-                                            <span className={`category-badge ${categoryClass}`}>
-                                                {tool.category}
-                                            </span>
+                                    ) : (
+                                        <div className="p-8 pb-0">
+                                            <div className={`w-20 h-20 rounded-[1.5rem] bg-gradient-to-br ${gradientStyle} border flex items-center justify-center text-4xl mb-6 shadow-sm group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500`}>
+                                                {tool.icon}
+                                            </div>
+                                            <span className={`category-badge ${categoryClass} inline-block mb-4`}>{tool.category}</span>
+                                        </div>
+                                    )}
+
+                                    <div className="p-8 pt-6 flex flex-col flex-1">
+                                        <h3 className="text-2xl font-extrabold text-slate-900 mb-4 group-hover:text-blue-600 transition-colors text-left leading-tight">{tool.name}</h3>
+                                        <p className="text-slate-600 mb-8 leading-relaxed font-medium line-clamp-3 text-left flex-1">{tool.description}</p>
+
+                                        <div className="flex items-center justify-between pt-6 border-t border-slate-100">
+                                            <div className="flex items-center gap-2 text-blue-600 font-bold text-xs uppercase tracking-widest group/btn">
+                                                <span>Launch Tool</span>
+                                                <div className="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center group-hover/btn:bg-blue-600 group-hover/btn:text-white transition-all shadow-sm">
+                                                    <ArrowRight className="w-4 h-4 transition-transform group-hover/btn:translate-x-0.5" />
+                                                </div>
+                                            </div>
+                                            <div className="w-2 h-2 rounded-full bg-slate-200 group-hover:bg-blue-500 transition-colors" />
                                         </div>
                                     </div>
                                 </Link>
@@ -451,33 +235,7 @@ export default function HomePage() {
                 </div>
             </section>
 
-            {/* Latest Insights Section */}
             <LatestInsights />
-
-            {/* CTA Section */}
-            <section className="py-24 bg-[#111827] relative overflow-hidden">
-                <div className="absolute inset-0 z-0">
-                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-[radial-gradient(circle_at_50%_50%,rgba(37,99,235,0.1),transparent_70%)]"></div>
-                </div>
-
-                <div className="container-custom relative z-10 text-center">
-                    <div className="max-w-3xl mx-auto">
-                        <h2 className="text-4xl md:text-5xl font-black text-white mb-6 tracking-tight">
-                            Ready to Elevate Your <br />
-                            <span className="text-gradient">Power Workflow?</span>
-                        </h2>
-                        <p className="text-xl text-slate-400 mb-10 font-medium">
-                            Experience the future of development utilities. No account needed, just pure productivity.
-                        </p>
-                        <div className="flex justify-center">
-                            <a href="#tools" className="btn-primary px-12 py-4 text-lg flex items-center gap-3">
-                                <span>Get Started for Free</span>
-                                <ArrowRight className="w-5 h-5" />
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </section>
         </div>
     );
 }

@@ -1,8 +1,12 @@
+'use client';
+
 import Link from 'next/link';
 import AdPlacement from './AdPlacement';
-import { ChevronRight, Home, LayoutGrid } from 'lucide-react';
+import { ChevronRight, LayoutGrid } from 'lucide-react';
 import { generateBreadcrumb } from '@/lib/seo';
 import Breadcrumbs from './Breadcrumbs';
+import { useState, useEffect } from 'react';
+import { usePathname } from 'next/navigation';
 
 interface ToolLayoutProps {
     title: string;
@@ -19,6 +23,26 @@ export default function ToolLayout({
     relatedTools = [],
     schema,
 }: ToolLayoutProps) {
+    const [imageUrl, setImageUrl] = useState<string | null>(null);
+    const pathname = usePathname();
+
+    useEffect(() => {
+        async function fetchToolImage() {
+            try {
+                const response = await fetch('http://localhost:4000/api/media/public-tools');
+                if (response.ok) {
+                    const tools = await response.json();
+                    const slug = pathname.split('/').pop();
+                    const currentTool = tools.find((t: any) => t.id === slug);
+                    if (currentTool?.imageUrl) setImageUrl(currentTool.imageUrl);
+                }
+            } catch (err) {
+                console.warn('ToolLayout: Failed to fetch image');
+            }
+        }
+        fetchToolImage();
+    }, [pathname]);
+
     const breadcrumbSchema = generateBreadcrumb([
         { name: 'Home', url: '/' },
         { name: 'Tools', url: '/#tools' },
@@ -41,20 +65,36 @@ export default function ToolLayout({
                     ]}
                 />
 
-                {/* Header */}
-                <div className="mb-12 animate-slide-up">
-                    <h1 className="text-4xl md:text-6xl font-black text-gray-900 mb-6 tracking-tight">
-                        {title}
-                    </h1>
-                    <p className="text-xl text-gray-600 max-w-3xl leading-relaxed">
-                        {description}
-                    </p>
+                {/* Dynamic Header with AI Image */}
+                <div className="mt-8 mb-16 animate-slide-up flex flex-col md:flex-row gap-10 items-center">
+                    <div className="flex-1">
+                        <h1 className="text-4xl md:text-7xl font-black text-gray-900 mb-6 tracking-tight leading-[1.1]">
+                            {title}
+                        </h1>
+                        <p className="text-xl md:text-2xl text-gray-600 max-w-3xl leading-relaxed font-medium">
+                            {description}
+                        </p>
+                    </div>
+                    {imageUrl && (
+                        <div className="w-full md:w-1/3 aspect-square rounded-[3rem] overflow-hidden shadow-2xl border-4 border-white transform rotate-2 hover:rotate-0 transition-all duration-700 group">
+                            <img
+                                src={imageUrl}
+                                alt={title}
+                                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+                        </div>
+                    )}
                 </div>
 
                 {/* Main Tool Content */}
                 <div id="tool-functional-area" className="mb-20 animate-fade-in" style={{ animationDelay: '0.4s', animationFillMode: 'both' }}>
-                    <div className="bg-white rounded-[2.5rem] border border-slate-100 shadow-2xl shadow-slate-200/60 p-6 md:p-12">
-                        {children}
+                    <div className="bg-white rounded-[2.5rem] border border-slate-100 shadow-2xl shadow-slate-200/60 p-6 md:p-12 relative overflow-hidden">
+                        {/* Subtle background element */}
+                        <div className="absolute top-0 right-0 w-64 h-64 bg-slate-50 rounded-full blur-3xl -mr-32 -mt-32"></div>
+                        <div className="relative z-10">
+                            {children}
+                        </div>
                     </div>
                 </div>
 

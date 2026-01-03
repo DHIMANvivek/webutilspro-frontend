@@ -258,8 +258,24 @@ export default function ToolsShowcase() {
     const [isMinimized, setIsMinimized] = useState(false);
     const [isAtTop, setIsAtTop] = useState(true);
     const [progress, setProgress] = useState(0);
+    const [dynamicTools, setDynamicTools] = useState<any[]>([]);
     const router = useRouter();
     const pathname = usePathname();
+
+    useEffect(() => {
+        async function fetchDynamicTools() {
+            try {
+                const response = await fetch('http://localhost:4000/api/media/public-tools');
+                if (response.ok) {
+                    const data = await response.json();
+                    setDynamicTools(data);
+                }
+            } catch (error) {
+                console.warn('ToolsShowcase: Failed to fetch dynamic tools');
+            }
+        }
+        fetchDynamicTools();
+    }, []);
 
     const activeToolSlug = useMemo(() => {
         if (!pathname) return null;
@@ -271,6 +287,14 @@ export default function ToolsShowcase() {
 
     const insightData = activeToolSlug ? TOOL_INSIGHTS[activeToolSlug] : null;
 
+    // Merge static featured tools with dynamic images
+    const mergedFeatured = useMemo(() => {
+        return FEATURED_TOOLS.map(t => {
+            const dynamic = dynamicTools.find(dt => dt.id === t.id);
+            return dynamic ? { ...t, imageUrl: dynamic.imageUrl } : t;
+        }) as any[];
+    }, [dynamicTools]);
+
     useEffect(() => {
         const handleScroll = () => {
             setIsAtTop(window.scrollY < 80);
@@ -281,14 +305,14 @@ export default function ToolsShowcase() {
     }, []);
 
     const nextSlide = useCallback(() => {
-        setCurrentIndex((prev) => (prev + 1) % FEATURED_TOOLS.length);
+        setCurrentIndex((prev) => (prev + 1) % mergedFeatured.length);
         setProgress(0);
-    }, []);
+    }, [mergedFeatured.length]);
 
     const prevSlide = useCallback(() => {
-        setCurrentIndex((prev) => (prev - 1 + FEATURED_TOOLS.length) % FEATURED_TOOLS.length);
+        setCurrentIndex((prev) => (prev - 1 + mergedFeatured.length) % mergedFeatured.length);
         setProgress(0);
-    }, []);
+    }, [mergedFeatured.length]);
 
     useEffect(() => {
         if (isMinimized || insightData) return;
@@ -379,16 +403,24 @@ export default function ToolsShowcase() {
                     ) : (
                         <>
                             <div className="flex items-start gap-4 mb-4">
-                                <div className={`w-10 h-10 rounded-xl ${FEATURED_TOOLS[currentIndex].bg} flex items-center justify-center flex-shrink-0 transition-all duration-500`}>
-                                    {(() => {
-                                        const ToolIcon = FEATURED_TOOLS[currentIndex].icon;
-                                        return <ToolIcon className={`w-5 h-5 ${FEATURED_TOOLS[currentIndex].color}`} />;
-                                    })()}
+                                <div className={`w-10 h-10 rounded-xl ${mergedFeatured[currentIndex].bg} flex items-center justify-center flex-shrink-0 transition-all duration-500 overflow-hidden relative border border-white/5`}>
+                                    {mergedFeatured[currentIndex].imageUrl ? (
+                                        <img
+                                            src={mergedFeatured[currentIndex].imageUrl}
+                                            alt={mergedFeatured[currentIndex].name}
+                                            className="w-full h-full object-cover"
+                                        />
+                                    ) : (
+                                        (() => {
+                                            const ToolIcon = mergedFeatured[currentIndex].icon;
+                                            return <ToolIcon className={`w-5 h-5 ${mergedFeatured[currentIndex].color}`} />;
+                                        })()
+                                    )}
                                 </div>
                                 <div className="min-w-0">
-                                    <h4 className="text-sm font-black text-white truncate leading-tight mb-1">{FEATURED_TOOLS[currentIndex].name}</h4>
-                                    <p className="text-[11px] text-slate-400 font-medium line-clamp-2 leading-tight">
-                                        {FEATURED_TOOLS[currentIndex].description}
+                                    <h4 className="text-sm font-black text-white truncate leading-tight mb-1 font-sans">{mergedFeatured[currentIndex].name}</h4>
+                                    <p className="text-[11px] text-slate-400 font-medium line-clamp-2 leading-tight text-left">
+                                        {mergedFeatured[currentIndex].description}
                                     </p>
                                 </div>
                             </div>
@@ -410,7 +442,7 @@ export default function ToolsShowcase() {
                                 </div>
 
                                 <button
-                                    onClick={() => router.push(FEATURED_TOOLS[currentIndex].href)}
+                                    onClick={() => router.push(mergedFeatured[currentIndex].href)}
                                     className="flex-1 py-1.5 bg-blue-600/20 hover:bg-blue-600/40 text-blue-400 hover:text-white rounded-lg text-[10px] font-black uppercase tracking-widest transition-all border border-blue-500/30"
                                 >
                                     Try Now
