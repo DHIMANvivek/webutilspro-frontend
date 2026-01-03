@@ -195,37 +195,37 @@ export default function HomePage() {
                             const gradientStyle = categoryGradients[tool.category] || categoryGradients['Utilities'];
 
                             return (
-                                <Link key={tool.id} href={tool.href} className="flex flex-col h-full group bg-white rounded-[2rem] border border-slate-200/80 hover:border-blue-500/30 hover:shadow-[0_20px_50px_rgba(59,130,246,0.12)] transition-all duration-500 hover:-translate-y-2 overflow-hidden shadow-sm">
+                                <Link key={tool.id} href={tool.href} className="flex flex-col h-full group bg-white rounded-[1.5rem] border border-slate-200/80 hover:border-blue-500/30 hover:shadow-[0_20px_50px_rgba(59,130,246,0.12)] transition-all duration-500 hover:-translate-y-2 overflow-hidden shadow-sm">
                                     {tool.imageUrl ? (
-                                        <div className="h-56 overflow-hidden relative">
+                                        <div className="h-48 overflow-hidden relative">
                                             <img src={tool.imageUrl} alt={tool.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" />
-                                            <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/20 to-transparent p-8 flex flex-col justify-end">
+                                            <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/20 to-transparent p-6 flex flex-col justify-end">
                                                 <div className="flex items-center gap-2">
-                                                    <span className={`category-badge ${categoryClass} backdrop-blur-md bg-white/10 text-white border-white/20 mb-0 shadow-lg`}>{tool.category}</span>
+                                                    <span className={`category-badge ${categoryClass} backdrop-blur-md bg-white/10 text-white border-white/20 mb-0 shadow-lg text-[10px]`}>{tool.category}</span>
                                                 </div>
                                             </div>
                                         </div>
                                     ) : (
-                                        <div className="p-8 pb-0">
-                                            <div className={`w-20 h-20 rounded-[1.5rem] bg-gradient-to-br ${gradientStyle} border flex items-center justify-center text-4xl mb-6 shadow-sm group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500`}>
+                                        <div className="p-6 pb-0">
+                                            <div className={`w-16 h-16 rounded-[1.25rem] bg-gradient-to-br ${gradientStyle} border flex items-center justify-center text-3xl mb-4 shadow-sm group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500`}>
                                                 {tool.icon}
                                             </div>
-                                            <span className={`category-badge ${categoryClass} inline-block mb-4`}>{tool.category}</span>
+                                            <span className={`category-badge ${categoryClass} inline-block mb-3 text-[10px]`}>{tool.category}</span>
                                         </div>
                                     )}
 
-                                    <div className="p-8 pt-6 flex flex-col flex-1">
-                                        <h3 className="text-2xl font-extrabold text-slate-900 mb-4 group-hover:text-blue-600 transition-colors text-left leading-tight">{tool.name}</h3>
-                                        <p className="text-slate-600 mb-8 leading-relaxed font-medium line-clamp-3 text-left flex-1">{tool.description}</p>
+                                    <div className="p-6 pt-5 flex flex-col flex-1">
+                                        <h3 className="text-xl font-extrabold text-slate-900 mb-2 group-hover:text-blue-600 transition-colors text-left leading-tight">{tool.name}</h3>
+                                        <p className="text-[13px] text-slate-600 mb-6 leading-relaxed font-medium line-clamp-2 text-left flex-1">{tool.description}</p>
 
-                                        <div className="flex items-center justify-between pt-6 border-t border-slate-100">
-                                            <div className="flex items-center gap-2 text-blue-600 font-bold text-xs uppercase tracking-widest group/btn">
+                                        <div className="flex items-center justify-between pt-4 border-t border-slate-100">
+                                            <div className="flex items-center gap-2 text-blue-600 font-bold text-[10px] uppercase tracking-widest group/btn">
                                                 <span>Launch Tool</span>
-                                                <div className="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center group-hover/btn:bg-blue-600 group-hover/btn:text-white transition-all shadow-sm">
-                                                    <ArrowRight className="w-4 h-4 transition-transform group-hover/btn:translate-x-0.5" />
+                                                <div className="w-7 h-7 rounded-full bg-blue-50 flex items-center justify-center group-hover/btn:bg-blue-600 group-hover/btn:text-white transition-all shadow-sm">
+                                                    <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover/btn:translate-x-0.5" />
                                                 </div>
                                             </div>
-                                            <div className="w-2 h-2 rounded-full bg-slate-200 group-hover:bg-blue-500 transition-colors" />
+                                            <div className="w-1.5 h-1.5 rounded-full bg-slate-200 group-hover:bg-blue-500 transition-colors" />
                                         </div>
                                     </div>
                                 </Link>
