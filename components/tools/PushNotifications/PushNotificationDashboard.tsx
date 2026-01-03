@@ -10,6 +10,7 @@ import toast from 'react-hot-toast';
 
 interface Project {
     _id: string;
+    id?: string; // Add id as optional for compatibility
     name: string;
     apiKey: string;
     stats: {
@@ -61,10 +62,48 @@ export default function PushNotificationDashboard() {
         url: '',
     });
 
+    // Firebase config form state
+    const [firebaseConfigForm, setFirebaseConfigForm] = useState({
+        apiKey: '',
+        authDomain: '',
+        projectId: '',
+        storageBucket: '',
+        messagingSenderId: '',
+        appId: '',
+        vapidKey: '',
+    });
+
     // Load projects on mount
     useEffect(() => {
         loadProjects();
     }, []);
+
+    // Load full project details when settings tab is active
+    useEffect(() => {
+        if (activeTab === 'settings' && selectedProject) {
+            fetchFullProjectDetails(selectedProject._id || (selectedProject as any).id);
+        }
+    }, [activeTab, selectedProject]);
+
+    const fetchFullProjectDetails = async (projectId: string) => {
+        try {
+            const response = await fetch(`/api/notifications/projects/${projectId}`);
+            const data = await response.json();
+            if (data.success && data.project.firebaseConfig) {
+                setFirebaseConfigForm({
+                    apiKey: data.project.firebaseConfig.apiKey || '',
+                    authDomain: data.project.firebaseConfig.authDomain || '',
+                    projectId: data.project.firebaseConfig.projectId || '',
+                    storageBucket: data.project.firebaseConfig.storageBucket || '',
+                    messagingSenderId: data.project.firebaseConfig.messagingSenderId || '',
+                    appId: data.project.firebaseConfig.appId || '',
+                    vapidKey: data.project.firebaseConfig.vapidKey || '',
+                });
+            }
+        } catch (error) {
+            console.error('Error fetching full project details:', error);
+        }
+    };
 
     const loadProjects = async () => {
         try {
@@ -80,12 +119,22 @@ export default function PushNotificationDashboard() {
             const data = await response.json();
             if (data.success) {
                 // Filter to only show projects created by this user (stored in localStorage)
+                // We check both _id and id to handle discrepancies between creation/list responses
                 const userProjects = data.projects.filter((p: Project) =>
-                    userProjectIds.includes(p._id)
+                    userProjectIds.includes(p._id) || (p.id && userProjectIds.includes(p.id))
                 );
                 setProjects(userProjects);
+
+                // If no project is selected or current selected project is not in the list, select the first one
                 if (userProjects.length > 0) {
-                    setSelectedProject(userProjects[0]);
+                    const currentSelectedId = localStorage.getItem('pn_selected_project_id');
+                    const existingProject = userProjects.find((p: Project) => p._id === currentSelectedId || (p.id && p.id === currentSelectedId));
+
+                    if (existingProject) {
+                        setSelectedProject(existingProject);
+                    } else if (!selectedProject) {
+                        setSelectedProject(userProjects[0]);
+                    }
                 }
             }
         } catch (error) {
@@ -122,15 +171,23 @@ export default function PushNotificationDashboard() {
             const data = await response.json();
             if (data.success) {
                 // Store this project ID in localStorage for this user
+                const projectId = data.project.id || data.project._id;
                 const userProjectIds = JSON.parse(localStorage.getItem('pn_user_projects') || '[]');
-                userProjectIds.push(data.project.id || data.project._id);
+                if (!userProjectIds.includes(projectId)) {
+                    userProjectIds.push(projectId);
+                }
                 localStorage.setItem('pn_user_projects', JSON.stringify(userProjectIds));
+
+                // Store as selected project
+                localStorage.setItem('pn_selected_project_id', projectId);
 
                 toast.success('Project created successfully!');
                 setShowCreateModal(false);
                 setNewProjectName('');
                 setNewProjectEmail('');
-                loadProjects();
+
+                // Refresh projects and specify the new project to be selected
+                await loadProjects();
             } else {
                 toast.error(data.message || 'Failed to create project');
             }
@@ -199,6 +256,33 @@ export default function PushNotificationDashboard() {
         }
     };
 
+    const saveProjectSettings = async () => {
+        if (!selectedProject) return;
+
+        setLoading(true);
+        try {
+            const response = await fetch(`/api/notifications/projects/${selectedProject._id || (selectedProject as any).id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    firebaseConfig: firebaseConfigForm,
+                }),
+            });
+
+            const data = await response.json();
+            if (data.success) {
+                toast.success('Settings saved successfully!');
+            } else {
+                toast.error(data.message || 'Failed to save settings');
+            }
+        } catch (error) {
+            toast.error('Failed to save settings');
+            console.error(error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
     const copyEmbedCode = () => {
         if (selectedProject) {
             const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://webutilspro.com';
@@ -243,6 +327,7 @@ export default function PushNotificationDashboard() {
                                                 key={project._id}
                                                 onClick={() => {
                                                     setSelectedProject(project);
+                                                    localStorage.setItem('pn_selected_project_id', project._id || project.id || '');
                                                     setDropdownOpen(false);
                                                 }}
                                                 className={`w-full px-4 py-3 text-left font-semibold transition-colors ${selectedProject?._id === project._id
@@ -520,14 +605,51 @@ export default function PushNotificationDashboard() {
                                     </button>
                                 </div>
 
-                                <div className="bg-yellow-50 border-2 border-yellow-200 p-6 rounded-xl">
-                                    <h3 className="font-bold text-yellow-900 mb-2">
-                                        ⚙️ Firebase Configuration Required
+                                <div className="bg-white p-6 rounded-xl border-2 border-gray-200 shadow-sm">
+                                    <h3 className="font-bold text-gray-900 mb-4 flex items-center gap-2">
+                                        <div className="p-2 bg-yellow-100 rounded-lg">
+                                            <Settings className="w-5 h-5 text-yellow-600" />
+                                        </div>
+                                        Firebase Configuration
                                     </h3>
-                                    <p className="text-sm text-yellow-800">
-                                        To use push notifications, you need to set up a Firebase project and add your credentials to the backend.
-                                        See the documentation for setup instructions.
-                                    </p>
+
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        {[
+                                            { label: 'API Key', key: 'apiKey' },
+                                            { label: 'Auth Domain', key: 'authDomain' },
+                                            { label: 'Project ID', key: 'projectId' },
+                                            { label: 'Storage Bucket', key: 'storageBucket' },
+                                            { label: 'Messaging Sender ID', key: 'messagingSenderId' },
+                                            { label: 'App ID', key: 'appId' },
+                                            { label: 'VAPID Key (Web Push Certificate)', key: 'vapidKey' },
+                                        ].map((field) => (
+                                            <div key={field.key} className={field.key === 'vapidKey' ? 'md:col-span-2' : ''}>
+                                                <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">
+                                                    {field.label}
+                                                </label>
+                                                <input
+                                                    type="text"
+                                                    value={(firebaseConfigForm as any)[field.key]}
+                                                    onChange={(e) => setFirebaseConfigForm({ ...firebaseConfigForm, [field.key]: e.target.value })}
+                                                    placeholder={`Enter ${field.label}`}
+                                                    className="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:border-blue-500 font-mono text-sm"
+                                                />
+                                            </div>
+                                        ))}
+                                    </div>
+
+                                    <div className="mt-6 flex items-center justify-between">
+                                        <p className="text-sm text-gray-500">
+                                            These credentials are required for the web widget to connect to Firebase.
+                                        </p>
+                                        <button
+                                            onClick={saveProjectSettings}
+                                            disabled={loading}
+                                            className="px-6 py-2 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 flex items-center gap-2"
+                                        >
+                                            {loading ? 'Saving...' : 'Save Configuration'}
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         )}

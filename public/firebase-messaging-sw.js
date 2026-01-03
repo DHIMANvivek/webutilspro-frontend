@@ -8,11 +8,11 @@ importScripts('https://www.gstatic.com/firebasejs/10.7.1/firebase-messaging-comp
 let messaging = null;
 
 // Initialize Firebase
-async function initializeFirebase() {
+async function initializeFirebase(providedApiKey = null) {
     try {
-        // Get the API key from the service worker's own query parameters
+        // Get the API key from the service worker's own query parameters or provided message
         const params = new URLSearchParams(self.location.search);
-        const apiKey = params.get('apiKey');
+        const apiKey = providedApiKey || params.get('apiKey');
 
         if (!apiKey) {
             console.error('[SW] No API key provided');
@@ -36,7 +36,7 @@ async function initializeFirebase() {
 // Handle background messages
 self.addEventListener('message', (event) => {
     if (event.data && event.data.type === 'INIT_FIREBASE') {
-        initializeFirebase();
+        initializeFirebase(event.data.apiKey);
     }
 });
 

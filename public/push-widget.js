@@ -42,6 +42,27 @@
             const app = initializeApp(firebaseConfig);
             messaging = getMessaging(app);
 
+            // Register service worker with API key in query param
+            if ('serviceWorker' in navigator) {
+                try {
+                    const swRegistration = await navigator.serviceWorker.register(
+                        `/firebase-messaging-sw.js?apiKey=${API_KEY}`,
+                        { scope: '/' }
+                    );
+                    console.log('[Push Widget] Service Worker registered');
+
+                    // Also send a message to initialize it if it's already running
+                    if (swRegistration.active) {
+                        swRegistration.active.postMessage({
+                            type: 'INIT_FIREBASE',
+                            apiKey: API_KEY
+                        });
+                    }
+                } catch (err) {
+                    console.error('[Push Widget] Service Worker registration failed:', err);
+                }
+            }
+
             console.log('[Push Widget] Firebase initialized successfully');
             return true;
         } catch (error) {
