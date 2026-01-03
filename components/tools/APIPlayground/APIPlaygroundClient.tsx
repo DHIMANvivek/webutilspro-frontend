@@ -47,6 +47,17 @@ export default function APIPlaygroundClient() {
     const [showCurlImport, setShowCurlImport] = useState(false);
     const [curlCommand, setCurlCommand] = useState('');
 
+    // Auth State
+    const [authType, setAuthType] = useState<'none' | 'bearer' | 'basic' | 'apikey'>('none');
+    const [authData, setAuthData] = useState({
+        token: '',
+        username: '',
+        password: '',
+        key: 'Authorization',
+        value: '',
+        addTo: 'headers' as 'headers' | 'query'
+    });
+
     const sendRequest = async () => {
         setLoading(true);
         setError(null);
@@ -58,6 +69,25 @@ export default function APIPlaygroundClient() {
                 enabledHeaders[h.key] = h.value;
             });
 
+            // Handle Auth
+            if (authType === 'bearer' && authData.token) {
+                enabledHeaders['Authorization'] = `Bearer ${authData.token}`;
+            } else if (authType === 'basic' && authData.username) {
+                const credentials = btoa(`${authData.username}:${authData.password}`);
+                enabledHeaders['Authorization'] = `Basic ${credentials}`;
+            } else if (authType === 'apikey' && authData.key && authData.value) {
+                if (authData.addTo === 'headers') {
+                    enabledHeaders[authData.key] = authData.value;
+                }
+            }
+
+            let finalUrl = url;
+            if (authType === 'apikey' && authData.addTo === 'query' && authData.key && authData.value) {
+                const urlObj = new URL(url);
+                urlObj.searchParams.append(authData.key, authData.value);
+                finalUrl = urlObj.toString();
+            }
+
             const options: RequestInit = {
                 method,
                 headers: enabledHeaders,
@@ -67,7 +97,7 @@ export default function APIPlaygroundClient() {
                 options.body = bodyType === 'json' ? body : body;
             }
 
-            const res = await fetch(url, options);
+            const res = await fetch(finalUrl, options);
             const endTime = performance.now();
 
             const data = await res.json();
@@ -216,11 +246,50 @@ export default function APIPlaygroundClient() {
                 }
             }
 
+            // Extract Auth
+            if (cleaned.match(/-u\s+['"]?([^'"]+)['"]?/i)) {
+                const userPass = cleaned.match(/-u\s+['"]?([^'"]+)['"]?/i)![1];
+                const [username, password] = userPass.split(':');
+                setAuthType('basic');
+                setAuthData(prev => ({ ...prev, username, password: password || '' }));
+            } else {
+                // Check headers for Authorization
+                const authHeader = parsedHeaders.find(h => h.key.toLowerCase() === 'authorization');
+                if (authHeader) {
+                    if (authHeader.value.toLowerCase().startsWith('bearer ')) {
+                        setAuthType('bearer');
+                        setAuthData(prev => ({ ...prev, token: authHeader.value.substring(7) }));
+                        // Remove from manual headers list
+                        setHeaders(parsedHeaders.filter(h => h.key.toLowerCase() !== 'authorization'));
+                    } else if (authHeader.value.toLowerCase().startsWith('basic ')) {
+                        try {
+                            const decoded = atob(authHeader.value.substring(6));
+                            const [username, password] = decoded.split(':');
+                            setAuthType('basic');
+                            setAuthData(prev => ({ ...prev, username, password: password || '' }));
+                            // Remove from manual headers list
+                            setHeaders(parsedHeaders.filter(h => h.key.toLowerCase() !== 'authorization'));
+                        } catch (e) {
+                            // Leave as manual header if decoding fails
+                        }
+                    }
+                }
+            }
+
             setShowCurlImport(false);
             setCurlCommand('');
         } catch (err) {
             console.error('cURL parse error:', err);
             alert('Failed to parse cURL command. Please check the format.');
+        }
+    };
+
+    const handleUrlChange = (newUrl: string) => {
+        // Detect cURL paste
+        if (newUrl.trim().startsWith('curl ')) {
+            parseCurl(newUrl);
+        } else {
+            setUrl(newUrl);
         }
     };
 
@@ -269,7 +338,7 @@ export default function APIPlaygroundClient() {
                     <input
                         type="text"
                         value={url}
-                        onChange={(e) => setUrl(e.target.value)}
+                        onChange={(e) => handleUrlChange(e.target.value)}
                         placeholder="https://api.example.com/endpoint"
                         className="flex-1 px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent font-mono text-sm"
                     />
@@ -424,8 +493,117 @@ export default function APIPlaygroundClient() {
                         )}
 
                         {activeTab === 'auth' && (
-                            <div className="text-center py-16 text-gray-400">
-                                <p className="text-sm">Auth options coming soon</p>
+                            <div className="space-y-4">
+                                <div>
+                                    <label className="block text-xs font-bold text-gray-500 mb-2 uppercase tracking-wider">Auth Type</label>
+                                    <div className="grid grid-cols-2 gap-2">
+                                        {[
+                                            { id: 'none', label: 'No Auth' },
+                                            { id: 'bearer', label: 'Bearer Token' },
+                                            { id: 'basic', label: 'Basic Auth' },
+                                            { id: 'apikey', label: 'API Key' }
+                                        ].map((t) => (
+                                            <button
+                                                key={t.id}
+                                                onClick={() => setAuthType(t.id as any)}
+                                                className={`px-3 py-2 rounded-lg text-sm font-semibold border-2 transition-all ${authType === t.id
+                                                    ? 'border-indigo-500 bg-indigo-50 text-indigo-700'
+                                                    : 'border-gray-100 bg-gray-50 text-gray-600 hover:border-gray-200'
+                                                    }`}
+                                            >
+                                                {t.label}
+                                            </button>
+                                        ))}
+                                    </div>
+                                </div>
+
+                                {authType === 'bearer' && (
+                                    <div className="space-y-2 animate-fade-in">
+                                        <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider">Token</label>
+                                        <input
+                                            type="text"
+                                            value={authData.token}
+                                            onChange={(e) => setAuthData({ ...authData, token: e.target.value })}
+                                            placeholder="Enter bearer token"
+                                            className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 font-mono text-sm"
+                                        />
+                                    </div>
+                                )}
+
+                                {authType === 'basic' && (
+                                    <div className="space-y-3 animate-fade-in">
+                                        <div>
+                                            <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Username</label>
+                                            <input
+                                                type="text"
+                                                value={authData.username}
+                                                onChange={(e) => setAuthData({ ...authData, username: e.target.value })}
+                                                placeholder="Username"
+                                                className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 font-mono text-sm"
+                                            />
+                                        </div>
+                                        <div>
+                                            <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Password</label>
+                                            <input
+                                                type="password"
+                                                value={authData.password}
+                                                onChange={(e) => setAuthData({ ...authData, password: e.target.value })}
+                                                placeholder="Password"
+                                                className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 font-mono text-sm"
+                                            />
+                                        </div>
+                                    </div>
+                                )}
+
+                                {authType === 'apikey' && (
+                                    <div className="space-y-3 animate-fade-in">
+                                        <div className="grid grid-cols-2 gap-2">
+                                            <div>
+                                                <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Key</label>
+                                                <input
+                                                    type="text"
+                                                    value={authData.key}
+                                                    onChange={(e) => setAuthData({ ...authData, key: e.target.value })}
+                                                    placeholder="X-API-Key"
+                                                    className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 font-mono text-sm"
+                                                />
+                                            </div>
+                                            <div>
+                                                <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Value</label>
+                                                <input
+                                                    type="text"
+                                                    value={authData.value}
+                                                    onChange={(e) => setAuthData({ ...authData, value: e.target.value })}
+                                                    placeholder="api-key-value"
+                                                    className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 font-mono text-sm"
+                                                />
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Add To</label>
+                                            <div className="flex gap-2">
+                                                {['headers', 'query'].map((pos) => (
+                                                    <button
+                                                        key={pos}
+                                                        onClick={() => setAuthData({ ...authData, addTo: pos as any })}
+                                                        className={`flex-1 px-3 py-1.5 rounded-lg text-xs font-bold border transition-all ${authData.addTo === pos
+                                                            ? 'bg-indigo-600 text-white border-indigo-600'
+                                                            : 'bg-white text-gray-600 border-gray-200 hover:bg-gray-50'
+                                                            }`}
+                                                    >
+                                                        {pos.toUpperCase()}
+                                                    </button>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
+
+                                {authType === 'none' && (
+                                    <div className="text-center py-12 text-gray-400">
+                                        <p className="text-sm">This request does not use any authentication.</p>
+                                    </div>
+                                )}
                             </div>
                         )}
                     </div>
