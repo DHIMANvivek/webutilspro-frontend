@@ -85,13 +85,13 @@ export default function PushNotificationDashboard() {
 
     // Firebase config form state
     const [firebaseConfigForm, setFirebaseConfigForm] = useState({
-        apiKey: '',
-        authDomain: '',
-        projectId: '',
-        storageBucket: '',
-        messagingSenderId: '',
-        appId: '',
-        vapidKey: '',
+        apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY || '',
+        authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN || '',
+        projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID || '',
+        storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET || '',
+        messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID || '',
+        appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID || '',
+        vapidKey: process.env.NEXT_PUBLIC_FIREBASE_VAPID_KEY || '',
     });
 
     // Tab data state
@@ -178,13 +178,13 @@ export default function PushNotificationDashboard() {
             const data = await response.json();
             if (data.success && data.project.firebaseConfig) {
                 setFirebaseConfigForm({
-                    apiKey: data.project.firebaseConfig.apiKey || '',
-                    authDomain: data.project.firebaseConfig.authDomain || '',
-                    projectId: data.project.firebaseConfig.projectId || '',
-                    storageBucket: data.project.firebaseConfig.storageBucket || '',
-                    messagingSenderId: data.project.firebaseConfig.messagingSenderId || '',
-                    appId: data.project.firebaseConfig.appId || '',
-                    vapidKey: data.project.firebaseConfig.vapidKey || '',
+                    apiKey: data.project.firebaseConfig.apiKey || process.env.NEXT_PUBLIC_FIREBASE_API_KEY || '',
+                    authDomain: data.project.firebaseConfig.authDomain || process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN || '',
+                    projectId: data.project.firebaseConfig.projectId || process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID || '',
+                    storageBucket: data.project.firebaseConfig.storageBucket || process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET || '',
+                    messagingSenderId: data.project.firebaseConfig.messagingSenderId || process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID || '',
+                    appId: data.project.firebaseConfig.appId || process.env.NEXT_PUBLIC_FIREBASE_APP_ID || '',
+                    vapidKey: data.project.firebaseConfig.vapidKey || process.env.NEXT_PUBLIC_FIREBASE_VAPID_KEY || '',
                 });
             }
         } catch (error) {
@@ -700,12 +700,20 @@ export default function PushNotificationDashboard() {
                                 </div>
 
                                 <div className="bg-white p-6 rounded-xl border-2 border-gray-200 shadow-sm">
-                                    <h3 className="font-bold text-gray-900 mb-4 flex items-center gap-2">
-                                        <div className="p-2 bg-yellow-100 rounded-lg">
-                                            <Settings className="w-5 h-5 text-yellow-600" />
+                                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
+                                        <h3 className="font-bold text-gray-900 flex items-center gap-2">
+                                            <div className="p-2 bg-yellow-100 rounded-lg">
+                                                <Settings className="w-5 h-5 text-yellow-600" />
+                                            </div>
+                                            Firebase Configuration
+                                        </h3>
+                                        <div className="bg-blue-50 border border-blue-100 px-4 py-2 rounded-xl">
+                                            <p className="text-sm font-medium text-blue-700">
+                                                💡 Using our default Firebase config (webutilspro.com).
+                                                <span className="block md:inline ml-0 md:ml-1 text-blue-600/80">You can replace it with your own credentials anytime.</span>
+                                            </p>
                                         </div>
-                                        Firebase Configuration
-                                    </h3>
+                                    </div>
 
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                         {[
