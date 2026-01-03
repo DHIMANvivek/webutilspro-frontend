@@ -89,13 +89,20 @@ export default function APIPlaygroundClient() {
                 finalUrl = urlObj.toString();
             }
 
+            // Auto-set Content-Type for JSON body if not present
+            if (['POST', 'PUT', 'PATCH'].includes(method) && body && bodyType === 'json') {
+                if (!Object.keys(enabledHeaders).some(key => key.toLowerCase() === 'content-type')) {
+                    enabledHeaders['Content-Type'] = 'application/json';
+                }
+            }
+
             const options: RequestInit = {
                 method,
                 headers: enabledHeaders,
             };
 
             if (['POST', 'PUT', 'PATCH'].includes(method) && body) {
-                options.body = bodyType === 'json' ? body : body;
+                options.body = body;
             }
 
             const res = await fetch(finalUrl, options);
