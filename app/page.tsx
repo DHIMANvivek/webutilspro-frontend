@@ -196,23 +196,12 @@ export default function HomePage() {
 
                             return (
                                 <Link key={tool.id} href={tool.href} className="flex flex-col h-full group bg-white rounded-[1.5rem] border border-slate-200/80 hover:border-blue-500/30 hover:shadow-[0_20px_50px_rgba(59,130,246,0.12)] transition-all duration-500 hover:-translate-y-2 overflow-hidden shadow-sm">
-                                    {tool.imageUrl ? (
-                                        <div className="h-48 overflow-hidden relative">
-                                            <img src={tool.imageUrl} alt={tool.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" />
-                                            <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/20 to-transparent p-6 flex flex-col justify-end">
-                                                <div className="flex items-center gap-2">
-                                                    <span className={`category-badge ${categoryClass} backdrop-blur-md bg-white/10 text-white border-white/20 mb-0 shadow-lg text-[10px]`}>{tool.category}</span>
-                                                </div>
-                                            </div>
+                                    <div className="p-6 pb-0">
+                                        <div className={`w-16 h-16 rounded-[1.25rem] bg-gradient-to-br ${gradientStyle} border flex items-center justify-center text-3xl mb-4 shadow-sm group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500`}>
+                                            {tool.icon}
                                         </div>
-                                    ) : (
-                                        <div className="p-6 pb-0">
-                                            <div className={`w-16 h-16 rounded-[1.25rem] bg-gradient-to-br ${gradientStyle} border flex items-center justify-center text-3xl mb-4 shadow-sm group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500`}>
-                                                {tool.icon}
-                                            </div>
-                                            <span className={`category-badge ${categoryClass} inline-block mb-3 text-[10px]`}>{tool.category}</span>
-                                        </div>
-                                    )}
+                                        <span className={`category-badge ${categoryClass} inline-block mb-3 text-[10px]`}>{tool.category}</span>
+                                    </div>
 
                                     <div className="p-6 pt-5 flex flex-col flex-1">
                                         <h3 className="text-xl font-extrabold text-slate-900 mb-2 group-hover:text-blue-600 transition-colors text-left leading-tight">{tool.name}</h3>

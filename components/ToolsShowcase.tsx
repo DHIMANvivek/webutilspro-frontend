@@ -404,18 +404,10 @@ export default function ToolsShowcase() {
                         <>
                             <div className="flex items-start gap-4 mb-4">
                                 <div className={`w-10 h-10 rounded-xl ${mergedFeatured[currentIndex].bg} flex items-center justify-center flex-shrink-0 transition-all duration-500 overflow-hidden relative border border-white/5`}>
-                                    {mergedFeatured[currentIndex].imageUrl ? (
-                                        <img
-                                            src={mergedFeatured[currentIndex].imageUrl}
-                                            alt={mergedFeatured[currentIndex].name}
-                                            className="w-full h-full object-cover"
-                                        />
-                                    ) : (
-                                        (() => {
-                                            const ToolIcon = mergedFeatured[currentIndex].icon;
-                                            return <ToolIcon className={`w-5 h-5 ${mergedFeatured[currentIndex].color}`} />;
-                                        })()
-                                    )}
+                                    {(() => {
+                                        const ToolIcon = mergedFeatured[currentIndex].icon;
+                                        return <ToolIcon className={`w-5 h-5 ${mergedFeatured[currentIndex].color}`} />;
+                                    })()}
                                 </div>
                                 <div className="min-w-0">
                                     <h4 className="text-sm font-black text-white truncate leading-tight mb-1 font-sans">{mergedFeatured[currentIndex].name}</h4>
