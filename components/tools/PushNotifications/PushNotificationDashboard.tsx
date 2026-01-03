@@ -123,7 +123,7 @@ export default function PushNotificationDashboard() {
             if (data.success) {
                 // Store this project ID in localStorage for this user
                 const userProjectIds = JSON.parse(localStorage.getItem('pn_user_projects') || '[]');
-                userProjectIds.push(data.project._id);
+                userProjectIds.push(data.project.id || data.project._id);
                 localStorage.setItem('pn_user_projects', JSON.stringify(userProjectIds));
 
                 toast.success('Project created successfully!');
