@@ -38,6 +38,26 @@ interface Notification {
     sentAt?: string;
 }
 
+interface Subscriber {
+    _id: string;
+    metadata: {
+        userAgent?: string;
+        subscribedUrl?: string;
+        tags?: string[];
+    };
+    subscribedAt: string;
+    lastActive: string;
+}
+
+interface Analytics {
+    sent: number;
+    delivered: number;
+    clicked: number;
+    failed: number;
+    clickRate: string;
+    deliveryRate: string;
+}
+
 export default function PushNotificationDashboard() {
     const [activeTab, setActiveTab] = useState<'send' | 'history' | 'subscribers' | 'analytics' | 'settings'>('send');
     const [projects, setProjects] = useState<Project[]>([]);
@@ -73,6 +93,12 @@ export default function PushNotificationDashboard() {
         vapidKey: '',
     });
 
+    // Tab data state
+    const [notifications, setNotifications] = useState<Notification[]>([]);
+    const [subscribers, setSubscribers] = useState<Subscriber[]>([]);
+    const [analytics, setAnalytics] = useState<Analytics | null>(null);
+    const [tabLoading, setTabLoading] = useState(false);
+
     // Load projects on mount
     useEffect(() => {
         loadProjects();
@@ -84,6 +110,66 @@ export default function PushNotificationDashboard() {
             fetchFullProjectDetails(selectedProject._id || (selectedProject as any).id);
         }
     }, [activeTab, selectedProject]);
+
+    // Fetch tab-specific data when active tab changes
+    useEffect(() => {
+        if (!selectedProject) return;
+
+        const projectId = selectedProject._id || (selectedProject as any).id;
+
+        if (activeTab === 'history') {
+            fetchNotifications(projectId);
+        } else if (activeTab === 'subscribers') {
+            fetchSubscribers(projectId);
+        } else if (activeTab === 'analytics') {
+            fetchAnalytics(projectId);
+        }
+    }, [activeTab, selectedProject]);
+
+    const fetchNotifications = async (projectId: string) => {
+        setTabLoading(true);
+        try {
+            const response = await fetch(`/api/notifications/projects/${projectId}/notifications`);
+            const data = await response.json();
+            if (data.success) {
+                setNotifications(data.notifications);
+            }
+        } catch (error) {
+            console.error('Error fetching notifications:', error);
+        } finally {
+            setTabLoading(false);
+        }
+    };
+
+    const fetchSubscribers = async (projectId: string) => {
+        setTabLoading(true);
+        try {
+            const response = await fetch(`/api/notifications/projects/${projectId}/subscribers`);
+            const data = await response.json();
+            if (data.success) {
+                setSubscribers(data.subscribers);
+            }
+        } catch (error) {
+            console.error('Error fetching subscribers:', error);
+        } finally {
+            setTabLoading(false);
+        }
+    };
+
+    const fetchAnalytics = async (projectId: string) => {
+        setTabLoading(true);
+        try {
+            const response = await fetch(`/api/notifications/projects/${projectId}/analytics`);
+            const data = await response.json();
+            if (data.success) {
+                setAnalytics(data.analytics);
+            }
+        } catch (error) {
+            console.error('Error fetching analytics:', error);
+        } finally {
+            setTabLoading(false);
+        }
+    };
 
     const fetchFullProjectDetails = async (projectId: string) => {
         try {
@@ -654,40 +740,291 @@ export default function PushNotificationDashboard() {
                             </div>
                         )}
 
-                        {/* Other tabs placeholders */}
+                        {/* History Tab */}
                         {activeTab === 'history' && (
-                            <div className="text-center py-12">
-                                <Calendar className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-                                <h3 className="text-xl font-bold text-gray-900 mb-2">
-                                    Notification History
-                                </h3>
-                                <p className="text-gray-600">
-                                    View all sent and scheduled notifications here
-                                </p>
+                            <div className="space-y-6">
+                                <div className="flex items-center justify-between">
+                                    <h2 className="text-2xl font-black text-gray-900">
+                                        Notification History
+                                    </h2>
+                                    <button
+                                        onClick={() => selectedProject && fetchNotifications(selectedProject._id)}
+                                        className="text-sm font-bold text-blue-600 hover:text-blue-700"
+                                    >
+                                        Refresh
+                                    </button>
+                                </div>
+
+                                {tabLoading ? (
+                                    <div className="flex justify-center py-12">
+                                        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+                                    </div>
+                                ) : notifications.length === 0 ? (
+                                    <div className="text-center py-12 bg-gray-50 rounded-2xl border-2 border-dashed border-gray-200">
+                                        <Calendar className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+                                        <h3 className="text-xl font-bold text-gray-900 mb-2">
+                                            No notifications yet
+                                        </h3>
+                                        <p className="text-gray-600 mb-6">
+                                            Sent notifications will appear here
+                                        </p>
+                                        <button
+                                            onClick={() => setActiveTab('send')}
+                                            className="px-6 py-2 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-700 transition-colors"
+                                        >
+                                            Send Your First Notification
+                                        </button>
+                                    </div>
+                                ) : (
+                                    <div className="bg-white rounded-2xl border-2 border-gray-100 overflow-hidden">
+                                        <div className="overflow-x-auto">
+                                            <table className="w-full text-left">
+                                                <thead>
+                                                    <tr className="bg-gray-50 border-b-2 border-gray-100">
+                                                        <th className="px-6 py-4 font-black text-gray-900 uppercase tracking-wider text-xs">Notification</th>
+                                                        <th className="px-6 py-4 font-black text-gray-900 uppercase tracking-wider text-xs">Status</th>
+                                                        <th className="px-6 py-4 font-black text-gray-900 uppercase tracking-wider text-xs">Stats</th>
+                                                        <th className="px-6 py-4 font-black text-gray-900 uppercase tracking-wider text-xs">Sent Date</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody className="divide-y-2 divide-gray-50">
+                                                    {notifications.map((notification) => (
+                                                        <tr key={notification._id} className="hover:bg-gray-50 transition-colors">
+                                                            <td className="px-6 py-4">
+                                                                <div className="flex items-center gap-3">
+                                                                    {notification.icon ? (
+                                                                        <img src={notification.icon} alt="" className="w-10 h-10 rounded-lg object-cover" />
+                                                                    ) : (
+                                                                        <div className="w-10 h-10 rounded-lg bg-blue-100 flex items-center justify-center">
+                                                                            <Bell className="w-5 h-5 text-blue-600" />
+                                                                        </div>
+                                                                    )}
+                                                                    <div>
+                                                                        <p className="font-bold text-gray-900 leading-tight mb-1">{notification.title}</p>
+                                                                        <p className="text-sm text-gray-600 line-clamp-1">{notification.body}</p>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                            <td className="px-6 py-4">
+                                                                <span className={`px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider ${notification.status === 'sent' ? 'bg-green-100 text-green-700' :
+                                                                    notification.status === 'sending' ? 'bg-blue-100 text-blue-700' :
+                                                                        notification.status === 'failed' ? 'bg-red-100 text-red-700' :
+                                                                            'bg-gray-100 text-gray-700'
+                                                                    }`}>
+                                                                    {notification.status}
+                                                                </span>
+                                                            </td>
+                                                            <td className="px-6 py-4">
+                                                                <div className="flex items-center gap-4">
+                                                                    <div className="text-center">
+                                                                        <p className="text-xs font-black text-gray-400 uppercase tracking-wider">Sent</p>
+                                                                        <p className="font-bold text-gray-900">{notification.stats.sentCount}</p>
+                                                                    </div>
+                                                                    <div className="text-center">
+                                                                        <p className="text-xs font-black text-gray-400 uppercase tracking-wider">Clicks</p>
+                                                                        <p className="font-bold text-gray-900">{notification.stats.clickedCount}</p>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                            <td className="px-6 py-4 text-sm text-gray-600 font-medium">
+                                                                {new Date(notification.createdAt).toLocaleDateString()}
+                                                                <br />
+                                                                {new Date(notification.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                                            </td>
+                                                        </tr>
+                                                    ))}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                )}
                             </div>
                         )}
 
+                        {/* Subscribers Tab */}
                         {activeTab === 'subscribers' && (
-                            <div className="text-center py-12">
-                                <Users className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-                                <h3 className="text-xl font-bold text-gray-900 mb-2">
-                                    Subscriber Management
-                                </h3>
-                                <p className="text-gray-600">
-                                    Manage and segment your subscribers
-                                </p>
+                            <div className="space-y-6">
+                                <div className="flex items-center justify-between">
+                                    <h2 className="text-2xl font-black text-gray-900">
+                                        Subscriber Management
+                                    </h2>
+                                    <button
+                                        onClick={() => selectedProject && fetchSubscribers(selectedProject._id)}
+                                        className="text-sm font-bold text-blue-600 hover:text-blue-700"
+                                    >
+                                        Refresh
+                                    </button>
+                                </div>
+
+                                {tabLoading ? (
+                                    <div className="flex justify-center py-12">
+                                        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+                                    </div>
+                                ) : subscribers.length === 0 ? (
+                                    <div className="text-center py-12 bg-gray-50 rounded-2xl border-2 border-dashed border-gray-200">
+                                        <Users className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+                                        <h3 className="text-xl font-bold text-gray-900 mb-2">
+                                            No subscribers yet
+                                        </h3>
+                                        <p className="text-gray-600">
+                                            Integrate the widget on your site to start growing your reach
+                                        </p>
+                                    </div>
+                                ) : (
+                                    <div className="bg-white rounded-2xl border-2 border-gray-100 overflow-hidden text-sm">
+                                        <div className="overflow-x-auto">
+                                            <table className="w-full text-left">
+                                                <thead>
+                                                    <tr className="bg-gray-50 border-b-2 border-gray-100">
+                                                        <th className="px-6 py-4 font-black text-gray-900 uppercase tracking-wider text-xs">Subscriber</th>
+                                                        <th className="px-6 py-4 font-black text-gray-900 uppercase tracking-wider text-xs">Platform / Browser</th>
+                                                        <th className="px-6 py-4 font-black text-gray-900 uppercase tracking-wider text-xs">Subscribed From</th>
+                                                        <th className="px-6 py-4 font-black text-gray-900 uppercase tracking-wider text-xs">Joined</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody className="divide-y-2 divide-gray-50">
+                                                    {subscribers.map((subscriber) => (
+                                                        <tr key={subscriber._id} className="hover:bg-gray-50 transition-colors">
+                                                            <td className="px-6 py-4">
+                                                                <div className="flex items-center gap-3">
+                                                                    <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold">
+                                                                        {subscriber._id.substring(0, 2).toUpperCase()}
+                                                                    </div>
+                                                                    <code className="text-xs text-gray-500 font-mono">{subscriber._id}</code>
+                                                                </div>
+                                                            </td>
+                                                            <td className="px-6 py-4">
+                                                                <p className="text-gray-900 font-medium truncate max-w-[200px]" title={subscriber.metadata.userAgent}>
+                                                                    {subscriber.metadata.userAgent || 'Unknown'}
+                                                                </p>
+                                                            </td>
+                                                            <td className="px-6 py-4">
+                                                                <p className="text-gray-600 truncate max-w-[200px]" title={subscriber.metadata.subscribedUrl}>
+                                                                    {subscriber.metadata.subscribedUrl || 'Unknown'}
+                                                                </p>
+                                                            </td>
+                                                            <td className="px-6 py-4 text-gray-600">
+                                                                {new Date(subscriber.subscribedAt).toLocaleDateString()}
+                                                            </td>
+                                                        </tr>
+                                                    ))}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                )}
                             </div>
                         )}
 
+                        {/* Analytics Tab */}
                         {activeTab === 'analytics' && (
-                            <div className="text-center py-12">
-                                <BarChart3 className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-                                <h3 className="text-xl font-bold text-gray-900 mb-2">
-                                    Analytics Dashboard
-                                </h3>
-                                <p className="text-gray-600">
-                                    Track your notification performance
-                                </p>
+                            <div className="space-y-6">
+                                <div className="flex items-center justify-between">
+                                    <h2 className="text-2xl font-black text-gray-900">
+                                        Analytics Dashboard
+                                    </h2>
+                                    <button
+                                        onClick={() => selectedProject && fetchAnalytics(selectedProject._id)}
+                                        className="text-sm font-bold text-blue-600 hover:text-blue-700"
+                                    >
+                                        Refresh
+                                    </button>
+                                </div>
+
+                                {tabLoading ? (
+                                    <div className="flex justify-center py-12">
+                                        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+                                    </div>
+                                ) : !analytics ? (
+                                    <div className="text-center py-12 bg-gray-50 rounded-2xl border-2 border-dashed border-gray-200">
+                                        <BarChart3 className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+                                        <h3 className="text-xl font-bold text-gray-900 mb-2">
+                                            No analytics data
+                                        </h3>
+                                        <p className="text-gray-600">
+                                            Start sending notifications to see performance data
+                                        </p>
+                                    </div>
+                                ) : (
+                                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                                        {/* Main Stats Cards */}
+                                        {[
+                                            { label: 'Total Sent', value: analytics.sent, icon: <Send className="w-5 h-5" />, color: 'blue' },
+                                            { label: 'Delivered', value: analytics.delivered, icon: <Check className="w-5 h-5" />, color: 'green' },
+                                            { label: 'Clicked', value: analytics.clicked, icon: <TrendingUp className="w-5 h-5" />, color: 'purple' },
+                                            { label: 'Failed', value: analytics.failed, icon: <Trash2 className="w-5 h-5" />, color: 'red' },
+                                        ].map((stat) => {
+                                            const colors: Record<string, string> = {
+                                                blue: 'bg-blue-50 border-blue-100 text-blue-600 text-blue-900',
+                                                green: 'bg-green-50 border-green-100 text-green-600 text-green-900',
+                                                purple: 'bg-purple-50 border-purple-100 text-purple-600 text-purple-900',
+                                                red: 'bg-red-50 border-red-100 text-red-600 text-red-900',
+                                            };
+
+                                            // Split classes for better targeting
+                                            const bgClass = stat.color === 'blue' ? 'bg-blue-50' : stat.color === 'green' ? 'bg-green-50' : stat.color === 'purple' ? 'bg-purple-50' : 'bg-red-50';
+                                            const borderClass = stat.color === 'blue' ? 'border-blue-100' : stat.color === 'green' ? 'border-green-100' : stat.color === 'purple' ? 'border-purple-100' : 'border-red-100';
+                                            const textPrimary = stat.color === 'blue' ? 'text-blue-600' : stat.color === 'green' ? 'text-green-600' : stat.color === 'purple' ? 'text-purple-600' : 'text-red-600';
+                                            const textDark = stat.color === 'blue' ? 'text-blue-900' : stat.color === 'green' ? 'text-green-900' : stat.color === 'purple' ? 'text-purple-900' : 'text-red-900';
+
+                                            return (
+                                                <div key={stat.label} className={`${bgClass} p-6 rounded-2xl border-2 ${borderClass}`}>
+                                                    <div className="flex items-center justify-between mb-2">
+                                                        <p className={`text-xs font-black ${textPrimary} uppercase tracking-wider`}>{stat.label}</p>
+                                                        <div className={`p-2 bg-white rounded-lg shadow-sm ${textPrimary}`}>
+                                                            {stat.icon}
+                                                        </div>
+                                                    </div>
+                                                    <p className={`text-3xl font-black ${textDark}`}>
+                                                        {stat.value.toLocaleString()}
+                                                    </p>
+                                                </div>
+                                            );
+                                        })}
+
+                                        {/* Rate Cards */}
+                                        <div className="md:col-span-2 bg-white p-6 rounded-2xl border-2 border-gray-100 shadow-sm relative overflow-hidden">
+                                            <div className="relative z-10">
+                                                <p className="text-xs font-black text-gray-400 uppercase tracking-wider mb-6 text-center">Efficiency Metrics</p>
+                                                <div className="grid grid-cols-2 gap-8 text-center">
+                                                    <div>
+                                                        <p className="text-4xl font-black text-blue-600 mb-2">{analytics.deliveryRate}%</p>
+                                                        <p className="text-sm font-bold text-gray-600">Delivery Rate</p>
+                                                    </div>
+                                                    <div>
+                                                        <p className="text-4xl font-black text-purple-600 mb-2">{analytics.clickRate}%</p>
+                                                        <p className="text-sm font-bold text-gray-600">Click-through Rate</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            {/* Decorative Background Element */}
+                                            <div className="absolute -bottom-6 -right-6 opacity-5">
+                                                <BarChart3 className="w-32 h-32" />
+                                            </div>
+                                        </div>
+
+                                        {/* Performance Info Card */}
+                                        <div className="md:col-span-2 bg-gradient-to-br from-gray-900 to-slate-800 p-6 rounded-2xl text-white">
+                                            <h3 className="font-bold text-lg mb-4 flex items-center gap-2">
+                                                <BarChart3 className="w-5 h-5 text-blue-400" />
+                                                Performance Insights
+                                            </h3>
+                                            <div className="space-y-4">
+                                                <div className="flex items-center justify-between p-3 bg-white/10 rounded-xl">
+                                                    <span className="text-sm text-gray-300">Total Reach</span>
+                                                    <span className="font-black">{selectedProject?.stats.totalSubscribers.toLocaleString()}</span>
+                                                </div>
+                                                <div className="flex items-center justify-between p-3 bg-white/10 rounded-xl">
+                                                    <span className="text-sm text-gray-300">Active Campaign Pulse</span>
+                                                    <span className="font-black text-green-400">Stable</span>
+                                                </div>
+                                                <p className="text-xs text-gray-400 italic mt-4">
+                                                    * Rates are calculated based on successful deliveries.
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
                             </div>
                         )}
                     </div>
