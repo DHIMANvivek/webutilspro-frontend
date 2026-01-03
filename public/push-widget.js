@@ -14,6 +14,9 @@
         return;
     }
 
+    const MAIN_DOMAIN = 'https://webutilspro.com';
+    const IS_EXTERNAL = window.location.hostname !== 'webutilspro.com' && window.location.hostname !== 'localhost' && !window.location.hostname.includes('127.0.0.1');
+
     // Firebase configuration - will be loaded dynamically
     let firebaseConfig = null;
     let messaging = null;
@@ -23,7 +26,7 @@
         try {
             // Dynamically import Firebase
             const { initializeApp } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js');
-            const { getMessaging, getToken, onMessage } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-messaging.js');
+            const { getMessaging } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-messaging.js');
 
             // Get Firebase config from backend
             const response = await fetch(`${API_URL}/config?apiKey=${API_KEY}`);
@@ -34,7 +37,6 @@
             // Validate Firebase config
             if (!firebaseConfig.projectId || !firebaseConfig.apiKey || !firebaseConfig.messagingSenderId) {
                 console.error('[Push Widget] Firebase credentials not configured');
-                console.log('[Push Widget] Please configure Firebase in your project dashboard');
                 return false;
             }
 
@@ -42,8 +44,8 @@
             const app = initializeApp(firebaseConfig);
             messaging = getMessaging(app);
 
-            // Register service worker with API key in query param
-            if ('serviceWorker' in navigator) {
+            // Register service worker ONLY if on same domain
+            if (!IS_EXTERNAL && 'serviceWorker' in navigator) {
                 try {
                     const swRegistration = await navigator.serviceWorker.register(
                         `/firebase-messaging-sw.js?apiKey=${API_KEY}`,
@@ -51,7 +53,6 @@
                     );
                     console.log('[Push Widget] Service Worker registered');
 
-                    // Also send a message to initialize it if it's already running
                     if (swRegistration.active) {
                         swRegistration.active.postMessage({
                             type: 'INIT_FIREBASE',
@@ -67,7 +68,6 @@
             return true;
         } catch (error) {
             console.error('[Push Widget] Firebase initialization failed:', error);
-            console.log('[Push Widget] Please check your Firebase configuration in the dashboard');
             return false;
         }
     }
@@ -81,21 +81,37 @@
                 return false;
             }
 
-            // Initialize Firebase if not already done
-            if (!messaging) {
-                const initialized = await initializeFirebase();
-                if (!initialized) {
-                    alert('Failed to initialize push notifications');
+            // If external domain, we must use a popup hosted on the main domain
+            // This is because we cannot host the service worker on the external domain root
+            if (IS_EXTERNAL) {
+                const width = 500;
+                const height = 600;
+                const left = (window.innerWidth - width) / 2;
+                const top = (window.innerHeight - height) / 2;
+
+                const popup = window.open(
+                    `${MAIN_DOMAIN}/push-subscribe.html?apiKey=${API_KEY}&url=${encodeURIComponent(window.location.href)}`,
+                    'WebUtilsProSubscribe',
+                    `width=${width},height=${height},left=${left},top=${top},status=0,toolbar=0,location=0,menubar=0,directories=0,resizable=1,scrollbars=1`
+                );
+
+                if (!popup) {
+                    alert('Please allow popups to enable notifications');
                     return false;
                 }
+
+                return true;
+            }
+
+            // Internal flow
+            if (!messaging) {
+                const initialized = await initializeFirebase();
+                if (!initialized) return false;
             }
 
             // Request permission
             const permission = await Notification.requestPermission();
-            if (permission !== 'granted') {
-                console.log('[Push Widget] Notification permission denied');
-                return false;
-            }
+            if (permission !== 'granted') return false;
 
             // Get FCM token
             const { getToken } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-messaging.js');
@@ -106,9 +122,7 @@
             // Send token to backend
             const response = await fetch(`${API_URL}/subscribe`, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     token,
                     apiKey: API_KEY,
@@ -118,7 +132,7 @@
             });
 
             if (response.ok) {
-                console.log('[Push Widget] Successfully subscribed to push notifications');
+                console.log('[Push Widget] Successfully subscribed');
                 localStorage.setItem('push_subscribed', 'true');
                 hidePrompt();
                 return true;
@@ -127,10 +141,19 @@
             throw new Error('Subscription failed');
         } catch (error) {
             console.error('[Push Widget] Subscription error:', error);
-            alert('Failed to subscribe to notifications. Please try again.');
+            alert('Failed to subscribe. Please try again.');
             return false;
         }
     }
+
+    // Handle messages from popup
+    window.addEventListener('message', (event) => {
+        if (event.data && event.data.type === 'PUSH_SUBSCRIBED') {
+            console.log('[Push Widget] Subscription successful in popup');
+            localStorage.setItem('push_subscribed', 'true');
+            hidePrompt();
+        }
+    });
 
     // Create subscription prompt UI
     function createPrompt() {
