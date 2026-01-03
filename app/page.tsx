@@ -214,6 +214,13 @@ export default function HomePage() {
             href: '/tools/http-headers-analyzer',
             category: 'Security',
         },
+        {
+            name: 'Push Notifications',
+            description: 'Add web push notifications to your site with powerful management dashboard.',
+            icon: '🔔',
+            href: '/tools/push-notifications',
+            category: 'Services',
+        },
     ];
 
     return (
@@ -227,13 +234,25 @@ export default function HomePage() {
 
                 <div className="container-custom relative z-10">
                     <div className="text-center max-w-4xl mx-auto">
-                        <Link href="/tools/sketch-board" className="inline-flex items-center gap-3 px-1 py-1 pr-4 rounded-full bg-slate-900 border border-indigo-500/30 mb-8 animate-fade-in hover:scale-105 transition-transform cursor-pointer group shadow-lg shadow-indigo-500/20">
-                            <span className="bg-indigo-500 text-white px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider shadow-sm">NEW</span>
-                            <span className="text-sm font-medium text-indigo-100 group-hover:text-white transition-colors">
-                                The Ultimate Collaborative Sketch Board is Live
-                            </span>
-                            <ArrowRight className="w-4 h-4 text-indigo-400 group-hover:text-white group-hover:translate-x-1 transition-all" />
-                        </Link>
+                        <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-8 animate-fade-in">
+                            <Link href="/tools/sketch-board" className="inline-flex items-center gap-3 px-1 py-1 pr-4 rounded-full bg-slate-900 border border-indigo-500/30 hover:scale-105 transition-transform cursor-pointer group shadow-lg shadow-indigo-500/20">
+                                <span className="bg-indigo-500 text-white px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider shadow-sm">NEW</span>
+                                <span className="text-sm font-medium text-indigo-100 group-hover:text-white transition-colors">
+                                    Collaborative Sketch Board
+                                </span>
+                                <ArrowRight className="w-4 h-4 text-indigo-400 group-hover:text-white group-hover:translate-x-1 transition-all" />
+                            </Link>
+
+                            <div className="hidden sm:block w-px h-6 bg-slate-300/30"></div>
+
+                            <Link href="/tools/push-notifications" className="inline-flex items-center gap-3 px-1 py-1 pr-4 rounded-full bg-slate-900 border border-blue-500/30 hover:scale-105 transition-transform cursor-pointer group shadow-lg shadow-blue-500/20">
+                                <span className="bg-blue-500 text-white px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider shadow-sm">NEW</span>
+                                <span className="text-sm font-medium text-blue-100 group-hover:text-white transition-colors">
+                                    Push Notification Manager
+                                </span>
+                                <ArrowRight className="w-4 h-4 text-blue-400 group-hover:text-white group-hover:translate-x-1 transition-all" />
+                            </Link>
+                        </div>
 
                         <h1 className="text-6xl md:text-7xl font-black text-slate-900 mb-8 tracking-tight leading-[1.1]">
                             Free Developer Tools for <br className="hidden md:block" />

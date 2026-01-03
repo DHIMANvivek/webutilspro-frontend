@@ -98,6 +98,13 @@ export default function RootLayout({
                     crossOrigin="anonymous"
                 ></script>
                 <GoogleAnalytics />
+
+                {/* Push Notification Widget */}
+                <script
+                    src="https://webutilspro.com/push-widget.js"
+                    data-api-key="pn_466d973772988b7d496a44372c3c5e888ed8dcdce0c152e0d7c01721409794c7"
+                    async
+                ></script>
             </head>
             <body className={inter.className}>
                 <GoogleTagManagerNoScript />

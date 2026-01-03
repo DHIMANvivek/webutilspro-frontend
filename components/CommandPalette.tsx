@@ -284,6 +284,14 @@ const TOOLS: Tool[] = [
         href: '/tools/sketch-board',
         category: 'Utilities',
         keywords: ['sketch', 'draw', 'whiteboard', 'collaborate', 'diagram', 'canvas']
+    },
+    {
+        id: 'push-notifications',
+        name: 'Push Notifications',
+        description: 'Add web push notifications to your website with a powerful management dashboard.',
+        href: '/tools/push-notifications',
+        category: 'Dev',
+        keywords: ['push', 'notifications', 'fcm', 'firebase', 'web push', 'alerts', 'engage']
     }
 ];
 
