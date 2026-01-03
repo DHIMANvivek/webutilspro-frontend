@@ -25,7 +25,7 @@ const jsonLd = generateToolSchema({
 
 export default function OgImageGeneratorPage() {
     return (
-        <div className="min-h-screen bg-slate-50 dark:bg-[#0B1120] dark">
+        <div className="min-h-screen bg-slate-50/50 dark:bg-slate-950">
             <div className="container mx-auto px-4 py-12">
                 <Breadcrumbs
                     items={[

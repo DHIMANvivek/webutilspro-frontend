@@ -8,7 +8,7 @@ export default function OgImageGeneratorClient() {
     const [title, setTitle] = useState('Amazing Content');
     const [description, setDescription] = useState('Learn how to build incredible things with modern web technologies.');
     const [siteName, setSiteName] = useState('WebUtilsPro');
-    const [theme, setTheme] = useState<'dark' | 'light' | 'gradient'>('dark');
+    const [theme, setTheme] = useState<'dark' | 'light' | 'gradient'>('light');
     const [accentColor, setAccentColor] = useState('#3b82f6');
     const [fontSize, setFontSize] = useState(64);
     const [alignment, setAlignment] = useState<'center' | 'left' | 'right'>('center');
@@ -90,7 +90,7 @@ export async function GET() {
         <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8">
             {/* Editor Panel */}
             <div className="space-y-6">
-                <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 shadow-sm">
+                <div className="bg-white dark:bg-slate-900/40 border border-slate-200 dark:border-slate-800/60 rounded-3xl p-8 shadow-sm backdrop-blur-md">
                     <h3 className="font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2">
                         <Palette className="w-5 h-5 text-blue-500" />
                         Card Design
@@ -221,7 +221,7 @@ export async function GET() {
 
             {/* Preview Panel */}
             <div className="sticky top-24 space-y-6">
-                <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 shadow-sm">
+                <div className="bg-white dark:bg-slate-900/40 border border-slate-200 dark:border-slate-800/60 rounded-3xl p-8 shadow-sm backdrop-blur-md">
                     <h3 className="font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2">
                         <Layout className="w-5 h-5 text-purple-500" />
                         Live Preview (1200x630)
