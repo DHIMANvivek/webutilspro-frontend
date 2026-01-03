@@ -95,9 +95,16 @@ export default function LatestInsights() {
                                         </div>
                                     )}
                                     <div className="absolute top-4 left-4">
-                                        <span className="bg-white/90 backdrop-blur-sm text-slate-900 text-[10px] font-black uppercase tracking-wider px-2 py-1 rounded-lg shadow-sm">
-                                            {post.sourceDomain}
-                                        </span>
+                                        {post.sourceDomain === 'webutilspro.com' ? (
+                                            <span className="bg-blue-600 text-white text-[10px] font-black uppercase tracking-wider px-2 py-1 rounded-lg shadow-lg flex items-center gap-1">
+                                                <Sparkles className="w-3 h-3" />
+                                                Pro Guide
+                                            </span>
+                                        ) : (
+                                            <span className="bg-white/90 backdrop-blur-sm text-slate-900 text-[10px] font-black uppercase tracking-wider px-2 py-1 rounded-lg shadow-sm">
+                                                {post.sourceDomain}
+                                            </span>
+                                        )}
                                     </div>
                                 </div>
 

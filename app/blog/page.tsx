@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Sparkles } from 'lucide-react';
 
 interface BlogPost {
     _id: string;
@@ -117,9 +117,16 @@ export default function BlogPage() {
                                     )}
                                     <div className="p-6 flex-1 flex flex-col">
                                         <div className="flex items-center justify-between mb-4">
-                                            <span className="text-xs font-bold uppercase tracking-wider text-blue-600 bg-blue-50 dark:bg-blue-900/20 px-2 py-1 rounded">
-                                                {post.sourceDomain}
-                                            </span>
+                                            {post.sourceDomain === 'webutilspro.com' ? (
+                                                <span className="text-[10px] font-black uppercase tracking-wider text-white bg-blue-600 px-2 py-1 rounded flex items-center gap-1 shadow-sm">
+                                                    <Sparkles className="w-3 h-3" />
+                                                    Pro Guide
+                                                </span>
+                                            ) : (
+                                                <span className="text-xs font-bold uppercase tracking-wider text-blue-600 bg-blue-50 dark:bg-blue-900/20 px-2 py-1 rounded">
+                                                    {post.sourceDomain}
+                                                </span>
+                                            )}
                                             <span className="text-xs text-slate-500">
                                                 {new Date(post.publishedAt).toLocaleDateString()}
                                             </span>
