@@ -31,14 +31,22 @@
 
             firebaseConfig = await response.json();
 
+            // Validate Firebase config
+            if (!firebaseConfig.projectId || !firebaseConfig.apiKey || !firebaseConfig.messagingSenderId) {
+                console.error('[Push Widget] Firebase credentials not configured');
+                console.log('[Push Widget] Please configure Firebase in your project dashboard');
+                return false;
+            }
+
             // Initialize Firebase app
             const app = initializeApp(firebaseConfig);
             messaging = getMessaging(app);
 
-            console.log('[Push Widget] Firebase initialized');
+            console.log('[Push Widget] Firebase initialized successfully');
             return true;
         } catch (error) {
             console.error('[Push Widget] Firebase initialization failed:', error);
+            console.log('[Push Widget] Please check your Firebase configuration in the dashboard');
             return false;
         }
     }
