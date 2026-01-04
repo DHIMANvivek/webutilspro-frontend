@@ -103,20 +103,27 @@ function parseCSV(csv: string) {
             const destCode = headers[j];
             const value = row[j]?.trim();
 
-            // Map the dataset's codes to our clean statuses
-            // Dataset codes:
-            // 3 = Visa Free
-            // 2 = Visa on Arrival
-            // 1 = Visa Required
-            // 0 = COVID Ban (mostly obsolete now but good to handle)
-            // -1 = Unclear/Varied
+            // Map the dataset's text values to our clean statuses
+            // Current dataset values: "visa -free", "visa on arrival", "visa required", "e-visa", etc.
+
+            const val = value ? value.toLowerCase().trim() : '';
 
             let status = 'visa-required'; // Default pessimistic
-            if (value === '3') status = 'visa-free';
-            else if (value === '2') status = 'visa-on-arrival';
-            else if (value === '1') status = 'visa-required';
-            else if (value === '0') status = 'ban';
-            else if (value === 'et') status = 'eta'; // Some datasets denote ETA explicitly
+
+            if (val === 'visa free' || val === 'visa-free' || val === '3') {
+                status = 'visa-free';
+            } else if (val === 'visa on arrival' || val === 'visa-on-arrival' || val === '2') {
+                status = 'visa-on-arrival';
+            } else if (val === 'e-visa' || val === 'eta') {
+                status = 'eta';
+            } else if (val === 'visa required' || val === 'visa-required' || val === '1') {
+                status = 'visa-required';
+            } else if (val === 'covid ban' || val === 'ban' || val === '0') {
+                status = 'ban';
+            } else if (val === '-1') {
+                // handle unclear as required for safety
+                status = 'visa-required';
+            }
 
             result[passportOrigin][destCode] = status;
         }
