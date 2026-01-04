@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Search, Map as MapIcon, Globe, Shield, AlertTriangle, CheckCircle2 } from 'lucide-react';
+import { Search, Map as MapIcon, Globe, Shield, AlertTriangle, CheckCircle2, ChevronDown } from 'lucide-react';
 
 // We'll use a simple SVG map or just a list for now to ensure speed, 
 // constructing a full interactive map requires D3 or a large SVG library. 
@@ -14,6 +14,8 @@ export default function PassportMapClient() {
     const [requirements, setRequirements] = useState<Record<string, string>>({});
     const [loading, setLoading] = useState(true);
     const [searchDest, setSearchDest] = useState('');
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const [countrySearch, setCountrySearch] = useState('');
 
     useEffect(() => {
         // Fetch list of passports
@@ -32,6 +34,17 @@ export default function PassportMapClient() {
                 setLoading(false);
             });
     }, [selectedPassport]);
+
+    // Close dropdown on click outside
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (isDropdownOpen && !(event.target as Element).closest('.relative.z-50')) {
+                setIsDropdownOpen(false);
+            }
+        };
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, [isDropdownOpen]);
 
     // Derived stats
     const stats = React.useMemo(() => {
@@ -74,15 +87,57 @@ export default function PassportMapClient() {
                 </div>
                 <div className="flex-1">
                     <h2 className="text-2xl font-black text-slate-900 mb-2">I am a citizen of...</h2>
-                    <select
-                        value={selectedPassport}
-                        onChange={(e) => setSelectedPassport(e.target.value)}
-                        className="w-full md:w-64 p-3 bg-slate-50 border border-slate-200 rounded-xl font-bold text-slate-900 focus:ring-2 focus:ring-blue-500 outline-none"
-                    >
-                        {passports.map(p => (
-                            <option key={p} value={p}>{p}</option>
-                        ))}
-                    </select>
+                    <div className="relative w-full md:w-72 z-50">
+                        <button
+                            onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                            className="w-full p-4 bg-white border border-slate-200 rounded-2xl font-bold text-slate-900 flex items-center justify-between hover:border-blue-500 hover:ring-4 hover:ring-blue-500/10 transition-all shadow-sm"
+                        >
+                            <span className="truncate">{selectedPassport}</span>
+                            <ChevronDown className={`w-5 h-5 text-slate-400 transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`} />
+                        </button>
+
+                        {isDropdownOpen && (
+                            <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-2xl shadow-2xl border border-slate-100 overflow-hidden animate-in fade-in zoom-in-95 duration-200 origin-top">
+                                <div className="p-2 border-b border-slate-50 sticky top-0 bg-white z-10">
+                                    <div className="relative">
+                                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                                        <input
+                                            autoFocus
+                                            type="text"
+                                            placeholder="Search country..."
+                                            className="w-full pl-9 pr-4 py-2 bg-slate-50 rounded-xl text-sm font-semibold outline-none focus:bg-blue-50 focus:text-blue-700 transition-colors"
+                                            value={countrySearch}
+                                            onChange={(e) => setCountrySearch(e.target.value)}
+                                        />
+                                    </div>
+                                </div>
+                                <div className="max-h-[300px] overflow-y-auto p-1 custom-scrollbar">
+                                    {passports.filter(p => p.toLowerCase().includes(countrySearch.toLowerCase())).map(p => (
+                                        <button
+                                            key={p}
+                                            onClick={() => {
+                                                setSelectedPassport(p);
+                                                setIsDropdownOpen(false);
+                                                setCountrySearch('');
+                                            }}
+                                            className={`w-full text-left px-4 py-2.5 rounded-xl text-sm font-semibold flex items-center justify-between transition-colors ${selectedPassport === p
+                                                ? 'bg-blue-600 text-white'
+                                                : 'text-slate-700 hover:bg-slate-50'
+                                                }`}
+                                        >
+                                            {p}
+                                            {selectedPassport === p && <CheckCircle2 className="w-4 h-4" />}
+                                        </button>
+                                    ))}
+                                    {passports.filter(p => p.toLowerCase().includes(countrySearch.toLowerCase())).length === 0 && (
+                                        <div className="px-4 py-8 text-center text-slate-400 text-sm font-medium">
+                                            No countries found
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+                        )}
+                    </div>
                 </div>
 
                 {/* Score Card */}
