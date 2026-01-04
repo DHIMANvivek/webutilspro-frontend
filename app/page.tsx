@@ -39,8 +39,11 @@ const DEFAULT_TOOLS = [
     { id: 'woocommerce', name: 'WooCommerce', description: 'Secure store management with AI chat and full CRUD features.', icon: '🛒', href: '/tools/woocommerce', category: 'Services' },
     { id: 'mcp-tester', name: 'MCP Tool Tester', description: 'Test and debug Model Context Protocol servers in a live sandbox.', icon: '🧪', href: '/tools/mcp-tester', category: 'AI-Powered' },
     { id: 'tailwind-animations', name: 'Tailwind Animations', description: 'Design and customize premium GPU-accelerated Tailwind animations.', icon: '✨', href: '/tools/tailwind-animations', category: 'Design' },
-    { id: 'zod-schema-generator', name: 'Zod Schema Factory', description: 'Transform JSON, TS, and GraphQL into production-ready Zod schemas instantly.', icon: '🧬', href: '/tools/zod-schema-generator', category: 'Data Tools' }
+    { id: 'zod-schema-generator', name: 'Zod Schema Factory', description: 'Transform JSON, TS, and GraphQL into production-ready Zod schemas instantly.', icon: '🧬', href: '/tools/zod-schema-generator', category: 'Data Tools' },
+    { id: 'database-architect', name: 'Visual DB Architect', description: 'Design database schemas visually with a draggable interactive canvas.', icon: '🏗️', href: '/tools/database-architect', category: 'Architecture' }
 ];
+
+import RoadmapBackground from '@/components/RoadmapBackground';
 
 export default function HomePage() {
     const [tools, setTools] = useState(DEFAULT_TOOLS);
@@ -67,43 +70,58 @@ export default function HomePage() {
     }, []);
 
     return (
-        <div className="min-h-screen">
+        <div className="min-h-screen relative overflow-x-hidden group/main">
+            <RoadmapBackground />
+
             {/* Hero Section */}
-            <section className="relative py-24 md:py-32 overflow-hidden bg-white">
+            <section className="relative py-24 md:py-32 overflow-hidden bg-transparent">
                 <div className="absolute inset-0 z-0">
-                    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-[radial-gradient(circle_at_50%_0%,rgba(59,130,246,0.08),transparent_50%)]"></div>
                     <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-slate-200/60 to-transparent"></div>
                 </div>
 
                 <div className="container-custom relative z-10">
                     <div className="text-center max-w-4xl mx-auto">
-                        <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-8">
-                            <Link href="/tools/sketch-board" className="inline-flex items-center gap-3 px-1 py-1 pr-4 rounded-full bg-slate-900 border border-indigo-500/30 hover:scale-105 transition-transform cursor-pointer group shadow-lg shadow-indigo-500/20">
-                                <span className="bg-indigo-500 text-white px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider shadow-sm">NEW</span>
-                                <span className="text-sm font-medium text-indigo-100 group-hover:text-white transition-colors">
-                                    Collaborative Sketch Board
-                                </span>
-                                <ArrowRight className="w-4 h-4 text-indigo-400 group-hover:text-white group-hover:translate-x-1 transition-all" />
-                            </Link>
-
-                            <div className="hidden sm:block w-px h-6 bg-slate-300/30"></div>
-
-                            <Link href="/tools/push-notifications" className="inline-flex items-center gap-3 px-1 py-1 pr-4 rounded-full bg-slate-900 border border-blue-500/30 hover:scale-105 transition-transform cursor-pointer group shadow-lg shadow-blue-500/20">
-                                <span className="bg-blue-500 text-white px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider shadow-sm">NEW</span>
-                                <span className="text-sm font-medium text-blue-100 group-hover:text-white transition-colors">
-                                    Push Notification Messenger
-                                </span>
-                                <ArrowRight className="w-4 h-4 text-blue-400 group-hover:text-white group-hover:translate-x-1 transition-all" />
-                            </Link>
-                        </div>
-
                         <h1 className="text-6xl md:text-7xl font-black text-slate-900 mb-8 tracking-tight leading-[1.1]">
                             Free Developer Tools for <br className="hidden md:block" />
                             <span className="text-gradient">Professional Developers</span>
                         </h1>
-                        <p className="text-xl text-slate-600 mb-10 max-w-2xl mx-auto leading-relaxed font-medium">
+                        <p className="text-xl text-slate-600 mb-12 max-w-2xl mx-auto leading-relaxed font-medium">
                             The all-in-one hub for your daily development needs. Fast, secure, and powered by the latest AI technologies.
                         </p>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-2xl mx-auto mb-16 px-4">
+                            <Link href="/tools/database-architect" className="flex items-center gap-3 px-1 py-1 pr-4 rounded-full bg-slate-900 border border-purple-500/30 hover:scale-[1.02] transition-all cursor-pointer group shadow-lg shadow-purple-500/10">
+                                <span className="bg-purple-500 text-white px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider shadow-sm">NEW</span>
+                                <span className="text-[13px] font-bold text-purple-100 group-hover:text-white transition-colors">
+                                    Visual Database Architect
+                                </span>
+                                <ArrowRight className="w-4 h-4 text-purple-400 group-hover:text-white group-hover:translate-x-1 transition-all ml-auto" />
+                            </Link>
+
+                            <Link href="/tools/zod-schema-generator" className="flex items-center gap-3 px-1 py-1 pr-4 rounded-full bg-slate-900 border border-emerald-500/30 hover:scale-[1.02] transition-all cursor-pointer group shadow-lg shadow-emerald-500/10">
+                                <span className="bg-emerald-500 text-white px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider shadow-sm">NEW</span>
+                                <span className="text-[13px] font-bold text-emerald-100 group-hover:text-white transition-colors">
+                                    Zod Schema Factory
+                                </span>
+                                <ArrowRight className="w-4 h-4 text-emerald-400 group-hover:text-white group-hover:translate-x-1 transition-all ml-auto" />
+                            </Link>
+
+                            <Link href="/tools/sketch-board" className="flex items-center gap-3 px-1 py-1 pr-4 rounded-full bg-slate-900 border border-indigo-500/30 hover:scale-[1.02] transition-all cursor-pointer group shadow-lg shadow-indigo-500/10">
+                                <span className="bg-indigo-500 text-white px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider shadow-sm">NEW</span>
+                                <span className="text-[13px] font-bold text-indigo-100 group-hover:text-white transition-colors">
+                                    Collaborative Sketch Board
+                                </span>
+                                <ArrowRight className="w-4 h-4 text-indigo-400 group-hover:text-white group-hover:translate-x-1 transition-all ml-auto" />
+                            </Link>
+
+                            <Link href="/tools/push-notifications" className="flex items-center gap-3 px-1 py-1 pr-4 rounded-full bg-slate-900 border border-blue-500/30 hover:scale-[1.02] transition-all cursor-pointer group shadow-lg shadow-blue-500/10">
+                                <span className="bg-blue-500 text-white px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider shadow-sm">NEW</span>
+                                <span className="text-[13px] font-bold text-blue-100 group-hover:text-white transition-colors">
+                                    Push Notification Messenger
+                                </span>
+                                <ArrowRight className="w-4 h-4 text-blue-400 group-hover:text-white group-hover:translate-x-1 transition-all ml-auto" />
+                            </Link>
+                        </div>
                         <div className="flex flex-col sm:flex-row gap-5 justify-center items-center mb-12">
                             <a href="#tools" className="btn-primary px-10 py-4 text-lg">
                                 Explore Workflow Tools
@@ -165,8 +183,15 @@ export default function HomePage() {
             </section>
 
             {/* Tools Grid Section */}
-            <section id="tools" className="py-24 bg-slate-50 relative">
-                <div className="container-custom">
+            <section id="tools" className="py-24 relative z-10 bg-gradient-to-b from-white to-transparent border-y border-slate-200/40 section-blueprint-mesh">
+                <style jsx>{`
+                    .section-blueprint-mesh {
+                        background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
+                        background-size: 32px 32px;
+                        background-position: center;
+                    }
+                `}</style>
+                <div className="container-custom relative z-10">
                     <div className="mb-16">
                         <h2 className="text-4xl md:text-5xl font-black text-slate-900 mb-4 tracking-tight">
                             Developer Tools Hive

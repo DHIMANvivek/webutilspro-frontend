@@ -22,6 +22,7 @@ import {
     FileType,
     Shield,
     Image,
+    Layers,
     CheckCircle2,
     Clock,
     Link,
@@ -259,6 +260,11 @@ const TOOL_INSIGHTS: Record<string, { title: string; features: string[]; icon: a
         title: 'Schema Intelligence',
         features: ['Recursive JSON parsing', 'Type inference generation', 'Prisma ORM compatibility'],
         icon: Database, color: 'text-indigo-500', bg: 'bg-indigo-500/10'
+    },
+    'database-architect': {
+        title: 'Architecture Pro',
+        features: ['Draggable ERD canvas', 'Smart relationship cables', 'Zero-config code export'],
+        icon: Layers, color: 'text-purple-500', bg: 'bg-purple-500/10'
     }
 };
 

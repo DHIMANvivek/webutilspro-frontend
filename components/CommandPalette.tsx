@@ -308,6 +308,14 @@ const TOOLS: Tool[] = [
         href: '/tools/zod-schema-generator',
         category: 'Dev',
         keywords: ['zod', 'schema', 'generator', 'prisma', 'json', 'typescript', 'graphql', 'factory']
+    },
+    {
+        id: 'database-architect',
+        name: 'Visual Database Architect',
+        description: 'Design your database schema visually and export to SQL, Prisma, and Drizzle.',
+        href: '/tools/database-architect',
+        category: 'Dev',
+        keywords: ['database', 'architect', 'erd', 'schema', 'sql', 'prisma', 'drizzle', 'modeling', 'canvas']
     }
 ];
 
