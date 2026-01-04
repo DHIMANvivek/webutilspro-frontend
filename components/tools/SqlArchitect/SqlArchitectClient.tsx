@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useMemo } from 'react';
 import { COMPLEX_PLAN } from './DemoData';
-import { Play, ZoomIn, ZoomOut, AlertTriangle, CloudRain, Database, Activity, Clock, Layers, ArrowRight, CheckCircle2, Copy } from 'lucide-react';
+import { Play, ZoomIn, ZoomOut, AlertTriangle, CloudRain, Database, Activity, Clock, Layers, ArrowRight, CheckCircle2, Copy, Sparkles } from 'lucide-react';
 
 // --- Types ---
 interface PlanNode {
@@ -69,6 +69,49 @@ const analyzeTree = (node: PlanNode, totalTime: number, totalCost: number, depth
     }
 
     return analyzed;
+};
+
+// --- Optimization Engine ---
+const getOptimizations = (node: AnalyzedNode): string[] => {
+    const hints: string[] = [];
+    const rows = node["Actual Rows"] || node["Plan Rows"] || 0;
+    const time = node["Actual Total Time"] || 0;
+
+    // 1. Large Sequential Scans
+    if (node["Node Type"] === "Seq Scan" && rows > 1000) {
+        hints.push(`High row count Sequential Scan detected (${rows.toLocaleString()} rows).`);
+        if (node["Filter"]) {
+            hints.push(`Action: Create a B-Tree or GIN index on columns used in Filter.`);
+        } else {
+            hints.push(`Action: Ensure specific WHERE clauses are used to limit the dataset.`);
+        }
+    }
+
+    // 2. High Loop Count (Nested Loops)
+    if (node["Node Type"] === "Nested Loop" && (node["Actual Loops"] || 0) > 1000 && rows > 10000) {
+        hints.push("High loop count in Nested Loop join.");
+        hints.push("Action: Consider forcing a Hash Join or Merge Join if possible, or reduce the inner relation size.");
+    }
+
+    // 3. Disk Sorts
+    if (node["Node Type"] === "Sort" && node["Sort Space Type"] === "Disk") {
+        hints.push("Critical: Sort spilled to Disk (Slow I/O).");
+        hints.push("Action: Increase 'work_mem' configuration or add an index that matches the sort order.");
+    }
+
+    // 4. Hash Join Batches
+    if (node["Node Type"] === "Hash Join" && (node["Hash Batches"] || 1) > 1) {
+        hints.push("Hash Join required multiple batches (Memory exceeded).");
+        hints.push("Action: Increase 'work_mem' to allow the hash table to fit in memory.");
+    }
+
+    // 5. Generic Slow Nodes
+    if (node.isBottleneck && hints.length === 0) {
+        hints.push("This node is the primary bottleneck.");
+        hints.push("Action: Review the schema for this table or function.");
+    }
+
+    return hints;
 };
 
 // --- Sub-Components ---
@@ -282,6 +325,28 @@ export default function SqlArchitectClient() {
                                 </div>
                             )}
 
+                            {/* Intelligent Optimization Hints */}
+                            {(() => {
+                                const hints = getOptimizations(selectedNode);
+                                if (hints.length > 0) {
+                                    return (
+                                        <div className="p-4 bg-indigo-50 border-l-4 border-indigo-500 rounded-r-lg space-y-2">
+                                            <h5 className="text-indigo-900 font-bold text-sm flex items-center gap-1">
+                                                <Sparkles size={12} className="text-indigo-600" /> AI Optimization Insights
+                                            </h5>
+                                            <ul className="space-y-1">
+                                                {hints.map((hint, i) => (
+                                                    <li key={i} className="text-xs text-indigo-700 leading-relaxed flex items-start gap-1">
+                                                        <span className="mt-1.5 w-1 h-1 bg-indigo-400 rounded-full shrink-0"></span>
+                                                        {hint}
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        </div>
+                                    );
+                                }
+                                return null;
+                            })()}
                             {selectedNode.isBottleneck && (
                                 <div className="p-4 bg-red-50 border-l-4 border-red-500 rounded-r-lg">
                                     <h5 className="text-red-800 font-bold text-sm mb-1">Performance Bottleneck</h5>
