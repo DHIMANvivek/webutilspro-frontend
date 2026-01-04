@@ -137,7 +137,7 @@ export default function Header() {
                                     <div className="space-y-6">
                                         <div>
                                             <p className="text-[10px] font-black text-emerald-600 uppercase tracking-[0.2em] mb-4 flex items-center gap-2">
-                                                <Database className="w-3 h-3" /> Data & Utilities
+                                                <Database className="w-3 h-3" /> Data & Security
                                             </p>
                                             <div className="space-y-1">
                                                 <Link onClick={() => setIsToolsOpen(false)} href="/tools/zod-schema-generator" className="flex items-center gap-3 px-3 py-2 text-sm text-gray-700 hover:bg-emerald-50 hover:text-emerald-600 rounded-xl transition-all group/item">
@@ -175,6 +175,12 @@ export default function Header() {
                                                         <Shield className="w-3.5 h-3.5" />
                                                     </span>
                                                     Header Analyzer
+                                                </Link>
+                                                <Link onClick={() => setIsToolsOpen(false)} href="/tools/jwt-security-audit" className="flex items-center gap-3 px-3 py-2 text-sm text-gray-700 hover:bg-emerald-50 hover:text-emerald-600 rounded-xl transition-all group/item">
+                                                    <span className="p-1.5 rounded-lg bg-emerald-50 text-emerald-600 group-hover/item:bg-emerald-600 group-hover/item:text-white transition-colors">
+                                                        <Shield className="w-3.5 h-3.5" />
+                                                    </span>
+                                                    JWT Auditor
                                                 </Link>
                                                 <Link onClick={() => setIsToolsOpen(false)} href="/tools/json-to-csv" className="flex items-center gap-3 px-3 py-2 text-sm text-gray-700 hover:bg-emerald-50 hover:text-emerald-600 rounded-xl transition-all group/item">
                                                     <span className="p-1.5 rounded-lg bg-emerald-50 text-emerald-600 group-hover/item:bg-emerald-600 group-hover/item:text-white transition-colors">

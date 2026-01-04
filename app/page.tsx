@@ -42,7 +42,8 @@ const DEFAULT_TOOLS = [
     { id: 'zod-schema-generator', name: 'Zod Schema Factory', description: 'Transform JSON, TS, and GraphQL into production-ready Zod schemas instantly.', icon: '🧬', href: '/tools/zod-schema-generator', category: 'Data Tools' },
     { id: 'database-architect', name: 'Visual DB Architect', description: 'Design database schemas visually with a draggable interactive canvas.', icon: '🏗️', href: '/tools/database-architect', category: 'Architecture' },
     { id: 'tailwind-factory', name: 'Tailwind Design Factory', description: 'Build premium Tailwind design systems with color palettes, spacing, and radius anchors.', icon: '🎨', href: '/tools/tailwind-factory', category: 'Design' },
-    { id: 'sql-performance-architect', name: 'SQL Performance Architect', description: 'Visualize Postgres EXPLAIN plans with an interactive heatmap execution tree.', icon: '📊', href: '/tools/sql-performance-architect', category: 'Database' }
+    { id: 'sql-performance-architect', name: 'SQL Performance Architect', description: 'Visualize Postgres EXPLAIN plans with an interactive heatmap execution tree.', icon: '📊', href: '/tools/sql-performance-architect', category: 'Database' },
+    { id: 'jwt-security-audit', name: 'JWT Security Auditor', description: 'Simulate breaches and test JWT security with active attacks.', icon: '🛡️', href: '/tools/jwt-security-audit', category: 'Security' }
 ];
 
 import RoadmapBackground from '@/components/RoadmapBackground';

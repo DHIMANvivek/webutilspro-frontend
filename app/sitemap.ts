@@ -18,6 +18,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
         'json-to-csv',
         'json-validator',
         'jwt-decoder',
+        'jwt-security-audit',
         'lorem-ipsum-generator',
         'markdown-to-html',
         'mcp-tester',

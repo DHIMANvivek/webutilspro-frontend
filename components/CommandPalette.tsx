@@ -110,6 +110,14 @@ const TOOLS: Tool[] = [
         keywords: ['markdown', 'html', 'parse', 'md', 'web']
     },
     {
+        id: 'jwt-security-audit',
+        name: 'JWT Security Auditor',
+        description: 'Simulate breaches and test JWT security with active attacks.',
+        href: '/tools/jwt-security-audit',
+        category: 'Systems',
+        keywords: ['jwt', 'security', 'audit', 'hack', 'crack', 'brute force', 'token', 'exploit']
+    },
+    {
         id: 'tailwind-factory',
         name: 'Tailwind Design Factory',
         description: 'Design and export production-ready Tailwind CSS design systems.',
