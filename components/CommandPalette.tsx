@@ -94,6 +94,14 @@ const TOOLS: Tool[] = [
         keywords: ['json', 'csv', 'convert', 'data', 'transform']
     },
     {
+        id: 'sql-performance-architect',
+        name: 'SQL Performance Architect',
+        description: 'Visualize Postgres EXPLAIN plans with an interactive heatmap.',
+        href: '/tools/sql-performance-architect',
+        category: 'Systems',
+        keywords: ['sql', 'postgres', 'explain', 'analyze', 'database', 'performance', 'slow query', 'optimize']
+    },
+    {
         id: 'markdown-to-html',
         name: 'Markdown Parser',
         description: 'Convert Markdown to clean HTML code.',

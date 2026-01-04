@@ -29,6 +29,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
         'push-notifications',
         'qr-code-generator',
         'regex-tester',
+        'sql-performance-architect',
         'tailwind-animations',
         'tailwind-factory',
         'zod-schema-generator',

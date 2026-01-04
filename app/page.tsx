@@ -41,7 +41,8 @@ const DEFAULT_TOOLS = [
     { id: 'tailwind-animations', name: 'Tailwind Animations', description: 'Design and customize premium GPU-accelerated Tailwind animations.', icon: '✨', href: '/tools/tailwind-animations', category: 'Design' },
     { id: 'zod-schema-generator', name: 'Zod Schema Factory', description: 'Transform JSON, TS, and GraphQL into production-ready Zod schemas instantly.', icon: '🧬', href: '/tools/zod-schema-generator', category: 'Data Tools' },
     { id: 'database-architect', name: 'Visual DB Architect', description: 'Design database schemas visually with a draggable interactive canvas.', icon: '🏗️', href: '/tools/database-architect', category: 'Architecture' },
-    { id: 'tailwind-factory', name: 'Tailwind Design Factory', description: 'Build premium Tailwind design systems with color palettes, spacing, and radius anchors.', icon: '🎨', href: '/tools/tailwind-factory', category: 'Design' }
+    { id: 'tailwind-factory', name: 'Tailwind Design Factory', description: 'Build premium Tailwind design systems with color palettes, spacing, and radius anchors.', icon: '🎨', href: '/tools/tailwind-factory', category: 'Design' },
+    { id: 'sql-performance-architect', name: 'SQL Performance Architect', description: 'Visualize Postgres EXPLAIN plans with an interactive heatmap execution tree.', icon: '📊', href: '/tools/sql-performance-architect', category: 'Database' }
 ];
 
 import RoadmapBackground from '@/components/RoadmapBackground';
