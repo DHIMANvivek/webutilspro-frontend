@@ -80,7 +80,7 @@ export default function Header() {
                                 <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${isToolsOpen ? 'rotate-180' : ''}`} />
                             </button>
                             <div
-                                className={`absolute left-1/2 -translate-x-1/2 mt-4 w-[500px] bg-white rounded-2xl shadow-2xl border border-gray-100 transition-all duration-300 transform 
+                                className={`absolute left-1/2 -translate-x-1/2 mt-4 w-[600px] max-h-[80vh] overflow-y-auto bg-white rounded-2xl shadow-2xl border border-gray-100 transition-all duration-300 transform 
                                     ${isToolsOpen ? 'opacity-100 visible translate-y-0' : 'opacity-0 invisible translate-y-2'}`}
                             >
                                 <div className="p-6 grid grid-cols-2 gap-8">
