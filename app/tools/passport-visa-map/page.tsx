@@ -2,6 +2,7 @@ import React from 'react';
 import { Metadata } from 'next';
 import PassportMapClient from '@/components/tools/PassportMap/PassportMapClient';
 import { Shield, Globe, Plane } from 'lucide-react';
+import ToolContentSection from '@/components/shared/ToolContentSection';
 
 export const metadata: Metadata = {
     title: 'Passport Visa Free Countries Checker | Travel Freedom Map',
@@ -62,6 +63,50 @@ export default function PassportMapPage() {
                     </div>
                 </div>
             </div>
+
+            <ToolContentSection
+                title="Global Travel Freedom Index"
+                intro="Your passport is more than just an ID—it's a global key that determines where you can go. The strength of a passport is measured by the number of destinations its holder can access without a prior visa. This tool aggregates global visa policies to give you an instant, visual breakdown of your travel freedom."
+                features={[
+                    {
+                        title: "Visa-Free Access",
+                        description: "The gold standard of travel. You can enter these countries just by showing your passport at the border. Limits usually apply (e.g., 90 days for tourism), but no prior paperwork is needed."
+                    },
+                    {
+                        title: "Visa on Arrival (VoA)",
+                        description: "You don't need to visit an embassy beforehand, but you must obtain a visa when you land. This often involves queuing at a specific counter in the airport and paying a fee in USD or local currency."
+                    },
+                    {
+                        title: "Electronic Travel Authorization (eTA)",
+                        description: "A digital pre-screen required by countries like the USA (ESTA), Canada, or Australia. It's lighter than a full visa but must be approved online before your flight departs."
+                    },
+                    {
+                        title: "Schengen Area",
+                        description: "A zone of 27 European countries that have abolished internal borders. A visa for one Schengen country typically allows you to travel freely to all others, making European travel seamless."
+                    }
+                ]}
+                howTo={[
+                    "Select your citizenship/passport from the dropdown menu.",
+                    "The map will instantly update to color-code the world based on your access.",
+                    "Green countries are Visa-Free. Yellow allow Visa-on-Arrival. Red require a traditional visa.",
+                    "Use the search bar to check requirements for a specific destination (e.g., 'Japan').",
+                    "Plan your next trip based on where you can travel strictly with your passport."
+                ]}
+                faqs={[
+                    {
+                        question: "What is the most powerful passport?",
+                        answer: "Rankings fluctuate, but passports from Singapore, Japan, and EU nations (France, Germany, Italy, Spain) consistently top the list, offering visa-free access to 190+ destinations."
+                    },
+                    {
+                        question: "Does this map include e-Visas?",
+                        answer: "Yes, we categorize e-Visas and eTAs. While they are easier than embassy visas, they still require prior action, so we distinguish them from true 'Visa-Free' travel."
+                    },
+                    {
+                        question: "Is this data official?",
+                        answer: "We aggregate data from multiple reliable sources including IATA and government portals. However, visa policies can change overnight. Always verify with the official embassy before booking your flight."
+                    }
+                ]}
+            />
         </main>
     );
 }

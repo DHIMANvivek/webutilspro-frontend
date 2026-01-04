@@ -2,6 +2,7 @@ import React from 'react';
 import { Metadata } from 'next';
 import SteamPricingClient from '@/components/tools/SteamPricing/SteamPricingClient';
 import { Globe, TrendingDown, DollarSign } from 'lucide-react';
+import ToolContentSection from '@/components/shared/ToolContentSection';
 
 export const metadata: Metadata = {
     title: 'Steam Regional Price Checker | Global Game Comparison',
@@ -62,6 +63,50 @@ export default function SteamPricingPage() {
                     </div>
                 </div>
             </div>
+
+            <ToolContentSection
+                title="Understanding Steam Regional Pricing"
+                intro="Steam games are not priced equally across the globe. Publishers set different prices for different regions based on local purchasing power, economic conditions, and currency stability. This tool helps you visualize these disparities, often revealing that a game costing $60 in the US might be sold for the equivalent of $30 or even $15 in other countries like Argentina, Turkey, or India."
+                features={[
+                    {
+                        title: "Purchasing Power Parity (PPP)",
+                        description: "Valve suggests pricing based on PPP, which means games are cheaper in countries with lower average incomes. This ensures fair access to entertainment globally, but creates significant price arbitrage opportunities."
+                    },
+                    {
+                        title: "The 'Argentina' & 'Turkey' Effect",
+                        description: "Historically, Argentina and Turkey had the lowest Steam prices due to currency devaluation. However, in late 2023, Steam switched these regions to USD pricing (LATAM-USD and MENA-USD) to stabilize revenue, significantly changing the global pricing landscape."
+                    },
+                    {
+                        title: "Region Locking",
+                        description: "To prevent abuse, Steam employs region locking. You typically cannot buy a game in a cheaper region and gift it to a more expensive one, nor can you easily switch your store region without a valid local payment method."
+                    },
+                    {
+                        title: "Currency Conversion Realities",
+                        description: "Our tool updates exchange rates daily. However, banks may charge foreign transaction fees, so the 'real' cost to you might be 2-3% higher than the raw conversion shown here."
+                    }
+                ]}
+                howTo={[
+                    "Enter the name of the game you want to check in the search bar above.",
+                    "Select the correct game from the dropdown results.",
+                    "View the map to see the price distribution relative to the US Base Price.",
+                    "Check the 'League Table' to see a sorted list of the cheapest and most expensive countries.",
+                    "Use the data to understand the global market value of the digital good."
+                ]}
+                faqs={[
+                    {
+                        question: "Why are games cheaper in some countries?",
+                        answer: "Publishers lower prices in developing economies to maximize sales volume where disposable income is lower. If they charged US prices everywhere, they would sell very few copies in those regions."
+                    },
+                    {
+                        question: "Can I use a VPN to buy games cheaper?",
+                        answer: "Technically yes, but it violates Steam's Subscriber Agreement. Valve may ban accounts suspected of region-hopping to evade pricing restrictions. This tool is for educational and market research purposes only."
+                    },
+                    {
+                        question: "How often is the price data updated?",
+                        answer: "We query Steam's public APIs in real-time for game data, and update our currency exchange rates daily to ensure the converted values are accurate."
+                    }
+                ]}
+            />
         </main>
     );
 }
