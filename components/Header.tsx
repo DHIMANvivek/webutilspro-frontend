@@ -22,6 +22,7 @@ import {
     Clock,
     Activity,
     Layers,
+    Globe,
     Image as ImageIcon,
     BookOpen
 } from 'lucide-react';
@@ -157,6 +158,12 @@ export default function Header() {
                                                         <Activity className="w-3.5 h-3.5" />
                                                     </span>
                                                     SQL Architect
+                                                </Link>
+                                                <Link onClick={() => setIsToolsOpen(false)} href="/tools/steam-region-pricing" className="flex items-center gap-3 px-3 py-2 text-sm text-gray-700 hover:bg-emerald-50 hover:text-emerald-600 rounded-xl transition-all group/item">
+                                                    <span className="p-1.5 rounded-lg bg-emerald-50 text-emerald-600 group-hover/item:bg-emerald-600 group-hover/item:text-white transition-colors">
+                                                        <Globe className="w-3.5 h-3.5" />
+                                                    </span>
+                                                    Steam Pricing
                                                 </Link>
                                                 <Link onClick={() => setIsToolsOpen(false)} href="/tools/cron-job-generator" className="flex items-center gap-3 px-3 py-2 text-sm text-gray-700 hover:bg-emerald-50 hover:text-emerald-600 rounded-xl transition-all group/item">
                                                     <span className="p-1.5 rounded-lg bg-emerald-50 text-emerald-600 group-hover/item:bg-emerald-600 group-hover/item:text-white transition-colors">

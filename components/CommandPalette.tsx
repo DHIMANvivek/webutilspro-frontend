@@ -110,6 +110,14 @@ const TOOLS: Tool[] = [
         keywords: ['markdown', 'html', 'parse', 'md', 'web']
     },
     {
+        id: 'steam-region-pricing',
+        name: 'Steam Global Pricing Explorer',
+        description: 'Compare Steam game prices across 10 regions to find the best deals.',
+        href: '/tools/steam-region-pricing',
+        category: 'Utilities',
+        keywords: ['steam', 'games', 'price', 'region', 'cheap', 'argentina', 'turkey', 'vpn', 'deals']
+    },
+    {
         id: 'jwt-security-audit',
         name: 'JWT Security Auditor',
         description: 'Simulate breaches and test JWT security with active attacks.',

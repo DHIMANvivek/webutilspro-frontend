@@ -43,6 +43,7 @@ const DEFAULT_TOOLS = [
     { id: 'database-architect', name: 'Visual DB Architect', description: 'Design database schemas visually with a draggable interactive canvas.', icon: '🏗️', href: '/tools/database-architect', category: 'Architecture' },
     { id: 'tailwind-factory', name: 'Tailwind Design Factory', description: 'Build premium Tailwind design systems with color palettes, spacing, and radius anchors.', icon: '🎨', href: '/tools/tailwind-factory', category: 'Design' },
     { id: 'sql-performance-architect', name: 'SQL Performance Architect', description: 'Visualize Postgres EXPLAIN plans with an interactive heatmap execution tree.', icon: '📊', href: '/tools/sql-performance-architect', category: 'Database' },
+    { id: 'steam-region-pricing', name: 'Steam Pricing Explorer', description: 'Compare Steam game prices across global regions to find the best deals.', icon: '🌍', href: '/tools/steam-region-pricing', category: 'Utilities' },
     { id: 'jwt-security-audit', name: 'JWT Security Auditor', description: 'Simulate breaches and test JWT security with active attacks.', icon: '🛡️', href: '/tools/jwt-security-audit', category: 'Security' }
 ];
 

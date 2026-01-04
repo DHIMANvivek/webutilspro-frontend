@@ -31,6 +31,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
         'qr-code-generator',
         'regex-tester',
         'sql-performance-architect',
+        'steam-region-pricing',
         'tailwind-animations',
         'tailwind-factory',
         'zod-schema-generator',
