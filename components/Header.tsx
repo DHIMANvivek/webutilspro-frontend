@@ -213,6 +213,12 @@ export default function Header() {
                                                     </span>
                                                     Sketch Board
                                                 </Link>
+                                                <Link onClick={() => setIsToolsOpen(false)} href="/tools/tailwind-factory" className="flex items-center gap-3 px-3 py-2 text-sm text-gray-700 hover:bg-pink-50 hover:text-pink-600 rounded-xl transition-all group/item">
+                                                    <span className="p-1.5 rounded-lg bg-pink-50 text-pink-600 group-hover/item:bg-pink-600 group-hover/item:text-white transition-colors">
+                                                        <Layout className="w-3.5 h-3.5" />
+                                                    </span>
+                                                    Tailwind Factory
+                                                </Link>
                                                 <Link onClick={() => setIsToolsOpen(false)} href="/tools/tailwind-animations" className="flex items-center gap-3 px-3 py-2 text-sm text-gray-700 hover:bg-pink-50 hover:text-pink-600 rounded-xl transition-all group/item">
                                                     <span className="p-1.5 rounded-lg bg-pink-50 text-pink-600 group-hover/item:bg-pink-600 group-hover/item:text-white transition-colors">
                                                         <Sparkles className="w-3.5 h-3.5" />

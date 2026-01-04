@@ -102,6 +102,14 @@ const TOOLS: Tool[] = [
         keywords: ['markdown', 'html', 'parse', 'md', 'web']
     },
     {
+        id: 'tailwind-factory',
+        name: 'Tailwind Design Factory',
+        description: 'Design and export production-ready Tailwind CSS design systems.',
+        href: '/tools/tailwind-factory',
+        category: 'Dev',
+        keywords: ['tailwind', 'colors', 'palette', 'config', 'design system', 'css']
+    },
+    {
         id: 'code-formatter',
         name: 'Code Formatter',
         description: 'Prettify and format your code automatically.',
