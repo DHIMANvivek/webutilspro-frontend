@@ -200,6 +200,12 @@ export default function Header() {
                                                     </span>
                                                     Sketch Board
                                                 </Link>
+                                                <Link onClick={() => setIsToolsOpen(false)} href="/tools/tailwind-animations" className="flex items-center gap-3 px-3 py-2 text-sm text-gray-700 hover:bg-pink-50 hover:text-pink-600 rounded-xl transition-all group/item">
+                                                    <span className="p-1.5 rounded-lg bg-pink-50 text-pink-600 group-hover/item:bg-pink-600 group-hover/item:text-white transition-colors">
+                                                        <Sparkles className="w-3.5 h-3.5" />
+                                                    </span>
+                                                    Tailwind FX
+                                                </Link>
                                             </div>
                                         </div>
                                     </div>
@@ -301,7 +307,7 @@ export default function Header() {
                                         { href: '/tools/regex-tester', label: 'Regex', icon: Code, color: 'text-purple-500' },
                                         { href: '/tools/json-to-csv', label: 'JSON/CSV', icon: Database, color: 'text-emerald-500' },
                                         { href: '/tools/woocommerce', label: 'WooCom', icon: ShoppingCart, color: 'text-orange-500' },
-                                        { href: '/tools/image-compressor', label: 'Compress', icon: Palette, color: 'text-pink-500' },
+                                        { href: '/tools/tailwind-animations', label: 'Tailwind', icon: Sparkles, color: 'text-pink-500' },
                                         { href: '/tools/prompt-optimizer', label: 'Prompt', icon: Zap, color: 'text-amber-500' },
                                     ].map((tool) => {
                                         const IconComponent = tool.icon;

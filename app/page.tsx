@@ -37,7 +37,8 @@ const DEFAULT_TOOLS = [
     { id: 'http-headers-analyzer', name: 'HTTP Headers Analyzer', description: 'Analyze website security headers and get a security grade.', icon: '🛡️', href: '/tools/http-headers-analyzer', category: 'Security' },
     { id: 'push-notifications', name: 'Push Notifications', description: 'Add web push notifications to your site with powerful management dashboard.', icon: '🔔', href: '/tools/push-notifications', category: 'Services' },
     { id: 'woocommerce', name: 'WooCommerce', description: 'Secure store management with AI chat and full CRUD features.', icon: '🛒', href: '/tools/woocommerce', category: 'Services' },
-    { id: 'mcp-tester', name: 'MCP Tool Tester', description: 'Test and debug Model Context Protocol servers in a live sandbox.', icon: '🧪', href: '/tools/mcp-tester', category: 'AI-Powered' }
+    { id: 'mcp-tester', name: 'MCP Tool Tester', description: 'Test and debug Model Context Protocol servers in a live sandbox.', icon: '🧪', href: '/tools/mcp-tester', category: 'AI-Powered' },
+    { id: 'tailwind-animations', name: 'Tailwind Animations', description: 'Design and customize premium GPU-accelerated Tailwind animations.', icon: '✨', href: '/tools/tailwind-animations', category: 'Design' }
 ];
 
 export default function HomePage() {
@@ -89,7 +90,7 @@ export default function HomePage() {
                             <Link href="/tools/push-notifications" className="inline-flex items-center gap-3 px-1 py-1 pr-4 rounded-full bg-slate-900 border border-blue-500/30 hover:scale-105 transition-transform cursor-pointer group shadow-lg shadow-blue-500/20">
                                 <span className="bg-blue-500 text-white px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider shadow-sm">NEW</span>
                                 <span className="text-sm font-medium text-blue-100 group-hover:text-white transition-colors">
-                                    Push Notification Manager
+                                    Push Notification Messenger
                                 </span>
                                 <ArrowRight className="w-4 h-4 text-blue-400 group-hover:text-white group-hover:translate-x-1 transition-all" />
                             </Link>

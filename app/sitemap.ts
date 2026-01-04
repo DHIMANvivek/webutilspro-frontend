@@ -29,6 +29,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
         'push-notifications',
         'qr-code-generator',
         'regex-tester',
+        'tailwind-animations',
         'text-tools',
         'timestamp-converter',
         'url-encoder',

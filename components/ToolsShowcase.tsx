@@ -100,6 +100,11 @@ const TOOL_INSIGHTS: Record<string, { title: string; features: string[]; icon: a
         features: ['Secure sandbox environment', 'Custom server support', 'Real-time tool inspection'],
         icon: Wrench, color: 'text-emerald-500', bg: 'bg-emerald-500/10'
     },
+    'tailwind-animations': {
+        title: 'Motion Design Pro',
+        features: ['Premium Tailwind animations', 'Real-time customization', 'Direct GPU-accelerated code'],
+        icon: Sparkles, color: 'text-pink-500', bg: 'bg-pink-500/10'
+    },
     'ai-error-explainer': {
         title: 'Explainer Insights',
         features: ['Deep context analysis', 'Stack trace interpretation', 'AI-driven fix suggestions'],
