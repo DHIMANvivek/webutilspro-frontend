@@ -292,6 +292,22 @@ const TOOLS: Tool[] = [
         href: '/tools/push-notifications',
         category: 'Dev',
         keywords: ['push', 'notifications', 'fcm', 'firebase', 'web push', 'alerts', 'engage']
+    },
+    {
+        id: 'tailwind-animations',
+        name: 'Tailwind FX Studio',
+        description: 'Design and export premium Tailwind CSS animations in real-time.',
+        href: '/tools/tailwind-animations',
+        category: 'Dev',
+        keywords: ['tailwind', 'animation', 'fx', 'design', 'css', 'motion']
+    },
+    {
+        id: 'zod-schema-generator',
+        name: 'Zod Schema Factory',
+        description: 'Instantly transform JSON, TS, and GraphQL into Zod schemas and Prisma models.',
+        href: '/tools/zod-schema-generator',
+        category: 'Dev',
+        keywords: ['zod', 'schema', 'generator', 'prisma', 'json', 'typescript', 'graphql', 'factory']
     }
 ];
 

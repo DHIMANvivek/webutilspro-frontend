@@ -254,6 +254,11 @@ const TOOL_INSIGHTS: Record<string, { title: string; features: string[]; icon: a
         title: 'Push Insights',
         features: ['Real-time delivery logic', 'Multi-browser compatibility', 'Advanced click analytics'],
         icon: Bell, color: 'text-blue-600', bg: 'bg-blue-600/10'
+    },
+    'zod-schema-generator': {
+        title: 'Schema Intelligence',
+        features: ['Recursive JSON parsing', 'Type inference generation', 'Prisma ORM compatibility'],
+        icon: Database, color: 'text-indigo-500', bg: 'bg-indigo-500/10'
     }
 };
 

@@ -38,7 +38,8 @@ const DEFAULT_TOOLS = [
     { id: 'push-notifications', name: 'Push Notifications', description: 'Add web push notifications to your site with powerful management dashboard.', icon: '🔔', href: '/tools/push-notifications', category: 'Services' },
     { id: 'woocommerce', name: 'WooCommerce', description: 'Secure store management with AI chat and full CRUD features.', icon: '🛒', href: '/tools/woocommerce', category: 'Services' },
     { id: 'mcp-tester', name: 'MCP Tool Tester', description: 'Test and debug Model Context Protocol servers in a live sandbox.', icon: '🧪', href: '/tools/mcp-tester', category: 'AI-Powered' },
-    { id: 'tailwind-animations', name: 'Tailwind Animations', description: 'Design and customize premium GPU-accelerated Tailwind animations.', icon: '✨', href: '/tools/tailwind-animations', category: 'Design' }
+    { id: 'tailwind-animations', name: 'Tailwind Animations', description: 'Design and customize premium GPU-accelerated Tailwind animations.', icon: '✨', href: '/tools/tailwind-animations', category: 'Design' },
+    { id: 'zod-schema-generator', name: 'Zod Schema Factory', description: 'Transform JSON, TS, and GraphQL into production-ready Zod schemas instantly.', icon: '🧬', href: '/tools/zod-schema-generator', category: 'Data Tools' }
 ];
 
 export default function HomePage() {
