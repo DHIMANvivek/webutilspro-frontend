@@ -23,6 +23,7 @@ import {
     Activity,
     Layers,
     Globe,
+    Plane,
     Image as ImageIcon,
     BookOpen
 } from 'lucide-react';
@@ -164,6 +165,12 @@ export default function Header() {
                                                         <Globe className="w-3.5 h-3.5" />
                                                     </span>
                                                     Steam Pricing
+                                                </Link>
+                                                <Link onClick={() => setIsToolsOpen(false)} href="/tools/passport-visa-map" className="flex items-center gap-3 px-3 py-2 text-sm text-gray-700 hover:bg-emerald-50 hover:text-emerald-600 rounded-xl transition-all group/item">
+                                                    <span className="p-1.5 rounded-lg bg-emerald-50 text-emerald-600 group-hover/item:bg-emerald-600 group-hover/item:text-white transition-colors">
+                                                        <Plane className="w-3.5 h-3.5" />
+                                                    </span>
+                                                    Passport Map
                                                 </Link>
                                                 <Link onClick={() => setIsToolsOpen(false)} href="/tools/cron-job-generator" className="flex items-center gap-3 px-3 py-2 text-sm text-gray-700 hover:bg-emerald-50 hover:text-emerald-600 rounded-xl transition-all group/item">
                                                     <span className="p-1.5 rounded-lg bg-emerald-50 text-emerald-600 group-hover/item:bg-emerald-600 group-hover/item:text-white transition-colors">

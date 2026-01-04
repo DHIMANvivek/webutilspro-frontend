@@ -28,6 +28,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
         'pdf-extractor',
         'prompt-optimizer',
         'push-notifications',
+        'passport-visa-map',
         'qr-code-generator',
         'regex-tester',
         'sql-performance-architect',

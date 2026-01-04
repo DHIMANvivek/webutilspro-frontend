@@ -15,7 +15,8 @@ import {
     Cpu,
     Settings,
     Bug,
-    Clock
+    Clock,
+    Plane
 } from 'lucide-react';
 import { getIssueUrl } from './ReportIssueLink';
 
@@ -24,7 +25,7 @@ interface Tool {
     name: string;
     description: string;
     href: string;
-    category: 'AI' | 'Dev' | 'Utilities' | 'Systems';
+    category: 'AI' | 'Dev' | 'Utilities' | 'Systems' | 'Travel';
     keywords: string[];
 }
 
@@ -108,6 +109,14 @@ const TOOLS: Tool[] = [
         href: '/tools/markdown-to-html',
         category: 'Dev',
         keywords: ['markdown', 'html', 'parse', 'md', 'web']
+    },
+    {
+        id: 'passport-visa-map',
+        name: 'Passport Visa Freedom Map',
+        description: 'Check visa requirements and travel freedom for any passport.',
+        href: '/tools/passport-visa-map',
+        category: 'Travel',
+        keywords: ['visa', 'passport', 'travel', 'flight', 'freedom', 'immigration', 'holiday']
     },
     {
         id: 'steam-region-pricing',
@@ -522,6 +531,7 @@ export default function CommandPalette() {
                                     {tool.category === 'AI' && <Sparkles className={`w-5 h-5 ${idx === selectedIndex ? 'text-white' : 'text-purple-600'}`} />}
                                     {tool.category === 'Dev' && <Code2 className={`w-5 h-5 ${idx === selectedIndex ? 'text-white' : 'text-blue-600'}`} />}
                                     {tool.category === 'Utilities' && <Wrench className={`w-5 h-5 ${idx === selectedIndex ? 'text-white' : 'text-emerald-600'}`} />}
+                                    {tool.category === 'Travel' && <Plane className={`w-5 h-5 ${idx === selectedIndex ? 'text-white' : 'text-sky-500'}`} />}
                                 </div>
                                 <div className="flex-1 min-w-0">
                                     <div className="flex items-center gap-2">
