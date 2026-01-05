@@ -63,6 +63,14 @@ const TOOLS: Tool[] = [
         keywords: ['pdf', 'extract', 'text', 'ocr', 'document', 'llamaindex', 'ai']
     },
     {
+        id: 'transcript-generator',
+        name: 'Real-Time Transcript Generator',
+        description: 'Convert speech to text instantly in your browser (Privacy First).',
+        href: '/tools/transcript-generator',
+        category: 'Utilities',
+        keywords: ['speech', 'text', 'transcript', 'voice', 'dictation', 'mic', 'record']
+    },
+    {
         id: 'api-playground',
         name: 'API Playground',
         description: 'Professional REST API testing tool with code generation.',

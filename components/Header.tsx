@@ -25,7 +25,8 @@ import {
     Globe,
     Plane,
     Image as ImageIcon,
-    BookOpen
+    BookOpen,
+    Mic
 } from 'lucide-react';
 import ReportIssueLink from './ReportIssueLink';
 
@@ -110,6 +111,12 @@ export default function Header() {
                                                         <FileText className="w-3.5 h-3.5" />
                                                     </span>
                                                     PDF Text Extractor
+                                                </Link>
+                                                <Link onClick={() => setIsToolsOpen(false)} href="/tools/transcript-generator" className="flex items-center gap-3 px-3 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-xl transition-all group/item">
+                                                    <span className="p-1.5 rounded-lg bg-blue-50 text-blue-600 group-hover/item:bg-blue-600 group-hover/item:text-white transition-colors">
+                                                        <Mic className="w-3.5 h-3.5" />
+                                                    </span>
+                                                    Transcript Generator
                                                 </Link>
                                             </div>
                                         </div>
