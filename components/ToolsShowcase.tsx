@@ -30,7 +30,8 @@ import {
     ShoppingBag,
     Key,
     Files,
-    Bell
+    Bell,
+    Mic
 } from 'lucide-react';
 
 const FEATURED_TOOLS = [
@@ -265,6 +266,11 @@ const TOOL_INSIGHTS: Record<string, { title: string; features: string[]; icon: a
         title: 'Architecture Pro',
         features: ['Draggable ERD canvas', 'Smart relationship cables', 'Zero-config code export'],
         icon: Layers, color: 'text-purple-500', bg: 'bg-purple-500/10'
+    },
+    'transcript-generator': {
+        title: 'Speech Scribe',
+        features: ['Real-time Web Speech API', 'Local-only privacy (No Server)', 'Instant txt export'],
+        icon: Mic, color: 'text-red-500', bg: 'bg-red-500/10'
     }
 };
 
