@@ -111,7 +111,7 @@ export default function LatestInsights() {
                                 <div className="p-6 flex-1 flex flex-col">
                                     <div className="flex items-center gap-2 text-xs text-slate-400 font-medium mb-3">
                                         <Calendar className="w-3 h-3" />
-                                        {new Date(post.publishedAt).toLocaleDateString()}
+                                        {new Date(post.publishedAt).toLocaleDateString('en-GB', { timeZone: 'UTC' })}
                                     </div>
 
                                     <h3 className="text-xl font-bold text-slate-900 mb-3 group-hover:text-blue-600 transition-colors line-clamp-2 leading-tight">

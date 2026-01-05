@@ -1,7 +1,7 @@
 import { generateMetadata as genMeta, generateToolSchema, generateFAQSchema } from '@/lib/seo';
 import ToolLayout from '@/components/ToolLayout';
 import MarkdownConverter from '@/components/tools/MarkdownConverter';
-import AdPlacement from '@/components/AdPlacement';
+
 
 export const metadata = genMeta({
     title: 'Free Markdown to HTML Converter - Convert MD to HTML Online',
@@ -120,7 +120,7 @@ export default function MarkdownConverterPage() {
             </section>
 
             {/* AdSense Placement */}
-            <AdPlacement />
+
 
             {/* Markdown Syntax Examples */}
             <section className="card mt-8">

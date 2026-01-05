@@ -1,7 +1,7 @@
 import { generateMetadata as genMeta, generateToolSchema, generateFAQSchema } from '@/lib/seo';
 import ToolLayout from '@/components/ToolLayout';
 import RegexTester from '@/components/tools/RegexTester';
-import AdPlacement from '@/components/AdPlacement';
+
 
 export const metadata = genMeta({
     title: 'Free Online Regex Tester - Test Regular Expressions',
@@ -124,7 +124,7 @@ export default function RegexTesterPage() {
             </section>
 
             {/* AdSense Placement */}
-            <AdPlacement />
+
 
             {/* Examples Section */}
             <section className="card mb-12">

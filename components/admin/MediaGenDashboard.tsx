@@ -315,7 +315,7 @@ export default function MediaGenDashboard() {
                         <input
                             type="password"
                             value={adminSecret}
-                            onChange={(e) => setAdminSecret(e.target.value)}
+                            onChange={(e) => setAdminSecret(e.target.value.replace(/[^\x20-\x7E]/g, ''))}
                             placeholder="Enter Admin Secret to enable controls..."
                             className="w-full bg-slate-950 border border-slate-800 rounded-2xl px-6 py-4 text-sm focus:ring-2 focus:ring-emerald-500 focus:outline-none transition-all placeholder:text-slate-700 font-mono"
                         />

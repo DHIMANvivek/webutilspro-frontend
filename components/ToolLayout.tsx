@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import AdPlacement from './AdPlacement';
+
 import { ChevronRight, LayoutGrid } from 'lucide-react';
 import { generateBreadcrumb } from '@/lib/seo';
 import Breadcrumbs from './Breadcrumbs';
@@ -100,7 +100,7 @@ export default function ToolLayout({
 
                 {/* AdSense Placement */}
                 <div className="mb-20">
-                    <AdPlacement />
+
                 </div>
 
                 {/* Related Tools */}

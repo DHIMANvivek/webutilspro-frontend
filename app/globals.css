@@ -15,9 +15,7 @@ html {
     font-feature-settings: "rlig" 1, "calt" 1;
     min-height: 100vh;
 
-    @media (pointer: fine) {
-      cursor: none;
-    }
+
   }
 
   code,
@@ -302,80 +300,4 @@ html {
 /* Selection */
 ::selection {
   @apply bg-blue-500/30 text-white;
-}
-
-/* Custom Cursor Styles */
-.custom-cursor-dot {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 8px;
-  height: 8px;
-  background-color: #3b82f6;
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 9999;
-  transition: background-color 0.3s ease, width 0.3s ease, height 0.3s ease;
-  transform: translate3d(calc(var(--cursor-x, 0px) - 4px), calc(var(--cursor-y, 0px) - 4px), 0);
-  will-change: transform;
-}
-
-.custom-cursor-ring {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 40px;
-  height: 40px;
-  border: 2px solid rgba(59, 130, 246, 0.3);
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 9998;
-  transition: border 0.3s ease, width 0.3s ease, height 0.3s ease, background-color 0.3s ease, transform 0.15s ease-out;
-  transform: translate3d(calc(var(--cursor-x, 0px) - 20px), calc(var(--cursor-y, 0px) - 20px), 0);
-  will-change: transform;
-}
-
-/* Pointer State */
-.custom-cursor-dot.pointer {
-  width: 12px;
-  height: 12px;
-  background-color: #9333ea;
-  /* Purple dot on hover */
-  transform: translate3d(calc(var(--cursor-x, 0px) - 6px), calc(var(--cursor-y, 0px) - 6px), 0);
-}
-
-.custom-cursor-ring.pointer {
-  width: 60px;
-  height: 60px;
-  border: 2px solid rgba(147, 51, 234, 0.4);
-  background-color: rgba(147, 51, 234, 0.05);
-  /* Subtle purple glow */
-  transform: translate3d(calc(var(--cursor-x, 0px) - 30px), calc(var(--cursor-y, 0px) - 30px), 0);
-}
-
-/* Clicking State */
-.custom-cursor-ring.clicking {
-  transform: translate3d(calc(var(--cursor-x, 0px) - 20px), calc(var(--cursor-y, 0px) - 20px), 0) scale(0.8);
-  background-color: rgba(59, 130, 246, 0.2);
-}
-
-.custom-cursor-ring.clicking.pointer {
-  transform: translate3d(calc(var(--cursor-x, 0px) - 30px), calc(var(--cursor-y, 0px) - 30px), 0) scale(0.8);
-}
-
-/* Hidden State */
-.custom-cursor-dot.hidden,
-.custom-cursor-ring.hidden {
-  opacity: 0;
-}
-
-/* Hide default cursor on interactive elements if desired, 
-   but it's better to keep it for accessibility or just on body */
-@media (pointer: fine) {
-
-  a:hover,
-  button:hover,
-  [role="button"]:hover {
-    cursor: none !important;
-  }
 }

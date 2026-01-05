@@ -97,7 +97,7 @@ export default function BlogPostPage() {
 
                     {/* Content using dangerouslySetInnerHTML since our backend returns HTML */}
                     <div
-                        className="prose prose-lg dark:prose-invert max-w-none prose-blue prose-headings:font-bold prose-img:rounded-2xl"
+                        className="prose prose-lg dark:prose-invert max-w-none prose-blue prose-headings:font-bold prose-img:rounded-2xl break-words prose-code:break-all"
                         dangerouslySetInnerHTML={{ __html: post.content }}
                     />
 

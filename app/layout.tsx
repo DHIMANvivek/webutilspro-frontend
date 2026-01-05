@@ -6,7 +6,6 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import CommandPalette from '@/components/CommandPalette';
 import ToasterProvider from '@/components/ToasterProvider';
-import CustomCursor from '@/components/CustomCursor';
 import SmartErrorBoundary from '@/components/SmartErrorBoundary';
 import TourManager from '@/components/TourManager';
 import ToolsShowcase from '@/components/ToolsShowcase';
@@ -104,7 +103,7 @@ export default function RootLayout({
             </head>
             <body className={inter.className}>
                 <GoogleTagManagerNoScript />
-                <CustomCursor />
+
                 <SmartErrorBoundary>
                     <TourManager />
                     <div className="flex flex-col min-h-screen">

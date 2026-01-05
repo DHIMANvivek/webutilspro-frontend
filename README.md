@@ -72,7 +72,7 @@ dev-tools-website/
 │   ├── Header.tsx
 │   ├── Footer.tsx
 │   ├── ToolLayout.tsx
-│   ├── AdPlacement.tsx
+
 │   └── tools/                   # Tool-specific components
 │       ├── RegexTester.tsx
 │       ├── JsonCsvConverter.tsx
@@ -105,7 +105,7 @@ Each tool page includes:
 
 Ad placements are ready but use placeholders. After AdSense approval:
 
-1. Open `components/AdPlacement.tsx`
+
 2. Replace the placeholder div with actual AdSense code
 3. Add your AdSense client ID
 4. Configure ad slots and formats

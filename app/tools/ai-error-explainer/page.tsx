@@ -1,7 +1,7 @@
 import { generateMetadata as genMeta, generateToolSchema, generateFAQSchema } from '@/lib/seo';
 import ToolLayout from '@/components/ToolLayout';
 import AiErrorExplainer from '@/components/tools/AiErrorExplainer';
-import AdPlacement from '@/components/AdPlacement';
+
 
 export const metadata = genMeta({
     title: 'Free AI Error Explainer - Debug Code Errors with AI',
@@ -117,7 +117,7 @@ export default function AiErrorExplainerPage() {
             </section>
 
             {/* AdSense Placement */}
-            <AdPlacement />
+
 
             {/* Common Error Types */}
             <section className="card mt-8">

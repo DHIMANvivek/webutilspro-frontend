@@ -1,7 +1,7 @@
 import { generateMetadata as genMeta, generateToolSchema, generateFAQSchema } from '@/lib/seo';
 import ToolLayout from '@/components/ToolLayout';
 import JsonCsvConverter from '@/components/tools/JsonCsvConverter';
-import AdPlacement from '@/components/AdPlacement';
+
 
 export const metadata = genMeta({
     title: 'Free JSON to CSV Converter - Convert JSON ↔ CSV Online',
@@ -134,7 +134,7 @@ export default function JsonCsvConverterPage() {
             </section>
 
             {/* AdSense Placement */}
-            <AdPlacement />
+
 
             {/* Use Cases Section */}
             <section className="card mt-8">

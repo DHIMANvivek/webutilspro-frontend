@@ -1,7 +1,7 @@
 import { generateMetadata as genMeta, generateToolSchema, generateFAQSchema } from '@/lib/seo';
 import ToolLayout from '@/components/ToolLayout';
 import PromptOptimizer from '@/components/tools/PromptOptimizer';
-import AdPlacement from '@/components/AdPlacement';
+
 
 export const metadata = genMeta({
     title: 'Free AI Prompt Optimizer - Improve Your AI Prompts',
@@ -121,7 +121,7 @@ export default function PromptOptimizerPage() {
             </section>
 
             {/* AdSense Placement */}
-            <AdPlacement />
+
 
             {/* Prompt Engineering Principles */}
             <section className="card mt-8">

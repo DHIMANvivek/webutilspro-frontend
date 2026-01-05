@@ -15,21 +15,21 @@ export default function RoadmapBackground() {
                 xmlns="http://www.w3.org/2000/svg"
                 preserveAspectRatio="none"
             >
-                {/* The "One Line" Innovation Thread - Clean & Professional */}
+                {/* The "One Line" Innovation Thread - Clean & Professional - MOVED TO RIGHT */}
                 <path
-                    d="M 720,0 
+                    d="M 1350,0 
                        V 250 
-                       L 1000,450 
+                       L 1250,450 
                        V 750 
-                       L 300,950 
+                       L 1400,950 
                        V 1250 
-                       L 1100,1550 
+                       L 1280,1550 
                        V 1950 
-                       L 340,2350 
+                       L 1380,2350 
                        V 2850 
-                       L 1100,3250 
+                       L 1300,3250 
                        V 3850 
-                       L 720,4350 
+                       L 1420,4350 
                        V 5000"
                     stroke="url(#thread-gradient)"
                     strokeWidth="1.5"
@@ -41,7 +41,7 @@ export default function RoadmapBackground() {
                 {[0, 3, 6, 9].map((delay, i) => (
                     <path
                         key={i}
-                        d="M 720,0 V 250 L 1000,450 V 750 L 300,950 V 1250 L 1100,1550 V 1950 L 340,2350 V 2850 L 1100,3250 V 3850 L 720,4350 V 5000"
+                        d="M 1350,0 V 250 L 1250,450 V 750 L 1400,950 V 1250 L 1280,1550 V 1950 L 1380,2350 V 2850 L 1300,3250 V 3850 L 1420,4350 V 5000"
                         stroke="url(#pulse-gradient)"
                         strokeWidth="4"
                         strokeLinecap="round"
@@ -70,18 +70,18 @@ export default function RoadmapBackground() {
                     </filter>
                 </defs>
 
-                {/* Floating Neural Nodes along the thread */}
+                {/* Floating Neural Nodes along the thread - REPOSITIONED */}
                 {[
-                    { x: 1000, y: 450, label: 'webutilspro.com' },
-                    { x: 300, y: 1250, label: 'Logic' },
-                    { x: 1100, y: 1950, label: 'Sync' },
-                    { x: 340, y: 2850, label: 'Analytics' },
-                    { x: 720, y: 4350, label: 'Cloud' }
+                    { x: 1250, y: 450, label: 'webutilspro.com' },
+                    { x: 1400, y: 950, label: 'Logic' },
+                    { x: 1280, y: 1550, label: 'Sync' },
+                    { x: 1380, y: 2350, label: 'Data' },
+                    { x: 1300, y: 3250, label: 'Cloud' }
                 ].map((node, i) => (
                     <g key={i} transform={`translate(${node.x}, ${node.y})`}>
                         <circle r="40" fill="currentColor" className="text-slate-500/5 animate-pulse" />
                         <circle r="3" fill="#6366f1" filter="url(#glow)" />
-                        <text x="15" y="4" className="text-[9px] font-black fill-slate-400/40 uppercase tracking-[0.2em]">{node.label}</text>
+                        <text x="-35" y="4" className="text-[9px] font-black fill-slate-400/40 uppercase tracking-[0.2em] text-right" style={{ textAnchor: 'end' }}>{node.label}</text>
                     </g>
                 ))}
             </svg>
