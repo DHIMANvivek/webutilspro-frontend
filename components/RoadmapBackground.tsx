@@ -15,53 +15,24 @@ export default function RoadmapBackground() {
                 xmlns="http://www.w3.org/2000/svg"
                 preserveAspectRatio="none"
             >
-                {/* The "One Line" Innovation Thread - Clean & Professional - MOVED TO RIGHT */}
+                {/* The "One Line" Innovation Thread - High Visibility Dotted moving line */}
                 <path
                     d="M 1350,0 
-                       V 250 
-                       L 1250,450 
-                       V 750 
-                       L 1400,950 
-                       V 1250 
-                       L 1280,1550 
-                       V 1950 
-                       L 1380,2350 
-                       V 2850 
-                       L 1300,3250 
-                       V 3850 
-                       L 1420,4350 
+                       V 500 
+                       C 1350,700 720,600 720,900
                        V 5000"
                     stroke="url(#thread-gradient)"
-                    strokeWidth="1.5"
-                    strokeDasharray="10 15"
+                    strokeWidth="3"
+                    strokeDasharray="12 12"
+                    strokeLinecap="round"
                     className="roadmap-path"
                 />
 
-                {/* "Much Times" - Multi-Pulse Flow (4 Staggered Pulses) */}
-                {[0, 3, 6, 9].map((delay, i) => (
-                    <path
-                        key={i}
-                        d="M 1350,0 V 250 L 1250,450 V 750 L 1400,950 V 1250 L 1280,1550 V 1950 L 1380,2350 V 2850 L 1300,3250 V 3850 L 1420,4350 V 5000"
-                        stroke="url(#pulse-gradient)"
-                        strokeWidth="4"
-                        strokeLinecap="round"
-                        style={{ animationDelay: `${delay}s` }}
-                        className="roadmap-pulse"
-                    />
-                ))}
-
                 <defs>
                     <linearGradient id="thread-gradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                        <stop offset="0%" stopColor="#6366f1" stopOpacity="0.2" />
-                        <stop offset="100%" stopColor="#a855f7" stopOpacity="0.2" />
-                    </linearGradient>
-
-                    <linearGradient id="pulse-gradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                        <stop offset="0%" stopColor="transparent" />
-                        <stop offset="15%" stopColor="#6366f1" />
-                        <stop offset="20%" stopColor="#10b981" />
-                        <stop offset="25%" stopColor="transparent" />
-                        <stop offset="100%" stopColor="transparent" />
+                        <stop offset="0%" stopColor="#6366f1" stopOpacity="0.8" />
+                        <stop offset="50%" stopColor="#a855f7" stopOpacity="0.8" />
+                        <stop offset="100%" stopColor="#ec4899" stopOpacity="0.8" />
                     </linearGradient>
 
                     <filter id="glow" x="-200%" y="-200%" width="500%" height="500%">
@@ -70,37 +41,28 @@ export default function RoadmapBackground() {
                     </filter>
                 </defs>
 
-                {/* Floating Neural Nodes along the thread - REPOSITIONED */}
+                {/* Floating Neural Nodes along the thread */}
                 {[
-                    { x: 1250, y: 450, label: 'webutilspro.com' },
-                    { x: 1400, y: 950, label: 'Logic' },
-                    { x: 1280, y: 1550, label: 'Sync' },
-                    { x: 1380, y: 2350, label: 'Data' },
-                    { x: 1300, y: 3250, label: 'Cloud' }
+                    { x: 1350, y: 150, label: 'Start' },
+                    { x: 720, y: 1100, label: 'webutilspro.com' },
+                    { x: 720, y: 2200, label: 'Sync' },
+                    { x: 720, y: 3100, label: 'Data' },
+                    { x: 720, y: 4000, label: 'Cloud' }
                 ].map((node, i) => (
                     <g key={i} transform={`translate(${node.x}, ${node.y})`}>
                         <circle r="40" fill="currentColor" className="text-slate-500/5 animate-pulse" />
                         <circle r="3" fill="#6366f1" filter="url(#glow)" />
-                        <text x="-35" y="4" className="text-[9px] font-black fill-slate-400/40 uppercase tracking-[0.2em] text-right" style={{ textAnchor: 'end' }}>{node.label}</text>
+                        <text x="15" y="4" className="text-[9px] font-black fill-slate-400/40 uppercase tracking-[0.2em]">{node.label}</text>
                     </g>
                 ))}
             </svg>
 
             <style jsx>{`
                 .roadmap-path { 
-                    animation: dash 120s linear infinite; 
+                    animation: dash 100s linear infinite; 
                 }
-                .roadmap-pulse { 
-                    stroke-dasharray: 400 4600; 
-                    stroke-dashoffset: 5000; 
-                    animation: pulse-flow 12s cubic-bezier(0.4, 0, 0.2, 1) infinite; 
-                }
-                @keyframes dash { to { stroke-dashoffset: -1000; } }
-                @keyframes pulse-flow {
-                    0% { stroke-dashoffset: 5000; opacity: 0; }
-                    5% { opacity: 1; }
-                    95% { opacity: 1; }
-                    100% { stroke-dashoffset: 0; opacity: 0; }
+                @keyframes dash { 
+                    to { stroke-dashoffset: -1000; } 
                 }
             `}</style>
         </div>

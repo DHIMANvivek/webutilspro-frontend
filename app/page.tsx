@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { ShoppingBag, FlaskConical, Sparkles, Lock, Bot, RefreshCcw, Wrench, Box, Target, ArrowRight, Image as ImageIcon } from 'lucide-react';
 import LatestInsights from '@/components/LatestInsights';
+import VisionSection from '@/components/VisionSection';
 
 const DEFAULT_TOOLS = [
     { id: 'regex-tester', name: 'Regex Tester', description: 'Test and debug regular expressions with real-time matching and highlighting.', icon: '🔍', href: '/tools/regex-tester', category: 'Text Processing' },
@@ -186,6 +187,9 @@ export default function HomePage() {
                     </div>
                 </div>
             </section>
+
+            {/* Vision & Roadmap Section */}
+            <VisionSection />
 
             {/* Tools Grid Section */}
             <section id="tools" className="py-24 relative z-10 bg-gradient-to-b from-white to-transparent border-y border-slate-200/40 section-blueprint-mesh">
