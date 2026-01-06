@@ -1,7 +1,7 @@
 import { MetadataRoute } from 'next';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://webutilspro.com';
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.webutilspro.com';
     const lastModified = new Date();
 
     const tools = [
