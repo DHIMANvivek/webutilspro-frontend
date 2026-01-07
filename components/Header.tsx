@@ -334,7 +334,7 @@ export default function Header() {
 
                 {/* Mobile Menu */}
                 {mobileMenuOpen && (
-                    <div className="md:hidden fixed inset-0 top-[73px] bottom-0 bg-white z-50 overflow-y-auto px-4 py-6 animate-in slide-in-from-right duration-300">
+                    <div className="md:hidden fixed left-0 right-0 top-[73px] h-[calc(100vh-73px)] bg-white z-50 overflow-y-auto px-4 py-6 animate-in slide-in-from-right duration-300">
                         <div className="space-y-6 pb-20">
                             {/* Primary Navigation - Compact Grid */}
                             <div className="grid grid-cols-2 gap-3 mb-2">
