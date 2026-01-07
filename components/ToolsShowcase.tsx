@@ -36,6 +36,15 @@ import {
 
 const FEATURED_TOOLS = [
     {
+        id: 'schema-forge',
+        name: 'Schema-Forge Architect',
+        description: 'JSON to Fullstack blueprint in seconds.',
+        href: '/tools/schema-forge',
+        icon: Database,
+        color: 'text-blue-600',
+        bg: 'bg-blue-600/10'
+    },
+    {
         id: 'mcp-tester',
         name: 'MCP Tool Tester',
         description: 'Secure sandbox for MCP servers.',
@@ -256,6 +265,11 @@ const TOOL_INSIGHTS: Record<string, { title: string; features: string[]; icon: a
         title: 'Push Insights',
         features: ['Real-time delivery logic', 'Multi-browser compatibility', 'Advanced click analytics'],
         icon: Bell, color: 'text-blue-600', bg: 'bg-blue-600/10'
+    },
+    'schema-forge': {
+        title: 'Architect Power',
+        features: ['Fullstack blueprint generation', 'TypeScript & Zod safe code', 'React Query hook templates'],
+        icon: Database, color: 'text-blue-600', bg: 'bg-blue-600/10'
     },
     'zod-schema-generator': {
         title: 'Schema Intelligence',
