@@ -1,8 +1,9 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Loader2, GitCommit, GitPullRequest, GitBranch, TrendingUp, Award, Users, Calendar } from 'lucide-react';
+import { Loader2, GitCommit, GitPullRequest, GitBranch, TrendingUp, Award, Users, Calendar, History } from 'lucide-react';
 import toast from 'react-hot-toast';
+import GitGraphBrowser from './GitGraphBrowser';
 
 interface DashboardProps {
     repo: any;
@@ -11,7 +12,7 @@ interface DashboardProps {
 export default function Dashboard({ repo }: DashboardProps) {
     const [analysis, setAnalysis] = useState<any>(null);
     const [loading, setLoading] = useState(true);
-    const [activeTab, setActiveTab] = useState<'overview' | 'commits' | 'prs' | 'branches'>('overview');
+    const [activeTab, setActiveTab] = useState<'overview' | 'history' | 'prs' | 'branches'>('overview');
 
     useEffect(() => {
         if (repo) {
@@ -77,7 +78,7 @@ export default function Dashboard({ repo }: DashboardProps) {
             <div className="flex gap-2 p-1 bg-slate-100 rounded-xl">
                 {[
                     { id: 'overview', label: 'Overview', icon: TrendingUp },
-                    { id: 'commits', label: 'Commits', icon: GitCommit },
+                    { id: 'history', label: 'History', icon: History },
                     { id: 'prs', label: 'Pull Requests', icon: GitPullRequest },
                     { id: 'branches', label: 'Branches', icon: GitBranch }
                 ].map((tab) => (
@@ -197,37 +198,13 @@ export default function Dashboard({ repo }: DashboardProps) {
                 </div>
             )}
 
-            {/* Commits Tab */}
-            {activeTab === 'commits' && (
-                <div className="bg-white rounded-2xl border border-slate-200 p-6">
-                    <h3 className="text-lg font-bold text-slate-900 mb-4">Recent Commits Analysis</h3>
-                    <div className="space-y-2 max-h-96 overflow-y-auto custom-scrollbar">
-                        {commits.analyses.slice(0, 20).map((commit: any, index: number) => (
-                            <div key={index} className="p-4 bg-slate-50 rounded-xl border border-slate-200">
-                                <div className="flex items-start justify-between gap-4">
-                                    <div className="flex-1 min-w-0">
-                                        <p className="font-mono text-sm text-slate-900 mb-2 truncate">{commit.message}</p>
-                                        <div className="flex items-center gap-3 text-xs text-slate-600">
-                                            <span>{commit.author}</span>
-                                            <span>·</span>
-                                            <span>{new Date(commit.date).toLocaleDateString()}</span>
-                                        </div>
-                                        {commit.warnings.length > 0 && (
-                                            <div className="mt-2 space-y-1">
-                                                {commit.warnings.map((warning: string, i: number) => (
-                                                    <p key={i} className="text-xs text-amber-600">{warning}</p>
-                                                ))}
-                                            </div>
-                                        )}
-                                    </div>
-                                    <div className={`px-3 py-1 rounded-lg border font-bold text-sm flex-shrink-0 ${getQualityColor(commit.score)}`}>
-                                        {commit.score}
-                                    </div>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
+            {/* History Tab */}
+            {activeTab === 'history' && (
+                <GitGraphBrowser
+                    commits={commits.analyses}
+                    owner={repo.full_name.split('/')[0]}
+                    repo={repo.full_name.split('/')[1]}
+                />
             )}
 
             {/* PRs Tab */}
