@@ -14,13 +14,21 @@ export default function Dashboard({ platform, repo }: DashboardProps) {
     const [analysis, setAnalysis] = useState<any>(null);
     const [loading, setLoading] = useState(true);
     const [activeTab, setActiveTab] = useState<'overview' | 'history' | 'prs' | 'branches'>('overview');
+    const [selectedBranch, setSelectedBranch] = useState(repo?.default_branch || 'main');
+    const [commitsOnly, setCommitsOnly] = useState(false);
     const isGitLab = platform === 'gitlab';
 
     useEffect(() => {
         if (repo) {
-            fetchAnalysis();
+            setSelectedBranch(repo.default_branch);
         }
     }, [repo]);
+
+    useEffect(() => {
+        if (repo && selectedBranch) {
+            fetchAnalysis();
+        }
+    }, [repo, selectedBranch]);
 
     const fetchAnalysis = async () => {
         try {
@@ -28,10 +36,10 @@ export default function Dashboard({ platform, repo }: DashboardProps) {
             const apiUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:4000';
             let endpoint = '';
             if (isGitLab) {
-                endpoint = `${apiUrl}/api/gitlab/repos/${repo.id}/analyze?branch=${repo.default_branch}`;
+                endpoint = `${apiUrl}/api/gitlab/repos/${repo.id}/analyze?branch=${selectedBranch}`;
             } else {
                 const [owner, repoName] = repo.full_name.split('/');
-                endpoint = `${apiUrl}/api/github/repos/${owner}/${repoName}/analyze?branch=${repo.default_branch}`;
+                endpoint = `${apiUrl}/api/github/repos/${owner}/${repoName}/analyze?branch=${selectedBranch}`;
             }
 
             const response = await fetch(endpoint, { credentials: 'include' });
@@ -39,6 +47,8 @@ export default function Dashboard({ platform, repo }: DashboardProps) {
             if (response.ok) {
                 const data = await response.json();
                 setAnalysis(data);
+                // Switch to History tab if "Commits Only" was toggled manually
+                if (commitsOnly) setActiveTab('history');
             } else {
                 toast.error('Failed to analyze repository');
             }
@@ -80,27 +90,74 @@ export default function Dashboard({ platform, repo }: DashboardProps) {
 
     return (
         <div className="space-y-6">
-            {/* Tabs */}
-            <div className="flex gap-2 p-1 bg-slate-100 rounded-xl">
-                {[
-                    { id: 'overview', label: 'Overview', icon: TrendingUp },
-                    { id: 'history', label: 'History', icon: History },
-                    { id: 'prs', label: isGitLab ? 'Merge Requests' : 'Pull Requests', icon: GitPullRequest },
-                    { id: 'branches', label: 'Branches', icon: GitBranch }
-                ].map((tab) => (
+            {/* Controls */}
+            <div className="flex flex-col md:flex-row gap-4 items-center justify-between bg-white p-4 rounded-2xl border border-slate-200">
+                <div className="flex items-center gap-3 w-full md:w-auto">
+                    <div className="p-2 bg-blue-50 rounded-lg text-blue-600">
+                        <GitBranch className="w-5 h-5" />
+                    </div>
+                    <div className="flex-1 md:w-48">
+                        <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-0.5 ml-1">Select Branch</p>
+                        <select
+                            value={selectedBranch}
+                            onChange={(e) => setSelectedBranch(e.target.value)}
+                            className="w-full bg-slate-50 border-none rounded-lg font-bold text-slate-900 text-sm focus:ring-2 focus:ring-blue-500 py-1.5 px-3"
+                        >
+                            {analysis.branches.allBranches?.map((branch: string) => (
+                                <option key={branch} value={branch}>
+                                    {branch}
+                                </option>
+                            )) || <option value={selectedBranch}>{selectedBranch}</option>}
+                        </select>
+                    </div>
+                </div>
+
+                <div className="flex items-center gap-4 w-full md:w-auto border-t md:border-t-0 md:border-l border-slate-100 pt-4 md:pt-0 md:pl-6">
                     <button
-                        key={tab.id}
-                        onClick={() => setActiveTab(tab.id as any)}
-                        className={`flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg font-bold text-sm transition-all ${activeTab === tab.id
-                            ? 'bg-white text-blue-600 shadow-sm'
-                            : 'text-slate-600 hover:text-slate-900'
+                        onClick={() => {
+                            const newValue = !commitsOnly;
+                            setCommitsOnly(newValue);
+                            if (newValue) setActiveTab('history');
+                        }}
+                        className={`flex items-center gap-2 px-4 py-2 rounded-xl font-bold text-sm transition-all ${commitsOnly
+                            ? 'bg-blue-600 text-white'
+                            : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
                             }`}
                     >
-                        <tab.icon className="w-4 h-4" />
-                        {tab.label}
+                        <GitCommit className="w-4 h-4" />
+                        Commits Only
                     </button>
-                ))}
+                    {!commitsOnly && (
+                        <div className="hidden lg:block text-xs text-slate-500">
+                            Viewing full repository analysis
+                        </div>
+                    )}
+                </div>
             </div>
+
+            {/* Tabs */}
+            {!commitsOnly && (
+                <div className="flex gap-2 p-1 bg-slate-100 rounded-xl">
+                    {[
+                        { id: 'overview', label: 'Overview', icon: TrendingUp },
+                        { id: 'history', label: 'History', icon: History },
+                        { id: 'prs', label: isGitLab ? 'Merge Requests' : 'Pull Requests', icon: GitPullRequest },
+                        { id: 'branches', label: 'Branches', icon: GitBranch }
+                    ].map((tab) => (
+                        <button
+                            key={tab.id}
+                            onClick={() => setActiveTab(tab.id as any)}
+                            className={`flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg font-bold text-sm transition-all ${activeTab === tab.id
+                                ? 'bg-white text-blue-600 shadow-sm'
+                                : 'text-slate-600 hover:text-slate-900'
+                                }`}
+                        >
+                            <tab.icon className="w-4 h-4" />
+                            {tab.label}
+                        </button>
+                    ))}
+                </div>
+            )}
 
             {/* Overview Tab */}
             {activeTab === 'overview' && (
