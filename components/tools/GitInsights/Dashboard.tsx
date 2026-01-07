@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { Loader2, GitCommit, GitPullRequest, GitBranch, TrendingUp, Award, Users, Calendar, History } from 'lucide-react';
 import toast from 'react-hot-toast';
 import GitGraphBrowser from './GitGraphBrowser';
+import SearchableDropdown from './SearchableDropdown';
 
 interface DashboardProps {
     platform: 'github' | 'gitlab';
@@ -96,19 +97,12 @@ export default function Dashboard({ platform, repo }: DashboardProps) {
                     <div className="p-2 bg-blue-50 rounded-lg text-blue-600">
                         <GitBranch className="w-5 h-5" />
                     </div>
-                    <div className="flex-1 md:w-48">
-                        <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-0.5 ml-1">Select Branch</p>
-                        <select
+                    <div className="flex-1 md:w-64">
+                        <SearchableDropdown
+                            options={analysis.branches.allBranches || []}
                             value={selectedBranch}
-                            onChange={(e) => setSelectedBranch(e.target.value)}
-                            className="w-full bg-slate-50 border-none rounded-lg font-bold text-slate-900 text-sm focus:ring-2 focus:ring-blue-500 py-1.5 px-3"
-                        >
-                            {analysis.branches.allBranches?.map((branch: string) => (
-                                <option key={branch} value={branch}>
-                                    {branch}
-                                </option>
-                            )) || <option value={selectedBranch}>{selectedBranch}</option>}
-                        </select>
+                            onChange={(value) => setSelectedBranch(value)}
+                        />
                     </div>
                 </div>
 
