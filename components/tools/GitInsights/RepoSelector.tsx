@@ -22,7 +22,8 @@ export default function RepoSelector({ onSelectRepo, selectedRepo }: RepoSelecto
     const fetchRepositories = async () => {
         try {
             setLoading(true);
-            const response = await fetch('http://localhost:4000/api/github/repos?per_page=100', {
+            const apiUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:4000';
+            const response = await fetch(`${apiUrl}/api/github/repos?per_page=100`, {
                 credentials: 'include'
             });
 
@@ -126,8 +127,8 @@ export default function RepoSelector({ onSelectRepo, selectedRepo }: RepoSelecto
                                     setIsOpen(false);
                                 }}
                                 className={`w-full text-left p-4 rounded-xl border transition-all hover:shadow-md ${selectedRepo?.id === repo.id
-                                        ? 'bg-blue-50 border-blue-300 shadow-sm'
-                                        : 'bg-slate-50 border-slate-200 hover:border-blue-300 hover:bg-blue-50/50'
+                                    ? 'bg-blue-50 border-blue-300 shadow-sm'
+                                    : 'bg-slate-50 border-slate-200 hover:border-blue-300 hover:bg-blue-50/50'
                                     }`}
                             >
                                 <div className="flex items-start justify-between gap-4">

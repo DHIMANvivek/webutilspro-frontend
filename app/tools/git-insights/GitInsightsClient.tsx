@@ -51,7 +51,8 @@ export default function GitInsightsClient() {
 
     const checkAuthStatus = async () => {
         try {
-            const response = await fetch('http://localhost:4000/api/github/auth/status', {
+            const apiUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:4000';
+            const response = await fetch(`${apiUrl}/api/github/auth/status`, {
                 credentials: 'include'
             });
 
@@ -73,7 +74,8 @@ export default function GitInsightsClient() {
 
     const handleLogin = async () => {
         try {
-            const response = await fetch('http://localhost:4000/api/github/auth/login', {
+            const apiUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:4000';
+            const response = await fetch(`${apiUrl}/api/github/auth/login`, {
                 credentials: 'include'
             });
 
@@ -91,7 +93,8 @@ export default function GitInsightsClient() {
 
     const handleLogout = async () => {
         try {
-            const response = await fetch('http://localhost:4000/api/github/auth/logout', {
+            const apiUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:4000';
+            const response = await fetch(`${apiUrl}/api/github/auth/logout`, {
                 method: 'POST',
                 credentials: 'include'
             });

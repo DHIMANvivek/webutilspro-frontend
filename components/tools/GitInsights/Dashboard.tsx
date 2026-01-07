@@ -23,8 +23,9 @@ export default function Dashboard({ repo }: DashboardProps) {
         try {
             setLoading(true);
             const [owner, repoName] = repo.full_name.split('/');
+            const apiUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:4000';
             const response = await fetch(
-                `http://localhost:4000/api/github/repos/${owner}/${repoName}/analyze?branch=${repo.default_branch}`,
+                `${apiUrl}/api/github/repos/${owner}/${repoName}/analyze?branch=${repo.default_branch}`,
                 { credentials: 'include' }
             );
 
@@ -84,8 +85,8 @@ export default function Dashboard({ repo }: DashboardProps) {
                         key={tab.id}
                         onClick={() => setActiveTab(tab.id as any)}
                         className={`flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg font-bold text-sm transition-all ${activeTab === tab.id
-                                ? 'bg-white text-blue-600 shadow-sm'
-                                : 'text-slate-600 hover:text-slate-900'
+                            ? 'bg-white text-blue-600 shadow-sm'
+                            : 'text-slate-600 hover:text-slate-900'
                             }`}
                     >
                         <tab.icon className="w-4 h-4" />
