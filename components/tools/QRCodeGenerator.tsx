@@ -2,9 +2,11 @@
 
 import { useState, useRef } from 'react';
 import { QRCodeSVG } from 'qrcode.react';
+import { Upload, Loader2, CheckCircle, Info } from 'lucide-react';
 import CustomSelect from '@/components/ui/CustomSelect';
+import toast from 'react-hot-toast';
 
-type QRType = 'url' | 'text' | 'email' | 'phone' | 'sms' | 'wifi';
+type QRType = 'url' | 'text' | 'email' | 'phone' | 'sms' | 'wifi' | 'image';
 
 export default function QRCodeGenerator() {
     const [qrType, setQrType] = useState<QRType>('url');
@@ -14,6 +16,8 @@ export default function QRCodeGenerator() {
     const [bgColor, setBgColor] = useState('#ffffff');
     const [errorLevel, setErrorLevel] = useState<'L' | 'M' | 'Q' | 'H'>('M');
     const [logo, setLogo] = useState<string>('');
+    const [qrImage, setQrImage] = useState<string>(''); // For Image to QR
+    const [isUploading, setIsUploading] = useState(false);
     const [includeMargin, setIncludeMargin] = useState(true);
     const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -30,6 +34,7 @@ export default function QRCodeGenerator() {
         { value: 'phone', label: 'Phone Number' },
         { value: 'sms', label: 'SMS Message' },
         { value: 'wifi', label: 'WiFi Network' },
+        { value: 'image', label: 'Image to QR' },
     ];
 
     const wifiEncryptionOptions = [
@@ -55,6 +60,8 @@ export default function QRCodeGenerator() {
                 return `sms:${sms.number}?body=${encodeURIComponent(sms.message)}`;
             case 'wifi':
                 return `WIFI:T:${wifi.encryption};S:${wifi.ssid};P:${wifi.password};;`;
+            case 'image':
+                return qrImage;
             default:
                 return text;
         }
@@ -71,6 +78,47 @@ export default function QRCodeGenerator() {
             setLogo(event.target?.result as string);
         };
         reader.readAsDataURL(file);
+    };
+
+    const handleQRImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+
+        // Preview locally first for speed
+        const reader = new FileReader();
+        reader.onload = (event) => {
+            // We don't set qrImage yet because we want the real URL from backend
+        };
+        reader.readAsDataURL(file);
+
+        try {
+            setIsUploading(true);
+            const base64 = await new Promise((resolve) => {
+                const r = new FileReader();
+                r.onload = () => resolve(r.result);
+                r.readAsDataURL(file);
+            });
+
+            const apiUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:4000';
+            const response = await fetch(`${apiUrl}/api/qrcode/upload`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ image: base64 })
+            });
+
+            const data = await response.json();
+            if (data.success) {
+                setQrImage(data.imageUrl);
+                toast.success('Image uploaded successfully! Generating QR...');
+            } else {
+                toast.error(data.error || 'Upload failed');
+            }
+        } catch (error) {
+            console.error('Upload error:', error);
+            toast.error('Failed to upload image. Please check your connection.');
+        } finally {
+            setIsUploading(false);
+        }
     };
 
     const removeLogo = () => setLogo('');
@@ -163,7 +211,12 @@ export default function QRCodeGenerator() {
         <div className="space-y-4">
             <div className="card">
                 <div className="flex items-center justify-between mb-4">
-                    <h2 className="text-2xl font-bold text-gray-900">QR Code Generator</h2>
+                    <header>
+                        <h1 className="text-2xl font-bold text-gray-900 underline decoration-blue-500 decoration-4 underline-offset-8">
+                            Professional QR Code Generator
+                        </h1>
+                        <p className="text-sm text-slate-500 mt-2">Generate free, secure QR codes for URLs, Text, Image, WiFi & more.</p>
+                    </header>
                     <button onClick={loadExample} className="btn-secondary text-sm">
                         Load Example
                     </button>
@@ -289,6 +342,45 @@ export default function QRCodeGenerator() {
                                         options={wifiEncryptionOptions}
                                     />
                                 </div>
+                            </div>
+                        ) : qrType === 'image' ? (
+                            <div className="space-y-4">
+                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                    Upload Image for QR Code
+                                </label>
+                                <div className="border-2 border-dashed border-gray-300 rounded-xl p-8 text-center hover:border-blue-400 transition-colors bg-slate-50 relative group">
+                                    <input
+                                        type="file"
+                                        accept="image/*"
+                                        onChange={handleQRImageUpload}
+                                        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+                                        disabled={isUploading}
+                                    />
+                                    {qrImage ? (
+                                        <div className="space-y-3 relative z-20 pointer-events-none">
+                                            <img src={qrImage} alt="QR Target" className="w-32 h-32 object-cover mx-auto rounded-lg shadow-md" />
+                                            <p className="text-sm text-green-600 font-bold">✓ Image Ready</p>
+                                            <p className="text-[10px] text-slate-400 truncate px-4">{qrImage}</p>
+                                        </div>
+                                    ) : (
+                                        <div className="space-y-3 relative z-20 pointer-events-none">
+                                            <div className="w-16 h-16 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center mx-auto group-hover:scale-110 transition-transform">
+                                                {isUploading ? (
+                                                    <Loader2 className="w-8 h-8 animate-spin" />
+                                                ) : (
+                                                    <Upload className="w-8 h-8" />
+                                                )}
+                                            </div>
+                                            <div>
+                                                <p className="font-bold text-slate-900">{isUploading ? 'Uploading...' : 'Drop your image here'}</p>
+                                                <p className="text-xs text-slate-500 mt-1">PNG, JPG or WEBP (Max 5MB)</p>
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
+                                <p className="text-xs text-slate-500 italic">
+                                    The QR code will link directly to this image. The image is hosted securely on our servers.
+                                </p>
                             </div>
                         ) : null}
 
