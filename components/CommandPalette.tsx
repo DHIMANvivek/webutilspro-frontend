@@ -365,6 +365,14 @@ const TOOLS: Tool[] = [
         href: '/tools/database-architect',
         category: 'Dev',
         keywords: ['database', 'architect', 'erd', 'schema', 'sql', 'prisma', 'drizzle', 'modeling', 'canvas']
+    },
+    {
+        id: 'git-insights',
+        name: 'Git Insights',
+        description: 'Analyze GitHub repositories with commit quality scoring and visual analytics.',
+        href: '/tools/git-insights',
+        category: 'Dev',
+        keywords: ['git', 'github', 'commit', 'quality', 'analytics', 'repository', 'pr', 'pull request', 'branch', 'analysis', 'insights', 'code quality']
     }
 ];
 
