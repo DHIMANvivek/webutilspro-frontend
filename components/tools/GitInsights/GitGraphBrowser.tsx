@@ -19,13 +19,14 @@ export default function GitGraphBrowser({ commits, owner, repo }: GitGraphBrowse
     const filteredCommits = useMemo(() => {
         if (!searchTerm) return commits;
         return commits.filter(c =>
-            c.commit.message.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            c.sha.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            c.commit.author.name.toLowerCase().includes(searchTerm.toLowerCase())
+            (c.message?.toLowerCase().includes(searchTerm.toLowerCase())) ||
+            (c.sha?.toLowerCase().includes(searchTerm.toLowerCase())) ||
+            (c.author?.toLowerCase().includes(searchTerm.toLowerCase()))
         );
     }, [commits, searchTerm]);
 
     const handleRowClick = (sha: string) => {
+        if (!sha) return;
         setSelectedSha(selectedSha === sha ? null : sha);
     };
 
@@ -37,7 +38,7 @@ export default function GitGraphBrowser({ commits, owner, repo }: GitGraphBrowse
                     <History className="w-5 h-5 text-blue-600" />
                     <h3 className="font-bold text-slate-800">Repository History</h3>
                     <span className="text-xs bg-slate-200 text-slate-600 px-2 py-0.5 rounded-full font-medium">
-                        {filteredCommits.length} commits
+                        {filteredCommits?.length || 0} commits
                     </span>
                 </div>
 
@@ -69,7 +70,7 @@ export default function GitGraphBrowser({ commits, owner, repo }: GitGraphBrowse
                 </div>
 
                 <div className="relative z-0">
-                    {filteredCommits.map((commit) => (
+                    {filteredCommits?.map((commit) => (
                         <React.Fragment key={commit.sha}>
                             <div
                                 onClick={() => handleRowClick(commit.sha)}
@@ -82,33 +83,33 @@ export default function GitGraphBrowser({ commits, owner, repo }: GitGraphBrowse
                                 {/* Description */}
                                 <div className="min-w-0 pr-4">
                                     <p className={`text-sm font-medium truncate ${selectedSha === commit.sha ? 'text-blue-700' : 'text-slate-800'}`}>
-                                        {commit.commit.message.split('\n')[0]}
+                                        {commit.message?.split('\n')[0] || 'No message'}
                                     </p>
                                 </div>
 
                                 {/* Date */}
                                 <div className="text-xs text-slate-500 font-medium">
-                                    {new Date(commit.commit.author.date).toLocaleDateString([], { month: 'short', day: 'numeric', year: 'numeric' })}
+                                    {commit.date ? new Date(commit.date).toLocaleDateString([], { month: 'short', day: 'numeric', year: 'numeric' }) : 'N/A'}
                                 </div>
 
                                 {/* Author */}
                                 <div className="flex items-center gap-2 min-w-0">
                                     <div className="w-6 h-6 rounded-full bg-slate-200 border border-slate-300 flex items-center justify-center text-[10px] font-bold text-slate-600 flex-shrink-0">
-                                        {commit.commit.author.name.charAt(0)}
+                                        {commit.author?.charAt(0) || '?'}
                                     </div>
-                                    <span className="text-xs text-slate-600 truncate font-medium">{commit.commit.author.name}</span>
+                                    <span className="text-xs text-slate-600 truncate font-medium">{commit.author || 'Unknown'}</span>
                                 </div>
 
                                 {/* Commit Hash */}
                                 <div className="text-right">
                                     <span className="font-mono text-[11px] text-slate-400 group-hover:text-blue-500 transition-colors">
-                                        {commit.sha.substring(0, 7)}
+                                        {commit.sha?.substring(0, 7) || '-------'}
                                     </span>
                                 </div>
                             </div>
 
                             {/* Expanded Details */}
-                            {selectedSha === commit.sha && (
+                            {selectedSha === commit.sha && commit.sha && (
                                 <div className="px-6 bg-slate-50/50 border-y border-blue-100/50">
                                     <CommitDetailView
                                         commitSha={commit.sha}
@@ -120,7 +121,7 @@ export default function GitGraphBrowser({ commits, owner, repo }: GitGraphBrowse
                         </React.Fragment>
                     ))}
 
-                    {filteredCommits.length === 0 && (
+                    {(!filteredCommits || filteredCommits.length === 0) && (
                         <div className="p-20 text-center">
                             <History className="w-12 h-12 text-slate-200 mx-auto mb-4" />
                             <p className="text-slate-500 font-medium">No commits found matching your search</p>
