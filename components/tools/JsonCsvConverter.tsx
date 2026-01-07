@@ -1,7 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import toast from 'react-hot-toast';
+import { AlignLeft, FileJson, Trash2, ArrowRightLeft, FileDown, Copy } from 'lucide-react';
+import JsonViewer from '@/components/ui/JsonViewer';
 
 type ConversionMode = 'json-to-csv' | 'csv-to-json';
 
@@ -140,6 +142,31 @@ export default function JsonCsvConverter() {
         return JSON.stringify(data, null, 2);
     };
 
+    const parsedJson = useMemo(() => {
+        if (mode !== 'json-to-csv' || !input.trim()) return null;
+        try {
+            return JSON.parse(input);
+        } catch {
+            return null;
+        }
+    }, [input, mode]);
+
+    const prettifyJson = () => {
+        try {
+            const parsed = JSON.parse(input);
+            setInput(JSON.stringify(parsed, null, 2));
+            toast.success('JSON Prettified');
+        } catch (e) {
+            toast.error('Invalid JSON syntax');
+        }
+    };
+
+    const clearInput = () => {
+        setInput('');
+        setOutput('');
+        setError('');
+    };
+
     const convert = () => {
         if (!input.trim()) {
             setError('Please enter some data to convert');
@@ -207,24 +234,24 @@ Bob Johnson,bob@example.com,35,Chicago`);
                     </h2>
 
                     {/* Mode Toggle */}
-                    <div className="flex bg-gray-100 rounded-lg p-1">
+                    <div className="flex bg-slate-100 rounded-xl p-1.5 shadow-inner">
                         <button
                             onClick={() => setMode('json-to-csv')}
-                            className={`px-4 py-2 rounded-md font-medium transition-colors ${mode === 'json-to-csv'
-                                ? 'bg-white text-primary-600 shadow-sm'
-                                : 'text-gray-600 hover:text-gray-900'
+                            className={`px-6 py-2.5 rounded-lg font-bold text-sm transition-all duration-300 flex items-center gap-2 ${mode === 'json-to-csv'
+                                ? 'bg-white text-primary-600 shadow-md transform scale-105'
+                                : 'text-slate-500 hover:text-slate-800'
                                 }`}
                         >
-                            JSON → CSV
+                            JSON <ArrowRightLeft className="w-3.5 h-3.5" /> CSV
                         </button>
                         <button
                             onClick={() => setMode('csv-to-json')}
-                            className={`px-4 py-2 rounded-md font-medium transition-colors ${mode === 'csv-to-json'
-                                ? 'bg-white text-primary-600 shadow-sm'
-                                : 'text-gray-600 hover:text-gray-900'
+                            className={`px-6 py-2.5 rounded-lg font-bold text-sm transition-all duration-300 flex items-center gap-2 ${mode === 'csv-to-json'
+                                ? 'bg-white text-primary-600 shadow-md transform scale-105'
+                                : 'text-slate-500 hover:text-slate-800'
                                 }`}
                         >
-                            CSV → JSON
+                            CSV <ArrowRightLeft className="w-3.5 h-3.5" /> JSON
                         </button>
                     </div>
                 </div>
@@ -233,52 +260,94 @@ Bob Johnson,bob@example.com,35,Chicago`);
                     {/* Input */}
                     <div>
                         <div className="flex items-center justify-between mb-2">
-                            <label htmlFor="input" className="block text-sm font-medium text-gray-700">
+                            <label htmlFor="input" className="block text-sm font-medium text-gray-700 flex items-center gap-2">
+                                <AlignLeft className="w-4 h-4 text-slate-400" />
                                 Input ({mode === 'json-to-csv' ? 'JSON' : 'CSV'})
                             </label>
-                            <button
-                                onClick={loadExample}
-                                className="text-sm text-primary-600 hover:text-primary-700 font-medium"
-                            >
-                                Load Example
-                            </button>
+                            <div className="flex items-center gap-3">
+                                {mode === 'json-to-csv' && input.trim() && (
+                                    <button
+                                        onClick={prettifyJson}
+                                        className="text-xs text-primary-600 hover:text-primary-700 font-medium flex items-center gap-1"
+                                    >
+                                        <FileJson className="w-3.5 h-3.5" /> Prettify
+                                    </button>
+                                )}
+                                <button
+                                    onClick={loadExample}
+                                    className="text-xs text-primary-600 hover:text-primary-700 font-medium"
+                                >
+                                    Load Example
+                                </button>
+                                <button
+                                    onClick={clearInput}
+                                    className="text-xs text-red-500 hover:text-red-600 font-medium flex items-center gap-1"
+                                >
+                                    <Trash2 className="w-3.5 h-3.5" /> Clear
+                                </button>
+                            </div>
                         </div>
-                        <textarea
-                            id="input"
-                            value={input}
-                            onChange={(e) => setInput(e.target.value)}
-                            className="textarea-field font-mono text-sm"
-                            placeholder={mode === 'json-to-csv'
-                                ? 'Paste your JSON here...'
-                                : 'Paste your CSV here...'}
-                            rows={15}
-                        />
+                        <div className="relative group">
+                            <textarea
+                                id="input"
+                                value={input}
+                                onChange={(e) => setInput(e.target.value)}
+                                className="textarea-field font-mono text-sm min-h-[400px]"
+                                placeholder={mode === 'json-to-csv'
+                                    ? 'Paste your JSON here...'
+                                    : 'Paste your CSV here...'}
+                                rows={15}
+                            />
+                            {parsedJson && (
+                                <div className="absolute top-2 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
+                                    <span className="bg-green-100 text-green-700 text-[10px] font-bold px-2 py-1 rounded-full border border-green-200 uppercase tracking-wider">
+                                        Valid JSON
+                                    </span>
+                                </div>
+                            )}
+                        </div>
+
+                        {/* Collapsable JSON Preview */}
+                        {parsedJson && (
+                            <div className="mt-4 border border-slate-200 rounded-xl overflow-hidden">
+                                <div className="bg-slate-50 px-4 py-2 border-b border-slate-200 flex items-center justify-between">
+                                    <span className="text-xs font-bold text-slate-500 uppercase tracking-tighter flex items-center gap-2">
+                                        <FileJson className="w-3.5 h-3.5" /> Collapsable Tree View (Click to toggle)
+                                    </span>
+                                </div>
+                                <div className="p-4 max-h-[400px] overflow-y-auto bg-white custom-scrollbar shadow-inner">
+                                    <JsonViewer data={parsedJson} />
+                                </div>
+                            </div>
+                        )}
                     </div>
 
                     {/* Output */}
                     <div>
-                        <label htmlFor="output" className="block text-sm font-medium text-gray-700 mb-2">
-                            Output ({mode === 'json-to-csv' ? 'CSV' : 'JSON'})
-                        </label>
+                        <div className="flex items-center justify-between mb-2">
+                            <label htmlFor="output" className="block text-sm font-medium text-gray-700 flex items-center gap-2">
+                                <FileDown className="w-4 h-4 text-slate-400" />
+                                Output ({mode === 'json-to-csv' ? 'CSV' : 'JSON'})
+                            </label>
+                            {output && (
+                                <div className="flex gap-2">
+                                    <button onClick={copyToClipboard} className="text-xs text-primary-600 hover:text-primary-700 font-medium flex items-center gap-1">
+                                        <Copy className="w-3.5 h-3.5" /> Copy
+                                    </button>
+                                    <button onClick={downloadFile} className="text-xs text-primary-600 hover:text-primary-700 font-medium flex items-center gap-1">
+                                        <FileDown className="w-3.5 h-3.5" /> Download
+                                    </button>
+                                </div>
+                            )}
+                        </div>
                         <textarea
                             id="output"
                             value={output}
                             readOnly
-                            className="textarea-field font-mono text-sm bg-gray-50"
+                            className="textarea-field font-mono text-sm bg-gray-50 min-h-[400px]"
                             placeholder="Converted output will appear here..."
                             rows={15}
                         />
-
-                        {output && (
-                            <div className="flex gap-2 mt-3">
-                                <button onClick={copyToClipboard} className="btn-secondary text-sm">
-                                    📋 Copy
-                                </button>
-                                <button onClick={downloadFile} className="btn-secondary text-sm">
-                                    ⬇️ Download
-                                </button>
-                            </div>
-                        )}
                     </div>
                 </div>
 

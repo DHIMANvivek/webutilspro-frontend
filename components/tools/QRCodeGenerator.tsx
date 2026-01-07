@@ -17,6 +17,7 @@ export default function QRCodeGenerator() {
     const [errorLevel, setErrorLevel] = useState<'L' | 'M' | 'Q' | 'H'>('M');
     const [logo, setLogo] = useState<string>('');
     const [qrImage, setQrImage] = useState<string>(''); // For Image to QR
+    const [localPreview, setLocalPreview] = useState<string>(''); // Instant preview
     const [isUploading, setIsUploading] = useState(false);
     const [includeMargin, setIncludeMargin] = useState(true);
     const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -85,11 +86,8 @@ export default function QRCodeGenerator() {
         if (!file) return;
 
         // Preview locally first for speed
-        const reader = new FileReader();
-        reader.onload = (event) => {
-            // We don't set qrImage yet because we want the real URL from backend
-        };
-        reader.readAsDataURL(file);
+        const localUrl = URL.createObjectURL(file);
+        setLocalPreview(localUrl);
 
         try {
             setIsUploading(true);
@@ -362,16 +360,20 @@ export default function QRCodeGenerator() {
                                         className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
                                         disabled={isUploading}
                                     />
-                                    {qrImage ? (
+                                    {qrImage || localPreview ? (
                                         <div className="space-y-3 relative z-20 pointer-events-none fade-in">
                                             <div className="relative inline-block">
-                                                <img src={qrImage} alt="QR Target" className="w-40 h-40 object-cover mx-auto rounded-xl shadow-2xl border-4 border-white" />
+                                                <img
+                                                    src={localPreview || qrImage}
+                                                    alt="QR Target"
+                                                    className="w-40 h-40 object-cover mx-auto rounded-xl shadow-2xl border-4 border-white"
+                                                />
                                                 <div className="absolute -top-2 -right-2 w-8 h-8 bg-green-500 text-white rounded-full flex items-center justify-center shadow-lg border-2 border-white">
                                                     <CheckCircle className="w-5 h-5" />
                                                 </div>
                                             </div>
                                             <p className="text-sm text-green-600 font-bold">✓ Image Ready</p>
-                                            <p className="text-[10px] text-slate-400 truncate px-4 bg-white/50 py-1 rounded-full">{qrImage}</p>
+                                            <p className="text-[10px] text-slate-400 truncate px-4 bg-white/50 py-1 rounded-full">{qrImage || 'Processing...'}</p>
                                         </div>
                                     ) : (
                                         <div className="space-y-3 relative z-20 pointer-events-none">
