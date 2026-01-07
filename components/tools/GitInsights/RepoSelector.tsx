@@ -5,11 +5,12 @@ import { Search, Star, GitFork, Code, Loader2, ChevronDown } from 'lucide-react'
 import toast from 'react-hot-toast';
 
 interface RepoSelectorProps {
+    platform: 'github' | 'gitlab';
     onSelectRepo: (repo: any) => void;
     selectedRepo: any;
 }
 
-export default function RepoSelector({ onSelectRepo, selectedRepo }: RepoSelectorProps) {
+export default function RepoSelector({ platform, onSelectRepo, selectedRepo }: RepoSelectorProps) {
     const [repos, setRepos] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
@@ -23,7 +24,7 @@ export default function RepoSelector({ onSelectRepo, selectedRepo }: RepoSelecto
         try {
             setLoading(true);
             const apiUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:4000';
-            const response = await fetch(`${apiUrl}/api/github/repos?per_page=100`, {
+            const response = await fetch(`${apiUrl}/api/${platform}/repos?per_page=100`, {
                 credentials: 'include'
             });
 

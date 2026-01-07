@@ -6,13 +6,15 @@ import toast from 'react-hot-toast';
 import GitGraphBrowser from './GitGraphBrowser';
 
 interface DashboardProps {
+    platform: 'github' | 'gitlab';
     repo: any;
 }
 
-export default function Dashboard({ repo }: DashboardProps) {
+export default function Dashboard({ platform, repo }: DashboardProps) {
     const [analysis, setAnalysis] = useState<any>(null);
     const [loading, setLoading] = useState(true);
     const [activeTab, setActiveTab] = useState<'overview' | 'history' | 'prs' | 'branches'>('overview');
+    const isGitLab = platform === 'gitlab';
 
     useEffect(() => {
         if (repo) {
@@ -23,12 +25,16 @@ export default function Dashboard({ repo }: DashboardProps) {
     const fetchAnalysis = async () => {
         try {
             setLoading(true);
-            const [owner, repoName] = repo.full_name.split('/');
             const apiUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:4000';
-            const response = await fetch(
-                `${apiUrl}/api/github/repos/${owner}/${repoName}/analyze?branch=${repo.default_branch}`,
-                { credentials: 'include' }
-            );
+            let endpoint = '';
+            if (isGitLab) {
+                endpoint = `${apiUrl}/api/gitlab/repos/${repo.id}/analyze?branch=${repo.default_branch}`;
+            } else {
+                const [owner, repoName] = repo.full_name.split('/');
+                endpoint = `${apiUrl}/api/github/repos/${owner}/${repoName}/analyze?branch=${repo.default_branch}`;
+            }
+
+            const response = await fetch(endpoint, { credentials: 'include' });
 
             if (response.ok) {
                 const data = await response.json();
@@ -79,7 +85,7 @@ export default function Dashboard({ repo }: DashboardProps) {
                 {[
                     { id: 'overview', label: 'Overview', icon: TrendingUp },
                     { id: 'history', label: 'History', icon: History },
-                    { id: 'prs', label: 'Pull Requests', icon: GitPullRequest },
+                    { id: 'prs', label: isGitLab ? 'Merge Requests' : 'Pull Requests', icon: GitPullRequest },
                     { id: 'branches', label: 'Branches', icon: GitBranch }
                 ].map((tab) => (
                     <button
@@ -201,9 +207,10 @@ export default function Dashboard({ repo }: DashboardProps) {
             {/* History Tab */}
             {activeTab === 'history' && (
                 <GitGraphBrowser
+                    platform={platform}
                     commits={commits.analyses}
-                    owner={repo.full_name.split('/')[0]}
-                    repo={repo.full_name.split('/')[1]}
+                    owner={isGitLab ? repo.full_name : repo.full_name.split('/')[0]}
+                    repo={isGitLab ? repo.id : repo.full_name.split('/')[1]}
                 />
             )}
 
@@ -211,10 +218,10 @@ export default function Dashboard({ repo }: DashboardProps) {
             {activeTab === 'prs' && (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="bg-white rounded-2xl border border-slate-200 p-6">
-                        <h3 className="text-lg font-bold text-slate-900 mb-4">PR Metrics</h3>
+                        <h3 className="text-lg font-bold text-slate-900 mb-4">{isGitLab ? 'MR Metrics' : 'PR Metrics'}</h3>
                         <div className="space-y-4">
                             <div>
-                                <p className="text-sm text-slate-600 mb-1">Total PRs</p>
+                                <p className="text-sm text-slate-600 mb-1">Total {isGitLab ? 'MRs' : 'PRs'}</p>
                                 <p className="text-3xl font-black text-slate-900">{pullRequests.totalPRs}</p>
                             </div>
                             <div>
@@ -229,7 +236,7 @@ export default function Dashboard({ repo }: DashboardProps) {
                     </div>
 
                     <div className="bg-white rounded-2xl border border-slate-200 p-6">
-                        <h3 className="text-lg font-bold text-slate-900 mb-4">PR Status</h3>
+                        <h3 className="text-lg font-bold text-slate-900 mb-4">{isGitLab ? 'MR Status' : 'PR Status'}</h3>
                         <div className="space-y-3">
                             <div className="flex items-center justify-between p-3 bg-green-50 rounded-xl">
                                 <span className="font-bold text-green-900">Merged</span>
@@ -245,7 +252,7 @@ export default function Dashboard({ repo }: DashboardProps) {
                             </div>
                             {pullRequests.stalePRs > 0 && (
                                 <div className="flex items-center justify-between p-3 bg-amber-50 rounded-xl border border-amber-200">
-                                    <span className="font-bold text-amber-900">Stale (30+ days)</span>
+                                    <span className="font-bold text-amber-900">Stale {isGitLab ? 'MRs' : 'PRs'} (30+ days)</span>
                                     <span className="text-2xl font-black text-amber-600">{pullRequests.stalePRs}</span>
                                 </div>
                             )}

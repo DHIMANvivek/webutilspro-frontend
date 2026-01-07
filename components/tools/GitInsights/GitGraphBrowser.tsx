@@ -6,12 +6,13 @@ import RepoGraph from './RepoGraph';
 import CommitDetailView from './CommitDetailView';
 
 interface GitGraphBrowserProps {
+    platform: 'github' | 'gitlab';
     commits: any[];
     owner: string;
     repo: string;
 }
 
-export default function GitGraphBrowser({ commits, owner, repo }: GitGraphBrowserProps) {
+export default function GitGraphBrowser({ platform, commits, owner, repo }: GitGraphBrowserProps) {
     const [selectedSha, setSelectedSha] = useState<string | null>(null);
     const [searchTerm, setSearchTerm] = useState('');
     const rowHeight = 48;
@@ -112,6 +113,7 @@ export default function GitGraphBrowser({ commits, owner, repo }: GitGraphBrowse
                             {selectedSha === commit.sha && commit.sha && (
                                 <div className="px-6 bg-slate-50/50 border-y border-blue-100/50">
                                     <CommitDetailView
+                                        platform={platform}
                                         commitSha={commit.sha}
                                         owner={owner}
                                         repo={repo}

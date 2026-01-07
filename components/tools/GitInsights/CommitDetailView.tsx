@@ -5,12 +5,13 @@ import { ChevronRight, ChevronDown, FileText, Plus, Minus, GitCommit, User, Cale
 import FileDiffViewer from './FileDiffViewer';
 
 interface CommitDetailViewProps {
+    platform: 'github' | 'gitlab';
     commitSha: string;
     owner: string;
     repo: string;
 }
 
-export default function CommitDetailView({ commitSha, owner, repo }: CommitDetailViewProps) {
+export default function CommitDetailView({ platform, commitSha, owner, repo }: CommitDetailViewProps) {
     const [details, setDetails] = useState<any>(null);
     const [loading, setLoading] = useState(true);
     const [selectedFile, setSelectedFile] = useState<any>(null);
@@ -23,10 +24,11 @@ export default function CommitDetailView({ commitSha, owner, repo }: CommitDetai
         try {
             setLoading(true);
             const apiUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:4000';
-            const response = await fetch(
-                `${apiUrl}/api/github/repos/${owner}/${repo}/commits/${commitSha}`,
-                { credentials: 'include' }
-            );
+            const endpoint = platform === 'gitlab'
+                ? `${apiUrl}/api/gitlab/repos/${repo}/commits/${commitSha}`
+                : `${apiUrl}/api/github/repos/${owner}/${repo}/commits/${commitSha}`;
+
+            const response = await fetch(endpoint, { credentials: 'include' });
 
             if (response.ok) {
                 const data = await response.json();
