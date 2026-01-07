@@ -2,7 +2,7 @@
 
 import { useState, useRef } from 'react';
 import { QRCodeSVG } from 'qrcode.react';
-import { Upload, Loader2, CheckCircle, Info } from 'lucide-react';
+import { Upload, Loader2, CheckCircle, Info, Sparkles } from 'lucide-react';
 import CustomSelect from '@/components/ui/CustomSelect';
 import toast from 'react-hot-toast';
 
@@ -34,7 +34,7 @@ export default function QRCodeGenerator() {
         { value: 'phone', label: 'Phone Number' },
         { value: 'sms', label: 'SMS Message' },
         { value: 'wifi', label: 'WiFi Network' },
-        { value: 'image', label: 'Image to QR' },
+        { value: 'image', label: 'Image to QR (NEW)' },
     ];
 
     const wifiEncryptionOptions = [
@@ -345,10 +345,16 @@ export default function QRCodeGenerator() {
                             </div>
                         ) : qrType === 'image' ? (
                             <div className="space-y-4">
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
-                                    Upload Image for QR Code
+                                <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center justify-between">
+                                    <span>Upload Image for QR Code</span>
+                                    <span className="flex items-center gap-1 px-2 py-0.5 bg-blue-600 text-[10px] font-bold text-white rounded-full animate-pulse shadow-lg shadow-blue-500/50">
+                                        <Sparkles className="w-2.5 h-2.5" /> NEW FEATURE
+                                    </span>
                                 </label>
-                                <div className="border-2 border-dashed border-gray-300 rounded-xl p-8 text-center hover:border-blue-400 transition-colors bg-slate-50 relative group">
+                                <div className="border-2 border-dashed border-gray-300 rounded-xl p-8 text-center hover:border-blue-500 transition-all bg-slate-50 relative group overflow-hidden shadow-inner active:scale-[0.98]">
+                                    {/* Animated background glow */}
+                                    <div className="absolute inset-0 bg-blue-400/5 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
+
                                     <input
                                         type="file"
                                         accept="image/*"
@@ -357,23 +363,28 @@ export default function QRCodeGenerator() {
                                         disabled={isUploading}
                                     />
                                     {qrImage ? (
-                                        <div className="space-y-3 relative z-20 pointer-events-none">
-                                            <img src={qrImage} alt="QR Target" className="w-32 h-32 object-cover mx-auto rounded-lg shadow-md" />
+                                        <div className="space-y-3 relative z-20 pointer-events-none fade-in">
+                                            <div className="relative inline-block">
+                                                <img src={qrImage} alt="QR Target" className="w-40 h-40 object-cover mx-auto rounded-xl shadow-2xl border-4 border-white" />
+                                                <div className="absolute -top-2 -right-2 w-8 h-8 bg-green-500 text-white rounded-full flex items-center justify-center shadow-lg border-2 border-white">
+                                                    <CheckCircle className="w-5 h-5" />
+                                                </div>
+                                            </div>
                                             <p className="text-sm text-green-600 font-bold">✓ Image Ready</p>
-                                            <p className="text-[10px] text-slate-400 truncate px-4">{qrImage}</p>
+                                            <p className="text-[10px] text-slate-400 truncate px-4 bg-white/50 py-1 rounded-full">{qrImage}</p>
                                         </div>
                                     ) : (
                                         <div className="space-y-3 relative z-20 pointer-events-none">
-                                            <div className="w-16 h-16 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center mx-auto group-hover:scale-110 transition-transform">
+                                            <div className={`w-20 h-20 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mx-auto group-hover:scale-110 transition-all duration-300 shadow-sm ${!isUploading ? 'animate-bounce-subtle shadow-blue-200' : ''}`}>
                                                 {isUploading ? (
-                                                    <Loader2 className="w-8 h-8 animate-spin" />
+                                                    <Loader2 className="w-10 h-10 animate-spin" />
                                                 ) : (
-                                                    <Upload className="w-8 h-8" />
+                                                    <Upload className="w-10 h-10" />
                                                 )}
                                             </div>
-                                            <div>
-                                                <p className="font-bold text-slate-900">{isUploading ? 'Uploading...' : 'Drop your image here'}</p>
-                                                <p className="text-xs text-slate-500 mt-1">PNG, JPG or WEBP (Max 5MB)</p>
+                                            <div className="space-y-1">
+                                                <p className="font-bold text-slate-900 text-lg">{isUploading ? 'Uploading Image...' : 'Drop your image here'}</p>
+                                                <p className="text-xs text-slate-500">PNG, JPG or WEBP (Unlimited hosting)</p>
                                             </div>
                                         </div>
                                     )}
@@ -545,6 +556,25 @@ export default function QRCodeGenerator() {
                 </div>
             </div>
 
+            <style jsx>{`
+                canvas {
+                    image-rendering: pixelated;
+                }
+                @keyframes bounce-subtle {
+                    0%, 100% { transform: translateY(0); }
+                    50% { transform: translateY(-5px); }
+                }
+                .animate-bounce-subtle {
+                    animation: bounce-subtle 2s infinite ease-in-out;
+                }
+                .fade-in {
+                    animation: fadeIn 0.5s ease-out;
+                }
+                @keyframes fadeIn {
+                    from { opacity: 0; transform: scale(0.95); }
+                    to { opacity: 1; transform: scale(1); }
+                }
+            `}</style>
             <canvas ref={canvasRef} className="hidden" />
         </div>
     );
