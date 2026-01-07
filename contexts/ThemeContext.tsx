@@ -3,7 +3,7 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 
 type Theme = 'light' | 'dark';
-// cool
+
 interface ThemeContextType {
     theme: Theme;
     toggleTheme: () => void;
