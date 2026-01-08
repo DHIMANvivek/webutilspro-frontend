@@ -127,7 +127,7 @@ export default function WebhookInspector() {
 
     const filteredRequests = requests.filter(req =>
         req.method.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        JSON.stringify(req.body).toLowerCase().includes(searchQuery.toLowerCase())
+        (req.body ? JSON.stringify(req.body).toLowerCase() : '').includes(searchQuery.toLowerCase())
     );
 
     return (
@@ -249,7 +249,7 @@ export default function WebhookInspector() {
                                             <div className={`text-xs font-medium truncate
                                                 ${selectedRequest?._id === req._id ? 'text-white' : 'text-slate-700'}
                                             `}>
-                                                {Object.keys(req.body).length > 0 ? JSON.stringify(req.body) : 'No payload'}
+                                                {req.body && Object.keys(req.body).length > 0 ? JSON.stringify(req.body) : 'No payload'}
                                             </div>
                                         </div>
                                         <ChevronRight className={`w-4 h-4 transition-transform group-hover:translate-x-1
@@ -319,7 +319,7 @@ export default function WebhookInspector() {
                                                     </tr>
                                                 </thead>
                                                 <tbody className="divide-y divide-slate-100 text-xs font-mono">
-                                                    {Object.entries(selectedRequest.headers).map(([k, v]) => (
+                                                    {Object.entries(selectedRequest.headers || {}).map(([k, v]) => (
                                                         <tr key={k} className="hover:bg-slate-50/50 transition-colors">
                                                             <td className="px-4 py-3 text-indigo-600 font-bold whitespace-nowrap">{k}</td>
                                                             <td className="px-4 py-3 text-slate-600 break-all">{v}</td>
