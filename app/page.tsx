@@ -48,7 +48,8 @@ const DEFAULT_TOOLS = [
     { id: 'sql-performance-architect', name: 'SQL Performance Architect', description: 'Visualize Postgres EXPLAIN plans with an interactive heatmap execution tree.', icon: '📊', href: '/tools/sql-performance-architect', category: 'Database' },
     { id: 'steam-region-pricing', name: 'Steam Pricing Explorer', description: 'Compare Steam game prices across global regions to find the best deals.', icon: '🌍', href: '/tools/steam-region-pricing', category: 'Utilities' },
     { id: 'passport-visa-map', name: 'Passport Visa Map', description: 'Visualize global travel freedom and visa requirements for your passport.', icon: '🛂', href: '/tools/passport-visa-map', category: 'Travel' },
-    { id: 'jwt-security-audit', name: 'JWT Security Auditor', description: 'Simulate breaches and test JWT security with active attacks.', icon: '🛡️', href: '/tools/jwt-security-audit', category: 'Security' }
+    { id: 'jwt-security-audit', name: 'JWT Security Auditor', description: 'Simulate breaches and test JWT security with active attacks.', icon: '🛡️', href: '/tools/jwt-security-audit', category: 'Security' },
+    { id: 'webhook-inspector', name: 'Webhook Inspector', description: 'Capture and debug incoming HTTP requests in real-time with zero configuration.', icon: '🌐', href: '/tools/webhook-inspector', category: 'Developer' },
 ];
 
 import RoadmapBackground from '@/components/RoadmapBackground';

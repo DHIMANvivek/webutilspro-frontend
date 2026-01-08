@@ -31,7 +31,8 @@ import {
     Key,
     Files,
     Bell,
-    Mic
+    Mic,
+    Globe
 } from 'lucide-react';
 
 const FEATURED_TOOLS = [
@@ -88,6 +89,15 @@ const FEATURED_TOOLS = [
         icon: FileType,
         color: 'text-rose-500',
         bg: 'bg-rose-500/10'
+    },
+    {
+        id: 'webhook-inspector',
+        name: 'Webhook Inspector',
+        description: 'Capture and debug incoming HTTP requests.',
+        href: '/tools/webhook-inspector',
+        icon: Globe,
+        color: 'text-emerald-500',
+        bg: 'bg-emerald-500/10'
     },
     {
         id: 'push-notifications',
@@ -285,7 +295,12 @@ const TOOL_INSIGHTS: Record<string, { title: string; features: string[]; icon: a
         title: 'Speech Scribe',
         features: ['Real-time Web Speech API', 'Local-only privacy (No Server)', 'Instant txt export'],
         icon: Mic, color: 'text-red-500', bg: 'bg-red-500/10'
-    }
+    },
+    'webhook-inspector': {
+        title: 'Request Debugging',
+        features: ['Instant bucket generation', 'Real-time payload capture', 'Header inspection'],
+        icon: Globe, color: 'text-emerald-500', bg: 'bg-emerald-500/10'
+    },
 };
 
 export default function ToolsShowcase() {

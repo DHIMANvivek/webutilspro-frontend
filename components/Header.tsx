@@ -230,6 +230,15 @@ export default function Header() {
                                                     </span>
                                                     WooCommerce
                                                 </Link>
+                                                <Link onClick={() => setIsToolsOpen(false)} href="/tools/webhook-inspector" className="flex items-center justify-between px-3 py-2 text-sm text-gray-700 hover:bg-emerald-50 hover:text-emerald-600 rounded-xl transition-all group/item">
+                                                    <div className="flex items-center gap-3">
+                                                        <span className="p-1.5 rounded-lg bg-emerald-50 text-emerald-600 group-hover/item:bg-emerald-600 group-hover/item:text-white transition-colors">
+                                                            <Globe className="w-3.5 h-3.5" />
+                                                        </span>
+                                                        Webhook Inspector
+                                                    </div>
+                                                    <span className="bg-blue-600 text-[8px] font-black text-white px-1.5 py-0.5 rounded-full animate-pulse shadow-sm">NEW</span>
+                                                </Link>
                                             </div>
                                         </div>
 
@@ -367,8 +376,7 @@ export default function Header() {
                                     {[
                                         { href: '/tools/ai-error-explainer', label: 'AI Error', icon: Sparkles, color: 'text-blue-500' },
                                         { href: '/tools/regex-tester', label: 'Regex', icon: Code, color: 'text-purple-500' },
-                                        { href: '/tools/json-to-csv', label: 'JSON/CSV', icon: Database, color: 'text-emerald-500' },
-                                        { href: '/tools/woocommerce', label: 'WooCom', icon: ShoppingCart, color: 'text-orange-500' },
+                                        { href: '/tools/webhook-inspector', label: 'Webhooks', icon: Globe, color: 'text-emerald-500' },
                                         { href: '/tools/tailwind-animations', label: 'Tailwind', icon: Sparkles, color: 'text-pink-500' },
                                         { href: '/tools/prompt-optimizer', label: 'Prompt', icon: Zap, color: 'text-amber-500' },
                                     ].map((tool) => {

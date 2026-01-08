@@ -373,7 +373,15 @@ const TOOLS: Tool[] = [
         href: '/tools/git-insights',
         category: 'Dev',
         keywords: ['git', 'github', 'commit', 'quality', 'analytics', 'repository', 'pr', 'pull request', 'branch', 'analysis', 'insights', 'code quality']
-    }
+    },
+    {
+        id: 'webhook-inspector',
+        name: 'Webhook Inspector',
+        description: 'Real-time HTTP request capture and debugging.',
+        href: '/tools/webhook-inspector',
+        category: 'Dev',
+        keywords: ['webhook', 'http', 'request', 'debug', 'postman', 'capture', 'post', 'get', 'inspect']
+    },
 ];
 
 export default function CommandPalette() {
