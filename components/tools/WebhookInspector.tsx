@@ -127,7 +127,8 @@ export default function WebhookInspector() {
 
     const filteredRequests = requests.filter(req =>
         req.method.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        (req.body ? JSON.stringify(req.body).toLowerCase() : '').includes(searchQuery.toLowerCase())
+        (req.body ? JSON.stringify(req.body).toLowerCase() : '').includes(searchQuery.toLowerCase()) ||
+        (req.query ? JSON.stringify(req.query).toLowerCase() : '').includes(searchQuery.toLowerCase())
     );
 
     return (
@@ -249,7 +250,11 @@ export default function WebhookInspector() {
                                             <div className={`text-xs font-medium truncate
                                                 ${selectedRequest?._id === req._id ? 'text-white' : 'text-slate-700'}
                                             `}>
-                                                {req.body && Object.keys(req.body).length > 0 ? JSON.stringify(req.body) : 'No payload'}
+                                                {req.body && Object.keys(req.body).length > 0
+                                                    ? JSON.stringify(req.body)
+                                                    : (req.query && Object.keys(req.query).length > 0
+                                                        ? `Query: ${JSON.stringify(req.query)}`
+                                                        : 'No payload')}
                                             </div>
                                         </div>
                                         <ChevronRight className={`w-4 h-4 transition-transform group-hover:translate-x-1
@@ -288,22 +293,54 @@ export default function WebhookInspector() {
 
                                 <div className="flex-1 overflow-y-auto custom-scrollbar p-6 space-y-8">
                                     {/* Body */}
-                                    <section className="space-y-3">
-                                        <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-2">
-                                            <Database className="w-3 h-3" /> Payload (Body)
-                                        </h4>
-                                        <div className="bg-slate-900 rounded-2xl p-6 font-mono text-sm text-indigo-300 shadow-inner group relative">
-                                            <button
-                                                onClick={() => copyToClipboard(JSON.stringify(selectedRequest.body, null, 2))}
-                                                className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity p-2 bg-white/10 hover:bg-white/20 rounded-lg"
-                                            >
-                                                <Copy className="w-4 h-4" />
-                                            </button>
-                                            <pre className="whitespace-pre-wrap">
-                                                {JSON.stringify(selectedRequest.body, null, 2)}
-                                            </pre>
-                                        </div>
-                                    </section>
+                                    {selectedRequest.body && Object.keys(selectedRequest.body).length > 0 && (
+                                        <section className="space-y-3">
+                                            <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-2">
+                                                <Database className="w-3 h-3" /> Payload (Body)
+                                            </h4>
+                                            <div className="bg-slate-900 rounded-2xl p-6 font-mono text-sm text-indigo-300 shadow-inner group relative">
+                                                <button
+                                                    onClick={() => copyToClipboard(JSON.stringify(selectedRequest.body, null, 2))}
+                                                    className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity p-2 bg-white/10 hover:bg-white/20 rounded-lg"
+                                                >
+                                                    <Copy className="w-4 h-4" />
+                                                </button>
+                                                <pre className="whitespace-pre-wrap">
+                                                    {JSON.stringify(selectedRequest.body, null, 2)}
+                                                </pre>
+                                            </div>
+                                        </section>
+                                    )}
+
+                                    {/* Query Parameters */}
+                                    {selectedRequest.query && Object.keys(selectedRequest.query).length > 0 && (
+                                        <section className="space-y-3">
+                                            <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-2">
+                                                <Globe className="w-3 h-3" /> Query Parameters
+                                            </h4>
+                                            <div className="bg-slate-50 border border-slate-100 rounded-2xl p-6 font-mono text-sm text-slate-600 shadow-inner group relative">
+                                                <button
+                                                    onClick={() => copyToClipboard(JSON.stringify(selectedRequest.query, null, 2))}
+                                                    className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity p-2 bg-slate-200/50 hover:bg-slate-200 rounded-lg"
+                                                >
+                                                    <Copy className="w-4 h-4" />
+                                                </button>
+                                                <pre className="whitespace-pre-wrap">
+                                                    {JSON.stringify(selectedRequest.query, null, 2)}
+                                                </pre>
+                                            </div>
+                                        </section>
+                                    )}
+
+                                    {(!selectedRequest.body || Object.keys(selectedRequest.body).length === 0) &&
+                                        (!selectedRequest.query || Object.keys(selectedRequest.query).length === 0) && (
+                                            <div className="flex flex-col items-center justify-center p-12 text-center space-y-4 opacity-30 border-2 border-dashed border-slate-100 rounded-3xl">
+                                                <div className="w-16 h-16 bg-slate-100 rounded-2xl flex items-center justify-center">
+                                                    <Database className="w-8 h-8 text-slate-400" />
+                                                </div>
+                                                <p className="text-sm font-bold text-slate-800">No Payload or Query Data</p>
+                                            </div>
+                                        )}
 
                                     {/* Headers */}
                                     <section className="space-y-3">
