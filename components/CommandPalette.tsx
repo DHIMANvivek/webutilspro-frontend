@@ -390,6 +390,14 @@ const TOOLS: Tool[] = [
         category: 'Dev',
         keywords: ['webhook', 'http', 'request', 'debug', 'postman', 'capture', 'post', 'get', 'inspect']
     },
+    {
+        id: 'algo-rhythm',
+        name: 'AlgoRhythm (3D Sorting)',
+        description: 'Visualize sorting algorithms in 3D with procedural audio.',
+        href: '/tools/algo-rhythm',
+        category: 'Dev',
+        keywords: ['sort', 'algorithm', 'bubble', 'merge', 'quick', '3d', 'audio', 'visualizer', 'cs', 'learn']
+    },
 ];
 
 export default function CommandPalette() {

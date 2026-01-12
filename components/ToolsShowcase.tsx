@@ -107,6 +107,24 @@ const FEATURED_TOOLS = [
         icon: Bell,
         color: 'text-blue-600',
         bg: 'bg-blue-600/10'
+    },
+    {
+        id: 'algo-rhythm',
+        name: 'AlgoRhythm',
+        description: '3D Sorting Visualizer.',
+        href: '/tools/algo-rhythm',
+        icon: Sparkles,
+        color: 'text-indigo-500',
+        bg: 'bg-indigo-500/10'
+    },
+    {
+        id: 'cyber-trace',
+        name: 'Cyber Trace',
+        description: '3D Network Mapper.',
+        href: '/tools/cyber-trace',
+        icon: Globe,
+        color: 'text-cyan-500',
+        bg: 'bg-cyan-500/10'
     }
 ];
 
