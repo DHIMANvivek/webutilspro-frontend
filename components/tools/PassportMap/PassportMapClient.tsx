@@ -11,7 +11,7 @@ import { Search, Map as MapIcon, Globe, Shield, AlertTriangle, CheckCircle2, Che
 export default function PassportMapClient() {
     const [passports, setPassports] = useState<string[]>([]);
     const [selectedPassport, setSelectedPassport] = useState<string>('United States'); // Default US
-    const [requirements, setRequirements] = useState<Record<string, string>>({});
+    const [requirements, setRequirements] = useState<Record<string, { status: string, name: string }>>({});
     const [loading, setLoading] = useState(true);
     const [searchDest, setSearchDest] = useState('');
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -51,31 +51,48 @@ export default function PassportMapClient() {
         const total = Object.keys(requirements).length;
         if (total === 0) return { free: 0, voa: 0, required: 0, score: 0 };
 
-        const free = Object.values(requirements).filter(s => s === 'visa-free').length;
-        const voa = Object.values(requirements).filter(s => s === 'visa-on-arrival').length;
-        const required = Object.values(requirements).filter(s => s === 'visa-required').length;
+        const values = Object.values(requirements);
+        const free = values.filter(r => r.status === 'visa-free' || r.status.startsWith('visa-free')).length;
+        const voa = values.filter(r => r.status === 'visa-on-arrival' || r.status === 'permit-required').length;
+        const eta = values.filter(r => r.status === 'eta').length;
+        const required = values.filter(r => r.status === 'visa-required' || r.status === 'ban').length;
 
-        return { free, voa, required, score: free + voa };
+        return { free, voa: voa + eta, required, score: free + voa + eta };
     }, [requirements]);
 
     const getStatusColor = (status: string) => {
+        if (!status) return 'bg-slate-100 text-slate-700';
+        if (status.startsWith('visa-free')) return 'bg-emerald-100 text-emerald-700 border-emerald-200';
+
         switch (status) {
-            case 'visa-free': return 'bg-emerald-100 text-emerald-700 border-emerald-200';
             case 'visa-on-arrival': return 'bg-amber-100 text-amber-700 border-amber-200';
+            case 'permit-required': return 'bg-orange-100 text-orange-700 border-orange-200';
+            case 'eta': return 'bg-blue-100 text-blue-700 border-blue-200';
             case 'visa-required': return 'bg-red-100 text-red-700 border-red-200';
+            case 'ban': return 'bg-gray-800 text-gray-100 border-gray-700';
             default: return 'bg-slate-100 text-slate-700';
         }
     };
 
     const getStatusText = (status: string) => {
+        if (!status) return 'UNKNOWN';
+        if (status === 'permit-required') return 'ENTRY PERMIT REQUIRED';
+        if (status === 'eta') return 'eTA / e-VISA';
+
+        // Handle "visa-free-90" -> "VISA FREE (90 DAYS)"
+        if (status.startsWith('visa-free-')) {
+            const days = status.replace('visa-free-', '');
+            return `VISA FREE (${days} DAYS)`;
+        }
+
         return status.replace(/-/g, ' ').toUpperCase();
     };
 
     // Filtered list for search
-    const filteredDestinations = Object.entries(requirements).filter(([code, status]) => {
-        return code.toLowerCase().includes(searchDest.toLowerCase());
-        // Note: Real app would need a Country Code -> Name map (e.g. "IN" -> "India")
-        // For now we display codes, we can add a simple map later.
+    const filteredDestinations = Object.entries(requirements).filter(([code, data]) => {
+        // Search by Code OR Name
+        const query = searchDest.toLowerCase();
+        return code.toLowerCase().includes(query) || data.name.toLowerCase().includes(query);
     });
 
     return (
@@ -153,13 +170,13 @@ export default function PassportMapClient() {
                 </div>
             </div>
 
-            {/* List View (Placeholder for Map) */}
+            {/* List View */}
             <div className="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden min-h-[500px]">
                 <div className="p-6 border-b border-slate-100 flex items-center gap-4">
                     <Search className="text-slate-400" />
                     <input
                         type="text"
-                        placeholder="Search destination (e.g., JP, FR, US)..."
+                        placeholder="Search destination (e.g., Japan, France, US)..."
                         value={searchDest}
                         onChange={(e) => setSearchDest(e.target.value)}
                         className="flex-1 font-medium bg-transparent outline-none placeholder:text-slate-400"
@@ -169,14 +186,20 @@ export default function PassportMapClient() {
                 {loading ? (
                     <div className="flex flex-col items-center justify-center h-96 gap-4 text-slate-400">
                         <div className="w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
-                        <p>Analyzing global visa treaties...</p>
+                        <p>Analysing {selectedPassport} passport power...</p>
                     </div>
                 ) : (
-                    <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 p-6">
-                        {filteredDestinations.map(([code, status]) => (
-                            <div key={code} className={`p-4 rounded-xl border ${getStatusColor(status)} flex flex-col items-center text-center gap-2 transition-transform hover:scale-105`}>
-                                <span className="text-2xl font-bold">{code}</span>
-                                <span className="text-[10px] font-black uppercase tracking-wider">{getStatusText(status)}</span>
+                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 p-6">
+                        {filteredDestinations.map(([code, data]) => (
+                            <div key={code} className={`p-4 rounded-xl border ${getStatusColor(data.status)} flex flex-col items-center text-center gap-1 transition-transform hover:scale-105 hover:shadow-md cursor-default group`}>
+                                <span className="text-3xl mb-2">{/* Flag emoji could go here if mapped */}</span>
+                                <span className="text-lg font-bold leading-tight line-clamp-2 min-h-[3rem] flex items-center justify-center">
+                                    {data.name}
+                                </span>
+                                <span className="text-xs font-medium text-slate-400 mb-2">{code}</span>
+                                <span className="text-[10px] font-black uppercase tracking-wider py-1 px-2 bg-white/50 rounded-lg w-full">
+                                    {getStatusText(data.status)}
+                                </span>
                             </div>
                         ))}
                     </div>
