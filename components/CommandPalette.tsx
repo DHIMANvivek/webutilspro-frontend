@@ -375,6 +375,14 @@ const TOOLS: Tool[] = [
         keywords: ['git', 'github', 'commit', 'quality', 'analytics', 'repository', 'pr', 'pull request', 'branch', 'analysis', 'insights', 'code quality']
     },
     {
+        id: 'cyber-trace',
+        name: 'Cyber Trace (3D Map)',
+        description: 'Visualize network paths on an interactive 3D globe.',
+        href: '/tools/cyber-trace',
+        category: 'Utilities',
+        keywords: ['trace', 'map', 'globe', '3d', 'network', 'ip', 'geo', 'cyber', 'hack']
+    },
+    {
         id: 'webhook-inspector',
         name: 'Webhook Inspector',
         description: 'Real-time HTTP request capture and debugging.',
