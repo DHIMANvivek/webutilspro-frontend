@@ -45,15 +45,12 @@
     "sql-formatter": "^15.6.12",
     "tailwindcss": "^3.4.19",
     "terser": "^5.44.1",
-    "three": "0.160.0",
+    "three": "^0.170.0",
     "typescript": "^5.0.0",
     "uuid": "^13.0.0"
   },
   "devDependencies": {
     "@types/react": "^18.3.0",
     "@types/react-dom": "^18.3.0"
-  },
-  "overrides": {
-    "three": "0.160.0"
   }
 }
