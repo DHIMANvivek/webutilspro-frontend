@@ -75,7 +75,7 @@ export default function Footer() {
                     <div className="md:col-span-4 lg:col-span-2">
                         <h3 className="text-white font-black text-[10px] uppercase tracking-[0.4em] mb-10 opacity-40">Company</h3>
                         <ul className="space-y-6">
-                            {['About', 'Privacy', 'Terms'].map((item) => (
+                            {['About', 'Privacy', 'Terms', 'Disclaimer'].map((item) => (
                                 <li key={item}>
                                     <Link href={`/${item.toLowerCase()}`} className="text-slate-500 hover:text-white transition-all duration-300 text-sm font-bold flex items-center gap-2 group translate-x-0 hover:translate-x-2">
                                         <div className="w-1 h-1 rounded-full bg-blue-500 opacity-0 group-hover:opacity-100 transition-opacity"></div>
