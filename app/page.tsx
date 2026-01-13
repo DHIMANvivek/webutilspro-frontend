@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { ShoppingBag, FlaskConical, Sparkles, Lock, Bot, RefreshCcw, Wrench, Box, Target, ArrowRight, Image as ImageIcon } from 'lucide-react';
 import LatestInsights from '@/components/LatestInsights';
 import VisionSection from '@/components/VisionSection';
+import EzoicAd from '@/components/ads/EzoicAd';
 
 const DEFAULT_TOOLS = [
     { id: 'regex-tester', name: 'Regex Tester', description: 'Test and debug regular expressions with real-time matching and highlighting.', icon: '🔍', href: '/tools/regex-tester', category: 'Text Processing' },
@@ -150,6 +151,11 @@ export default function HomePage() {
                 </div>
             </section>
 
+            {/* Top Banner Ad */}
+            <div className="container-custom py-8">
+                <EzoicAd placementId={101} className="max-w-4xl mx-auto" />
+            </div>
+
             {/* MCP Tools Section */}
             <section className="py-24 bg-[#111827] relative overflow-hidden">
                 <div className="container-custom relative z-10 text-center">
@@ -196,6 +202,11 @@ export default function HomePage() {
                     </div>
                 </div>
             </section>
+
+            {/* Mid-Content Ad */}
+            <div className="container-custom py-8">
+                <EzoicAd placementId={102} className="max-w-4xl mx-auto" />
+            </div>
 
             {/* Vision & Roadmap Section */}
             <VisionSection />
@@ -268,6 +279,11 @@ export default function HomePage() {
                     </div>
                 </div>
             </section>
+
+            {/* Bottom Ad */}
+            <div className="container-custom py-8">
+                <EzoicAd placementId={103} className="max-w-4xl mx-auto" />
+            </div>
 
             <LatestInsights />
         </div>
