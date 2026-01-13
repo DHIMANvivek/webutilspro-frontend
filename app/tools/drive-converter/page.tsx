@@ -2,8 +2,8 @@ import type { Metadata } from 'next';
 import DriveConverter from './DriveConverter';
 
 export const metadata: Metadata = {
-    title: 'Universal Drive Converter | Convert PDF, Word, Excel to Google Docs',
-    description: 'Convert PDF, Word, Excel, PowerPoint, and other files directly to Google Docs, Sheets, and Slides. Free online file converter tool.',
+    title: 'Drive Uploader | Upload directly to Google Drive',
+    description: 'Upload PDF, Word, Excel, and other files directly to your Google Drive and get shareable links instantly.',
 };
 
 export default function DriveConverterPage() {
