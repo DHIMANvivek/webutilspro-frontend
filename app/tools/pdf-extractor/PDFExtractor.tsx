@@ -1,16 +1,47 @@
 'use client';
 
-import { useState } from 'react';
-import { Upload, FileText, Image, Download, Loader2, CheckCircle, AlertCircle } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Upload, FileText, Image, Download, Loader2, CheckCircle, AlertCircle, RefreshCw } from 'lucide-react';
 import toast from 'react-hot-toast';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import Tesseract from 'tesseract.js';
+// import { GlobalWorkerOptions, getDocument, version } from 'pdfjs-dist'; 
+// Use dynamic import instead to avoid SSR issues
+
+const LANGUAGES = [
+    { code: 'eng', name: 'English' },
+    { code: 'spa', name: 'Spanish' },
+    { code: 'fra', name: 'French' },
+    { code: 'deu', name: 'German' },
+    { code: 'ita', name: 'Italian' },
+    { code: 'por', name: 'Portuguese' },
+    { code: 'rus', name: 'Russian' },
+    { code: 'chi_sim', name: 'Chinese (Simplified)' },
+    { code: 'jpn', name: 'Japanese' },
+    { code: 'kor', name: 'Korean' },
+    { code: 'hin', name: 'Hindi' },
+    { code: 'ara', name: 'Arabic' },
+];
 
 export default function PDFExtractorPage() {
     const [file, setFile] = useState<File | null>(null);
     const [extractedText, setExtractedText] = useState('');
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
+    const [ocrLanguage, setOcrLanguage] = useState('eng');
+    const [progress, setProgress] = useState(0);
+    const [status, setStatus] = useState('');
+
+    useEffect(() => {
+        const initPdfJs = async () => {
+            if (typeof window !== 'undefined') {
+                const pdfjsLib = await import('pdfjs-dist');
+                pdfjsLib.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.js`;
+            }
+        };
+        initPdfJs();
+    }, []);
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const selectedFile = e.target.files?.[0];
@@ -18,8 +49,69 @@ export default function PDFExtractorPage() {
             setFile(selectedFile);
             setError('');
             setExtractedText('');
+            setProgress(0);
+            setStatus('');
         } else {
             toast.error('Please select a valid PDF file');
+        }
+    };
+
+    const convertPdfToImages = async (file: File): Promise<string[]> => {
+        const pdfjsLib = await import('pdfjs-dist');
+        const arrayBuffer = await file.arrayBuffer();
+        const pdf = await pdfjsLib.getDocument(arrayBuffer).promise;
+        const images: string[] = [];
+
+        for (let i = 1; i <= pdf.numPages; i++) {
+            setStatus(`Processing page ${i} of ${pdf.numPages}...`);
+            const page = await pdf.getPage(i);
+            const viewport = page.getViewport({ scale: 2.0 }); // Higher scale for better OCR
+            const canvas = document.createElement('canvas');
+            const context = canvas.getContext('2d');
+            canvas.height = viewport.height;
+            canvas.width = viewport.width;
+
+            if (context) {
+                await page.render({ canvasContext: context, viewport: viewport, canvas }).promise;
+                images.push(canvas.toDataURL('image/png'));
+            }
+        }
+        return images;
+    };
+
+    const handleOcrExtract = async () => {
+        if (!file) return;
+        setLoading(true);
+        setError('');
+        setExtractedText('');
+        setProgress(0);
+
+        try {
+            setStatus('Converting PDF pages to images...');
+            const images = await convertPdfToImages(file);
+
+            setStatus('Initializing Tesseract OCR...');
+            const worker = await Tesseract.createWorker(ocrLanguage);
+
+            let fullText = '';
+            for (let i = 0; i < images.length; i++) {
+                setStatus(`Extracting text from page ${i + 1}/${images.length}...`);
+                const { data: { text } } = await worker.recognize(images[i]);
+                fullText += `\n\n--- Page ${i + 1} ---\n\n` + text;
+                setProgress(Math.round(((i + 1) / images.length) * 100));
+            }
+
+            await worker.terminate();
+            setExtractedText(fullText);
+            setStatus('Extraction Complete!');
+            toast.success('Text extracted using OCR!');
+        } catch (err: any) {
+            console.error(err);
+            setError(err.message || 'OCR Failed');
+            toast.error('OCR Extraction failed');
+        } finally {
+            setLoading(false);
+            setStatus('');
         }
     };
 
@@ -205,24 +297,52 @@ export default function PDFExtractorPage() {
                             </label>
                         </div>
 
-                        {/* Extract Button */}
-                        <button
-                            onClick={handleExtract}
-                            disabled={!file || loading}
-                            className="w-full btn-primary py-3 rounded-lg font-semibold flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
-                        >
-                            {loading ? (
-                                <>
-                                    <Loader2 className="w-5 h-5 animate-spin" />
-                                    Extracting...
-                                </>
-                            ) : (
-                                <>
-                                    <FileText className="w-5 h-5" />
-                                    Extract Text
-                                </>
-                            )}
-                        </button>
+                        {/* Options */}
+                        <div className="flex gap-4 mb-4">
+                            <div className="flex-1">
+                                <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Extraction Mode</label>
+                                <select
+                                    className="w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-sm text-slate-700 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
+                                    onChange={(e) => setOcrLanguage(e.target.value)}
+                                    value={ocrLanguage}
+                                >
+                                    {LANGUAGES.map(lang => (
+                                        <option key={lang.code} value={lang.code}>{lang.name} (OCR)</option>
+                                    ))}
+                                </select>
+                            </div>
+                        </div>
+
+                        {/* Extract Buttons */}
+                        <div className="flex flex-col gap-3">
+                            <button
+                                onClick={handleExtract}
+                                disabled={!file || loading}
+                                className="w-full btn-secondary py-3 rounded-lg font-semibold flex items-center justify-center gap-2 disabled:opacity-50"
+                            >
+                                <FileText className="w-5 h-5" />
+                                Extract Standard (Server)
+                            </button>
+
+                            <button
+                                onClick={handleOcrExtract}
+                                disabled={!file || loading}
+                                className="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 rounded-lg font-semibold flex items-center justify-center gap-2 hover:shadow-lg hover:scale-[1.02] transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                            >
+                                {loading && status ? (
+                                    <>
+                                        <Loader2 className="w-5 h-5 animate-spin" />
+                                        {status} ({progress}%)
+                                    </>
+                                ) : (
+                                    <>
+                                        <RefreshCw className="w-5 h-5" />
+                                        Extract with OCR
+                                    </>
+                                )}
+                            </button>
+
+                        </div>
 
                         {/* Error Display */}
                         {error && (

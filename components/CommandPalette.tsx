@@ -398,6 +398,22 @@ const TOOLS: Tool[] = [
         category: 'Dev',
         keywords: ['sort', 'algorithm', 'bubble', 'merge', 'quick', '3d', 'audio', 'visualizer', 'cs', 'learn']
     },
+    {
+        id: 'drive-converter',
+        name: 'Universal Drive Converter',
+        description: 'Convert PDF, Word, Excel, and PowerPoint files directly to Google Workspace formats.',
+        href: '/tools/drive-converter',
+        category: 'Utilities',
+        keywords: ['drive', 'convert', 'pdf', 'doc', 'sheet', 'slide', 'google']
+    },
+    {
+        id: 'schema-forge',
+        name: 'Schema-Forge Architect',
+        description: 'JSON to Fullstack blueprint in seconds.',
+        href: '/tools/schema-forge',
+        category: 'Dev',
+        keywords: ['schema', 'forge', 'json', 'blueprint', 'generator']
+    },
 ];
 
 export default function CommandPalette() {

@@ -125,6 +125,24 @@ const FEATURED_TOOLS = [
         icon: Globe,
         color: 'text-cyan-500',
         bg: 'bg-cyan-500/10'
+    },
+    {
+        id: 'drive-converter',
+        name: 'Drive Converter',
+        description: 'Universal File Converter.',
+        href: '/tools/drive-converter',
+        icon: Globe,
+        color: 'text-green-500',
+        bg: 'bg-green-500/10'
+    },
+    {
+        id: 'gorilla-type',
+        name: 'GorillaType',
+        description: 'Typing Speed Test.',
+        href: '/tools/gorilla-type',
+        icon: Zap,
+        color: 'text-yellow-500',
+        bg: 'bg-yellow-500/10'
     }
 ];
 
@@ -318,6 +336,11 @@ const TOOL_INSIGHTS: Record<string, { title: string; features: string[]; icon: a
         title: 'Request Debugging',
         features: ['Instant bucket generation', 'Real-time payload capture', 'Header inspection'],
         icon: Globe, color: 'text-emerald-500', bg: 'bg-emerald-500/10'
+    },
+    'drive-converter': {
+        title: 'Universal Converter',
+        features: ['PDF/Docx/Xlsx Support', 'Google Drive Integration', 'One-click conversion'],
+        icon: Globe, color: 'text-green-500', bg: 'bg-green-500/10'
     },
 };
 

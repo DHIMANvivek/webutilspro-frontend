@@ -212,20 +212,20 @@ export const useGet${typeName} = (id: string) => {
 
     return (
         <div className="space-y-6">
-            <header className="card p-8 bg-gradient-to-br from-slate-900 to-slate-800 text-white relative overflow-hidden group">
-                <div className="absolute top-0 right-0 p-4 animate-pulse opacity-20 group-hover:opacity-100 transition-opacity">
-                    <Sparkles className="w-20 h-20 text-blue-400" />
+            <header className="card p-8 bg-white border border-slate-200/60 shadow-xl shadow-slate-200/40 rounded-3xl relative overflow-hidden group">
+                <div className="absolute top-0 right-0 p-4 animate-pulse opacity-10 group-hover:opacity-100 transition-opacity">
+                    <Sparkles className="w-20 h-20 text-blue-500" />
                 </div>
                 <div className="relative z-10">
                     <div className="flex items-center gap-3 mb-2">
-                        <span className="bg-blue-600 text-[10px] font-bold px-2 py-0.5 rounded-full tracking-widest uppercase shadow-lg shadow-blue-500/50">NEW FORGE</span>
-                        <h1 className="text-4xl font-black tracking-tighter">Schema-Forge</h1>
+                        <span className="bg-blue-100 text-blue-700 border border-blue-200 text-[10px] font-bold px-2 py-0.5 rounded-full tracking-widest uppercase">NEW FORGE</span>
+                        <h1 className="text-4xl font-black tracking-tighter text-slate-900">Schema-Forge</h1>
                     </div>
-                    <p className="text-slate-300 text-lg max-w-2xl font-medium">
+                    <p className="text-slate-600 text-lg max-w-2xl font-medium">
                         Transform raw JSON into a full-stack blueprint. Generate Types, Zod Schemas, Database Models, and Mock Data in seconds.
                     </p>
                 </div>
-                <div className="absolute bottom-[-20%] right-[-10%] w-64 h-64 bg-primary-500/10 rounded-full blur-3xl pointer-events-none" />
+                <div className="absolute bottom-[-20%] right-[-10%] w-64 h-64 bg-blue-500/5 rounded-full blur-3xl pointer-events-none" />
             </header>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
@@ -247,7 +247,7 @@ export const useGet${typeName} = (id: string) => {
                         <textarea
                             value={jsonInput}
                             onChange={(e) => setJsonInput(e.target.value)}
-                            className="w-full h-full min-h-[500px] p-6 font-mono text-sm bg-slate-950 text-blue-100 rounded-2xl border-2 border-slate-900 focus:border-blue-500 transition-all outline-none resize-none custom-scrollbar shadow-inner"
+                            className="w-full h-full min-h-[500px] p-6 font-mono text-sm bg-slate-50 text-slate-900 rounded-2xl border-2 border-slate-200 focus:border-blue-500 transition-all outline-none resize-none custom-scrollbar shadow-inner selection:bg-blue-200"
                             placeholder="Paste your API response or JSON here..."
                         />
                         {!parsedData && jsonInput.trim() && (
@@ -290,13 +290,13 @@ export const useGet${typeName} = (id: string) => {
                         ))}
                     </nav>
 
-                    <div className="card relative p-0 bg-slate-950 rounded-2xl border-2 border-slate-900 overflow-hidden shadow-2xl">
+                    <div className="card relative p-0 bg-white rounded-2xl border-2 border-slate-200 overflow-hidden shadow-xl shadow-slate-200/50">
                         <div className="absolute top-4 right-4 z-20 flex gap-2">
                             <button
                                 onClick={handleCopy}
                                 className={`
                                     flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all
-                                    ${copied ? 'bg-green-600 text-white' : 'bg-white/10 text-white hover:bg-white/20 backdrop-blur-md'}
+                                    ${copied ? 'bg-green-100 text-green-700 border border-green-200' : 'bg-slate-100 text-slate-600 hover:bg-slate-200 border border-slate-200'}
                                 `}
                             >
                                 {copied ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
@@ -304,16 +304,16 @@ export const useGet${typeName} = (id: string) => {
                             </button>
                         </div>
 
-                        <div className="p-1 px-4 bg-slate-900/50 border-b border-slate-800 flex items-center justify-between">
+                        <div className="p-1 px-4 bg-slate-50 border-b border-slate-200 flex items-center justify-between">
                             <div className="flex gap-1.5">
-                                <span className="w-2.5 h-2.5 rounded-full bg-red-500/50" />
-                                <span className="w-2.5 h-2.5 rounded-full bg-yellow-500/50" />
-                                <span className="w-2.5 h-2.5 rounded-full bg-green-500/50" />
+                                <span className="w-2.5 h-2.5 rounded-full bg-red-400" />
+                                <span className="w-2.5 h-2.5 rounded-full bg-yellow-400" />
+                                <span className="w-2.5 h-2.5 rounded-full bg-green-400" />
                             </div>
-                            <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">{activeTab === 'db' ? 'PRISMA' : activeTab.toUpperCase()} FORGE</span>
+                            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{activeTab === 'db' ? 'PRISMA' : activeTab.toUpperCase()} FORGE</span>
                         </div>
 
-                        <pre className="p-8 font-mono text-sm overflow-x-auto text-blue-200 custom-scrollbar max-h-[600px] selection:bg-blue-500/30">
+                        <pre className="p-8 font-mono text-sm overflow-x-auto text-slate-800 custom-scrollbar max-h-[600px] selection:bg-blue-100">
                             <code>{outputCode}</code>
                         </pre>
                     </div>
@@ -370,11 +370,11 @@ export const useGet${typeName} = (id: string) => {
                     background: transparent;
                 }
                 .custom-scrollbar::-webkit-scrollbar-thumb {
-                    background: rgba(255, 255, 255, 0.1);
+                    background: rgba(148, 163, 184, 0.5);
                     border-radius: 10px;
                 }
                 .custom-scrollbar:hover::-webkit-scrollbar-thumb {
-                    background: rgba(255, 255, 255, 0.2);
+                    background: rgba(148, 163, 184, 0.8);
                 }
             `}</style>
         </div>

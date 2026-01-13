@@ -50,6 +50,10 @@ const DEFAULT_TOOLS = [
     { id: 'passport-visa-map', name: 'Passport Visa Map', description: 'Visualize global travel freedom and visa requirements for your passport.', icon: '🛂', href: '/tools/passport-visa-map', category: 'Travel' },
     { id: 'jwt-security-audit', name: 'JWT Security Auditor', description: 'Simulate breaches and test JWT security with active attacks.', icon: '🛡️', href: '/tools/jwt-security-audit', category: 'Security' },
     { id: 'webhook-inspector', name: 'Webhook Inspector', description: 'Capture and debug incoming HTTP requests in real-time with zero configuration.', icon: '🌐', href: '/tools/webhook-inspector', category: 'Developer' },
+    { id: 'drive-converter', name: 'Universal Drive Converter', description: 'Convert PDF, Word, Excel, and PowerPoint files directly to Google Workspace formats.', icon: '📂', href: '/tools/drive-converter', category: 'Utilities' },
+    { id: 'schema-forge', name: 'Schema-Forge Architect', description: 'JSON to Fullstack blueprint in seconds.', icon: '🏗️', href: '/tools/schema-forge', category: 'Developer' },
+    { id: 'algo-rhythm', name: 'AlgoRhythm', description: '3D Sorting Visualizer with procedural audio.', icon: '🎵', href: '/tools/algo-rhythm', category: 'Developer' },
+    { id: 'cyber-trace', name: 'Cyber Trace', description: 'Visualize network paths on an interactive 3D globe.', icon: '🌍', href: '/tools/cyber-trace', category: 'Utilities' },
 ];
 
 import RoadmapBackground from '@/components/RoadmapBackground';

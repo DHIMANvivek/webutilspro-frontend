@@ -3,6 +3,13 @@ const nextConfig = {
     reactStrictMode: true,
     poweredByHeader: false,
     compress: true,
+    webpack: (config) => {
+        config.resolve.alias.canvas = false;
+        return config;
+    },
+    experimental: {
+        serverComponentsExternalPackages: ['pdfjs-dist'],
+    },
     async rewrites() {
         return [
             {
