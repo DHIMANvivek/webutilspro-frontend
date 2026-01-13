@@ -1,7 +1,8 @@
 import React from 'react';
 import { Metadata } from 'next';
 import TailwindFactoryClient from '@/components/tools/TailwindFactory/TailwindFactoryClient';
-import { Palette, Zap, Code2, Share2, ShieldCheck, Cpu } from 'lucide-react';
+import { Palette, Zap, Code2, Share2, ShieldCheck, Cpu, LayoutGrid } from 'lucide-react';
+import Breadcrumbs from '@/components/Breadcrumbs';
 
 export const metadata: Metadata = {
     title: 'Tailwind Design System Factory | Generate Palette & Config',
@@ -19,6 +20,15 @@ export default function TailwindFactoryPage() {
                 <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full pointer-events-none opacity-40">
                     <div className="absolute top-20 left-1/4 w-96 h-96 bg-indigo-200/30 rounded-full blur-[120px]"></div>
                     <div className="absolute bottom-20 right-1/4 w-96 h-96 bg-emerald-200/30 rounded-full blur-[120px]"></div>
+                </div>
+
+                <div className="relative z-10 max-w-5xl mx-auto px-4 mb-8">
+                    <Breadcrumbs
+                        items={[
+                            { name: 'Tools', href: '/#tools', icon: <LayoutGrid className="w-3.5 h-3.5" /> },
+                            { name: 'Tailwind Design Factory', href: '/tools/tailwind-factory' },
+                        ]}
+                    />
                 </div>
 
                 <div className="relative z-10 max-w-5xl mx-auto text-center mb-20 px-4">

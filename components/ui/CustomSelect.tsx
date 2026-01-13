@@ -75,8 +75,8 @@ export default function CustomSelect({
                                     setIsOpen(false);
                                 }}
                                 className={`flex items-center justify-between px-4 py-3 text-sm cursor-pointer transition-all duration-200 mx-2 rounded-xl ${value === option.value
-                                        ? 'bg-blue-50 text-blue-700 font-bold'
-                                        : 'text-gray-700 hover:bg-gray-50 hover:text-blue-600'
+                                    ? 'bg-blue-50 text-blue-700 font-bold'
+                                    : 'text-gray-700 hover:bg-gray-50 hover:text-blue-600'
                                     }`}
                             >
                                 <span className="block truncate">{option.label}</span>

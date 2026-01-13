@@ -14,9 +14,11 @@ import {
     Trash2,
     FileJson,
     ArrowRightLeft,
-    Monitor
+    Monitor,
+    LayoutGrid
 } from 'lucide-react';
 import toast from 'react-hot-toast';
+import Breadcrumbs from '@/components/Breadcrumbs';
 
 type ForgeTab = 'types' | 'zod' | 'db' | 'hook' | 'mock';
 
@@ -211,7 +213,13 @@ export const useGet${typeName} = (id: string) => {
     ];
 
     return (
-        <div className="space-y-6">
+        <div className="max-w-7xl mx-auto px-4 py-8 space-y-6">
+            <Breadcrumbs
+                items={[
+                    { name: 'Tools', href: '/#tools', icon: <LayoutGrid className="w-3.5 h-3.5" /> },
+                    { name: 'Schema Forge', href: '/tools/schema-forge' },
+                ]}
+            />
             <header className="card p-8 bg-white border border-slate-200/60 shadow-xl shadow-slate-200/40 rounded-3xl relative overflow-hidden group">
                 <div className="absolute top-0 right-0 p-4 animate-pulse opacity-10 group-hover:opacity-100 transition-opacity">
                     <Sparkles className="w-20 h-20 text-blue-500" />

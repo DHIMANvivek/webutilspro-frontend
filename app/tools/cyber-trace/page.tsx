@@ -1,4 +1,6 @@
 import CyberTrace from '@/components/tools/CyberTrace';
+import Breadcrumbs from '@/components/Breadcrumbs';
+import { LayoutGrid } from 'lucide-react';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -11,6 +13,14 @@ export default function CyberTracePage() {
     return (
         <div className="min-h-screen bg-slate-50 pb-20">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+                <div className="mb-8">
+                    <Breadcrumbs
+                        items={[
+                            { name: 'Tools', href: '/#tools', icon: <LayoutGrid className="w-3.5 h-3.5" /> },
+                            { name: 'Cyber Trace', href: '/tools/cyber-trace' },
+                        ]}
+                    />
+                </div>
                 <div className="mb-10 text-center">
                     <h1 className="text-4xl md:text-6xl font-black text-slate-900 mb-4 tracking-tighter">
                         CYBER <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-500">TRACE</span>

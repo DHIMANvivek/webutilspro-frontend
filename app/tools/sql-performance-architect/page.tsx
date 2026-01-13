@@ -1,9 +1,10 @@
 import React from 'react';
 import { Metadata } from 'next';
 import SqlArchitectClient from '@/components/tools/SqlArchitect/SqlArchitectClient';
-import { Database, Zap, Activity, Layers, ArrowRight, Server, ShieldCheck } from 'lucide-react';
+import { Database, Zap, Activity, Layers, ArrowRight, Server, ShieldCheck, LayoutGrid } from 'lucide-react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import Breadcrumbs from '@/components/Breadcrumbs';
 
 export const metadata: Metadata = {
     title: 'Visual SQL Performance Architect | Explain Plan Heatmap',
@@ -18,6 +19,15 @@ export default function SqlArchitectPage() {
             {/* If Layout provides global header, we skip it here. Assuming standard Layout wrapper. */}
 
             <div className="pt-32 pb-24 container-custom">
+                <div className="max-w-5xl mx-auto px-4 mb-8">
+                    <Breadcrumbs
+                        items={[
+                            { name: 'Tools', href: '/#tools', icon: <LayoutGrid className="w-3.5 h-3.5" /> },
+                            { name: 'SQL Performance Architect', href: '/tools/sql-performance-architect' },
+                        ]}
+                    />
+                </div>
+
                 <div className="relative z-10 max-w-5xl mx-auto text-center mb-16 px-4">
                     <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-50 border border-indigo-100 text-indigo-600 text-[11px] font-black uppercase tracking-widest mb-6 animate-in fade-in slide-in-from-bottom-2">
                         <Database size={14} />

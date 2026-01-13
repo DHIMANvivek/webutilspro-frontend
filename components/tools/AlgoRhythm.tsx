@@ -269,7 +269,7 @@ export default function AlgoRhythm() {
         <div className="flex flex-col h-[85vh] w-full bg-slate-50/50 rounded-2xl overflow-hidden border border-slate-200 shadow-xl relative">
 
             {/* HEADER / CONTROLS (Light Theme) */}
-            <div className="z-10 bg-white/80 backdrop-blur border-b border-slate-200 p-4 flex flex-wrap gap-4 justify-between items-center text-slate-700">
+            <div className="z-30 bg-white/80 backdrop-blur border-b border-slate-200 p-4 flex flex-wrap gap-4 justify-between items-center text-slate-700">
                 <div className="flex items-center gap-4">
                     <div className="w-48">
                         <CustomSelect

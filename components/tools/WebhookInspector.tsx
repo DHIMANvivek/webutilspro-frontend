@@ -17,9 +17,11 @@ import {
     AlertCircle,
     CheckCircle2,
     ArrowRight,
-    Plus
+    Plus,
+    LayoutGrid
 } from 'lucide-react';
 import toast from 'react-hot-toast';
+import Breadcrumbs from '@/components/Breadcrumbs';
 
 interface CapturedRequest {
     _id: string;
@@ -132,7 +134,13 @@ export default function WebhookInspector() {
     );
 
     return (
-        <div className="space-y-6">
+        <div className="max-w-7xl mx-auto px-4 py-8 space-y-6">
+            <Breadcrumbs
+                items={[
+                    { name: 'Tools', href: '/#tools', icon: <LayoutGrid className="w-3.5 h-3.5" /> },
+                    { name: 'Webhook Inspector', href: '/tools/webhook-inspector' },
+                ]}
+            />
             <header className="card p-8 bg-gradient-to-br from-slate-900 to-indigo-950 text-white relative overflow-hidden group shadow-2xl">
                 <div className="absolute top-0 right-0 p-4 animate-pulse opacity-20">
                     <Terminal className="w-32 h-32 text-indigo-400/20" />

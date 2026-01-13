@@ -1,8 +1,9 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Upload, FileText, Image, Download, Loader2, CheckCircle, AlertCircle, RefreshCw } from 'lucide-react';
+import { Upload, FileText, Image, Download, Loader2, CheckCircle, AlertCircle, RefreshCw, LayoutGrid } from 'lucide-react';
 import toast from 'react-hot-toast';
+import Breadcrumbs from '@/components/Breadcrumbs';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import Tesseract from 'tesseract.js';
@@ -177,6 +178,14 @@ export default function PDFExtractorPage() {
             <div className="container-custom max-w-7xl">
                 {/* Header */}
                 <div className="text-center mb-12">
+                    <div className="mb-8">
+                        <Breadcrumbs
+                            items={[
+                                { name: 'Tools', href: '/#tools', icon: <LayoutGrid className="w-3.5 h-3.5" /> },
+                                { name: 'PDF Extractor', href: '/tools/pdf-extractor' },
+                            ]}
+                        />
+                    </div>
                     <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
                         AI-Powered PDF Text Extractor
                     </h1>

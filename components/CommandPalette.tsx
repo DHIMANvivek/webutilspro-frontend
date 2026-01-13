@@ -414,6 +414,15 @@ const TOOLS: Tool[] = [
         category: 'Dev',
         keywords: ['schema', 'forge', 'json', 'blueprint', 'generator']
     },
+    {
+        id: 'readme-architect',
+        name: 'Readme.md Architect',
+        description: 'Create stunning GitHub Profile READMEs without writing code.',
+        href: '/tools/readme-architect',
+        category: 'Dev',
+        keywords: ['readme', 'github', 'profile', 'markdown', 'generator', 'architect']
+    },
+
 ];
 
 export default function CommandPalette() {

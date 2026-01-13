@@ -32,10 +32,21 @@ import {
     Files,
     Bell,
     Mic,
-    Globe
+    Globe,
+    GitBranch
 } from 'lucide-react';
 
 const FEATURED_TOOLS = [
+
+    {
+        id: 'readme-architect',
+        name: 'Readme.md Architect',
+        description: 'Drag & drop GitHub profile builder.',
+        href: '/tools/readme-architect',
+        icon: Type,
+        color: 'text-indigo-500',
+        bg: 'bg-indigo-500/10'
+    },
     {
         id: 'schema-forge',
         name: 'Schema-Forge Architect',
@@ -313,10 +324,16 @@ const TOOL_INSIGHTS: Record<string, { title: string; features: string[]; icon: a
         icon: Bell, color: 'text-blue-600', bg: 'bg-blue-600/10'
     },
     'schema-forge': {
-        title: 'Architect Power',
-        features: ['Fullstack blueprint generation', 'TypeScript & Zod safe code', 'React Query hook templates'],
+        title: 'Schema Architect',
+        features: ['JSON to Code Blueprint', 'Auto-Interface Generation', 'Fullstack Scaffold'],
         icon: Database, color: 'text-blue-600', bg: 'bg-blue-600/10'
     },
+    'readme-architect': {
+        title: 'Readme Architect',
+        features: ['Drag & Drop Builder', 'Live Markdown Preview', 'Dynamic Stats Widgets'],
+        icon: Type, color: 'text-indigo-500', bg: 'bg-indigo-500/10'
+    },
+
     'zod-schema-generator': {
         title: 'Schema Intelligence',
         features: ['Recursive JSON parsing', 'Type inference generation', 'Prisma ORM compatibility'],

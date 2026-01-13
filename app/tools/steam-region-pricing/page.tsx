@@ -1,8 +1,9 @@
 import React from 'react';
 import { Metadata } from 'next';
 import SteamPricingClient from '@/components/tools/SteamPricing/SteamPricingClient';
-import { Globe, TrendingDown, DollarSign } from 'lucide-react';
+import { Globe, TrendingDown, DollarSign, LayoutGrid } from 'lucide-react';
 import ToolContentSection from '@/components/shared/ToolContentSection';
+import Breadcrumbs from '@/components/Breadcrumbs';
 
 export const metadata: Metadata = {
     title: 'Steam Regional Price Checker | Global Game Comparison',
@@ -14,6 +15,15 @@ export default function SteamPricingPage() {
     return (
         <main className="min-h-screen bg-[#f8fafc]">
             <div className="pt-32 pb-24 container-custom">
+                <div className="max-w-5xl mx-auto px-4 mb-8">
+                    <Breadcrumbs
+                        items={[
+                            { name: 'Tools', href: '/#tools', icon: <LayoutGrid className="w-3.5 h-3.5" /> },
+                            { name: 'Steam Pricing Map', href: '/tools/steam-region-pricing' },
+                        ]}
+                    />
+                </div>
+
                 <div className="relative z-10 max-w-5xl mx-auto text-center mb-16 px-4">
                     <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 border border-blue-100 text-blue-600 text-[11px] font-black uppercase tracking-widest mb-6 animate-in fade-in slide-in-from-bottom-2">
                         <Globe size={14} />

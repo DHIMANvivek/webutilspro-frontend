@@ -152,13 +152,13 @@ export default function JwtAuditClient() {
         <div className="flex flex-col lg:flex-row gap-8">
             {/* Left: Input & Decoder */}
             <div className="flex-1 space-y-6">
-                <div className="bg-slate-900 rounded-2xl p-6 border border-slate-800 shadow-xl">
+                <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-xl shadow-slate-200/50">
                     <div className="flex items-center justify-between mb-4">
                         <label className="text-slate-400 font-bold text-sm uppercase tracking-wider flex items-center gap-2">
                             <Fingerprint size={16} className="text-emerald-500" /> Analyzed Token
                         </label>
                         {decoded && (
-                            <button onClick={() => { setToken(''); setDecoded(null); setAuditLog([]); setSecurityScore(null); }} className="text-xs text-slate-500 hover:text-white transition-colors flex items-center gap-1">
+                            <button onClick={() => { setToken(''); setDecoded(null); setAuditLog([]); setSecurityScore(null); }} className="text-xs text-slate-400 hover:text-slate-600 transition-colors flex items-center gap-1">
                                 <RotateCcw size={12} /> Reset
                             </button>
                         )}
@@ -166,16 +166,16 @@ export default function JwtAuditClient() {
                     <textarea
                         value={token}
                         onChange={(e) => setToken(e.target.value)}
-                        className="w-full h-40 bg-slate-950 text-emerald-400 font-mono text-sm p-4 rounded-xl border border-slate-800 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 outline-none resize-none transition-all placeholder:text-slate-700"
+                        className="w-full h-40 bg-slate-50 text-slate-800 font-mono text-sm p-4 rounded-xl border border-slate-200 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 outline-none resize-none transition-all placeholder:text-slate-400 shadow-inner"
                         placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
                     />
                     <button
                         onClick={runAudit}
                         disabled={!token || isAuditing}
                         className={`mt-4 w-full py-4 rounded-xl font-black text-sm uppercase tracking-widest transition-all
-                            ${!token ? 'bg-slate-800 text-slate-500 cursor-not-allowed' :
-                                isAuditing ? 'bg-emerald-900/50 text-emerald-500 animate-pulse' :
-                                    'bg-emerald-500 hover:bg-emerald-400 text-slate-900 shadow-lg shadow-emerald-500/20 hover:scale-[1.02]'}
+                            ${!token ? 'bg-slate-100 text-slate-400 cursor-not-allowed' :
+                                isAuditing ? 'bg-emerald-50 text-emerald-600 animate-pulse border border-emerald-200' :
+                                    'bg-emerald-500 hover:bg-emerald-600 text-white shadow-lg shadow-emerald-500/20 hover:scale-[1.02]'}
                         `}
                     >
                         {isAuditing ? 'Running Security Audit...' : 'Simulate Breach Attack'}
@@ -185,11 +185,11 @@ export default function JwtAuditClient() {
                 {/* Decoded View */}
                 {decoded && (
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 animate-in fade-in slide-in-from-bottom-4">
-                        <div className="bg-white p-5 rounded-2xl border border-slate-200">
+                        <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
                             <h4 className="font-bold text-slate-400 text-xs uppercase mb-2">Header</h4>
                             <pre className="text-xs text-slate-700 font-mono overflow-auto">{JSON.stringify(decoded.header, null, 2)}</pre>
                         </div>
-                        <div className="bg-white p-5 rounded-2xl border border-slate-200">
+                        <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
                             <h4 className="font-bold text-slate-400 text-xs uppercase mb-2">Payload</h4>
                             <pre className="text-xs text-slate-700 font-mono overflow-auto">{JSON.stringify(decoded.payload, null, 2)}</pre>
                         </div>
@@ -197,8 +197,8 @@ export default function JwtAuditClient() {
                 )}
             </div>
 
-            {/* Right: Hacker Console */}
-            <div className="w-full lg:w-[450px] bg-black rounded-2xl border border-slate-800 p-6 font-mono relative overflow-hidden flex flex-col min-h-[500px]">
+            {/* Right: Hacker Console (Keeping Dark for aesthetics) */}
+            <div className="w-full lg:w-[450px] bg-black rounded-2xl border border-slate-800 p-6 font-mono relative overflow-hidden flex flex-col min-h-[500px] shadow-2xl">
                 {/* CRT Scanline Effect */}
                 <div className="absolute inset-0 pointer-events-none opacity-[0.03] bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[length:100%_2px,3px_100%] z-20"></div>
 
@@ -221,11 +221,11 @@ export default function JwtAuditClient() {
                             </div>
                             <div>
                                 <span className={`font-bold ${step.status === 'fail' ? 'text-red-500' :
-                                        step.status === 'warning' ? 'text-orange-400' :
-                                            step.status === 'scanning' ? 'text-yellow-500' : 'text-slate-400'
+                                    step.status === 'warning' ? 'text-orange-400' :
+                                        step.status === 'scanning' ? 'text-yellow-500' : 'text-slate-400'
                                     }`}>[{step.name}]</span>
                                 <p className={`${step.status === 'fail' ? 'text-red-400' :
-                                        step.status === 'warning' ? 'text-orange-300' : 'text-slate-500'
+                                    step.status === 'warning' ? 'text-orange-300' : 'text-slate-500'
                                     }`}>
                                     {step.message}
                                 </p>

@@ -1,9 +1,10 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { Upload, FileText, Image, Loader2, CheckCircle, AlertCircle, RefreshCw, FileSpreadsheet, Presentation, Link as LinkIcon, ExternalLink, History, Zap, Shield, Globe, Sparkles } from 'lucide-react';
+import { Upload, FileText, Image, Loader2, CheckCircle, AlertCircle, RefreshCw, FileSpreadsheet, Presentation, Link as LinkIcon, ExternalLink, History, Zap, Shield, Globe, Sparkles, LayoutGrid } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { motion, AnimatePresence, Variants } from 'framer-motion';
+import Breadcrumbs from '@/components/Breadcrumbs';
 
 import confetti from 'canvas-confetti';
 
@@ -187,6 +188,14 @@ export default function DriveConverter() {
             </div>
 
             <div className="container-custom max-w-7xl mx-auto px-4 py-12 relative z-10">
+                <div className="mb-8">
+                    <Breadcrumbs
+                        items={[
+                            { name: 'Tools', href: '/#tools', icon: <LayoutGrid className="w-3.5 h-3.5" /> },
+                            { name: 'Drive Converter', href: '/tools/drive-converter' },
+                        ]}
+                    />
+                </div>
                 {/* Header */}
                 <motion.div variants={itemVariants} className="text-center mb-16">
                     <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-100 text-blue-600 text-xs font-bold tracking-widest uppercase mb-6 shadow-sm">

@@ -6,9 +6,5 @@ export const metadata = {
 };
 
 export default function WebhookInspectorPage() {
-    return (
-        <div className="max-w-7xl mx-auto px-4 py-8">
-            <WebhookInspector />
-        </div>
-    );
+    return <WebhookInspector />;
 }

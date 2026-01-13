@@ -52,6 +52,8 @@ const DEFAULT_TOOLS = [
     { id: 'webhook-inspector', name: 'Webhook Inspector', description: 'Capture and debug incoming HTTP requests in real-time with zero configuration.', icon: '🌐', href: '/tools/webhook-inspector', category: 'Developer' },
     { id: 'drive-converter', name: 'Drive Uploader', description: 'Upload files directly to Google Drive and generate shareable links.', icon: '📂', href: '/tools/drive-converter', category: 'Utilities' },
     { id: 'schema-forge', name: 'Schema-Forge Architect', description: 'JSON to Fullstack blueprint in seconds.', icon: '🏗️', href: '/tools/schema-forge', category: 'Developer' },
+    { id: 'readme-architect', name: 'Readme.md Architect', description: 'Create stunning GitHub Profile READMEs without writing code.', icon: '📝', href: '/tools/readme-architect', category: 'Developer' },
+
     { id: 'algo-rhythm', name: 'AlgoRhythm', description: '3D Sorting Visualizer with procedural audio.', icon: '🎵', href: '/tools/algo-rhythm', category: 'Developer' },
     { id: 'cyber-trace', name: 'Cyber Trace', description: 'Visualize network paths on an interactive 3D globe.', icon: '🌍', href: '/tools/cyber-trace', category: 'Utilities' },
 ];

@@ -1,5 +1,7 @@
 import { generateMetadata as genMeta, generateToolSchema } from '@/lib/seo';
 import CronGeneratorClient from '@/components/tools/CronGenerator/CronGeneratorClient';
+import Breadcrumbs from '@/components/Breadcrumbs';
+import { LayoutGrid } from 'lucide-react';
 
 export const metadata = genMeta({
     title: 'Visual Cron Job Generator | Crontab Schedule Helper',
@@ -25,6 +27,14 @@ export default function CronGeneratorPage() {
     return (
         <div className="min-h-screen bg-slate-50 dark:bg-[#0B1120]">
             <div className="container mx-auto px-4 py-12">
+                <div className="max-w-4xl mx-auto">
+                    <Breadcrumbs
+                        items={[
+                            { name: 'Tools', href: '/#tools', icon: <LayoutGrid className="w-3.5 h-3.5" /> },
+                            { name: 'Cron Job Generator', href: '/tools/cron-job-generator' },
+                        ]}
+                    />
+                </div>
                 <script
                     type="application/ld+json"
                     dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

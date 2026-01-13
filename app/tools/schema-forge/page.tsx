@@ -1,4 +1,5 @@
 import SchemaForge from '@/components/tools/SchemaForge';
+
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -14,8 +15,6 @@ export const metadata: Metadata = {
 
 export default function SchemaForgePage() {
     return (
-        <div className="container mx-auto px-4 py-8">
-            <SchemaForge />
-        </div>
+        <SchemaForge />
     );
 }
