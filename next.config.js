@@ -24,7 +24,7 @@ const nextConfig = {
         return [
             {
                 source: '/ads.txt',
-                destination: 'https://srv.adstxtmanager.com/19390/webutilspro.com',
+                destination: 'https://www.webutilspro.com/ads.txt',
                 permanent: true,
             },
         ];
