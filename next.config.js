@@ -19,15 +19,6 @@ const nextConfig = {
                     : 'https://api.webutilspro.com/api/:path*',
             },
         ];
-    },
-    async redirects() {
-        return [
-            {
-                source: '/ads.txt',
-                destination: 'https://www.webutilspro.com/ads.txt',
-                permanent: true,
-            },
-        ];
     }
 };
 
