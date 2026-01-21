@@ -16,7 +16,7 @@ const nextConfig = {
                 source: '/api/:path*',
                 destination: process.env.NODE_ENV === 'development'
                     ? 'http://localhost:4000/api/:path*'
-                    : 'https://api.webutilspro.com/api/:path*',
+                    : 'https://webutilspro-backend.vercel.app/api/:path*',
             },
         ];
     }

@@ -32,7 +32,7 @@ export default function MCPTesterClient() {
     // This allows SameSite:Lax cookies to work on Localhost (HTTP) by making it a same-origin request.
     const checkConnectionStatus = async () => {
         try {
-            const response = await fetch('https://api.webutilspro.com/api/mcp/status', {
+            const response = await fetch('https://webutilspro-backend.vercel.app/api/mcp/status', {
                 credentials: 'include'
             });
             if (response.ok) {
@@ -57,7 +57,7 @@ export default function MCPTesterClient() {
         setError(null);
 
         try {
-            const response = await fetch('https://api.webutilspro.com/api/mcp/connect', {
+            const response = await fetch('https://webutilspro-backend.vercel.app/api/mcp/connect', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -93,7 +93,7 @@ export default function MCPTesterClient() {
 
     const handleDisconnect = async () => {
         try {
-            await fetch('https://api.webutilspro.com/api/mcp/disconnect', {
+            await fetch('https://webutilspro-backend.vercel.app/api/mcp/disconnect', {
                 method: 'POST',
                 credentials: 'include'
             });
@@ -113,7 +113,7 @@ export default function MCPTesterClient() {
         console.log('[MCP Client] Loading capabilities from:', '/api/mcp/capabilities');
 
         try {
-            const response = await fetch('https://api.webutilspro.com/api/mcp/capabilities', {
+            const response = await fetch('https://webutilspro-backend.vercel.app/api/mcp/capabilities', {
                 credentials: 'include'
             });
 
