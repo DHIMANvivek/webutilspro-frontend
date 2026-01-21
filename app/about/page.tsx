@@ -1,5 +1,5 @@
 import { generateMetadata as genMeta } from '@/lib/seo';
-
+// ok
 export const metadata = genMeta({
     title: 'About Us',
     description: 'Learn about WebUtilsPro, our mission to provide free, high-quality developer tools, and how we help developers boost their productivity.',
