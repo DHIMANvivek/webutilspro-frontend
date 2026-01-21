@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-const BACKEND_URL = process.env.BACKEND_URL || 'https://webutilspro-backend.vercel.app';
+const BACKEND_URL = process.env.BACKEND_URL || 'https://webutilspro-backend.onrender.com';
 
 export async function POST(request: NextRequest) {
     try {

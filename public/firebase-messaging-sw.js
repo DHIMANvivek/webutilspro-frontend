@@ -20,7 +20,7 @@ async function initializeFirebase(providedApiKey = null) {
         }
 
         // Fetch Firebase config from backend
-        const response = await fetch(`https://webutilspro-backend.vercel.app/api/notifications/config?apiKey=${apiKey}`);
+        const response = await fetch(`https://webutilspro-backend.onrender.com/api/notifications/config?apiKey=${apiKey}`);
         const firebaseConfig = await response.json();
 
         // Initialize Firebase
@@ -83,7 +83,7 @@ self.addEventListener('notificationclick', (event) => {
 
     // Track click event
     if (event.notification.data?.notificationId) {
-        fetch('https://webutilspro-backend.vercel.app/api/notifications/track-click', {
+        fetch('https://webutilspro-backend.onrender.com/api/notifications/track-click', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
