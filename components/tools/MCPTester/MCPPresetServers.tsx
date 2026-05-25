@@ -41,7 +41,7 @@ export default function MCPPresetServers({ onConnect, isConnecting }: MCPPresetS
 
     const loadPresets = async () => {
         try {
-            const response = await fetch('https://webutilspro-backend.onrender.com/api/mcp/presets', {
+            const response = await fetch('https://api.webutilspro.cloud/api/mcp/presets', {
                 credentials: 'include'
             });
             const data = await response.json();

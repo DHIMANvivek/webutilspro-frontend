@@ -7,7 +7,7 @@
     // Get configuration from script tag
     const currentScript = document.currentScript || document.querySelector('script[data-api-key]');
     const API_KEY = currentScript?.getAttribute('data-api-key');
-    const API_URL = 'https://webutilspro-backend.onrender.com/api/notifications';
+    const API_URL = 'https://api.webutilspro.cloud/api/notifications';
 
     if (!API_KEY) {
         console.error('[Push Widget] No API key provided');
