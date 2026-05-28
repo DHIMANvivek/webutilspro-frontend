@@ -75,6 +75,15 @@ const FEATURED_TOOLS = [
         bg: 'bg-purple-500/10'
     },
     {
+        id: 'javascript-compiler',
+        name: 'JavaScript Compiler',
+        description: 'Run and debug JS online.',
+        href: '/tools/javascript-compiler',
+        icon: FileCode,
+        color: 'text-blue-600',
+        bg: 'bg-blue-600/10'
+    },
+    {
         id: 'regex-tester',
         name: 'Regex Tester',
         description: 'Test patterns in real-time.',

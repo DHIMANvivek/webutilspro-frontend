@@ -13,6 +13,7 @@ const DEFAULT_TOOLS = [
     { id: 'prompt-optimizer', name: 'Prompt Optimizer', description: 'Optimize your AI prompts for better results and clarity.', icon: '✨', href: '/tools/prompt-optimizer', category: 'AI-Powered' },
     { id: 'pdf-extractor', name: 'PDF Text Extractor', description: 'Extract text from complex PDFs containing images with AI.', icon: '📄', href: '/tools/pdf-extractor', category: 'AI-Powered' },
     { id: 'transcript-generator', name: 'Real-Time Transcript Generator', description: 'Convert speech to text instantly in your browser (Privacy First).', icon: '🎙️', href: '/tools/transcript-generator', category: 'Utilities' },
+    { id: 'javascript-compiler', name: 'JavaScript Compiler', description: 'Run, test, and debug JavaScript online with console output and syntax checks.', icon: '⚙️', href: '/tools/javascript-compiler', category: 'Code Tools' },
     { id: 'code-formatter', name: 'Code Formatter', description: 'Beautify JavaScript, HTML, CSS, JSON, and SQL code instantly.', icon: '💫', href: '/tools/code-formatter', category: 'Code Tools' },
     { id: 'base64', name: 'Base64 Encoder/Decoder', description: 'Encode and decode Base64 strings for data transmission.', icon: '🔐', href: '/tools/base64', category: 'Encoding' },
     { id: 'url-encoder', name: 'URL Encoder/Decoder', description: 'Convert URLs to safe encoded format and back.', icon: '🔗', href: '/tools/url-encoder', category: 'Encoding' },

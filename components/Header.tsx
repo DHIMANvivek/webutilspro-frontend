@@ -119,6 +119,12 @@ export default function Header() {
                                                     </span>
                                                     Regex Tester
                                                 </Link>
+                                                <Link onClick={() => setIsToolsOpen(false)} href="/tools/javascript-compiler" className="flex items-center gap-3 px-3 py-2 text-sm text-gray-700 hover:bg-purple-50 hover:text-purple-600 rounded-xl transition-all group/item">
+                                                    <span className="p-1.5 rounded-lg bg-purple-50 text-purple-600 group-hover/item:bg-purple-600 group-hover/item:text-white transition-colors">
+                                                        <Code className="w-3.5 h-3.5" />
+                                                    </span>
+                                                    JS Compiler
+                                                </Link>
                                                 <Link onClick={() => setIsToolsOpen(false)} href="/tools/code-formatter" className="flex items-center gap-3 px-3 py-2 text-sm text-gray-700 hover:bg-purple-50 hover:text-purple-600 rounded-xl transition-all group/item">
                                                     <span className="p-1.5 rounded-lg bg-purple-50 text-purple-600 group-hover/item:bg-purple-600 group-hover/item:text-white transition-colors">
                                                         <Wrench className="w-3.5 h-3.5" />
@@ -362,10 +368,10 @@ export default function Header() {
                                 <div className="grid grid-cols-3 gap-2">
                                     {[
                                         { href: '/tools/ai-error-explainer', label: 'AI Error', icon: Sparkles, color: 'text-blue-500' },
+                                        { href: '/tools/javascript-compiler', label: 'JS Run', icon: Code, color: 'text-indigo-500' },
                                         { href: '/tools/regex-tester', label: 'Regex', icon: Code, color: 'text-purple-500' },
                                         { href: '/tools/webhook-inspector', label: 'Webhooks', icon: Globe, color: 'text-emerald-500' },
                                         { href: '/tools/tailwind-animations', label: 'Tailwind', icon: Sparkles, color: 'text-pink-500' },
-                                        { href: '/tools/prompt-optimizer', label: 'Prompt', icon: Zap, color: 'text-amber-500' },
                                     ].map((tool) => {
                                         const IconComponent = tool.icon;
                                         return (

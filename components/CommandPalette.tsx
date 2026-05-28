@@ -159,6 +159,14 @@ const TOOLS: Tool[] = [
         keywords: ['format', 'prettier', 'clean', 'indent', 'beautify']
     },
     {
+        id: 'javascript-compiler',
+        name: 'JavaScript Compiler',
+        description: 'Run and debug JavaScript with console output.',
+        href: '/tools/javascript-compiler',
+        category: 'Dev',
+        keywords: ['javascript', 'js', 'compiler', 'runner', 'debugger', 'console', 'syntax']
+    },
+    {
         id: 'diff-checker',
         name: 'Diff Checker',
         description: 'Compare two pieces of code or text for differences.',

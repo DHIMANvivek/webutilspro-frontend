@@ -15,6 +15,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
         'html-encoder',
         'http-headers-analyzer',
         'image-compressor',
+        'javascript-compiler',
         'json-to-csv',
         'json-validator',
         'jwt-decoder',
