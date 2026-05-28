@@ -18,7 +18,7 @@ export default function robots(): MetadataRoute.Robots {
                 // Allow all other crawlers, but block API routes
                 userAgent: '*',
                 allow: '/',
-                disallow: ['/api/'],
+                disallow: ['/api/', '/blog', '/blog/'],
             },
         ],
         sitemap: `${baseUrl}/sitemap.xml`,

@@ -62,8 +62,8 @@ export default function DisclaimerPage() {
                         <section>
                             <h2 className="text-2xl font-bold text-gray-900 mb-3">5. External Links and Advertisements</h2>
                             <p className="text-gray-600">
-                                Our Service contains links to third-party websites and advertisements (including via Ezoic
-                                and Google AdSense). We have no control over the content, privacy policies, or practices
+                                Our Service contains links to third-party websites and advertisements, including Google
+                                AdSense after approval. We have no control over the content, privacy policies, or practices
                                 of any third-party sites and assume no responsibility for them.
                             </p>
                         </section>
