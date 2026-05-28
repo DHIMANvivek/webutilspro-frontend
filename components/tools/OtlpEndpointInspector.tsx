@@ -63,7 +63,6 @@ interface OtlpCapture {
 }
 
 const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:4000';
-const OTLP_BUCKET_STORAGE_KEY = 'webutilspro.otlp.bucketId';
 
 function extractBucketId(value: string) {
     const trimmedValue = value.trim();
@@ -75,6 +74,26 @@ function extractBucketId(value: string) {
     }
 
     return trimmedValue;
+}
+
+function formatSpanKind(kind: unknown) {
+    if (typeof kind === 'string') {
+        return kind.replace('SPAN_KIND_', '') || 'UNSPECIFIED';
+    }
+
+    if (typeof kind === 'number') {
+        const kindMap: Record<number, string> = {
+            1: 'INTERNAL',
+            2: 'SERVER',
+            3: 'CLIENT',
+            4: 'PRODUCER',
+            5: 'CONSUMER'
+        };
+
+        return kindMap[kind] || 'UNSPECIFIED';
+    }
+
+    return 'UNSPECIFIED';
 }
 
 function JsonBlock({ value }: { value: unknown }) {
@@ -232,21 +251,6 @@ node --require ./tracing.js server.js`;
     };
 
     useEffect(() => {
-        const savedBucketId = localStorage.getItem(OTLP_BUCKET_STORAGE_KEY);
-        if (savedBucketId) {
-            setBucketId(savedBucketId);
-        }
-    }, []);
-
-    useEffect(() => {
-        if (bucketId) {
-            localStorage.setItem(OTLP_BUCKET_STORAGE_KEY, bucketId);
-        } else {
-            localStorage.removeItem(OTLP_BUCKET_STORAGE_KEY);
-        }
-    }, [bucketId]);
-
-    useEffect(() => {
         if (!bucketId) return;
 
         const socket = io(BACKEND_URL, {
@@ -271,6 +275,30 @@ node --require ./tracing.js server.js`;
             socket.disconnect();
         };
     }, [bucketId, fetchCaptures]);
+
+    useEffect(() => {
+        const closeActiveBucket = () => {
+            if (!bucketId) return;
+
+            const closeUrl = `${BACKEND_URL}/api/otlp/close/${bucketId}`;
+            const closed = navigator.sendBeacon(closeUrl, new Blob([], { type: 'application/json' }));
+
+            if (!closed) {
+                void fetch(closeUrl, {
+                    method: 'POST',
+                    keepalive: true
+                });
+            }
+        };
+
+        window.addEventListener('pagehide', closeActiveBucket);
+        window.addEventListener('beforeunload', closeActiveBucket);
+
+        return () => {
+            window.removeEventListener('pagehide', closeActiveBucket);
+            window.removeEventListener('beforeunload', closeActiveBucket);
+        };
+    }, [bucketId]);
 
     const spans = selectedCapture?.decoded?.spans || [];
     const filteredSpans = useMemo(() => {
@@ -527,7 +555,7 @@ node --require ./tracing.js server.js`;
                                                     <p className="truncate text-xs text-slate-500">{String(span.resource?.['service.name'] || 'unknown service')}</p>
                                                     <div className="mt-2 flex items-center gap-3 text-[10px] font-bold uppercase text-slate-500">
                                                         <span className="inline-flex items-center gap-1"><Clock className="h-3 w-3" />{span.durationMs?.toFixed(2) || '-'}ms</span>
-                                                        <span>{span.kind.replace('SPAN_KIND_', '')}</span>
+                                                        <span>{formatSpanKind(span.kind)}</span>
                                                     </div>
                                                 </button>
                                             )) : (
