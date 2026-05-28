@@ -82,8 +82,8 @@ export default function DisclaimerPage() {
                             <h2 className="text-2xl font-bold text-gray-900 mb-3">7. Contact</h2>
                             <p className="text-gray-600">
                                 If you have any questions regarding this disclaimer, please contact us at{' '}
-                                <a href="mailto:support@webutilspro.com" className="text-primary-600 hover:text-primary-700">
-                                    support@webutilspro.com
+                                <a href="mailto:googlydhiman.4236@gmail.com" className="text-primary-600 hover:text-primary-700">
+                                    googlydhiman.4236@gmail.com
                                 </a>.
                             </p>
                         </section>

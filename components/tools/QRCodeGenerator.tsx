@@ -257,7 +257,7 @@ export default function QRCodeGenerator() {
                                         value={email.to}
                                         onChange={(e) => setEmail({ ...email, to: e.target.value })}
                                         className="input-field"
-                                        placeholder="support@webutilspro.com"
+                                        placeholder="googlydhiman.4236@gmail.com"
                                     />
                                 </div>
                                 <div>

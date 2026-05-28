@@ -181,8 +181,8 @@ export default function ContactPage() {
                                     </svg>
                                     <div>
                                         <h3 className="font-semibold text-gray-900">Email</h3>
-                                        <a href="mailto:support@webutilspro.com" className="text-primary-600 hover:text-primary-700">
-                                            support@webutilspro.com
+                                        <a href="mailto:googlydhiman.4236@gmail.com" className="text-primary-600 hover:text-primary-700">
+                                            googlydhiman.4236@gmail.com
                                         </a>
                                     </div>
                                 </div>
