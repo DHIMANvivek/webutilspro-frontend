@@ -14,6 +14,7 @@ import {
     Eye,
     Gauge,
     KeyRound,
+    ListChecks,
     Plus,
     RefreshCw,
     Search,
@@ -87,6 +88,23 @@ function Stat({ label, value, tone = 'slate' }: { label: string; value: string |
     );
 }
 
+function CodeBlock({ code, onCopy }: { code: string; onCopy: (text: string) => void }) {
+    return (
+        <div className="group relative">
+            <button
+                onClick={() => onCopy(code)}
+                className="absolute right-3 top-3 rounded bg-white/10 p-1.5 text-slate-300 opacity-0 transition hover:bg-white/20 hover:text-white group-hover:opacity-100"
+                aria-label="Copy code"
+            >
+                <Copy className="h-3.5 w-3.5" />
+            </button>
+            <pre className="overflow-auto rounded-lg bg-slate-950 p-4 pr-12 text-xs leading-5 text-slate-100">
+                {code}
+            </pre>
+        </div>
+    );
+}
+
 export default function OtlpEndpointInspector() {
     const [bucketId, setBucketId] = useState<string | null>(null);
     const [captures, setCaptures] = useState<OtlpCapture[]>([]);
@@ -97,6 +115,28 @@ export default function OtlpEndpointInspector() {
 
     const endpointBase = bucketId ? `${BACKEND_URL}/api/otlp/receive/${bucketId}` : '';
     const tracesEndpoint = `${endpointBase}/v1/traces`;
+    const envSnippet = `OTEL_EXPORTER_OTLP_TRACES_ENDPOINT=${tracesEndpoint || '<create-an-endpoint-first>'}
+OTEL_EXPORTER_OTLP_PROTOCOL=http/json
+OTEL_SERVICE_NAME=my-local-app`;
+    const nodeInstallSnippet = `npm install @opentelemetry/api \\
+  @opentelemetry/sdk-node \\
+  @opentelemetry/exporter-trace-otlp-http \\
+  @opentelemetry/auto-instrumentations-node`;
+    const nodeInstrumentationSnippet = `// tracing.js
+const { NodeSDK } = require('@opentelemetry/sdk-node');
+const { OTLPTraceExporter } = require('@opentelemetry/exporter-trace-otlp-http');
+const { getNodeAutoInstrumentations } = require('@opentelemetry/auto-instrumentations-node');
+
+const sdk = new NodeSDK({
+  traceExporter: new OTLPTraceExporter(),
+  instrumentations: [getNodeAutoInstrumentations()],
+});
+
+sdk.start();`;
+    const nodeRunSnippet = `OTEL_EXPORTER_OTLP_TRACES_ENDPOINT="${tracesEndpoint || '<your-webutilspro-endpoint>'}" \\
+OTEL_EXPORTER_OTLP_PROTOCOL="http/json" \\
+OTEL_SERVICE_NAME="my-local-app" \\
+node --require ./tracing.js server.js`;
 
     const createBucket = async () => {
         setIsLoading(true);
@@ -223,22 +263,60 @@ export default function OtlpEndpointInspector() {
                 </div>
 
                 {!bucketId ? (
-                    <div className="grid gap-6 p-6 lg:grid-cols-[1fr_360px]">
-                        <div className="rounded-lg border border-dashed border-slate-300 bg-slate-50 p-10 text-center">
-                            <Activity className="mx-auto mb-4 h-12 w-12 text-emerald-600" />
-                            <h2 className="text-xl font-black text-slate-900">Create a temporary OTLP endpoint</h2>
-                            <p className="mx-auto mt-2 max-w-xl text-sm leading-6 text-slate-600">
-                                The MVP decodes OTLP/HTTP JSON exports into spans. Binary protobuf exports are captured with content metadata and raw preview while we wire in protobuf decoding.
-                            </p>
+                    <div className="space-y-6 p-6">
+                        <div className="grid gap-6 lg:grid-cols-[1fr_360px]">
+                            <div className="rounded-lg border border-dashed border-slate-300 bg-slate-50 p-10 text-center">
+                                <Activity className="mx-auto mb-4 h-12 w-12 text-emerald-600" />
+                                <h2 className="text-xl font-black text-slate-900">Create a temporary OTLP endpoint</h2>
+                                <p className="mx-auto mt-2 max-w-xl text-sm leading-6 text-slate-600">
+                                    OpenTelemetry creates spans inside your app. This tool receives the exported spans and turns OTLP payloads into a readable trace explorer.
+                                </p>
+                            </div>
+                            <div className="rounded-lg border border-slate-200 bg-white p-5">
+                                <h3 className="mb-3 text-sm font-black text-slate-900">Best fit</h3>
+                                <ul className="space-y-3 text-sm text-slate-600">
+                                    <li className="flex gap-2"><CheckCircle2 className="mt-0.5 h-4 w-4 text-emerald-600" /> OTLP/HTTP JSON traces from local apps and SDKs.</li>
+                                    <li className="flex gap-2"><KeyRound className="mt-0.5 h-4 w-4 text-blue-600" /> Basic/Bearer auth header visibility without exposing secrets in the decoded span view.</li>
+                                    <li className="flex gap-2"><AlertTriangle className="mt-0.5 h-4 w-4 text-amber-600" /> OTLP/gRPC needs a collector or gRPC bridge because browsers/Express do not terminate native gRPC here.</li>
+                                </ul>
+                            </div>
                         </div>
-                        <div className="rounded-lg border border-slate-200 bg-white p-5">
-                            <h3 className="mb-3 text-sm font-black text-slate-900">Best fit</h3>
-                            <ul className="space-y-3 text-sm text-slate-600">
-                                <li className="flex gap-2"><CheckCircle2 className="mt-0.5 h-4 w-4 text-emerald-600" /> OTLP/HTTP JSON traces from local apps and SDKs.</li>
-                                <li className="flex gap-2"><KeyRound className="mt-0.5 h-4 w-4 text-blue-600" /> Basic/Bearer auth header visibility without exposing secrets in the decoded span view.</li>
-                                <li className="flex gap-2"><AlertTriangle className="mt-0.5 h-4 w-4 text-amber-600" /> OTLP/gRPC needs a collector or gRPC bridge because browsers/Express do not terminate native gRPC here.</li>
-                            </ul>
-                        </div>
+
+                        <section className="rounded-lg border border-slate-200 bg-white p-5">
+                            <div className="mb-4 flex items-center gap-2">
+                                <ListChecks className="h-5 w-5 text-emerald-600" />
+                                <h3 className="text-lg font-black text-slate-900">How OpenTelemetry Spans Are Created</h3>
+                            </div>
+                            <div className="grid gap-4 md:grid-cols-3">
+                                <div className="rounded-lg bg-slate-50 p-4">
+                                    <p className="text-sm font-black text-slate-900">1. Instrument your app</p>
+                                    <p className="mt-2 text-sm leading-6 text-slate-600">OpenTelemetry SDKs wrap HTTP requests, database calls, framework handlers, or manual code sections. Each timed operation becomes a span.</p>
+                                </div>
+                                <div className="rounded-lg bg-slate-50 p-4">
+                                    <p className="text-sm font-black text-slate-900">2. Export spans</p>
+                                    <p className="mt-2 text-sm leading-6 text-slate-600">The OTLP exporter batches spans and sends them to the endpoint configured in your app environment variables.</p>
+                                </div>
+                                <div className="rounded-lg bg-slate-50 p-4">
+                                    <p className="text-sm font-black text-slate-900">3. Inspect here</p>
+                                    <p className="mt-2 text-sm leading-6 text-slate-600">WebUtilsPro receives the OTLP export, decodes spans, and shows service name, trace IDs, attributes, events, errors, and headers.</p>
+                                </div>
+                            </div>
+                        </section>
+
+                        <section className="grid gap-4 lg:grid-cols-2">
+                            <div className="rounded-lg border border-slate-200 bg-white p-5">
+                                <h3 className="mb-3 text-sm font-black text-slate-900">Minimal Node.js setup</h3>
+                                <div className="space-y-3">
+                                    <CodeBlock code={nodeInstallSnippet} onCopy={copyText} />
+                                    <CodeBlock code={nodeInstrumentationSnippet} onCopy={copyText} />
+                                </div>
+                            </div>
+                            <div className="rounded-lg border border-slate-200 bg-white p-5">
+                                <h3 className="mb-3 text-sm font-black text-slate-900">Where to use the endpoint</h3>
+                                <p className="mb-3 text-sm leading-6 text-slate-600">Use these env vars in the app you want to inspect, then start that app from the same terminal.</p>
+                                <CodeBlock code={nodeRunSnippet} onCopy={copyText} />
+                            </div>
+                        </section>
                     </div>
                 ) : (
                     <div className="grid min-h-[720px] grid-cols-1 lg:grid-cols-[360px_minmax(0,1fr)]">
@@ -428,13 +506,23 @@ export default function OtlpEndpointInspector() {
                                     <div>
                                         <p className="text-xs font-black uppercase tracking-wider text-slate-500">Node setup</p>
                                         <code className="mt-1 block break-all rounded bg-slate-950 p-3 text-xs text-emerald-300">
-                                            OTEL_EXPORTER_OTLP_TRACES_ENDPOINT={tracesEndpoint} OTEL_EXPORTER_OTLP_PROTOCOL=http/json
+                                            {envSnippet}
                                         </code>
                                     </div>
-                                    <button onClick={() => copyText(`OTEL_EXPORTER_OTLP_TRACES_ENDPOINT=${tracesEndpoint}\nOTEL_EXPORTER_OTLP_PROTOCOL=http/json`)} className="inline-flex items-center justify-center gap-2 rounded-lg bg-slate-900 px-4 py-2 text-xs font-bold text-white hover:bg-slate-800">
+                                    <button onClick={() => copyText(envSnippet)} className="inline-flex items-center justify-center gap-2 rounded-lg bg-slate-900 px-4 py-2 text-xs font-bold text-white hover:bg-slate-800">
                                         <Copy className="h-3.5 w-3.5" />
                                         Copy env
                                     </button>
+                                </div>
+                                <div className="mt-4 grid gap-4 lg:grid-cols-2">
+                                    <div>
+                                        <p className="mb-2 text-xs font-black uppercase tracking-wider text-slate-500">Install SDK</p>
+                                        <CodeBlock code={nodeInstallSnippet} onCopy={copyText} />
+                                    </div>
+                                    <div>
+                                        <p className="mb-2 text-xs font-black uppercase tracking-wider text-slate-500">Run with tracing</p>
+                                        <CodeBlock code={nodeRunSnippet} onCopy={copyText} />
+                                    </div>
                                 </div>
                             </div>
                         </main>
