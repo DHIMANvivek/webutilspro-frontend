@@ -33,7 +33,8 @@ import {
     Bell,
     Mic,
     Globe,
-    GitBranch
+    GitBranch,
+    Activity
 } from 'lucide-react';
 
 const FEATURED_TOOLS = [
@@ -118,6 +119,15 @@ const FEATURED_TOOLS = [
         icon: Globe,
         color: 'text-emerald-500',
         bg: 'bg-emerald-500/10'
+    },
+    {
+        id: 'otlp-endpoint-inspector',
+        name: 'OTLP Endpoint Inspector',
+        description: 'Decode OpenTelemetry spans live.',
+        href: '/tools/otlp-endpoint-inspector',
+        icon: Activity,
+        color: 'text-cyan-600',
+        bg: 'bg-cyan-600/10'
     },
     {
         id: 'push-notifications',
@@ -362,6 +372,11 @@ const TOOL_INSIGHTS: Record<string, { title: string; features: string[]; icon: a
         title: 'Request Debugging',
         features: ['Instant bucket generation', 'Real-time payload capture', 'Header inspection'],
         icon: Globe, color: 'text-emerald-500', bg: 'bg-emerald-500/10'
+    },
+    'otlp-endpoint-inspector': {
+        title: 'Trace Debugging',
+        features: ['OTLP HTTP capture', 'Decoded span explorer', 'Auth/header inspection'],
+        icon: Activity, color: 'text-cyan-600', bg: 'bg-cyan-600/10'
     },
     'drive-converter': {
         title: 'Universal Converter',

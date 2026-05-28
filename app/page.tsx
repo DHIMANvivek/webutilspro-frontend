@@ -50,6 +50,7 @@ const DEFAULT_TOOLS = [
     { id: 'passport-visa-map', name: 'Passport Visa Map', description: 'Visualize global travel freedom and visa requirements for your passport.', icon: '🛂', href: '/tools/passport-visa-map', category: 'Travel' },
     { id: 'jwt-security-audit', name: 'JWT Security Auditor', description: 'Simulate breaches and test JWT security with active attacks.', icon: '🛡️', href: '/tools/jwt-security-audit', category: 'Security' },
     { id: 'webhook-inspector', name: 'Webhook Inspector', description: 'Capture and debug incoming HTTP requests in real-time with zero configuration.', icon: '🌐', href: '/tools/webhook-inspector', category: 'Developer' },
+    { id: 'otlp-endpoint-inspector', name: 'OTLP Endpoint Inspector', description: 'Capture OpenTelemetry exports and inspect decoded spans, resources, and attributes.', icon: '📡', href: '/tools/otlp-endpoint-inspector', category: 'Developer' },
     { id: 'drive-converter', name: 'Drive Uploader', description: 'Upload files directly to Google Drive and generate shareable links.', icon: '📂', href: '/tools/drive-converter', category: 'Utilities' },
     { id: 'schema-forge', name: 'Schema-Forge Architect', description: 'JSON to Fullstack blueprint in seconds.', icon: '🏗️', href: '/tools/schema-forge', category: 'Developer' },
     { id: 'readme-architect', name: 'Readme.md Architect', description: 'Create stunning GitHub Profile READMEs without writing code.', icon: '📝', href: '/tools/readme-architect', category: 'Developer' },

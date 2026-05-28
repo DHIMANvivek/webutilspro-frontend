@@ -25,6 +25,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
         'mcp-tester',
         'minifier',
         'og-image-generator',
+        'otlp-endpoint-inspector',
         'password-generator',
         'pdf-extractor',
         'prompt-optimizer',

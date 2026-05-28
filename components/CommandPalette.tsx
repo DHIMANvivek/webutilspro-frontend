@@ -399,6 +399,14 @@ const TOOLS: Tool[] = [
         keywords: ['webhook', 'http', 'request', 'debug', 'postman', 'capture', 'post', 'get', 'inspect']
     },
     {
+        id: 'otlp-endpoint-inspector',
+        name: 'OTLP Endpoint Inspector',
+        description: 'Capture OpenTelemetry exports and inspect decoded spans.',
+        href: '/tools/otlp-endpoint-inspector',
+        category: 'Dev',
+        keywords: ['otlp', 'otel', 'opentelemetry', 'traces', 'spans', 'observability', 'langfuse', 'debug', 'protobuf']
+    },
+    {
         id: 'algo-rhythm',
         name: 'AlgoRhythm (3D Sorting)',
         description: 'Visualize sorting algorithms in 3D with procedural audio.',
