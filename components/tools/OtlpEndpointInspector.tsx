@@ -63,6 +63,19 @@ interface OtlpCapture {
 }
 
 const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:4000';
+const OTLP_BUCKET_STORAGE_KEY = 'webutilspro.otlp.bucketId';
+
+function extractBucketId(value: string) {
+    const trimmedValue = value.trim();
+    if (!trimmedValue) return '';
+
+    const endpointMatch = trimmedValue.match(/\/api\/otlp\/receive\/([^/?#]+)(?:\/v1\/(?:traces|metrics|logs))?/i);
+    if (endpointMatch?.[1]) {
+        return endpointMatch[1];
+    }
+
+    return trimmedValue;
+}
 
 function JsonBlock({ value }: { value: unknown }) {
     return (
@@ -111,6 +124,7 @@ export default function OtlpEndpointInspector() {
     const [selectedCapture, setSelectedCapture] = useState<OtlpCapture | null>(null);
     const [selectedSpan, setSelectedSpan] = useState<OtlpSpan | null>(null);
     const [searchQuery, setSearchQuery] = useState('');
+    const [existingEndpointInput, setExistingEndpointInput] = useState('');
     const [isLoading, setIsLoading] = useState(false);
 
     const endpointBase = bucketId ? `${BACKEND_URL}/api/otlp/receive/${bucketId}` : '';
@@ -143,10 +157,8 @@ node --require ./tracing.js server.js`;
         try {
             const res = await fetch(`${BACKEND_URL}/api/otlp/create`, { method: 'POST' });
             const data = await res.json();
-            setBucketId(data.bucketId);
-            setCaptures([]);
-            setSelectedCapture(null);
-            setSelectedSpan(null);
+            hydrateBucket(data.bucketId);
+            setExistingEndpointInput('');
             toast.success('OTLP endpoint created');
         } catch {
             toast.error('Failed to create OTLP endpoint');
@@ -187,6 +199,52 @@ node --require ./tracing.js server.js`;
         await navigator.clipboard.writeText(text);
         toast.success('Copied');
     };
+
+    const hydrateBucket = (nextBucketId: string, nextCaptures: OtlpCapture[] = []) => {
+        setBucketId(nextBucketId);
+        setCaptures(nextCaptures);
+        setSelectedCapture(nextCaptures[0] || null);
+        setSelectedSpan(nextCaptures[0]?.decoded?.spans?.[0] || null);
+    };
+
+    const openExistingEndpoint = async () => {
+        const parsedBucketId = extractBucketId(existingEndpointInput);
+        if (!parsedBucketId) {
+            toast.error('Paste an OTLP endpoint or bucket ID');
+            return;
+        }
+
+        setIsLoading(true);
+        try {
+            const res = await fetch(`${BACKEND_URL}/api/otlp/captures/${parsedBucketId}`);
+            if (!res.ok) {
+                throw new Error('OTLP bucket not found');
+            }
+
+            const data = await res.json();
+            hydrateBucket(parsedBucketId, data);
+            toast.success('Existing OTLP endpoint opened');
+        } catch {
+            toast.error('Could not open that OTLP endpoint');
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        const savedBucketId = localStorage.getItem(OTLP_BUCKET_STORAGE_KEY);
+        if (savedBucketId) {
+            setBucketId(savedBucketId);
+        }
+    }, []);
+
+    useEffect(() => {
+        if (bucketId) {
+            localStorage.setItem(OTLP_BUCKET_STORAGE_KEY, bucketId);
+        } else {
+            localStorage.removeItem(OTLP_BUCKET_STORAGE_KEY);
+        }
+    }, [bucketId]);
 
     useEffect(() => {
         if (!bucketId) return;
@@ -272,13 +330,45 @@ node --require ./tracing.js server.js`;
                                     OpenTelemetry creates spans inside your app. This tool receives the exported spans and turns OTLP payloads into a readable trace explorer.
                                 </p>
                             </div>
-                            <div className="rounded-lg border border-slate-200 bg-white p-5">
-                                <h3 className="mb-3 text-sm font-black text-slate-900">Best fit</h3>
-                                <ul className="space-y-3 text-sm text-slate-600">
-                                    <li className="flex gap-2"><CheckCircle2 className="mt-0.5 h-4 w-4 text-emerald-600" /> OTLP/HTTP JSON traces from local apps and SDKs.</li>
-                                    <li className="flex gap-2"><KeyRound className="mt-0.5 h-4 w-4 text-blue-600" /> Basic/Bearer auth header visibility without exposing secrets in the decoded span view.</li>
-                                    <li className="flex gap-2"><AlertTriangle className="mt-0.5 h-4 w-4 text-amber-600" /> OTLP/gRPC needs a collector or gRPC bridge because browsers/Express do not terminate native gRPC here.</li>
-                                </ul>
+                            <div className="space-y-4">
+                                <div className="rounded-lg border border-slate-200 bg-white p-5">
+                                    <h3 className="mb-2 text-sm font-black text-slate-900">Open an existing endpoint</h3>
+                                    <p className="mb-4 text-sm leading-6 text-slate-600">
+                                        Paste a saved bucket ID or a full OTLP traces URL to reopen the same capture room instead of creating a new one.
+                                    </p>
+                                    <div className="space-y-3">
+                                        <input
+                                            value={existingEndpointInput}
+                                            onChange={(event) => setExistingEndpointInput(event.target.value)}
+                                            placeholder="Bucket ID or https://.../api/otlp/receive/:bucketId/v1/traces"
+                                            className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm outline-none focus:border-emerald-500 focus:bg-white"
+                                        />
+                                        <div className="flex gap-2">
+                                            <button
+                                                onClick={openExistingEndpoint}
+                                                disabled={isLoading}
+                                                className="inline-flex flex-1 items-center justify-center gap-2 rounded-lg bg-slate-900 px-3 py-2 text-xs font-bold text-white hover:bg-slate-800 disabled:opacity-60"
+                                            >
+                                                <Eye className="h-3.5 w-3.5" />
+                                                Open existing
+                                            </button>
+                                            <button
+                                                onClick={() => setExistingEndpointInput('')}
+                                                className="inline-flex items-center justify-center gap-2 rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs font-bold text-slate-700 hover:bg-slate-100"
+                                            >
+                                                Clear
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="rounded-lg border border-slate-200 bg-white p-5">
+                                    <h3 className="mb-3 text-sm font-black text-slate-900">Best fit</h3>
+                                    <ul className="space-y-3 text-sm text-slate-600">
+                                        <li className="flex gap-2"><CheckCircle2 className="mt-0.5 h-4 w-4 text-emerald-600" /> OTLP/HTTP JSON traces from local apps and SDKs.</li>
+                                        <li className="flex gap-2"><KeyRound className="mt-0.5 h-4 w-4 text-blue-600" /> Basic/Bearer auth header visibility without exposing secrets in the decoded span view.</li>
+                                        <li className="flex gap-2"><AlertTriangle className="mt-0.5 h-4 w-4 text-amber-600" /> OTLP/gRPC needs a collector or gRPC bridge because browsers/Express do not terminate native gRPC here.</li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
 
