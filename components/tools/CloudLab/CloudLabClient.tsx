@@ -135,7 +135,7 @@ export default function CloudLabClient() {
     const [output, setOutput] = useState<string>('');
     const socketRef = useRef<Socket | null>(null);
 
-    const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:4000';
+    const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
     const activeService = LAB_SERVICES.find((service) => service.id === activeServiceId) || LAB_SERVICES[0];
     const ActiveServiceIcon = activeService.icon;
 
