@@ -8,6 +8,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
         'ai-error-explainer',
         'api-playground',
         'base64',
+        'cloud-lab',
         'code-formatter',
         'color-picker',
         'cron-job-generator',

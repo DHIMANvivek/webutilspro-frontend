@@ -31,6 +31,14 @@ interface Tool {
 
 const TOOLS: Tool[] = [
     {
+        id: 'cloud-lab',
+        name: 'Cloud Lab',
+        description: 'Test AWS-style services and webhook flows in WebUtilsPro Cloud Lab.',
+        href: '/tools/cloud-lab',
+        category: 'Systems',
+        keywords: ['aws', 'cloud lab', 'webutilspro', 'cloud', 'lambda', 'sqs', 'sns', 's3', 'webhook']
+    },
+    {
         id: 'mcp-tester',
         name: 'MCP Tool Tester',
         description: 'Test Model Context Protocol servers in a secure sandbox.',

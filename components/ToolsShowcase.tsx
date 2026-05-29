@@ -34,11 +34,21 @@ import {
     Mic,
     Globe,
     GitBranch,
-    Activity
+    Activity,
+    Cloud
 } from 'lucide-react';
 
 const FEATURED_TOOLS = [
 
+    {
+        id: 'cloud-lab',
+        name: 'Cloud Lab',
+        description: 'Managed AWS-style workflows in WebUtilsPro.',
+        href: '/tools/cloud-lab',
+        icon: Cloud,
+        color: 'text-slate-700',
+        bg: 'bg-slate-700/10'
+    },
     {
         id: 'readme-architect',
         name: 'Readme.md Architect',
@@ -464,9 +474,11 @@ export default function ToolsShowcase() {
     }, [isMinimized, nextSlide, insightData]);
 
     const isHomepage = pathname === '/';
+    if (isHomepage) return null;
+
     const shouldDisplay = isVisible &&
         !isMinimized &&
-        (isHomepage || isAtTop);
+        isAtTop;
 
     if (!isVisible) return null;
 
@@ -474,9 +486,9 @@ export default function ToolsShowcase() {
         return (
             <button
                 onClick={() => setIsMinimized(false)}
-                className="fixed bottom-6 left-6 z-40 p-3 bg-slate-900/90 border border-white/10 rounded-2xl shadow-2xl backdrop-blur-xl hover:scale-110 transition-all group hidden md:block"
+                className="fixed bottom-5 right-5 z-40 border border-neutral-900 bg-[#fbff5d] p-3 shadow-[4px_4px_0_rgba(20,20,15,0.22)] transition-transform hover:-translate-y-0.5 group hidden md:block"
             >
-                <Maximize2 className="w-5 h-5 text-blue-400 group-hover:text-white transition-colors" />
+                <Maximize2 className="w-5 h-5 text-neutral-950" />
             </button>
         );
     }
@@ -484,32 +496,32 @@ export default function ToolsShowcase() {
     if (!shouldDisplay) return null;
 
     return (
-        <div className="fixed bottom-6 left-6 z-40 w-72 animate-in slide-in-from-left fade-in duration-700 hidden md:block">
-            <div className="relative group bg-slate-900/90 border border-white/10 rounded-2xl shadow-2xl overflow-hidden backdrop-blur-xl">
+        <div className="fixed bottom-5 right-5 z-40 w-72 animate-in fade-in duration-500 hidden md:block">
+            <div className="relative group overflow-hidden border border-neutral-900/25 bg-[#fbfbf4]/92 shadow-[8px_10px_0_rgba(20,20,15,0.12)] backdrop-blur-md">
                 {/* Header */}
-                <div className="flex items-center justify-between p-3 border-b border-white/5 bg-white/5">
+                <div className="flex items-center justify-between border-b border-neutral-900/15 bg-[#fbff5d]/45 p-3">
                     <div className="flex items-center gap-2">
                         {insightData ? (
-                            <Lightbulb className="w-3.5 h-3.5 text-amber-400" />
+                            <Lightbulb className="w-3.5 h-3.5 text-neutral-800" />
                         ) : (
-                            <Sparkles className="w-3.5 h-3.5 text-blue-400" />
+                            <Sparkles className="w-3.5 h-3.5 text-neutral-800" />
                         )}
-                        <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">
+                        <span className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-neutral-700">
                             {insightData ? 'Current Tool Info' : 'Featured Discovery'}
                         </span>
                     </div>
                     <div className="flex items-center gap-1">
                         <button
                             onClick={() => setIsMinimized(true)}
-                            className="p-1 hover:bg-white/10 rounded-md transition-colors"
+                            className="p-1 transition-colors hover:bg-neutral-900/10"
                         >
-                            <Minus className="w-3 h-3 text-slate-500" />
+                            <Minus className="w-3 h-3 text-neutral-600" />
                         </button>
                         <button
                             onClick={() => setIsVisible(false)}
-                            className="p-1 hover:bg-white/10 rounded-md transition-colors"
+                            className="p-1 transition-colors hover:bg-neutral-900/10"
                         >
-                            <X className="w-3 h-3 text-slate-500" />
+                            <X className="w-3 h-3 text-neutral-600" />
                         </button>
                     </div>
                 </div>
@@ -519,15 +531,15 @@ export default function ToolsShowcase() {
                     {insightData ? (
                         <div className="space-y-3">
                             <div className="flex items-center gap-3">
-                                <div className={`w-8 h-8 rounded-lg ${insightData.bg} flex items-center justify-center`}>
-                                    <insightData.icon className={`w-4 h-4 ${insightData.color}`} />
+                                <div className="flex h-8 w-8 items-center justify-center border border-neutral-900/15 bg-white">
+                                    <insightData.icon className="w-4 h-4 text-neutral-800" />
                                 </div>
-                                <h4 className="text-xs font-black text-white uppercase tracking-wider">{insightData.title}</h4>
+                                <h4 className="font-mono text-xs font-bold uppercase tracking-[0.12em] text-neutral-900">{insightData.title}</h4>
                             </div>
                             <ul className="space-y-2">
                                 {insightData.features.map((f, i) => (
-                                    <li key={i} className="flex items-center gap-2 text-[10px] font-medium text-slate-400">
-                                        <div className="w-1 h-1 rounded-full bg-blue-500" />
+                                    <li key={i} className="flex items-center gap-2 text-[10px] font-medium text-neutral-600">
+                                        <div className="w-1 h-1 rounded-full bg-neutral-900" />
                                         {f}
                                     </li>
                                 ))}
@@ -536,15 +548,15 @@ export default function ToolsShowcase() {
                     ) : (
                         <>
                             <div className="flex items-start gap-4 mb-4">
-                                <div className={`w-10 h-10 rounded-xl ${mergedFeatured[currentIndex].bg} flex items-center justify-center flex-shrink-0 transition-all duration-500 overflow-hidden relative border border-white/5`}>
+                                <div className="relative flex h-10 w-10 flex-shrink-0 items-center justify-center overflow-hidden border border-neutral-900/15 bg-white transition-all duration-500">
                                     {(() => {
                                         const ToolIcon = mergedFeatured[currentIndex].icon;
-                                        return <ToolIcon className={`w-5 h-5 ${mergedFeatured[currentIndex].color}`} />;
+                                        return <ToolIcon className="w-5 h-5 text-neutral-800" />;
                                     })()}
                                 </div>
                                 <div className="min-w-0">
-                                    <h4 className="text-sm font-black text-white truncate leading-tight mb-1 font-sans">{mergedFeatured[currentIndex].name}</h4>
-                                    <p className="text-[11px] text-slate-400 font-medium line-clamp-2 leading-tight text-left">
+                                    <h4 className="text-sm font-bold text-neutral-950 truncate leading-tight mb-1">{mergedFeatured[currentIndex].name}</h4>
+                                    <p className="text-[11px] text-neutral-600 font-medium line-clamp-2 leading-tight text-left">
                                         {mergedFeatured[currentIndex].description}
                                     </p>
                                 </div>
@@ -554,21 +566,21 @@ export default function ToolsShowcase() {
                                 <div className="flex gap-1.5 align-middle">
                                     <button
                                         onClick={prevSlide}
-                                        className="p-1.5 hover:bg-white/10 rounded-lg transition-colors border border-white/5"
+                                        className="border border-neutral-900/15 p-1.5 transition-colors hover:bg-[#fbff5d]/45"
                                     >
-                                        <ChevronLeft className="w-3.5 h-3.5 text-slate-400" />
+                                        <ChevronLeft className="w-3.5 h-3.5 text-neutral-700" />
                                     </button>
                                     <button
                                         onClick={nextSlide}
-                                        className="p-1.5 hover:bg-white/10 rounded-lg transition-colors border border-white/5"
+                                        className="border border-neutral-900/15 p-1.5 transition-colors hover:bg-[#fbff5d]/45"
                                     >
-                                        <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
+                                        <ChevronRight className="w-3.5 h-3.5 text-neutral-700" />
                                     </button>
                                 </div>
 
                                 <button
                                     onClick={() => router.push(mergedFeatured[currentIndex].href)}
-                                    className="flex-1 py-1.5 bg-blue-600/20 hover:bg-blue-600/40 text-blue-400 hover:text-white rounded-lg text-[10px] font-black uppercase tracking-widest transition-all border border-blue-500/30"
+                                    className="flex-1 border border-neutral-900 bg-[#fbff5d] py-1.5 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-neutral-950 transition-colors hover:bg-[#ffff8f]"
                                 >
                                     Try Now
                                 </button>
@@ -579,9 +591,9 @@ export default function ToolsShowcase() {
 
                 {/* Progress Bar (Only for Featured mode) */}
                 {!insightData && (
-                    <div className="absolute bottom-0 left-0 w-full h-[2px] bg-white/5">
+                    <div className="absolute bottom-0 left-0 w-full h-[2px] bg-neutral-900/10">
                         <div
-                            className="h-full bg-blue-500/50 transition-all duration-50 ease-linear"
+                            className="h-full bg-neutral-900/45 transition-all duration-50 ease-linear"
                             style={{ width: `${progress}%` }}
                         />
                     </div>

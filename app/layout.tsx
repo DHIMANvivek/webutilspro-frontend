@@ -7,9 +7,6 @@ import Footer from '@/components/Footer';
 import CommandPalette from '@/components/CommandPalette';
 import ToasterProvider from '@/components/ToasterProvider';
 import SmartErrorBoundary from '@/components/SmartErrorBoundary';
-import TourManager from '@/components/TourManager';
-import ToolsShowcase from '@/components/ToolsShowcase';
-import FloatingJumpButton from '@/components/FloatingJumpButton';
 import GoogleAnalytics from '@/components/GoogleAnalytics';
 import GoogleTagManager, { GoogleTagManagerNoScript } from '@/components/GoogleTagManager';
 
@@ -115,14 +112,12 @@ export default function RootLayout({
                 <GoogleTagManagerNoScript />
 
                 <SmartErrorBoundary>
-                    <TourManager />
-                    <div className="flex flex-col min-h-screen">
+                    <div className="relative flex min-h-screen flex-col overflow-x-hidden bg-[#f7f7f1] text-neutral-950">
+                        <div className="pointer-events-none fixed inset-0 z-0 wup-paper-grid" aria-hidden="true" />
                         <ToasterProvider />
                         <Header />
                         <CommandPalette />
-                        <ToolsShowcase />
-                        <FloatingJumpButton />
-                        <main className="min-h-screen">
+                        <main className="relative z-10 min-h-screen">
                             {children}
                         </main>
                         <Footer />
