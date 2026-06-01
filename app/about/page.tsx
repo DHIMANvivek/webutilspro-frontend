@@ -57,12 +57,14 @@ export default function AboutPage() {
 
                             <div className="mt-8 grid max-w-xl gap-px border border-neutral-900/15 bg-neutral-900/15 sm:grid-cols-2">
                                 <div className="bg-[#fbfbf4] p-5">
-                                    <div className="font-mono text-[11px] uppercase tracking-[0.16em] text-neutral-500">Tools</div>
-                                    <div className="mt-2 text-3xl font-semibold">40+</div>
+                                    <div className="font-mono text-[11px] uppercase tracking-[0.16em] text-neutral-500">Focus</div>
+                                    <div className="mt-2 text-2xl font-semibold">Practical utilities</div>
+                                    <p className="mt-2 text-sm leading-6 text-neutral-600">Small tools that solve real developer workflow problems.</p>
                                 </div>
                                 <div className="bg-[#fbfbf4] p-5">
-                                    <div className="font-mono text-[11px] uppercase tracking-[0.16em] text-neutral-500">Access</div>
-                                    <div className="mt-2 text-3xl font-semibold">Free</div>
+                                    <div className="font-mono text-[11px] uppercase tracking-[0.16em] text-neutral-500">Approach</div>
+                                    <div className="mt-2 text-2xl font-semibold">Built with care</div>
+                                    <p className="mt-2 text-sm leading-6 text-neutral-600">Fast, simple, and privacy-conscious wherever possible.</p>
                                 </div>
                             </div>
                         </div>
