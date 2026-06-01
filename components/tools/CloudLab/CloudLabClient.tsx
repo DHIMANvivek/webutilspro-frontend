@@ -117,7 +117,7 @@ const WORKFLOW_ROWS = [
 
 const SAMPLE_COMMANDS = {
     s3: ['aws s3 mb s3://webhook-payloads', 'put s3://webhook-payloads/latest.json {"source":"webutilspro","type":"lab-test"}', 'aws s3 ls s3://webhook-payloads'],
-    sqs: ['aws sqs create-queue --queue-name webhook-events', 'aws sqs send-message --queue-url $QUEUE_URL --message-body file://event.json', 'aws sqs receive-message --queue-url $QUEUE_URL'],
+    sqs: ['aws sqs create-queue --queue-name webhook-events', 'aws sqs send-message --queue-url http://127.0.0.1:4566/111111111111/webhook-events --message-body {"source":"webutilspro","type":"lab-test"}', 'aws sqs receive-message --queue-url http://127.0.0.1:4566/111111111111/webhook-events'],
     sns: ['aws sns create-topic --name webhook-events', 'aws sns subscribe --topic-arn $TOPIC_ARN --protocol sqs --notification-endpoint $QUEUE_ARN', 'aws sns publish --topic-arn $TOPIC_ARN --message file://event.json'],
     lambda: ['aws lambda create-function --function-name webhook-handler --runtime nodejs20.x', 'aws lambda invoke --function-name webhook-handler --payload file://event.json response.json', 'cat response.json'],
     dynamodb: ['aws dynamodb create-table --table-name webhook_events', 'aws dynamodb put-item --table-name webhook_events --item file://item.json', 'aws dynamodb scan --table-name webhook_events'],
@@ -277,6 +277,16 @@ export default function CloudLabClient() {
             if (action === 'Create bucket') return `aws s3 mb s3://${bucketName}`;
             if (action === 'Upload payload') return `put s3://${bucketName}/latest.json {"source":"webutilspro","type":"lab-test"}`;
             if (action === 'List objects') return `aws s3 ls s3://${bucketName}`;
+            return 'help';
+        }
+
+        if (serviceId === 'sqs') {
+            const queueName = 'webhook-events';
+            const queueUrl = `${session?.endpoint || 'http://127.0.0.1:4566'}/${session?.accountId || '111111111111'}/${queueName}`;
+
+            if (action === 'Create queue') return `aws sqs create-queue --queue-name ${queueName}`;
+            if (action === 'Send message') return `aws sqs send-message --queue-url ${queueUrl} --message-body {"source":"webutilspro","type":"lab-test"}`;
+            if (action === 'Receive message') return `aws sqs receive-message --queue-url ${queueUrl}`;
             return 'help';
         }
 
