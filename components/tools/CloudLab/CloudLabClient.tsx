@@ -116,7 +116,7 @@ const WORKFLOW_ROWS = [
 ];
 
 const SAMPLE_COMMANDS = {
-    s3: ['aws s3 mb s3://webhook-payloads', 'aws s3 cp event.json s3://webhook-payloads/latest.json', 'aws s3 ls s3://webhook-payloads'],
+    s3: ['aws s3 mb s3://webhook-payloads', 'put s3://webhook-payloads/latest.json {"source":"webutilspro","type":"lab-test"}', 'aws s3 ls s3://webhook-payloads'],
     sqs: ['aws sqs create-queue --queue-name webhook-events', 'aws sqs send-message --queue-url $QUEUE_URL --message-body file://event.json', 'aws sqs receive-message --queue-url $QUEUE_URL'],
     sns: ['aws sns create-topic --name webhook-events', 'aws sns subscribe --topic-arn $TOPIC_ARN --protocol sqs --notification-endpoint $QUEUE_ARN', 'aws sns publish --topic-arn $TOPIC_ARN --message file://event.json'],
     lambda: ['aws lambda create-function --function-name webhook-handler --runtime nodejs20.x', 'aws lambda invoke --function-name webhook-handler --payload file://event.json response.json', 'cat response.json'],
@@ -275,7 +275,7 @@ export default function CloudLabClient() {
 
         if (serviceId === 's3') {
             if (action === 'Create bucket') return `aws s3 mb s3://${bucketName}`;
-            if (action === 'Upload payload') return `aws s3 cp "{\\"source\\":\\"webutilspro\\",\\"type\\":\\"lab-test\\"}" s3://${bucketName}/latest.json`;
+            if (action === 'Upload payload') return `put s3://${bucketName}/latest.json {"source":"webutilspro","type":"lab-test"}`;
             if (action === 'List objects') return `aws s3 ls s3://${bucketName}`;
             return 'help';
         }
