@@ -104,7 +104,7 @@ const LAB_SERVICES: LabService[] = [
         port: 'Lab',
         description: 'Build local HTTP entry points backed by Lambda templates and replayed events.',
         icon: ServerCog,
-        actions: ['Create route', 'Attach Lambda', 'Send request', 'Inspect logs']
+        actions: ['Create API', 'Create route', 'Send request', 'Inspect logs']
     }
 ];
 
@@ -118,10 +118,10 @@ const WORKFLOW_ROWS = [
 const SAMPLE_COMMANDS = {
     s3: ['aws s3 mb s3://webhook-payloads', 'put s3://webhook-payloads/latest.json {"source":"webutilspro","type":"lab-test"}', 'aws s3 ls s3://webhook-payloads'],
     sqs: ['aws sqs create-queue --queue-name webhook-events', 'aws sqs send-message --queue-url http://127.0.0.1:4566/111111111111/webhook-events --message-body {"source":"webutilspro","type":"lab-test"}', 'aws sqs receive-message --queue-url http://127.0.0.1:4566/111111111111/webhook-events'],
-    sns: ['aws sns create-topic --name webhook-events', 'aws sns subscribe --topic-arn $TOPIC_ARN --protocol sqs --notification-endpoint $QUEUE_ARN', 'aws sns publish --topic-arn $TOPIC_ARN --message file://event.json'],
-    lambda: ['aws lambda create-function --function-name webhook-handler --runtime nodejs20.x', 'aws lambda invoke --function-name webhook-handler --payload file://event.json response.json', 'cat response.json'],
-    dynamodb: ['aws dynamodb create-table --table-name webhook_events', 'aws dynamodb put-item --table-name webhook_events --item file://item.json', 'aws dynamodb scan --table-name webhook_events'],
-    apigateway: ['aws apigatewayv2 create-api --name webhook-api --protocol-type HTTP', 'aws apigatewayv2 create-route --api-id $API_ID --route-key "POST /webhook"', 'curl -X POST $API_URL/webhook -d @event.json']
+    sns: ['aws sns create-topic --name webhook-events', 'aws sns subscribe --topic-arn arn:aws:sns:us-east-1:111111111111:webhook-events --protocol sqs --notification-endpoint http://127.0.0.1:4566/111111111111/webhook-events', 'aws sns publish --topic-arn arn:aws:sns:us-east-1:111111111111:webhook-events --message {"source":"webutilspro","type":"lab-test"}'],
+    lambda: ['aws lambda create-function --function-name webhook-handler --runtime nodejs20.x', 'aws lambda invoke --function-name webhook-handler --payload {"source":"webutilspro","type":"lab-test"} response.json'],
+    dynamodb: ['aws dynamodb create-table --table-name webhook_events', 'aws dynamodb put-item --table-name webhook_events --item {"id":"evt-1","source":"webutilspro","type":"lab-test"}', 'aws dynamodb scan --table-name webhook_events'],
+    apigateway: ['aws apigatewayv2 create-api --name webhook-api --protocol-type HTTP', 'aws apigatewayv2 create-route --api-id webhooka1111 --route-key "POST /webhook"', 'curl -X POST http://127.0.0.1:4566/_webutilspro/111111111111/webhooka1111/webhook -d {"source":"webutilspro","type":"lab-test"}']
 };
 
 export default function CloudLabClient() {
@@ -271,23 +271,61 @@ export default function CloudLabClient() {
     }
 
     function commandForAction(action = selectedAction, serviceId = activeService.id) {
-        const bucketName = `webutilspro-${session?.accountId || '111111111111'}`;
+        const accountId = session?.accountId || '111111111111';
+        const endpoint = session?.endpoint || 'http://127.0.0.1:4566';
+        const region = session?.region || 'us-east-1';
+        const bucketName = `webutilspro-${accountId}`;
+        const eventPayload = '{"source":"webutilspro","type":"lab-test"}';
 
         if (serviceId === 's3') {
             if (action === 'Create bucket') return `aws s3 mb s3://${bucketName}`;
-            if (action === 'Upload payload') return `put s3://${bucketName}/latest.json {"source":"webutilspro","type":"lab-test"}`;
+            if (action === 'Upload payload') return `put s3://${bucketName}/latest.json ${eventPayload}`;
             if (action === 'List objects') return `aws s3 ls s3://${bucketName}`;
             return 'help';
         }
 
         if (serviceId === 'sqs') {
             const queueName = 'webhook-events';
-            const queueUrl = `${session?.endpoint || 'http://127.0.0.1:4566'}/${session?.accountId || '111111111111'}/${queueName}`;
+            const queueUrl = `${endpoint}/${accountId}/${queueName}`;
 
             if (action === 'Create queue') return `aws sqs create-queue --queue-name ${queueName}`;
-            if (action === 'Send message') return `aws sqs send-message --queue-url ${queueUrl} --message-body {"source":"webutilspro","type":"lab-test"}`;
+            if (action === 'Send message') return `aws sqs send-message --queue-url ${queueUrl} --message-body ${eventPayload}`;
             if (action === 'Receive message') return `aws sqs receive-message --queue-url ${queueUrl}`;
             return 'help';
+        }
+
+        if (serviceId === 'sns') {
+            const topicArn = `arn:aws:sns:${region}:${accountId}:webhook-events`;
+            const queueUrl = `${endpoint}/${accountId}/webhook-events`;
+
+            if (action === 'Create topic') return 'aws sns create-topic --name webhook-events';
+            if (action === 'Subscribe target') return `aws sns subscribe --topic-arn ${topicArn} --protocol sqs --notification-endpoint ${queueUrl}`;
+            if (action === 'Publish event') return `aws sns publish --topic-arn ${topicArn} --message ${eventPayload}`;
+            return `aws sns publish --topic-arn ${topicArn} --message ${eventPayload}`;
+        }
+
+        if (serviceId === 'lambda') {
+            if (action === 'Create function') return 'aws lambda create-function --function-name webhook-handler --runtime nodejs20.x';
+            if (action === 'Invoke handler') return `aws lambda invoke --function-name webhook-handler --payload ${eventPayload} response.json`;
+            if (action === 'View response') return `aws lambda invoke --function-name webhook-handler --payload ${eventPayload} response.json`;
+            return `aws lambda invoke --function-name webhook-handler --payload ${eventPayload} response.json`;
+        }
+
+        if (serviceId === 'dynamodb') {
+            if (action === 'Create table') return 'aws dynamodb create-table --table-name webhook_events';
+            if (action === 'Put item') return 'aws dynamodb put-item --table-name webhook_events --item {"id":"evt-1","source":"webutilspro","type":"lab-test"}';
+            if (action === 'Get item') return 'aws dynamodb get-item --table-name webhook_events --key {"id":"evt-1"}';
+            if (action === 'Scan table') return 'aws dynamodb scan --table-name webhook_events';
+        }
+
+        if (serviceId === 'apigateway') {
+            const apiId = `webhooka${accountId.slice(-4)}`;
+            const apiUrl = `${endpoint}/_webutilspro/${accountId}/${apiId}`;
+
+            if (action === 'Create API') return 'aws apigatewayv2 create-api --name webhook-api --protocol-type HTTP';
+            if (action === 'Create route') return `aws apigatewayv2 create-route --api-id ${apiId} --route-key "POST /webhook"`;
+            if (action === 'Send request') return `curl -X POST ${apiUrl}/webhook -d ${eventPayload}`;
+            return `curl -X POST ${apiUrl}/webhook -d ${eventPayload}`;
         }
 
         return null;
