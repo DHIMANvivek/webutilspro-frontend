@@ -19,27 +19,27 @@ interface ToolContentProps {
 
 export default function ToolContentSection({ title, intro, features, howTo, faqs }: ToolContentProps) {
     return (
-        <section className="py-16 bg-white border-t border-slate-100">
-            <div className="container-custom max-w-4xl mx-auto space-y-16">
+        <section className="border-t border-neutral-900/10 bg-[#fbfbf4] py-14">
+            <div className="container-custom mx-auto max-w-4xl space-y-14">
 
                 {/* Introduction */}
                 <div className="space-y-6">
-                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-blue-50 text-blue-700 text-xs font-bold uppercase tracking-widest">
+                    <div className="wup-kicker">
                         <BookOpen size={14} />
                         In-Depth Guide
                     </div>
-                    <h2 className="text-3xl md:text-4xl font-black text-slate-900">{title}</h2>
-                    <p className="text-lg text-slate-600 leading-relaxed font-medium">
+                    <h2 className="text-3xl font-semibold tracking-normal text-neutral-950 md:text-4xl">{title}</h2>
+                    <p className="text-lg leading-8 text-neutral-600">
                         {intro}
                     </p>
                 </div>
 
                 {/* Features / Insights */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div className="grid gap-px border border-neutral-900/15 bg-neutral-900/15 md:grid-cols-2">
                     {features.map((feature, idx) => (
-                        <div key={idx} className="p-6 bg-slate-50 rounded-2xl border border-slate-100">
-                            <h3 className="text-lg font-bold text-slate-900 mb-3">{feature.title}</h3>
-                            <p className="text-slate-600 leading-relaxed text-sm">{feature.description}</p>
+                        <div key={idx} className="bg-[#fbfbf4] p-5">
+                            <h3 className="mb-3 text-lg font-semibold text-neutral-950">{feature.title}</h3>
+                            <p className="text-sm leading-6 text-neutral-600">{feature.description}</p>
                         </div>
                     ))}
                 </div>
@@ -47,18 +47,18 @@ export default function ToolContentSection({ title, intro, features, howTo, faqs
                 {/* How to Use */}
                 {howTo && (
                     <div className="space-y-6">
-                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-emerald-50 text-emerald-700 text-xs font-bold uppercase tracking-widest">
+                        <div className="wup-kicker">
                             <Lightbulb size={14} />
                             How it works
                         </div>
-                        <h3 className="text-2xl font-black text-slate-900">How to use this tool</h3>
-                        <ol className="space-y-4">
+                        <h3 className="text-2xl font-semibold text-neutral-950">How to use this tool</h3>
+                        <ol className="grid gap-px border border-neutral-900/15 bg-neutral-900/15">
                             {howTo.map((step, idx) => (
-                                <li key={idx} className="flex gap-4">
-                                    <span className="flex-shrink-0 w-8 h-8 flex items-center justify-center rounded-full bg-slate-900 text-white font-bold text-sm">
+                                <li key={idx} className="flex gap-4 bg-[#fbfbf4] p-4">
+                                    <span className="flex h-8 w-8 flex-shrink-0 items-center justify-center border border-neutral-950 bg-neutral-950 font-mono text-xs font-bold text-white">
                                         {idx + 1}
                                     </span>
-                                    <p className="text-slate-600 leading-relaxed pt-1">{step}</p>
+                                    <p className="pt-1 leading-7 text-neutral-600">{step}</p>
                                 </li>
                             ))}
                         </ol>
@@ -68,16 +68,16 @@ export default function ToolContentSection({ title, intro, features, howTo, faqs
                 {/* FAQs */}
                 {faqs && faqs.length > 0 && (
                     <div className="space-y-8">
-                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-purple-50 text-purple-700 text-xs font-bold uppercase tracking-widest">
+                        <div className="wup-kicker">
                             <HelpCircle size={14} />
                             FAQ
                         </div>
-                        <h3 className="text-2xl font-black text-slate-900">Frequently Asked Questions</h3>
-                        <div className="grid gap-6">
+                        <h3 className="text-2xl font-semibold text-neutral-950">Frequently Asked Questions</h3>
+                        <div className="grid gap-px border border-neutral-900/15 bg-neutral-900/15">
                             {faqs.map((faq, idx) => (
-                                <div key={idx} className="space-y-2">
-                                    <h4 className="font-bold text-slate-900 text-lg">{faq.question}</h4>
-                                    <p className="text-slate-600 leading-relaxed">{faq.answer}</p>
+                                <div key={idx} className="space-y-2 bg-[#fbfbf4] p-5">
+                                    <h4 className="text-lg font-semibold text-neutral-950">{faq.question}</h4>
+                                    <p className="leading-7 text-neutral-600">{faq.answer}</p>
                                 </div>
                             ))}
                         </div>

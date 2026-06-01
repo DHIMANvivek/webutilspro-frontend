@@ -1,7 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import { generateMetadata as genMeta } from '@/lib/seo';
+import Link from 'next/link';
+import { ArrowRight, Clock, Github, Mail, MessageSquareText } from 'lucide-react';
 
 export default function ContactPage() {
     const [formData, setFormData] = useState({
@@ -57,37 +58,49 @@ export default function ContactPage() {
     };
 
     return (
-        <div className="min-h-screen gradient-bg py-12">
-            <div className="container-custom max-w-4xl">
-                <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-                    Contact Us
-                </h1>
+        <div className="wup-page-shell">
+            <section className="wup-page-hero">
+                <div className="container-custom">
+                    <div className="max-w-4xl">
+                        <div className="wup-kicker">
+                            <MessageSquareText className="h-3.5 w-3.5" />
+                            Contact
+                        </div>
+                        <h1 className="mt-5 text-5xl font-semibold leading-tight tracking-normal md:text-7xl">
+                            Send a message.
+                        </h1>
+                        <p className="mt-5 max-w-3xl text-lg leading-8 text-neutral-600 md:text-xl">
+                            Have questions, suggestions, or feedback? Send it over and I will get back to you as soon as possible.
+                        </p>
+                    </div>
+                </div>
+            </section>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <section className="wup-section">
+                <div className="container-custom grid grid-cols-1 gap-px border border-neutral-900/15 bg-neutral-900/15 md:grid-cols-[1.1fr_0.9fr]">
                     {/* Contact Form */}
-                    <div className="bg-white rounded-xl shadow-lg p-8">
-                        <h2 className="text-2xl font-bold text-gray-900 mb-4">
+                    <div className="bg-[#fbfbf4] p-6 md:p-8">
+                        <h2 className="text-2xl font-semibold text-neutral-950">
                             Send Us a Message
                         </h2>
-                        <p className="text-gray-600 mb-6">
-                            Have questions, suggestions, or feedback? We'd love to hear from you.
-                            Fill out the form below and we'll get back to you as soon as possible.
+                        <p className="mt-3 text-sm leading-6 text-neutral-600">
+                            Fill out the form below with the tool idea, bug report, or workflow problem you want to share.
                         </p>
 
                         {error && (
-                            <div className="bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-lg mb-6">
+                            <div className="mt-6 border border-red-300 bg-red-50 px-4 py-3 text-sm text-red-800">
                                 {error}
                             </div>
                         )}
 
                         {submitted ? (
-                            <div className="bg-green-50 border border-green-200 text-green-800 px-4 py-3 rounded-lg">
+                            <div className="mt-6 border border-emerald-300 bg-emerald-50 px-4 py-3 text-sm text-emerald-800">
                                 Thank you for your message! We'll be in touch soon.
                             </div>
                         ) : (
-                            <form onSubmit={handleSubmit} className="space-y-4">
+                            <form onSubmit={handleSubmit} className="mt-6 space-y-4">
                                 <div>
-                                    <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
+                                    <label htmlFor="name" className="mb-1 block font-mono text-[11px] uppercase tracking-[0.14em] text-neutral-600">
                                         Name
                                     </label>
                                     <input
@@ -103,7 +116,7 @@ export default function ContactPage() {
                                 </div>
 
                                 <div>
-                                    <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+                                    <label htmlFor="email" className="mb-1 block font-mono text-[11px] uppercase tracking-[0.14em] text-neutral-600">
                                         Email
                                     </label>
                                     <input
@@ -119,7 +132,7 @@ export default function ContactPage() {
                                 </div>
 
                                 <div>
-                                    <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-1">
+                                    <label htmlFor="subject" className="mb-1 block font-mono text-[11px] uppercase tracking-[0.14em] text-neutral-600">
                                         Subject
                                     </label>
                                     <input
@@ -135,7 +148,7 @@ export default function ContactPage() {
                                 </div>
 
                                 <div>
-                                    <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">
+                                    <label htmlFor="message" className="mb-1 block font-mono text-[11px] uppercase tracking-[0.14em] text-neutral-600">
                                         Message
                                     </label>
                                     <textarea
@@ -152,12 +165,12 @@ export default function ContactPage() {
 
                                 <button
                                     type="submit"
-                                    className="btn-primary w-full flex items-center justify-center gap-2"
+                                    className="btn-primary flex w-full items-center justify-center gap-2"
                                     disabled={isLoading}
                                 >
                                     {isLoading ? (
                                         <>
-                                            <span className="w-4 h-4 border-2 border-white/20 border-t-white rounded-full animate-spin"></span>
+                                            <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/20 border-t-white"></span>
                                             <span>Sending...</span>
                                         </>
                                     ) : (
@@ -169,63 +182,56 @@ export default function ContactPage() {
                     </div>
 
                     {/* Contact Information */}
-                    <div className="space-y-6">
-                        <div className="bg-white rounded-xl shadow-lg p-8">
-                            <h2 className="text-2xl font-bold text-gray-900 mb-4">
+                    <div className="bg-[#fbfbf4] p-6 md:p-8">
+                        <div>
+                            <h2 className="text-2xl font-semibold text-neutral-950">
                                 Get In Touch
                             </h2>
-                            <div className="space-y-4 text-gray-600">
-                                <div className="flex items-start space-x-3">
-                                    <svg className="w-6 h-6 text-primary-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                                    </svg>
+                            <div className="mt-6 grid gap-px border border-neutral-900/15 bg-neutral-900/15">
+                                <div className="flex items-start gap-3 bg-[#fbfbf4] p-4">
+                                    <Mail className="h-5 w-5 flex-shrink-0 text-neutral-900" />
                                     <div>
-                                        <h3 className="font-semibold text-gray-900">Email</h3>
-                                        <a href="mailto:googlydhiman.4236@gmail.com" className="text-primary-600 hover:text-primary-700">
+                                        <h3 className="font-semibold text-neutral-950">Email</h3>
+                                        <a href="mailto:googlydhiman.4236@gmail.com" className="text-sm text-neutral-600 underline decoration-neutral-900/25 underline-offset-4 hover:text-neutral-950">
                                             googlydhiman.4236@gmail.com
                                         </a>
                                     </div>
                                 </div>
 
-                                <div className="flex items-start space-x-3">
-                                    <svg className="w-6 h-6 text-primary-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                    </svg>
+                                <div className="flex items-start gap-3 bg-[#fbfbf4] p-4">
+                                    <Clock className="h-5 w-5 flex-shrink-0 text-neutral-900" />
                                     <div>
-                                        <h3 className="font-semibold text-gray-900">Response Time</h3>
-                                        <p>We typically respond within 24-48 hours</p>
+                                        <h3 className="font-semibold text-neutral-950">Response Time</h3>
+                                        <p className="text-sm text-neutral-600">Usually within 24-48 hours</p>
                                     </div>
                                 </div>
 
-                                <div className="flex items-start space-x-3">
-                                    <svg className="w-6 h-6 text-primary-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z" />
-                                    </svg>
+                                <div className="flex items-start gap-3 bg-[#fbfbf4] p-4">
+                                    <Github className="h-5 w-5 flex-shrink-0 text-neutral-900" />
                                     <div>
-                                        <h3 className="font-semibold text-gray-900">Follow Us</h3>
-                                        <div className="flex space-x-3 mt-2">
-                                            <a href="https://github.com/DHIMANvivek" className="text-gray-400 hover:text-primary-600">
-                                                GitHub
-                                            </a>
-                                        </div>
+                                        <h3 className="font-semibold text-neutral-950">GitHub</h3>
+                                        <a href="https://github.com/DHIMANvivek" className="text-sm text-neutral-600 underline decoration-neutral-900/25 underline-offset-4 hover:text-neutral-950">
+                                            DHIMANvivek
+                                        </a>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <div className="bg-primary-50 border border-primary-200 rounded-xl p-6">
-                            <h3 className="font-semibold text-gray-900 mb-2">Quick Questions?</h3>
-                            <p className="text-gray-600 text-sm mb-3">
+                        <div className="mt-6 border border-neutral-900/15 bg-[#fbff5d] p-5">
+                            <h3 className="font-semibold text-neutral-950">Quick Questions?</h3>
+                            <p className="mt-2 text-sm leading-6 text-neutral-700">
                                 Check our tools pages for detailed documentation and FAQs that might answer
                                 your question.
                             </p>
-                            <a href="/#tools" className="text-primary-600 hover:text-primary-700 font-medium text-sm">
-                                Browse Tools →
-                            </a>
+                            <Link href="/#tools" className="mt-4 inline-flex items-center gap-2 font-mono text-[11px] font-bold uppercase tracking-[0.14em] text-neutral-950">
+                                Browse Tools
+                                <ArrowRight className="h-4 w-4" />
+                            </Link>
                         </div>
                     </div>
                 </div>
-            </div>
+            </section>
         </div>
     );
 }

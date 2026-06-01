@@ -1,8 +1,8 @@
 import { Metadata } from 'next';
-import { generateMetadata as genMeta } from '@/lib/seo';
+import { Code2, History, Zap } from 'lucide-react';
+import { generateMetadata as genMeta, generateToolSchema } from '@/lib/seo';
+import ToolLayout from '@/components/ToolLayout';
 import APIPlaygroundClient from '@/components/tools/APIPlayground/APIPlaygroundClient';
-import Breadcrumbs from '@/components/Breadcrumbs';
-import { LayoutGrid } from 'lucide-react';
 
 export const metadata: Metadata = genMeta({
     title: 'API Testing Playground - Free Online REST API Tester | Postman Alternative',
@@ -21,99 +21,67 @@ export const metadata: Metadata = genMeta({
     ],
 });
 
+const relatedTools = [
+    { name: 'Webhook Inspector', href: '/tools/webhook-inspector' },
+    { name: 'HTTP Headers Analyzer', href: '/tools/http-headers-analyzer' },
+    { name: 'JSON Validator', href: '/tools/json-validator' }
+];
+
+const features = [
+    {
+        title: 'Fast API checks',
+        description: 'Paste an endpoint, choose a method, send the request, and inspect the response without installing a desktop client.',
+        icon: Zap
+    },
+    {
+        title: 'Code generation',
+        description: 'Turn tested requests into copy-ready snippets for cURL and common application code workflows.',
+        icon: Code2
+    },
+    {
+        title: 'Request history',
+        description: 'Keep recent requests nearby while you test headers, auth modes, bodies, and endpoint variations.',
+        icon: History
+    }
+];
+
 export default function APIPlaygroundPage() {
+    const toolSchema = generateToolSchema({
+        name: 'API Testing Playground',
+        description: 'Test REST APIs, inspect responses, import cURL, and generate reusable request code.',
+        url: '/tools/api-playground'
+    });
+
     return (
-        <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 dark">
-            {/* Hero Section */}
-            <div className="relative border-b border-slate-700/50 bg-gradient-to-r from-indigo-950/30 to-purple-950/30 backdrop-blur-xl">
-                <div className="container-custom py-12">
-                    <Breadcrumbs
-                        items={[
-                            { name: 'Tools', href: '/#tools', icon: <LayoutGrid className="w-3.5 h-3.5" /> },
-                            { name: 'API Playground', href: '/tools/api-playground' },
-                        ]}
-                    />
-                    <div className="max-w-4xl">
-                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 mb-6">
-                            <span className="relative flex h-2 w-2">
-                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
-                                <span className="relative inline-flex rounded-full h-2 w-2 bg-indigo-500"></span>
-                            </span>
-                            <span className="text-xs font-bold text-indigo-300 uppercase tracking-wider">Pro API Testing Tool</span>
-                        </div>
-
-                        <h1 className="text-5xl md:text-6xl font-black text-white mb-4 tracking-tight">
-                            API Testing <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-400">Playground</span>
-                        </h1>
-
-                        <p className="text-xl text-slate-300 mb-6 leading-relaxed max-w-2xl">
-                            Test REST APIs, GraphQL endpoints, and webhooks instantly. Beautiful interface, powerful features, zero configuration.
-                        </p>
-
-                        <div className="flex flex-wrap gap-3 text-sm">
-                            <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-800/50 border border-slate-700/50 text-slate-300">
-                                <svg className="w-4 h-4 text-green-400" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                                </svg>
-                                <span className="font-medium">No Signup Required</span>
-                            </div>
-                            <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-800/50 border border-slate-700/50 text-slate-300">
-                                <svg className="w-4 h-4 text-blue-400" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                                </svg>
-                                <span className="font-medium">Code Generation</span>
-                            </div>
-                            <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-800/50 border border-slate-700/50 text-slate-300">
-                                <svg className="w-4 h-4 text-purple-400" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                                </svg>
-                                <span className="font-medium">Save Collections</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            {/* Main Tool */}
+        <ToolLayout
+            title="API Testing Playground"
+            description="Test REST APIs, import cURL commands, inspect responses, and generate request code from a focused browser workspace."
+            relatedTools={relatedTools}
+            schema={toolSchema}
+        >
             <APIPlaygroundClient />
 
-            {/* Features Section */}
-            <div className="border-t border-slate-700/50 bg-slate-900/50 backdrop-blur-xl">
-                <div className="container-custom py-16">
-                    <h2 className="text-3xl font-black text-white mb-8 text-center">Why Developers Love This Tool</h2>
-                    <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
-                        <div className="p-6 rounded-2xl bg-slate-800/50 border border-slate-700/50 backdrop-blur-sm">
-                            <div className="w-12 h-12 rounded-xl bg-indigo-500/10 flex items-center justify-center mb-4">
-                                <svg className="w-6 h-6 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                                </svg>
-                            </div>
-                            <h3 className="text-lg font-bold text-white mb-2">Lightning Fast</h3>
-                            <p className="text-slate-400 text-sm">Test APIs instantly. No installation, no configuration. Just paste and test.</p>
-                        </div>
-
-                        <div className="p-6 rounded-2xl bg-slate-800/50 border border-slate-700/50 backdrop-blur-sm">
-                            <div className="w-12 h-12 rounded-xl bg-green-500/10 flex items-center justify-center mb-4">
-                                <svg className="w-6 h-6 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
-                                </svg>
-                            </div>
-                            <h3 className="text-lg font-bold text-white mb-2">Code Generation</h3>
-                            <p className="text-slate-400 text-sm">Export to cURL, JavaScript, Python, and more. Copy-paste ready code.</p>
-                        </div>
-
-                        <div className="p-6 rounded-2xl bg-slate-800/50 border border-slate-700/50 backdrop-blur-sm">
-                            <div className="w-12 h-12 rounded-xl bg-purple-500/10 flex items-center justify-center mb-4">
-                                <svg className="w-6 h-6 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01" />
-                                </svg>
-                            </div>
-                            <h3 className="text-lg font-bold text-white mb-2">Save Collections</h3>
-                            <p className="text-slate-400 text-sm">Organize requests into collections. Access history. Work offline.</p>
-                        </div>
+            <section className="mt-10">
+                <div className="mb-6">
+                    <div className="font-mono text-[11px] uppercase tracking-[0.16em] text-neutral-500">
+                        Why developers use it
                     </div>
+                    <h2 className="mt-2 text-3xl font-semibold text-neutral-950">API testing without the visual noise.</h2>
                 </div>
-            </div>
-        </div>
+
+                <div className="grid gap-px border border-neutral-900/15 bg-neutral-900/15 md:grid-cols-3">
+                    {features.map((feature) => {
+                        const Icon = feature.icon;
+                        return (
+                            <div key={feature.title} className="bg-[#fbfbf4] p-5">
+                                <Icon className="h-5 w-5 text-neutral-900" />
+                                <h3 className="mt-5 text-lg font-semibold text-neutral-950">{feature.title}</h3>
+                                <p className="mt-3 text-sm leading-6 text-neutral-600">{feature.description}</p>
+                            </div>
+                        );
+                    })}
+                </div>
+            </section>
+        </ToolLayout>
     );
 }

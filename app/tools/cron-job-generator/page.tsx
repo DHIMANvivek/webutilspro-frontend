@@ -1,7 +1,6 @@
 import { generateMetadata as genMeta, generateToolSchema } from '@/lib/seo';
 import CronGeneratorClient from '@/components/tools/CronGenerator/CronGeneratorClient';
-import Breadcrumbs from '@/components/Breadcrumbs';
-import { LayoutGrid } from 'lucide-react';
+import ToolLayout from '@/components/ToolLayout';
 
 export const metadata = genMeta({
     title: 'Visual Cron Job Generator | Crontab Schedule Helper',
@@ -25,40 +24,26 @@ const jsonLd = generateToolSchema({
 
 export default function CronGeneratorPage() {
     return (
-        <div className="min-h-screen bg-slate-50 dark:bg-[#0B1120]">
-            <div className="container mx-auto px-4 py-12">
-                <div className="max-w-4xl mx-auto">
-                    <Breadcrumbs
-                        items={[
-                            { name: 'Tools', href: '/#tools', icon: <LayoutGrid className="w-3.5 h-3.5" /> },
-                            { name: 'Cron Job Generator', href: '/tools/cron-job-generator' },
-                        ]}
-                    />
-                </div>
-                <script
-                    type="application/ld+json"
-                    dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-                />
+        <ToolLayout
+            title="Visual Cron Generator"
+            description="Build complex schedules visually and get instant standard cron expressions without memorizing syntax."
+            schema={jsonLd}
+            relatedTools={[
+                { name: 'Timestamp Converter', href: '/tools/timestamp-converter' },
+                { name: 'Text Tools', href: '/tools/text-tools' },
+                { name: 'API Playground', href: '/tools/api-playground' }
+            ]}
+        >
+            <CronGeneratorClient />
 
-                <div className="text-center mb-12">
-                    <h1 className="text-4xl md:text-5xl font-black text-slate-900 dark:text-white mb-4 tracking-tight">
-                        Visual <span className="text-blue-600">Cron Generator</span>
-                    </h1>
-                    <p className="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
-                        Stop memorizing <code className="bg-slate-200 dark:bg-slate-800 px-1.5 py-0.5 rounded font-mono text-sm">* * * * *</code> syntax.
-                        Build complex schedules visually and get instant standard cron expressions.
-                    </p>
-                </div>
-
-                <CronGeneratorClient />
-
-                {/* FAQ / Content for SEO */}
-                <div className="max-w-3xl mx-auto mt-20 prose dark:prose-invert">
+            {/* FAQ / Content for SEO */}
+            <section className="mt-10 border border-neutral-900/15 bg-[#fbfbf4] p-6">
+                <div className="wup-prose">
                     <h2>Understanding Cron Expressions</h2>
                     <p>
                         A standard Cron expression consists of 5 fields separated by spaces:
                     </p>
-                    <div className="bg-slate-900 text-white p-4 rounded-xl font-mono text-sm shadow-lg overflow-x-auto">
+                    <div className="mt-4 overflow-x-auto border border-neutral-900/15 bg-[#fffefa] p-4 font-mono text-sm text-neutral-950">
                         <pre>{`
   ┌───────────── minute (0 - 59)
   │ ┌───────────── hour (0 - 23)
@@ -70,7 +55,7 @@ export default function CronGeneratorPage() {
                         `}</pre>
                     </div>
                 </div>
-            </div>
-        </div>
+            </section>
+        </ToolLayout>
     );
 }

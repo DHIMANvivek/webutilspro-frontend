@@ -1,8 +1,7 @@
 import React from 'react';
 import { Metadata } from 'next';
 import TranscriptGenerator from '@/components/tools/TranscriptGenerator';
-import Breadcrumbs from '@/components/Breadcrumbs';
-import { LayoutGrid } from 'lucide-react';
+import ToolLayout from '@/components/ToolLayout';
 
 export const metadata: Metadata = {
     title: 'Real-Time Transcript Generator | WebUtilsPro',
@@ -12,32 +11,16 @@ export const metadata: Metadata = {
 
 export default function TranscriptGeneratorPage() {
     return (
-        <main className="min-h-screen bg-[#FDFDFD] dark:bg-[#0a0a0a] pb-20">
-            {/* Header Section */}
-            {/* Header Section */}
-            <div className="bg-slate-50 border-b border-slate-200 pt-24 pb-12 mb-8">
-                <div className="container-custom">
-                    <div className="mb-8">
-                        <Breadcrumbs
-                            items={[
-                                { name: 'Tools', href: '/#tools', icon: <LayoutGrid className="w-3.5 h-3.5" /> },
-                                { name: 'Transcript Generator', href: '/tools/transcript-generator' },
-                            ]}
-                        />
-                    </div>
-                    <h1 className="text-3xl md:text-5xl font-black text-slate-900 mb-4 tracking-tight">
-                        Real-Time <span className="text-blue-600">Speech Scribe</span>
-                    </h1>
-                    <p className="text-lg text-slate-600 max-w-2xl">
-                        A privacy-first transcription tool that runs entirely in your browser.
-                        No audio is ever uploaded to the cloud. Perfect for dictating notes, ideas, or drafts securely.
-                    </p>
-                </div>
-            </div>
-
-            <div className="container-custom">
-                <TranscriptGenerator />
-            </div>
-        </main>
+        <ToolLayout
+            title="Real-Time Speech Scribe"
+            description="A privacy-first transcription tool that runs entirely in your browser. No audio is ever uploaded to the cloud."
+            relatedTools={[
+                { name: 'Text Tools', href: '/tools/text-tools' },
+                { name: 'Markdown to HTML', href: '/tools/markdown-to-html' },
+                { name: 'AI Error Explainer', href: '/tools/ai-error-explainer' }
+            ]}
+        >
+            <TranscriptGenerator />
+        </ToolLayout>
     );
 }

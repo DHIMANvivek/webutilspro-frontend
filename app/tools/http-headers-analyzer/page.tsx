@@ -1,7 +1,6 @@
 import { generateMetadata as genMeta, generateToolSchema } from '@/lib/seo';
 import HttpHeadersAnalyzerClient from '@/components/tools/HttpHeadersAnalyzer/HttpHeadersAnalyzerClient';
-import Breadcrumbs from '@/components/Breadcrumbs';
-import { LayoutGrid } from 'lucide-react';
+import ToolLayout from '@/components/ToolLayout';
 
 export const metadata = genMeta({
     title: 'HTTP Headers Analyzer & Security Scanner | WebUtilsPro',
@@ -25,32 +24,17 @@ const jsonLd = generateToolSchema({
 
 export default function HttpHeadersAnalyzerPage() {
     return (
-        <div className="min-h-screen bg-slate-50 dark:bg-[#0B1120]">
-            <div className="container mx-auto px-4 py-12">
-                <div className="max-w-4xl mx-auto">
-                    <Breadcrumbs
-                        items={[
-                            { name: 'Tools', href: '/#tools', icon: <LayoutGrid className="w-3.5 h-3.5" /> },
-                            { name: 'HTTP Headers Analyzer', href: '/tools/http-headers-analyzer' },
-                        ]}
-                    />
-                </div>
-                <script
-                    type="application/ld+json"
-                    dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-                />
-
-                <div className="text-center mb-12">
-                    <h1 className="text-4xl md:text-5xl font-black text-slate-900 dark:text-white mb-4 tracking-tight">
-                        HTTP Headers <span className="text-blue-600">Analyzer</span>
-                    </h1>
-                    <p className="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
-                        Check your website's health and security. Scan for missing <strong className="text-slate-900 dark:text-white">Security Headers</strong> like CSP, HSTS, and X-XSS-Protection.
-                    </p>
-                </div>
-
-                <HttpHeadersAnalyzerClient />
-            </div>
-        </div>
+        <ToolLayout
+            title="HTTP Headers Analyzer"
+            description="Check your website's health and security. Scan for missing security headers like CSP, HSTS, and X-Frame-Options."
+            schema={jsonLd}
+            relatedTools={[
+                { name: 'API Playground', href: '/tools/api-playground' },
+                { name: 'Webhook Inspector', href: '/tools/webhook-inspector' },
+                { name: 'JWT Security Auditor', href: '/tools/jwt-security-audit' }
+            ]}
+        >
+            <HttpHeadersAnalyzerClient />
+        </ToolLayout>
     );
 }

@@ -50,6 +50,54 @@ html {
   .wup-kicker {
     @apply inline-flex items-center gap-2 border border-neutral-900/15 bg-[#fbff5d] px-3 py-1 font-mono text-[11px] uppercase tracking-[0.16em] text-neutral-800;
   }
+
+  .wup-page-shell {
+    @apply min-h-screen bg-[#f7f7f1] text-neutral-950;
+  }
+
+  .wup-page-hero {
+    @apply wup-paper-grid border-b border-neutral-900/10 py-12 md:py-16;
+  }
+
+  .wup-section {
+    @apply border-b border-neutral-900/10 bg-[#fbfbf4] py-12 md:py-14;
+  }
+
+  .wup-stat-grid {
+    @apply grid gap-px border border-neutral-900/15 bg-neutral-900/15;
+  }
+
+  .wup-stat-cell {
+    @apply bg-[#fbfbf4] p-4;
+  }
+
+  .wup-prose {
+    @apply max-w-none text-neutral-600;
+  }
+
+  .wup-prose h2 {
+    @apply mt-10 border-t border-neutral-900/10 pt-8 text-2xl font-semibold text-neutral-950 first:mt-0 first:border-t-0 first:pt-0;
+  }
+
+  .wup-prose h3 {
+    @apply mt-6 text-lg font-semibold text-neutral-950;
+  }
+
+  .wup-prose p {
+    @apply mt-3 leading-7 text-neutral-600;
+  }
+
+  .wup-prose ul {
+    @apply mt-3 list-disc space-y-2 pl-6 text-neutral-600;
+  }
+
+  .wup-prose a {
+    @apply font-semibold text-neutral-950 underline decoration-neutral-900/25 underline-offset-4 hover:decoration-neutral-950;
+  }
+
+  .wup-prose strong {
+    @apply font-semibold text-neutral-900;
+  }
 }
 
 @layer components {
@@ -58,157 +106,158 @@ html {
   }
 
   .btn-primary {
-    @apply relative overflow-hidden bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white font-semibold py-3 px-8 rounded-xl transition-all duration-300 shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50 hover:scale-[1.02];
+    @apply inline-flex items-center justify-center border border-neutral-950 bg-neutral-950 px-6 py-3 font-mono text-[11px] font-bold uppercase tracking-[0.14em] text-white transition-colors hover:bg-neutral-800;
   }
 
   .btn-secondary {
-    @apply relative bg-white hover:bg-gray-50 text-gray-900 font-semibold py-3 px-8 rounded-xl transition-all duration-300 border border-gray-200 hover:border-gray-300 shadow-sm hover:shadow-md;
+    @apply inline-flex items-center justify-center border border-neutral-900 bg-[#fbff5d] px-6 py-3 font-mono text-[11px] font-bold uppercase tracking-[0.14em] text-neutral-950 transition-colors hover:bg-[#ffff8f];
   }
 
   /* Clean Tool Card Design */
   .card {
-    @apply relative rounded-2xl p-6 transition-all duration-300 bg-white border border-slate-200/60 shadow-sm;
+    @apply relative border border-neutral-900/15 bg-[#fbfbf4] p-5 transition-colors duration-200;
     background-clip: padding-box;
   }
 
   .dark .card {
-    @apply bg-white/[0.05] border-white/[0.08] shadow-lg;
+    @apply border-white/10 bg-neutral-950;
     background-clip: padding-box;
   }
 
   .card:hover {
-    @apply border-blue-500 shadow-xl shadow-blue-500/10;
+    @apply border-neutral-900/35 bg-white;
   }
 
   .dark .card:hover {
-    @apply border-blue-500/50 shadow-blue-500/20;
+    @apply border-white/25 bg-neutral-900;
   }
 
   /* Clean Icon Container */
   .tool-icon {
-    @apply w-12 h-12 rounded-lg flex items-center justify-center text-2xl transition-all duration-300;
-    background: rgba(59, 130, 246, 0.1);
+    @apply flex h-12 w-12 items-center justify-center border border-neutral-900/15 bg-[#fbff5d] text-2xl transition-colors duration-200;
   }
 
   .dark .tool-icon {
-    background: rgba(59, 130, 246, 0.15);
+    @apply border-white/15 bg-[#fbff5d] text-neutral-950;
   }
 
   .group:hover .tool-icon {
-    background: rgba(59, 130, 246, 0.15);
+    @apply bg-[#ffff8f];
   }
 
   .dark .group:hover .tool-icon {
-    background: rgba(59, 130, 246, 0.25);
+    @apply bg-[#ffff8f];
   }
 
   .input-field {
-    @apply w-full px-4 py-3 border border-slate-200 rounded-xl bg-white text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-300 shadow-sm;
+    @apply w-full border border-neutral-900/20 bg-white px-4 py-3 text-neutral-950 placeholder-neutral-400 outline-none transition-colors duration-200 focus:border-neutral-950;
   }
 
   .textarea-field {
-    @apply w-full px-4 py-3 border border-slate-200 rounded-xl bg-white text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-300 resize-y min-h-32 shadow-sm;
+    @apply min-h-32 w-full resize-y border border-neutral-900/20 bg-white px-4 py-3 text-neutral-950 placeholder-neutral-400 outline-none transition-colors duration-200 focus:border-neutral-950;
   }
 
   /* Clean Category Badges */
   .category-badge {
-    @apply inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-medium;
+    @apply inline-flex items-center border border-neutral-900/15 bg-[#fbff5d] px-2.5 py-0.5 font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-neutral-800;
   }
 
   .category-text-processing,
   .category-utilities,
   .category-text {
-    @apply bg-blue-100 text-blue-700;
+    @apply border-neutral-900/15 bg-[#fbff5d] text-neutral-800;
   }
 
   .dark .category-text-processing,
   .dark .category-utilities,
   .dark .category-text {
-    @apply bg-blue-500/20 text-blue-300;
+    @apply border-white/15 bg-[#fbff5d] text-neutral-950;
   }
 
   .category-data-conversion,
   .category-data {
-    @apply bg-green-100 text-green-700;
+    @apply border-neutral-900/15 bg-[#fbff5d] text-neutral-800;
   }
 
   .dark .category-data-conversion,
   .dark .category-data {
-    @apply bg-green-500/20 text-green-300;
+    @apply border-white/15 bg-[#fbff5d] text-neutral-950;
   }
 
   .category-content,
   .category-web {
-    @apply bg-amber-100 text-amber-700;
+    @apply border-neutral-900/15 bg-[#fbff5d] text-neutral-800;
   }
 
   .dark .category-content,
   .dark .category-web {
-    @apply bg-amber-500/20 text-amber-300;
+    @apply border-white/15 bg-[#fbff5d] text-neutral-950;
   }
 
   .category-ai-powered {
-    @apply bg-purple-100 text-purple-700;
+    @apply border-neutral-900/15 bg-[#fbff5d] text-neutral-800;
   }
 
   .dark .category-ai-powered {
-    @apply bg-purple-500/20 text-purple-300;
+    @apply border-white/15 bg-[#fbff5d] text-neutral-950;
   }
 
   .category-code-tools {
-    @apply bg-indigo-100 text-indigo-700;
+    @apply border-neutral-900/15 bg-[#fbff5d] text-neutral-800;
   }
 
   .dark .category-code-tools {
-    @apply bg-indigo-500/20 text-indigo-300;
+    @apply border-white/15 bg-[#fbff5d] text-neutral-950;
   }
 
   .category-encoding,
   .category-security {
-    @apply bg-red-100 text-red-700;
+    @apply border-neutral-900/15 bg-[#fbff5d] text-neutral-800;
   }
 
   .dark .category-encoding,
   .dark .category-security {
-    @apply bg-red-500/20 text-red-300;
+    @apply border-white/15 bg-[#fbff5d] text-neutral-950;
   }
 
   .category-design,
   .category-media {
-    @apply bg-pink-100 text-pink-700;
+    @apply border-neutral-900/15 bg-[#fbff5d] text-neutral-800;
   }
 
   .dark .category-design,
   .dark .category-media {
-    @apply bg-pink-500/20 text-pink-300;
+    @apply border-white/15 bg-[#fbff5d] text-neutral-950;
   }
 }
 
 @layer utilities {
   .text-gradient {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600;
-    animation: gradient-shift 8s ease infinite;
-    background-size: 200% auto;
+    @apply text-neutral-950;
   }
 
   .dark .text-gradient {
-    @apply bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400;
+    @apply text-white;
   }
 
   .text-gradient-secondary {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-cyan-600 to-blue-600;
+    @apply text-neutral-700;
   }
 
   .dark .text-gradient-secondary {
-    @apply bg-gradient-to-r from-cyan-400 to-blue-400;
+    @apply text-neutral-300;
   }
 
   .gradient-bg {
-    @apply bg-gradient-to-br from-gray-50 to-blue-50;
+    @apply bg-[#f7f7f1];
+    background-image:
+      linear-gradient(to right, rgba(22, 22, 18, 0.055) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(22, 22, 18, 0.055) 1px, transparent 1px);
+    background-size: 18px 18px;
   }
 
   .gradient-bg-light {
-    @apply bg-white;
+    @apply bg-[#fbfbf4];
   }
 
   /* Animated Gradient Border */
@@ -289,12 +338,12 @@ html {
 
   /* Clean Panel Design */
   .glass-panel {
-    @apply rounded-xl bg-white border border-slate-200 shadow-sm;
+    @apply border border-neutral-900/15 bg-[#fbfbf4];
     background-clip: padding-box;
   }
 
   .dark .glass-panel {
-    @apply bg-white/[0.05] border-white/[0.1] shadow-lg;
+    @apply border-white/10 bg-neutral-950;
     background-clip: padding-box;
   }
 }
@@ -306,16 +355,16 @@ html {
 }
 
 ::-webkit-scrollbar-track {
-  @apply bg-white/5;
+  @apply bg-[#f7f7f1];
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-white/20 rounded-lg;
+  @apply bg-neutral-900/25;
   transition: background 0.3s ease;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  @apply bg-white/30;
+  @apply bg-neutral-900/45;
 }
 
 /* Print styles */
@@ -327,5 +376,148 @@ html {
 
 /* Selection */
 ::selection {
-  @apply bg-blue-500/30 text-white;
+  @apply bg-[#fbff5d] text-neutral-950;
+}
+
+/* Tool theme normalization: keeps older tool internals aligned with the homepage shell. */
+.wup-tools-route {
+  color: #0a0a0a;
+}
+
+.wup-tools-route .card,
+.wup-tools-route .glass-panel,
+.wup-tools-route .bg-white,
+.wup-tools-route [class*="bg-gray-50"],
+.wup-tools-route [class*="bg-slate-50"] {
+  background: #fbfbf4 !important;
+  border-color: rgba(23, 23, 20, 0.15) !important;
+  box-shadow: none !important;
+}
+
+.wup-tools-route [class*="bg-blue-50"],
+.wup-tools-route [class*="bg-indigo-50"],
+.wup-tools-route [class*="bg-purple-50"],
+.wup-tools-route [class*="bg-pink-50"],
+.wup-tools-route [class*="bg-cyan-50"],
+.wup-tools-route [class*="bg-primary-50"],
+.wup-tools-route [class*="bg-secondary-50"] {
+  background: #fbff5d !important;
+  border-color: rgba(23, 23, 20, 0.18) !important;
+}
+
+.wup-tools-route [class*="from-blue"],
+.wup-tools-route [class*="from-indigo"],
+.wup-tools-route [class*="from-purple"],
+.wup-tools-route [class*="from-primary"],
+.wup-tools-route [class*="from-slate"],
+.wup-tools-route [class*="to-blue"],
+.wup-tools-route [class*="to-indigo"],
+.wup-tools-route [class*="to-purple"],
+.wup-tools-route [class*="to-primary"],
+.wup-tools-route [class*="to-slate"] {
+  background-image: none !important;
+}
+
+.wup-tools-route [class*="bg-gradient-to-b"],
+.wup-tools-route [class*="bg-gradient-to-br"] {
+  background-color: #f7f7f1 !important;
+  color: #0a0a0a !important;
+}
+
+.wup-tools-route [class*="bg-gradient-to-r"] {
+  background-color: #0a0a0a !important;
+  color: #f8f8ef !important;
+}
+
+.wup-tools-route [class*="bg-blue-500"],
+.wup-tools-route [class*="bg-blue-600"],
+.wup-tools-route [class*="bg-blue-700"],
+.wup-tools-route [class*="bg-indigo-500"],
+.wup-tools-route [class*="bg-indigo-600"],
+.wup-tools-route [class*="bg-indigo-700"],
+.wup-tools-route [class*="bg-purple-500"],
+.wup-tools-route [class*="bg-purple-600"],
+.wup-tools-route [class*="bg-purple-700"],
+.wup-tools-route [class*="bg-primary-500"],
+.wup-tools-route [class*="bg-primary-600"],
+.wup-tools-route [class*="bg-primary-700"] {
+  background-color: #0a0a0a !important;
+}
+
+.wup-tools-route [class*="text-blue"],
+.wup-tools-route [class*="text-indigo"],
+.wup-tools-route [class*="text-purple"],
+.wup-tools-route [class*="text-cyan"],
+.wup-tools-route [class*="text-primary"],
+.wup-tools-route [class*="text-secondary"] {
+  color: #0a0a0a !important;
+}
+
+.wup-tools-route [class*="bg-gradient-to-b"] .text-white,
+.wup-tools-route [class*="bg-gradient-to-br"] .text-white,
+.wup-tools-route [class*="bg-gradient-to-b"] [class*="text-slate-"],
+.wup-tools-route [class*="bg-gradient-to-br"] [class*="text-slate-"] {
+  color: #0a0a0a !important;
+}
+
+.wup-tools-route [class*="bg-gradient-to-r"] .text-white,
+.wup-tools-route [class*="bg-gradient-to-r"][class*="text-white"],
+.wup-tools-route [class*="bg-blue-500"][class*="text-white"],
+.wup-tools-route [class*="bg-blue-600"][class*="text-white"],
+.wup-tools-route [class*="bg-indigo-600"][class*="text-white"],
+.wup-tools-route [class*="bg-purple-600"][class*="text-white"],
+.wup-tools-route [class*="bg-primary-600"][class*="text-white"] {
+  color: #f8f8ef !important;
+}
+
+.wup-tools-route [class*="border-blue"],
+.wup-tools-route [class*="border-indigo"],
+.wup-tools-route [class*="border-purple"],
+.wup-tools-route [class*="border-primary"],
+.wup-tools-route [class*="border-secondary"],
+.wup-tools-route [class*="border-slate"],
+.wup-tools-route [class*="border-gray"] {
+  border-color: rgba(23, 23, 20, 0.16) !important;
+}
+
+.wup-tools-route [class*="rounded"] {
+  border-radius: 0 !important;
+}
+
+.wup-tools-route [class*="shadow"] {
+  box-shadow: none !important;
+}
+
+.wup-tools-route input,
+.wup-tools-route textarea,
+.wup-tools-route select {
+  border-color: rgba(23, 23, 20, 0.2) !important;
+  background: #fffefa !important;
+  color: #0a0a0a !important;
+}
+
+.wup-tools-route input:focus,
+.wup-tools-route textarea:focus,
+.wup-tools-route select:focus {
+  border-color: #0a0a0a !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+.wup-tools-route button:not(:disabled),
+.wup-tools-route a[role="button"]:not(:disabled) {
+  border-radius: 0 !important;
+}
+
+.wup-tools-route pre,
+.wup-tools-route code {
+  border-radius: 0 !important;
+}
+
+.wup-tools-route .bg-black,
+.wup-tools-route [class*="bg-slate-900"],
+.wup-tools-route [class*="bg-slate-950"],
+.wup-tools-route [class*="bg-gray-900"],
+.wup-tools-route [class*="bg-gray-950"] {
+  color: #f8f8ef;
 }

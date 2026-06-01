@@ -37,21 +37,17 @@ export default function DatabaseArchitectPage() {
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
             />
 
-            <div className="w-full py-12">
+            <div className="w-full">
                 {/* Viral Header Section */}
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center mb-16 relative">
-                    <div className="absolute -top-10 left-1/2 -translate-x-1/2 w-64 h-64 bg-indigo-500/10 rounded-full blur-3xl -z-10 animate-pulse"></div>
-                    <div className="inline-flex items-center gap-2 px-6 py-2 rounded-full bg-slate-900 border border-slate-800 mb-8 shadow-2xl">
-                        <Sparkles className="w-4 h-4 text-indigo-400" />
-                        <span className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em]">Viral Feature: ERD-to-Code</span>
+                <div className="mb-10 border border-neutral-900/15 bg-[#fbfbf4] p-6 text-center md:p-8">
+                    <div className="wup-kicker">
+                        <Sparkles className="h-3.5 w-3.5" />
+                        ERD-to-code
                     </div>
-                    <h1 className="text-6xl md:text-7xl font-black text-slate-900 dark:text-white mb-8 tracking-tighter leading-[0.9]">
-                        Draw Your <br className="hidden md:block" />
-                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
-                            Scalable Database
-                        </span>
+                    <h1 className="mx-auto mt-5 max-w-4xl text-5xl font-semibold leading-tight tracking-normal text-neutral-950 md:text-6xl">
+                        Draw your scalable database.
                     </h1>
-                    <p className="text-xl text-slate-600 dark:text-slate-400 max-w-4xl mx-auto leading-relaxed font-medium">
+                    <p className="mx-auto mt-5 max-w-4xl text-lg font-medium leading-8 text-neutral-600">
                         Stop writing boilerplate SQL. Use our high-performance interactive canvas to design your entities, connect relationships with satisfying cables, and export production-ready code in one click.
                     </p>
                 </div>
@@ -62,13 +58,12 @@ export default function DatabaseArchitectPage() {
                 </div>
 
                 {/* Viral SEO Content Sections */}
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-40 space-y-40">
+                <div className="mt-20 space-y-20">
                     {/* Why Visual Architechture? */}
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
-                        <div className="relative group">
-                            <div className="absolute -inset-4 bg-gradient-to-r from-indigo-500/20 to-purple-500/20 rounded-[4rem] blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-1000"></div>
-                            <div className="relative p-12 rounded-[3.5rem] bg-slate-900 border border-white/5 shadow-2xl">
-                                <pre className="text-sm font-mono text-indigo-400/90 leading-relaxed overflow-hidden">
+                    <div className="grid grid-cols-1 gap-px border border-neutral-900/15 bg-neutral-900/15 lg:grid-cols-2">
+                        <div className="bg-[#fbfbf4] p-6 md:p-8">
+                            <div className="border border-neutral-900/15 bg-[#fffefa] p-6">
+                                <pre className="overflow-auto font-mono text-sm leading-relaxed text-neutral-950">
                                     <code>{`// 1. Draw your tables
 // 2. Connect the cables
 // 3. Export to Prisma:
@@ -86,36 +81,35 @@ model Post {
   author   User   @relation(fields: [authorId], references: [id])
 }`}</code>
                                 </pre>
-                                <div className="absolute bottom-6 right-8 flex items-center gap-2 px-4 py-2 bg-indigo-500/20 border border-indigo-500/30 rounded-full">
-                                    <div className="w-2 h-2 rounded-full bg-indigo-500 animate-ping"></div>
-                                    <span className="text-[10px] font-black text-indigo-400 uppercase tracking-widest">Live Sync Enabled</span>
-                                </div>
+                            </div>
+                            <div className="mt-4 inline-flex items-center gap-2 border border-neutral-900/15 bg-[#fbff5d] px-3 py-2 font-mono text-[10px] font-black uppercase tracking-widest text-neutral-950">
+                                <span className="h-2 w-2 bg-emerald-500" />
+                                Live Sync Enabled
                             </div>
                         </div>
-                        <div className="space-y-10">
-                            <h2 className="text-4xl md:text-5xl font-black text-slate-900 dark:text-white tracking-tighter leading-tight">
-                                Because Schemas <br />
-                                <span className="text-indigo-500">Should Be Visual.</span>
+                        <div className="space-y-8 bg-[#fbfbf4] p-6 md:p-8">
+                            <h2 className="text-4xl font-semibold leading-tight tracking-normal text-neutral-950 md:text-5xl">
+                                Because schemas should be visual.
                             </h2>
-                            <div className="space-y-6 text-slate-600 dark:text-slate-400 leading-relaxed text-lg font-medium">
+                            <div className="space-y-5 text-lg font-medium leading-8 text-neutral-600">
                                 <p>
                                     Database design is the foundation of every great application. But why are we still wasting hours on typos and syntax errors in raw text files?
                                 </p>
                                 <p>
-                                    The **Visual Database Architect** turns data modeling into a creative process. It's built for rapid prototyping and enterprise-grade architecture.
+                                    The <strong className="font-semibold text-neutral-950">Visual Database Architect</strong> turns data modeling into a creative process. It is built for rapid prototyping and enterprise-grade architecture.
                                 </p>
-                                <ul className="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-6">
+                                <ul className="grid grid-cols-1 gap-px border border-neutral-900/15 bg-neutral-900/15 pt-0 sm:grid-cols-2">
                                     {[
-                                        { icon: Zap, text: 'No Syntactic Errors', color: 'text-yellow-500' },
-                                        { icon: Share2, text: 'Team Alignment', color: 'text-blue-500' },
-                                        { icon: Code2, text: 'Multi-ORM Export', color: 'text-purple-500' },
-                                        { icon: Database, text: 'ERD Automation', color: 'text-emerald-500' }
+                                        { icon: Zap, text: 'No Syntactic Errors' },
+                                        { icon: Share2, text: 'Team Alignment' },
+                                        { icon: Code2, text: 'Multi-ORM Export' },
+                                        { icon: Database, text: 'ERD Automation' }
                                     ].map((item, i) => (
-                                        <li key={i} className="flex items-center gap-4 group">
-                                            <div className="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-900 flex items-center justify-center group-hover:scale-110 transition-transform">
-                                                <item.icon className={`w-5 h-5 ${item.color}`} />
+                                        <li key={i} className="flex items-center gap-4 bg-[#fbfbf4] p-4">
+                                            <div className="flex h-10 w-10 items-center justify-center border border-neutral-900/15 bg-[#fbff5d]">
+                                                <item.icon className="h-5 w-5 text-neutral-950" />
                                             </div>
-                                            <span className="font-bold text-slate-800 dark:text-slate-200 uppercase tracking-widest text-[11px]">{item.text}</span>
+                                            <span className="font-mono text-[11px] font-bold uppercase tracking-widest text-neutral-800">{item.text}</span>
                                         </li>
                                     ))}
                                 </ul>
@@ -124,7 +118,7 @@ model Post {
                     </div>
 
                     {/* Features Grid */}
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+                    <div className="grid grid-cols-1 gap-px border border-neutral-900/15 bg-neutral-900/15 md:grid-cols-3">
                         {[
                             { title: 'Interactive Canvas', icon: '🎨', desc: 'Industry-standard drag-and-drop mechanics with infinite workspace zoom and pan.' },
                             { title: 'Satisfying "Cables"', icon: '🧬', desc: 'Watch your relationships snap together with smart-routing edge paths and animated flows.' },
@@ -133,54 +127,51 @@ model Post {
                             { title: 'Drizzle & TypeORM', icon: '📜', desc: 'Generate TypeScript entities and schemas that are type-safe and ready to drop into your repo.' },
                             { title: 'Auto-Scaling UI', icon: '🖥️', desc: 'Nodes react to your content, auto-expanding as you add more columns and indices.' }
                         ].map((item, i) => (
-                            <div key={i} className="p-10 rounded-[2.5rem] bg-white dark:bg-slate-900 border border-slate-100 dark:border-white/5 shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all">
+                            <div key={i} className="bg-[#fbfbf4] p-6">
                                 <span className="text-4xl mb-8 block">{item.icon}</span>
-                                <h4 className="font-black text-slate-900 dark:text-white uppercase tracking-tighter text-xl mb-4">{item.title}</h4>
-                                <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed font-medium italic">{item.desc}</p>
+                                <h4 className="mb-4 text-xl font-semibold text-neutral-950">{item.title}</h4>
+                                <p className="text-sm font-medium leading-6 text-neutral-600">{item.desc}</p>
                             </div>
                         ))}
                     </div>
 
                     {/* Technical FAQ Section */}
-                    <div className="max-w-4xl mx-auto space-y-16">
+                    <div className="mx-auto max-w-4xl space-y-10">
                         <div className="text-center">
-                            <h2 className="text-4xl font-black text-slate-900 dark:text-white mb-6 uppercase tracking-tighter">Database Architecture FAQ</h2>
-                            <p className="text-slate-500 font-bold uppercase tracking-[0.2em] text-xs">A Deep Utility Guide for Architects</p>
+                            <h2 className="mb-4 text-4xl font-semibold tracking-normal text-neutral-950">Database Architecture FAQ</h2>
+                            <p className="font-mono text-xs font-bold uppercase tracking-[0.16em] text-neutral-500">A deep utility guide for architects</p>
                         </div>
-                        <div className="grid grid-cols-1 gap-8">
+                        <div className="grid grid-cols-1 gap-px border border-neutral-900/15 bg-neutral-900/15">
                             {[
                                 { q: "How do I define One-to-Many relationships?", a: "Simply drag a cable from the Primary Key of your Parent table to the Foreign Key column of your Child table. The Architect will automatically assign the correct relationship attributes for Prisma and SQL." },
                                 { q: "Can I import an existing SQL schema?", a: "Yes! Use our 'Magic Import' feature to paste your raw CREATE TABLE statements, and we will reconstruct the visual ERD for you instantly." },
                                 { q: "What data types are supported?", a: "We support the full spectrum of modern application types: String, Int, BigInt, Float, Boolean, DateTime, Json, and Boolean, with automatic mapping for different ORMs." },
                                 { q: "Does it help with database normalization?", a: "While we don't automatically normalize, the visual layout makes detecting redundant data and circular dependencies significantly easier than reading raw code." }
                             ].map((faq, i) => (
-                                <div key={i} className="p-10 rounded-[2rem] bg-slate-50 dark:bg-slate-950 border border-slate-100 dark:border-white/5 relative group">
-                                    <div className="absolute top-10 left-0 w-1 h-12 bg-indigo-500 rounded-r-full scale-0 group-hover:scale-100 transition-transform"></div>
-                                    <h5 className="font-black text-slate-900 dark:text-white mb-4 text-lg tracking-tight">Q: {faq.q}</h5>
-                                    <p className="text-base text-slate-600 dark:text-slate-400 leading-relaxed font-medium">A: {faq.a}</p>
+                                <div key={i} className="bg-[#fbfbf4] p-6">
+                                    <h5 className="mb-3 text-lg font-semibold text-neutral-950">Q: {faq.q}</h5>
+                                    <p className="text-base font-medium leading-7 text-neutral-600">A: {faq.a}</p>
                                 </div>
                             ))}
                         </div>
                     </div>
 
                     {/* Final Viral CTA */}
-                    <div className="p-20 rounded-[5rem] bg-slate-900 text-center relative overflow-hidden group">
-                        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-indigo-500 to-transparent"></div>
-                        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(99,102,241,0.15),transparent_70%)] opacity-0 group-hover:opacity-100 transition-opacity duration-1000"></div>
-                        <h3 className="text-5xl font-black text-white mb-8 tracking-tighter relative z-10">Modernize Your Data Flow.</h3>
-                        <p className="text-slate-400 max-w-3xl mx-auto mb-12 leading-relaxed relative z-10 font-bold italic text-lg opacity-80">
+                    <div className="border border-neutral-900/15 bg-[#fbff5d] p-8 text-center md:p-12">
+                        <h3 className="mb-6 text-4xl font-semibold tracking-normal text-neutral-950 md:text-5xl">Modernize Your Data Flow.</h3>
+                        <p className="mx-auto mb-8 max-w-3xl text-lg font-medium leading-8 text-neutral-700">
                             Build schemas faster. Catch design flaws earlier. Impress your leads with stunning ERD diagrams that actually work.
                         </p>
-                        <div className="flex flex-wrap justify-center gap-6 relative z-10">
-                            <div className="flex items-center gap-3 px-8 py-3 bg-white/5 rounded-2xl border border-white/10 text-[11px] font-black uppercase tracking-[0.2em] text-slate-300">
-                                <Code2 className="w-4 h-4 text-indigo-400" />
+                        <div className="flex flex-wrap justify-center gap-3">
+                            <div className="flex items-center gap-3 border border-neutral-900/15 bg-[#fbfbf4] px-6 py-3 font-mono text-[11px] font-black uppercase tracking-[0.16em] text-neutral-700">
+                                <Code2 className="h-4 w-4 text-neutral-950" />
                                 10k Exported Schemas/Month
                             </div>
                             <a
                                 href="#designer-studio"
-                                className="flex items-center gap-3 px-8 py-3 bg-indigo-600 rounded-2xl border border-indigo-400/30 text-[11px] font-black uppercase tracking-[0.2em] text-white shadow-2xl shadow-indigo-500/20 hover:bg-indigo-500 transition-all active:scale-95 cursor-pointer no-underline"
+                                className="flex items-center gap-3 border border-neutral-950 bg-neutral-950 px-6 py-3 font-mono text-[11px] font-black uppercase tracking-[0.16em] text-white no-underline transition-colors hover:bg-neutral-800"
                             >
-                                <Zap className="w-4 h-4" />
+                                <Zap className="h-4 w-4" />
                                 Start Designing Now
                             </a>
                         </div>

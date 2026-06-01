@@ -61,12 +61,12 @@ interface TableData extends Record<string, unknown> {
 // --- Custom Table Node ---
 const TableNode = ({ data, id }: { data: TableData; id: string }) => {
     return (
-        <div className="bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-white/10 rounded-2xl shadow-xl min-w-[240px] overflow-hidden group">
+        <div className="min-w-[240px] overflow-hidden border-2 border-neutral-900/20 bg-[#fbfbf4]">
             {/* Table Header */}
-            <div className={`px-4 py-3 pb-4 border-b border-slate-100 dark:border-white/5 flex items-center justify-between ${data.color || 'bg-indigo-500/10'}`}>
+            <div className="flex items-center justify-between border-b border-neutral-900/15 bg-neutral-950 px-4 py-3 pb-4 text-white">
                 <div className="flex items-center gap-3">
-                    <Database className="w-4 h-4 text-indigo-500" />
-                    <span className="font-black text-[13px] text-slate-800 dark:text-white uppercase tracking-tighter">
+                    <Database className="h-4 w-4 text-[#fbff5d]" />
+                    <span className="text-[13px] font-black uppercase tracking-normal text-white">
                         {data.name}
                     </span>
                 </div>
@@ -75,27 +75,27 @@ const TableNode = ({ data, id }: { data: TableData; id: string }) => {
             {/* Columns List */}
             <div className="p-1 space-y-0.5">
                 {data.columns.map((col) => (
-                    <div key={col.id} className="relative flex items-center justify-between px-4 py-2 hover:bg-slate-50 dark:hover:bg-slate-800/50 rounded-lg group/col transition-colors">
+                    <div key={col.id} className="group/col relative flex items-center justify-between px-4 py-2 transition-colors hover:bg-[#ffffd9]">
                         {/* Input Handle for Relationships */}
                         <Handle
                             type="target"
                             position={Position.Left}
                             id={col.id}
-                            className="w-2.5 h-2.5 !bg-indigo-500 !border-white dark:!border-slate-900 !-left-1.5"
+                            className="!-left-1.5 h-2.5 w-2.5 !border-[#fbfbf4] !bg-neutral-950"
                         />
 
                         <div className="flex items-center gap-3 overflow-hidden">
-                            <span className={`text-[11px] font-bold ${col.isPK ? 'text-indigo-600 dark:text-indigo-400' : 'text-slate-700 dark:text-slate-300'} truncate`}>
+                            <span className={`truncate text-[11px] font-bold ${col.isPK ? 'text-neutral-950' : 'text-neutral-700'}`}>
                                 {col.name}
                             </span>
-                            <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded border border-slate-200 dark:border-white/5">
+                            <span className="border border-neutral-900/15 bg-[#fbff5d] px-1.5 py-0.5 text-[9px] font-black uppercase tracking-widest text-neutral-700">
                                 {col.type}
                             </span>
                         </div>
 
                         <div className="flex items-center gap-1.5">
                             {col.isPK && <Zap className="w-3 h-3 text-amber-500" />}
-                            {col.isFK && <LinkIcon className="w-3 h-3 text-blue-500" />}
+                            {col.isFK && <LinkIcon className="h-3 w-3 text-neutral-950" />}
                         </div>
 
                         {/* Output Handle for Relationships */}
@@ -103,15 +103,15 @@ const TableNode = ({ data, id }: { data: TableData; id: string }) => {
                             type="source"
                             position={Position.Right}
                             id={col.id}
-                            className="w-2.5 h-2.5 !bg-indigo-500 !border-white dark:!border-slate-900 !-right-1.5"
+                            className="!-right-1.5 h-2.5 w-2.5 !border-[#fbfbf4] !bg-neutral-950"
                         />
                     </div>
                 ))}
             </div>
 
             {/* Add Column Quick Action */}
-            <div className="p-3 bg-slate-50/50 dark:bg-slate-800/20 border-t border-slate-100 dark:border-white/5 text-center">
-                <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
+            <div className="border-t border-neutral-900/15 bg-[#fbfbf4] p-3 text-center">
+                <span className="text-[10px] font-black uppercase tracking-widest text-neutral-500">
                     {data.columns.length} Fields
                 </span>
             </div>
@@ -125,14 +125,14 @@ const CustomEdge = ({ id, sourceX, sourceY, targetX, targetY, sourcePosition, ta
 
     return (
         <>
-            <path id={id} style={style} className="react-flow__edge-path stroke-[2.5px] stroke-indigo-500/40" d={edgePath} markerEnd={markerEnd} />
+            <path id={id} style={style} className="react-flow__edge-path stroke-[2.5px] stroke-neutral-950/40" d={edgePath} markerEnd={markerEnd} />
             <g transform={`translate(${sourceX + 20}, ${sourceY})`}>
-                <rect x="-8" y="-8" width="16" height="16" rx="4" fill="white" className="stroke-indigo-500 stroke-1" />
-                <text x="0" y="4" textAnchor="middle" className="fill-indigo-500 text-[10px] font-black">1</text>
+                <rect x="-8" y="-8" width="16" height="16" fill="#fbff5d" className="stroke-neutral-950 stroke-1" />
+                <text x="0" y="4" textAnchor="middle" className="fill-neutral-950 text-[10px] font-black">1</text>
             </g>
             <g transform={`translate(${targetX - 20}, ${targetY})`}>
-                <rect x="-8" y="-8" width="16" height="16" rx="4" fill="white" className="stroke-indigo-500 stroke-1" />
-                <text x="0" y="5" textAnchor="middle" className="fill-indigo-500 text-[12px] font-black">∞</text>
+                <rect x="-8" y="-8" width="16" height="16" fill="#fbff5d" className="stroke-neutral-950 stroke-1" />
+                <text x="0" y="5" textAnchor="middle" className="fill-neutral-950 text-[12px] font-black">∞</text>
             </g>
         </>
     );
@@ -398,26 +398,26 @@ export default function DatabaseArchitectClient() {
     };
 
     return (
-        <div className={`bg-white dark:bg-slate-900 border-y border-slate-200 dark:border-white/5 shadow-2xl overflow-hidden backdrop-blur-3xl flex flex-col relative group w-full h-[calc(100vh-120px)] min-h-[700px]`}>
+        <div className="relative flex h-[calc(100vh-120px)] min-h-[700px] w-full flex-col overflow-hidden border-y border-neutral-900/15 bg-[#fbfbf4]">
 
             {/* Magic Import Overlay */}
             {showMagicImport && (
-                <div className="absolute inset-0 z-[110] bg-slate-950/80 backdrop-blur-xl p-20 flex flex-col items-center justify-center">
-                    <div className="w-full max-w-4xl bg-slate-900 border border-white/10 rounded-[3rem] p-12 shadow-2xl space-y-8">
+                <div className="absolute inset-0 z-[110] flex flex-col items-center justify-center bg-neutral-950/70 p-20 backdrop-blur-xl">
+                    <div className="w-full max-w-4xl space-y-8 border border-neutral-900/15 bg-[#fbfbf4] p-12">
                         <div className="flex items-center justify-between">
-                            <h3 className="text-3xl font-black text-white tracking-tighter uppercase">Magic SQL Import</h3>
-                            <button onClick={() => setShowMagicImport(false)} className="p-3 text-slate-400 hover:text-white bg-white/5 rounded-2xl">
+                            <h3 className="text-3xl font-black uppercase tracking-normal text-neutral-950">Magic SQL Import</h3>
+                            <button onClick={() => setShowMagicImport(false)} className="border border-neutral-900/15 bg-[#fbfbf4] p-3 text-neutral-500 hover:border-neutral-950 hover:text-neutral-950">
                                 <X className="w-6 h-6" />
                             </button>
                         </div>
-                        <p className="text-slate-400 font-medium">Paste your SQL <code className="text-indigo-400 font-bold uppercase">CREATE TABLE</code> statements below to instantly generate a visual ERD.</p>
+                        <p className="font-medium text-neutral-600">Paste your SQL <code className="font-bold uppercase text-neutral-950">CREATE TABLE</code> statements below to instantly generate a visual ERD.</p>
                         <textarea
                             value={importSql}
                             onChange={(e) => setImportSql(e.target.value)}
                             placeholder={`CREATE TABLE Users (\n  id INT PRIMARY KEY,\n  email VARCHAR(255) UNIQUE NOT NULL\n);`}
-                            className="w-full h-80 bg-slate-950 border border-white/5 rounded-[2rem] p-8 text-sm font-mono text-indigo-400 focus:ring-2 focus:ring-indigo-500 outline-none"
+                            className="h-80 w-full border border-neutral-900/20 bg-[#fffefa] p-8 font-mono text-sm text-neutral-950 outline-none focus:border-neutral-950"
                         />
-                        <button onClick={magicImport} className="w-full py-6 bg-indigo-600 hover:bg-indigo-500 text-white font-black uppercase tracking-widest rounded-[2rem] transition-all shadow-2xl shadow-indigo-500/20">
+                        <button onClick={magicImport} className="w-full border border-neutral-950 bg-neutral-950 py-6 font-black uppercase tracking-widest text-white transition-colors hover:bg-neutral-800">
                             Process Schema
                         </button>
                     </div>
@@ -425,26 +425,26 @@ export default function DatabaseArchitectClient() {
             )}
 
             {/* Studio Header */}
-            <div className="p-6 border-b border-slate-100 dark:border-white/5 bg-slate-50/50 dark:bg-slate-950/30 flex items-center justify-between">
+            <div className="flex items-center justify-between border-b border-neutral-900/15 bg-[#fbfbf4] p-6">
                 <div className="flex items-center gap-8">
                     <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center shadow-lg shadow-indigo-500/20">
-                            <Layers className="w-5 h-5 text-white" />
+                        <div className="flex h-10 w-10 items-center justify-center border border-neutral-950 bg-neutral-950">
+                            <Layers className="h-5 w-5 text-[#fbff5d]" />
                         </div>
                         <div>
-                            <h3 className="text-sm font-black text-slate-800 dark:text-white uppercase tracking-tighter">Architect Mode</h3>
-                            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">v1.2 Studio Engine</span>
+                            <h3 className="text-sm font-black uppercase tracking-normal text-neutral-950">Architect Mode</h3>
+                            <span className="text-[10px] font-bold uppercase tracking-widest text-neutral-500">v1.2 Studio Engine</span>
                         </div>
                     </div>
 
-                    <div className="h-8 w-px bg-slate-200 dark:bg-white/10 ml-2"></div>
+                    <div className="ml-2 h-8 w-px bg-neutral-900/15"></div>
 
-                    <div className="flex p-1 bg-white dark:bg-slate-950 rounded-2xl border border-slate-200 dark:border-white/5 shadow-inner">
+                    <div className="flex border border-neutral-900/15 bg-[#fbfbf4] p-1">
                         {(['prisma', 'sql', 'drizzle'] as const).map((mode) => (
                             <button
                                 key={mode}
                                 onClick={() => setExportMode(mode)}
-                                className={`px-6 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${exportMode === mode ? 'bg-indigo-600 text-white shadow-lg' : 'text-slate-500 hover:text-indigo-600'}`}
+                                className={`px-6 py-2 text-[10px] font-black uppercase tracking-widest transition-all ${exportMode === mode ? 'bg-neutral-950 text-white' : 'text-neutral-500 hover:text-neutral-950'}`}
                             >
                                 {mode}
                             </button>
@@ -453,7 +453,7 @@ export default function DatabaseArchitectClient() {
 
                     <button
                         onClick={() => setShowMagicImport(true)}
-                        className="flex items-center gap-2 px-5 py-2.5 bg-indigo-500/10 text-indigo-500 border border-indigo-500/30 rounded-2xl text-[9px] font-black uppercase tracking-widest hover:bg-indigo-600 hover:text-white transition-all shadow-sm"
+                        className="flex items-center gap-2 border border-neutral-950 bg-neutral-950 px-5 py-2.5 text-[9px] font-black uppercase tracking-widest text-white transition-colors hover:bg-neutral-800"
                     >
                         <Sparkles className="w-3.5 h-3.5" />
                         Magic Import
@@ -463,14 +463,14 @@ export default function DatabaseArchitectClient() {
                 <div className="flex items-center gap-3">
                     <button
                         onClick={addTable}
-                        className="flex items-center gap-2 px-6 py-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:border-indigo-500 transition-all text-indigo-600 group shadow-sm hover:shadow-md"
+                        className="group flex items-center gap-2 border border-neutral-900/15 bg-[#fbfbf4] px-6 py-3 text-[10px] font-black uppercase tracking-widest text-neutral-950 transition-colors hover:border-neutral-950"
                     >
                         <Plus className="w-4 h-4 group-hover:rotate-90 transition-transform" />
                         Add Table
                     </button>
                     <button
                         onClick={copyCode}
-                        className="flex items-center gap-2 px-8 py-3 bg-indigo-600 hover:bg-indigo-500 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest shadow-xl shadow-indigo-500/20 transition-all active:scale-95"
+                        className="flex items-center gap-2 border border-neutral-950 bg-neutral-950 px-8 py-3 text-[10px] font-black uppercase tracking-widest text-white transition-colors hover:bg-neutral-800"
                     >
                         {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
                         {copied ? 'Copied!' : 'Export Schema'}
@@ -481,7 +481,7 @@ export default function DatabaseArchitectClient() {
             {/* Main Studio Body */}
             <div className="flex-1 flex overflow-hidden">
                 {/* The Designer Canvas */}
-                <div className="flex-1 relative bg-slate-50/50 dark:bg-slate-950/20">
+                <div className="relative flex-1 bg-[#fffefa]">
                     <ReactFlow
                         nodes={nodes}
                         edges={edges}
@@ -497,10 +497,10 @@ export default function DatabaseArchitectClient() {
                         <Background variant={BackgroundVariant.Dots} gap={20} size={1} />
                         <Controls />
                         <MiniMap
-                            className="!bg-white dark:!bg-slate-900 border border-slate-200 dark:border-white/10 !rounded-2xl"
-                            nodeColor={(n) => n.type === 'table' ? '#6366f1' : '#ccc'}
+                            className="!rounded-none border border-neutral-900/15 !bg-[#fbfbf4]"
+                            nodeColor={(n) => n.type === 'table' ? '#fbff5d' : '#d4d4c8'}
                         />
-                        <Panel position="bottom-right" className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-md px-4 py-2 rounded-full border border-slate-200 dark:border-white/10 text-[9px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-3">
+                        <Panel position="bottom-right" className="flex items-center gap-3 border border-neutral-900/15 bg-[#fbfbf4]/90 px-4 py-2 text-[9px] font-black uppercase tracking-widest text-neutral-500 backdrop-blur-md">
                             <div className="flex items-center gap-1.5">
                                 <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></div>
                                 Engine Ready
@@ -511,28 +511,28 @@ export default function DatabaseArchitectClient() {
                 </div>
 
                 {/* Property Panel Sidebar */}
-                <div className="w-96 border-l border-slate-100 dark:border-white/5 bg-slate-50/30 dark:bg-slate-950/30 overflow-y-auto custom-scrollbar flex flex-col">
+                <div className="flex w-96 flex-col overflow-y-auto border-l border-neutral-900/15 bg-[#fbfbf4] custom-scrollbar">
                     {selectedTable ? (
                         <>
                             {/* Header Actions */}
-                            <div className="p-8 border-b border-slate-100 dark:border-white/5 space-y-8">
+                            <div className="space-y-8 border-b border-neutral-900/15 p-8">
                                 <div className="flex items-center justify-between">
-                                    <div className="flex items-center gap-3 text-slate-400">
+                                    <div className="flex items-center gap-3 text-neutral-500">
                                         <Settings2 className="w-4 h-4" />
                                         <span className="text-[10px] font-black uppercase tracking-widest font-mono">Properties</span>
                                     </div>
-                                    <button onClick={deleteTable} className="p-2 text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-500/10 rounded-xl transition-colors">
+                                    <button onClick={deleteTable} className="p-2 text-rose-600 transition-colors hover:bg-rose-50">
                                         <Trash2 className="w-4 h-4" />
                                     </button>
                                 </div>
 
                                 <div className="space-y-4">
-                                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Table Name</label>
+                                    <label className="ml-1 text-[10px] font-black uppercase tracking-widest text-neutral-500">Table Name</label>
                                     <input
                                         type="text"
                                         value={selectedTable.data.name}
                                         onChange={(e) => updateTableName(e.target.value)}
-                                        className="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 rounded-2xl px-5 py-3 text-sm font-bold text-slate-800 dark:text-white focus:ring-2 focus:ring-indigo-500 outline-none transition-all shadow-sm"
+                                        className="w-full border border-neutral-900/20 bg-[#fffefa] px-5 py-3 text-sm font-bold text-neutral-950 outline-none transition-colors focus:border-neutral-950"
                                     />
                                 </div>
                             </div>
@@ -540,10 +540,10 @@ export default function DatabaseArchitectClient() {
                             {/* Columns Editor */}
                             <div className="flex-1 p-8 space-y-6">
                                 <div className="flex items-center justify-between">
-                                    <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Fields ({selectedTable.data.columns.length})</h4>
+                                    <h4 className="ml-1 text-[10px] font-black uppercase tracking-widest text-neutral-500">Fields ({selectedTable.data.columns.length})</h4>
                                     <button
                                         onClick={addColumn}
-                                        className="p-1.5 bg-indigo-600 text-white rounded-lg hover:bg-indigo-500 transition-colors shadow-lg shadow-indigo-500/20"
+                                        className="bg-neutral-950 p-1.5 text-white transition-colors hover:bg-neutral-800"
                                     >
                                         <Plus className="w-3.5 h-3.5" />
                                     </button>
@@ -551,7 +551,7 @@ export default function DatabaseArchitectClient() {
 
                                 <div className="space-y-3">
                                     {(selectedTable.data as TableData).columns.map((col, idx) => (
-                                        <div key={idx} className="p-5 rounded-3xl bg-white dark:bg-slate-900 border border-slate-100 dark:border-white/5 shadow-sm space-y-4 group/field relative">
+                                        <div key={idx} className="group/field relative space-y-4 border border-neutral-900/15 bg-[#fffefa] p-5">
                                             <div className="flex items-center justify-between">
                                                 <input
                                                     value={col.name}
@@ -560,9 +560,9 @@ export default function DatabaseArchitectClient() {
                                                         updatedCols[idx].name = e.target.value;
                                                         setNodes(nds => nds.map(n => n.id === selectedTableId ? { ...n, data: { ...n.data as any, columns: updatedCols } } : n));
                                                     }}
-                                                    className="bg-transparent border-0 p-0 text-sm font-black text-slate-800 dark:text-white focus:ring-0 w-32"
+                                                    className="w-32 border-0 bg-transparent p-0 text-sm font-black text-neutral-950 focus:ring-0"
                                                 />
-                                                <button onClick={() => removeColumn(col.id)} className="text-slate-300 hover:text-rose-500 transition-colors opacity-0 group-hover/field:opacity-100">
+                                                <button onClick={() => removeColumn(col.id)} className="text-neutral-300 opacity-0 transition-colors hover:text-rose-500 group-hover/field:opacity-100">
                                                     <Trash2 className="w-3.5 h-3.5" />
                                                 </button>
                                             </div>
@@ -575,7 +575,7 @@ export default function DatabaseArchitectClient() {
                                                         updatedCols[idx].type = e.target.value;
                                                         setNodes(nds => nds.map(n => n.id === selectedTableId ? { ...n, data: { ...n.data as any, columns: updatedCols } } : n));
                                                     }}
-                                                    className="bg-slate-50 dark:bg-slate-800 border-0 rounded-lg px-2 py-1 text-[10px] font-bold text-slate-600 dark:text-slate-400 focus:ring-0"
+                                                    className="border border-neutral-900/15 bg-[#fbfbf4] px-2 py-1 text-[10px] font-bold text-neutral-600 focus:ring-0"
                                                 >
                                                     {['String', 'Int', 'BigInt', 'Float', 'Boolean', 'DateTime', 'Json'].map(t => (
                                                         <option key={t} value={t}>{t}</option>
@@ -589,7 +589,7 @@ export default function DatabaseArchitectClient() {
                                                         const nodesToUpdate = (nds: Node<TableData>[]) => nds.map((n) => n.id === selectedTableId ? { ...n, data: { ...n.data, columns: updatedCols } } : n);
                                                         setNodes(nodesToUpdate);
                                                     }}
-                                                    className={`px-2 py-1 rounded-lg text-[9px] font-black uppercase tracking-wider border transition-all ${col.isPK ? 'bg-amber-500 text-white border-amber-600' : 'bg-slate-50 dark:bg-slate-800 text-slate-400 border-transparent'}`}
+                                                    className={`border px-2 py-1 text-[9px] font-black uppercase tracking-wider transition-all ${col.isPK ? 'border-neutral-950 bg-[#fbff5d] text-neutral-950' : 'border-neutral-900/15 bg-[#fbfbf4] text-neutral-500'}`}
                                                 >
                                                     PK
                                                 </button>
@@ -600,9 +600,9 @@ export default function DatabaseArchitectClient() {
                             </div>
                         </>
                     ) : (
-                        <div className="flex-1 flex flex-col items-center justify-center p-12 text-center text-slate-400">
-                            <div className="w-20 h-20 bg-slate-100 dark:bg-slate-900 rounded-[2rem] flex items-center justify-center mb-8 rotate-12">
-                                <TableIcon className="w-10 h-10 opacity-20" />
+                        <div className="flex flex-1 flex-col items-center justify-center p-12 text-center text-neutral-500">
+                            <div className="mb-8 flex h-20 w-20 items-center justify-center border border-neutral-900/15 bg-[#fbff5d]">
+                                <TableIcon className="h-10 w-10 opacity-40" />
                             </div>
                             <h5 className="text-xs font-black uppercase tracking-[0.2em] mb-4">No Table Selected</h5>
                             <p className="text-[10px] font-medium leading-relaxed opacity-60 uppercase tracking-widest max-w-[200px]">
@@ -612,12 +612,12 @@ export default function DatabaseArchitectClient() {
                     )}
 
                     {/* Code Preview Mode */}
-                    <div className="p-8 bg-slate-100/50 dark:bg-slate-900/50 border-t border-slate-200 dark:border-white/5">
-                        <div className="flex items-center gap-3 mb-4 text-slate-400">
+                    <div className="border-t border-neutral-900/15 bg-[#fbfbf4] p-8">
+                        <div className="mb-4 flex items-center gap-3 text-neutral-500">
                             <FileCode className="w-3.5 h-3.5" />
                             <span className="text-[10px] font-black uppercase tracking-widest">Live Schema Preview</span>
                         </div>
-                        <div className="rounded-2xl bg-white dark:bg-slate-950 p-6 border border-slate-200 dark:border-white/5 shadow-sm max-h-64 overflow-auto custom-scrollbar font-mono text-[10px] leading-relaxed text-indigo-500">
+                        <div className="max-h-64 overflow-auto border border-neutral-900/15 bg-[#fffefa] p-6 font-mono text-[10px] leading-relaxed text-neutral-950 custom-scrollbar">
                             <pre><code>{generateCode()}</code></pre>
                         </div>
                     </div>
@@ -625,26 +625,26 @@ export default function DatabaseArchitectClient() {
             </div>
 
             {/* Footer Status Bar */}
-            <div className="p-4 border-t border-slate-100 dark:border-white/5 bg-slate-50/50 dark:bg-slate-950/30 flex items-center justify-between px-8">
+            <div className="flex items-center justify-between border-t border-neutral-900/15 bg-[#fbfbf4] p-4 px-8">
                 <div className="flex items-center gap-6">
                     <div className="flex items-center gap-2">
                         <div className="w-1.5 h-1.5 rounded-full bg-emerald-500"></div>
-                        <span className="text-[9px] font-black text-slate-500 uppercase tracking-widest">Canvas V3 Active</span>
+                        <span className="text-[9px] font-black uppercase tracking-widest text-neutral-500">Canvas V3 Active</span>
                     </div>
                     <div className="flex items-center gap-2">
                         <Zap className="w-3.5 h-3.5 text-amber-500" />
-                        <span className="text-[9px] font-black text-slate-500 uppercase tracking-widest">Auto-Relational Logic Enabled</span>
+                        <span className="text-[9px] font-black uppercase tracking-widest text-neutral-500">Auto-Relational Logic Enabled</span>
                     </div>
                 </div>
                 <div className="flex items-center gap-4">
                     <button
                         onClick={downloadImage}
-                        className="flex items-center gap-2 px-6 py-2 bg-white dark:bg-slate-950 border border-slate-200 dark:border-white/5 rounded-full text-[9px] font-black text-slate-500 hover:border-indigo-500 transition-all shadow-sm"
+                        className="flex items-center gap-2 border border-neutral-900/15 bg-[#fbfbf4] px-6 py-2 text-[9px] font-black text-neutral-500 transition-colors hover:border-neutral-950"
                     >
-                        <Download className="w-3.5 h-3.5 text-indigo-500" />
+                        <Download className="h-3.5 w-3.5 text-neutral-950" />
                         Download High-Res Diagram
                     </button>
-                    <div className="flex items-center gap-2 px-6 py-2 bg-white dark:bg-slate-950 border border-slate-200 dark:border-white/5 rounded-full text-[9px] font-black text-slate-400">
+                    <div className="flex items-center gap-2 border border-neutral-900/15 bg-[#fbfbf4] px-6 py-2 text-[9px] font-black text-neutral-500">
                         <Share2 className="w-3 h-3" />
                         Viral Share Link
                     </div>
