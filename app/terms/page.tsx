@@ -66,7 +66,7 @@ export default function TermsPage() {
 
                             <h3 className="text-lg font-semibold text-neutral-950">4.1 Our Content</h3>
                             <p className="leading-7 text-neutral-600">
-                                The Service and its original content, features, and functionality are owned by WebUtilsPro
+                                The Service and its original content, features, and functionality are owned by Priyanshu Dhall
                                 and are protected by international copyright, trademark, patent, trade secret, and other
                                 intellectual property laws.
                             </p>
@@ -82,7 +82,7 @@ export default function TermsPage() {
                         <section>
                             <h2 className="text-2xl font-semibold text-neutral-950">5. Disclaimer of Warranties</h2>
                             <p className="leading-7 text-neutral-600">
-                                The Service is provided on an "AS IS" and "AS AVAILABLE" basis. WebUtilsPro makes no
+                                The Service is provided on an "AS IS" and "AS AVAILABLE" basis. Priyanshu Dhall makes no
                                 warranties, expressed or implied, including but not limited to:
                             </p>
                             <ul className="list-disc pl-6 leading-7 text-neutral-600 space-y-1">
@@ -96,7 +96,7 @@ export default function TermsPage() {
                         <section>
                             <h2 className="text-2xl font-semibold text-neutral-950">6. Limitation of Liability</h2>
                             <p className="leading-7 text-neutral-600">
-                                In no event shall WebUtilsPro, its directors, employees, partners, agents, suppliers, or
+                                In no event shall Priyanshu Dhall, its directors, employees, partners, agents, suppliers, or
                                 affiliates be liable for any indirect, incidental, special, consequential, or punitive
                                 damages, including without limitation loss of profits, data, use, goodwill, or other
                                 intangible losses, resulting from:
@@ -127,7 +127,7 @@ export default function TermsPage() {
                             <h2 className="text-2xl font-semibold text-neutral-950">8. Third-Party Services</h2>
                             <p className="leading-7 text-neutral-600">
                                 Our Service may contain links to third-party websites or services that are not owned or
-                                controlled by WebUtilsPro. We have no control over and assume no responsibility for the
+                                controlled by Priyanshu Dhall. We have no control over and assume no responsibility for the
                                 content, privacy policies, or practices of any third-party websites or services, including
                                 Google AdSense advertisements.
                             </p>
@@ -155,7 +155,7 @@ export default function TermsPage() {
                             <h2 className="text-2xl font-semibold text-neutral-950">11. Governing Law</h2>
                             <p className="leading-7 text-neutral-600">
                                 These Terms shall be governed and construed in accordance with the laws of the jurisdiction
-                                in which WebUtilsPro operates, without regard to its conflict of law provisions.
+                                in which Priyanshu Dhall operates, without regard to its conflict of law provisions.
                             </p>
                         </section>
 
@@ -163,8 +163,8 @@ export default function TermsPage() {
                             <h2 className="text-2xl font-semibold text-neutral-950">12. Contact Us</h2>
                             <p className="leading-7 text-neutral-600">
                                 If you have any questions about these Terms, please contact us at{' '}
-                                <a href="mailto:googlydhiman.4236@gmail.com" className="font-semibold text-neutral-950 underline decoration-neutral-900/25 underline-offset-4 hover:decoration-neutral-950">
-                                    googlydhiman.4236@gmail.com
+                                <a href="priyanshudhall2001@gmail.com" className="font-semibold text-neutral-950 underline decoration-neutral-900/25 underline-offset-4 hover:decoration-neutral-950">
+                                    priyanshudhall2001@gmail.com
                                 </a>{' '}
                                 or visit our <a href="/contact" className="font-semibold text-neutral-950 underline decoration-neutral-900/25 underline-offset-4 hover:decoration-neutral-950">contact page</a>.
                             </p>

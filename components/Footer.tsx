@@ -96,7 +96,7 @@ export default function Footer() {
                 </div>
 
                 <div className="mt-8 flex flex-col justify-between gap-4 border border-neutral-900/15 bg-[#fbfbf4]/92 px-4 py-3 font-mono text-[11px] uppercase tracking-[0.14em] text-neutral-500 md:flex-row md:items-center">
-                    <span>© {currentYear} WebUtilsPro. All rights reserved.</span>
+                    <span>© {currentYear} Priyanshu Dhall. All rights reserved.</span>
                     <span className="flex items-center gap-2">
                         Built with <Heart className="h-3.5 w-3.5 fill-rose-500/20 text-rose-500" /> for builders.
                     </span>
