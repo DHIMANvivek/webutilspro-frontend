@@ -23,7 +23,7 @@ export default function PrivacyPage() {
                         <section>
                             <h2 className="text-2xl font-semibold text-neutral-950">1. Introduction</h2>
                             <p className="leading-7 text-neutral-600">
-                                Priyanshu Dhall ("we," "our," or "us") is committed to protecting your privacy. This Privacy
+                                Vivek Dhiman ("we," "our," or "us") is committed to protecting your privacy. This Privacy
                                 Policy explains how we collect, use, disclose, and safeguard your information when you visit
                                 our website and use our developer tools.
                             </p>
