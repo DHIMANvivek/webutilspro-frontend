@@ -29,9 +29,9 @@ const principles = [
 ];
 
 export const metadata = genMeta({
-    title: 'About Priyanshu Dhall and WebUtilsPro',
-    description: 'Meet Priyanshu Dhall, the software developer behind WebUtilsPro, a hobby-built collection of practical tools for curious and keen developers.',
-    keywords: ['Priyanshu Dhall', 'webutilspro founder', 'software developer', 'developer tools', 'free coding tools'],
+    title: 'About Vivek Dhiman and WebUtilsPro',
+    description: 'Meet Vivek Dhiman, the software developer behind WebUtilsPro, a hobby-built collection of practical tools for curious and keen developers.',
+    keywords: ['Vivek Dhiman', 'webutilspro founder', 'software developer', 'developer tools', 'free coding tools'],
 });
 
 export default function AboutPage() {
@@ -42,14 +42,14 @@ export default function AboutPage() {
                     <div className="grid gap-10 lg:grid-cols-[320px_1fr] lg:items-center">
                         <div className="border border-neutral-900/15 bg-[#fbfbf4] p-4 shadow-[10px_12px_0_rgba(20,20,15,0.1)]">
                             <div className="aspect-square overflow-hidden border border-neutral-900/15 bg-neutral-900/10">
-                                <img src={profileImage} alt="Priyanshu Dhall" className="h-full w-full object-cover" />
+                                <img src={profileImage} alt="Vivek Dhiman" className="h-full w-full object-cover" />
                             </div>
                         </div>
 
                         <div>
                             <div className="wup-kicker">Founder & Builder</div>
                             <h1 className="mt-5 max-w-3xl text-5xl font-semibold leading-tight tracking-normal md:text-7xl">
-                                Priyanshu Dhall
+                                Vivek Dhiman
                             </h1>
                             <p className="mt-5 max-w-3xl text-lg leading-8 text-neutral-600 md:text-xl">
                                 Software developer building practical web utilities as a hobby project for developers who enjoy learning, shipping, and solving real workflow problems.
