@@ -3,7 +3,7 @@ import { ArrowRight, BadgeCheck, Code2, HeartHandshake, ShieldCheck } from 'luci
 import { generateMetadata as genMeta } from '@/lib/seo';
 
 const profileImage =
-    'https://avatars.githubusercontent.com/u/54342280?v=4';
+    'https://avatars.githubusercontent.com/u/53940939?v=4';
 
 const principles = [
     {

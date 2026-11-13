@@ -163,8 +163,8 @@ export default function TermsPage() {
                             <h2 className="text-2xl font-semibold text-neutral-950">12. Contact Us</h2>
                             <p className="leading-7 text-neutral-600">
                                 If you have any questions about these Terms, please contact us at{' '}
-                                <a href="priyanshudhall2001@gmail.com" className="font-semibold text-neutral-950 underline decoration-neutral-900/25 underline-offset-4 hover:decoration-neutral-950">
-                                    priyanshudhall2001@gmail.com
+                                <a href="mailto:vivekdhiman.developer@gmail.com" className="font-semibold text-neutral-950 underline decoration-neutral-900/25 underline-offset-4 hover:decoration-neutral-950">
+                                    vivekdhiman.developer@gmail.com
                                 </a>{' '}
                                 or visit our <a href="/contact" className="font-semibold text-neutral-950 underline decoration-neutral-900/25 underline-offset-4 hover:decoration-neutral-950">contact page</a>.
                             </p>
